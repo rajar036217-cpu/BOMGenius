@@ -226,31 +226,76 @@ def render_bom_converter(semantic_engine, threshold):
                 )
 
 def render_federated_learning():
-    st.title("🌐 Federated Learning Simulation")
-    
+    st.title("🌐 Federated Learning Network (Dual-Client Simulation)")
+
+    # Initialize History
     if "history" not in st.session_state:
         st.session_state["history"] = [st.session_state["global_threshold"]]
 
-    col1, col2 = st.columns([1, 2])
-    
-    with col1:
-        st.subheader("Factory Feedback")
-        feedback = st.radio("Report Issue:", ["None", "False Positive (Wrong Match)", "False Negative (Missed Match)"])
+    # --- NEW: TAB SYSTEM (The Feature B Upgrade) ---
+    tab_a, tab_b, tab_hq = st.tabs(["🏭 Factory A (India)", "🏭 Factory B (Germany)", "☁️ Central Server (HQ)"])
+
+    # --- TAB 1: FACTORY A ---
+    with tab_a:
+        st.subheader("📍 Factory A Console")
+        st.info("Status: ✅ Online | Connection: Secure VPN (India Node)")
         
-        if st.button("📡 Send Feedback Update"):
-            if feedback != "None":
-                new_val = federated_learning_update(feedback, st.session_state["global_threshold"])
-                st.session_state["global_threshold"] = new_val
-                st.session_state["history"].append(new_val)
-                st.success(f"Model Updated! New Threshold: {round(new_val, 2)}")
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            fb_a = st.radio("Technician Feedback (Factory A):", 
+                          ["None", "False Positive (Wrong Match)", "False Negative (Missed Match)"], 
+                          key="fb_a")
+        with col2:
+            st.metric("Local Threshold", f"{int(st.session_state['global_threshold']*100)}%")
+
+        if st.button("📡 Push Update from Factory A"):
+            if fb_a != "None":
+                with st.spinner("Encrypting gradients & syncing with Global Model..."):
+                    # Use the helper function to update
+                    new_val = federated_learning_update(fb_a, st.session_state["global_threshold"])
+                    st.session_state["global_threshold"] = new_val
+                    st.session_state["history"].append(new_val)
+                    st.success(f"✅ Gradient Update Sent! Global Model Adjusted.")
             else:
-                st.warning("Select an issue to update.")
+                st.warning("⚠️ Select an issue to report first.")
 
-    with col2:
-        st.subheader("Global Model Evolution")
-        st.line_chart(st.session_state["history"])
-        st.caption("Graph shows how the AI 'learns' from factory feedback over time.")
+    # --- TAB 2: FACTORY B ---
+    with tab_b:
+        st.subheader("📍 Factory B Console")
+        st.info("Status: ✅ Online | Connection: Secure VPN (Germany Node)")
+        
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            fb_b = st.radio("Technician Feedback (Factory B):", 
+                          ["None", "False Positive (Wrong Match)", "False Negative (Missed Match)"], 
+                          key="fb_b")
+        with col2:
+            st.metric("Local Threshold", f"{int(st.session_state['global_threshold']*100)}%")
 
+        if st.button("📡 Push Update from Factory B"):
+            if fb_b != "None":
+                with st.spinner("Encrypting gradients & syncing with Global Model..."):
+                    # Use the helper function to update
+                    new_val = federated_learning_update(fb_b, st.session_state["global_threshold"])
+                    st.session_state["global_threshold"] = new_val
+                    st.session_state["history"].append(new_val)
+                    st.success(f"✅ Gradient Update Sent! Global Model Adjusted.")
+            else:
+                st.warning("⚠️ Select an issue to report first.")
+
+    # --- TAB 3: CENTRAL SERVER ---
+    with tab_hq:
+        st.subheader("🧠 Global Model Aggregation (Headquarters)")
+        st.caption("Visualizing real-time weight updates from all connected factories.")
+        
+        # Professional Metrics
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Global Threshold", f"{int(st.session_state['global_threshold']*100)}%", delta="Live")
+        m2.metric("Total Updates", len(st.session_state["history"])-1)
+        m3.metric("Active Nodes", "2 Sites")
+
+        # The Graph
+        st.area_chart(st.session_state["history"], color="#00ff00")
 # --------------------------------------------------
 # 5. APP EXECUTION
 # --------------------------------------------------

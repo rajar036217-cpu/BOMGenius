@@ -1,0 +1,11 @@
+Stock_ID,Inventory_Description,Supplier,Unit_Cost_INR
+STK-5000,"Bolt, Hexagonal, 6mm, Steel, Grade 8.8",DigiKey,252
+STK-5001,"Microcontroller, 5V, ARM Cortex-M4",Mouser,70
+STK-5002,"Sheet Metal, Stainless Steel, 2mm thick",Mouser,343
+STK-5003,"Resistor, Carbon Film, 10k Ohm, 1/4W",Mouser,365
+STK-5004,"Capacitor, Electrolytic, 100uF, 25V",Local Steel Co,179
+STK-5005,"Enclosure, ABS Plastic, Top Shell",Mouser,390
+STK-5006,"Cable, Power Cord, EU Standard, 1.5m",BoltFactory,324
+STK-5007,"Seal, Rubber Gasket, 20mm Ring",BoltFactory,218
+STK-5008,"Diode, LED, Red, Diffused, 5mm",BoltFactory,475
+STK-5009,"Module, WiFi, ESP8266, Onboard Antenna",Mouser,224

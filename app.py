@@ -11,6 +11,7 @@ Features:
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -184,14 +185,51 @@ def federated_learning_update(feedback, current_threshold):
 # --------------------------------------------------
 
 def render_dashboard(current_threshold):
-    st.title("📊 Executive Dashboard")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("AI Model Status", "Active", "BERT-v2")
-    col2.metric("Connected Factories", "2 Sites", "Encrypted")
-    col3.metric("Global Match Threshold", f"{int(current_threshold*100)}%")
-    
-    st.image("https://cdn-icons-png.flaticon.com/512/2620/2620603.png", width=100)
-    st.info("System is ready for POC Demonstration.")
+    st.title("📊 Executive Analytics Dashboard")
+    st.markdown("### Real-time Supply Chain Insights")
+
+    # --- Top Metrics Row ---
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Global Match Accuracy", f"{int(current_threshold*100)}%", "+2.4%")
+    col2.metric("Connected Factories", "2 Sites", "India & Germany")
+    col3.metric("Pending BOMs", "12 Files", "-3 from yesterday")
+    col4.metric("Cost Savings", "$14,200", "Updated 1hr ago")
+
+    st.divider()
+
+    # --- Charts Section (Using Sample Data for Demo) ---
+    c1, c2 = st.columns(2)
+
+    with c1:
+        st.subheader("📦 Inventory Stock Status")
+        # Creating dummy data for visualization
+        stock_data = pd.DataFrame({
+            "Status": ["In Stock", "Low Stock", "Out of Stock"],
+            "Count": [450, 120, 30]
+        })
+        fig_pie = px.pie(stock_data, values="Count", names="Status", 
+                         title="Material Availability Distribution",
+                         color_discrete_sequence=px.colors.sequential.RdBu)
+        st.plotly_chart(fig_pie, use_container_width=True)
+
+    with c2:
+        st.subheader("💰 Cost Analysis by Category")
+        cost_data = pd.DataFrame({
+            "Category": ["Electronics", "Mechanical", "Fasteners", "Packaging"],
+            "Cost ($)": [15000, 8000, 2000, 1500]
+        })
+        fig_bar = px.bar(cost_data, x="Category", y="Cost ($)", 
+                         title="Procurement Cost Breakdown",
+                         color="Cost ($)", color_continuous_scale="Viridis")
+        st.plotly_chart(fig_bar, use_container_width=True)
+
+    # --- Recent Activity Log ---
+    st.subheader("📝 Recent System Activity")
+    st.dataframe(pd.DataFrame({
+        "Timestamp": ["10:05 AM", "10:12 AM", "10:45 AM"],
+        "User": ["Factory_Admin_IN", "System_AI", "Factory_Admin_DE"],
+        "Action": ["Uploaded eBOM_v2.csv", "Auto-Matched 85 parts", "Flagged 'False Negative'"]
+    }), use_container_width=True)
 
 def render_bom_converter(semantic_engine, threshold):
     st.title("🔄 Intelligent eBOM → mBOM Converter")

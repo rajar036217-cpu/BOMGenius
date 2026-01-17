@@ -1,0 +1,7 @@
+Inventory_ID,Item_Name,Unit_Cost,Available_Stock,Warehouse_Loc
+INV-9001,M6 Hex Bolt 20mm Length,0.50,5000,Bin-A1
+INV-9002,Resistor 10k 0.25W,0.10,2000,Bin-B2
+INV-9003,5mm Al Plate Standard,15.00,50,Yard-1
+INV-9004,10mm Inner Dia Bearing,2.50,150,Bin-C3
+INV-9005,5mm Red LED Standard,0.05,10000,Bin-D4
+INV-9999,Hydraulic Pump Large,500.00,2,Yard-2

@@ -4,3 +4,6 @@ EB-102,10k Ohm Resistor 1/4 Watt,20,Carbon
 EB-103,Aluminium Sheet 5mm Thk,5,Aluminium
 EB-104,Ball Bearing 10mm ID,12,Steel
 EB-105,LED Red 5mm Diffused,100,Plastic
+PartID,Description,Quantity
+101,Steel Bolt M6,10
+102,Alien-Tech-Part,5

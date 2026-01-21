@@ -11,6 +11,7 @@ Features:
 import streamlit as st
 import pandas as pd
 import numpy as np
+import datetime
 import plotly.express as px
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -49,34 +50,16 @@ def load_semantic_engine():
 # 3. HELPER FUNCTIONS
 # --------------------------------------------------
 
-def load_csv_file(uploaded_file, expected_columns):
-    """Safe CSV Loader"""
-    try:
-        df = pd.read_csv(uploaded_file)
-        # Check if basic columns exist (Loose check)
-        return df
-    except Exception as error:
-        st.error(f"❌ File loading failed: {error}")
-        return None
-
 def compute_semantic_matches(design_bom_df, inventory_df, semantic_engine, threshold):
-    """
-    Core Engine: Matches Design Parts to Inventory Parts.
-    Feature A Upgrade: Calculates Total Cost & Stock Feasibility.
-    """
-    
-    # --- 1. SMART COLUMN DETECTION (Industrial Standard) ---
-    # Instead of hardcoding 'column 1', we search for names like 'Description', 'Part Name', etc.
-    
     # Find Design Description Column
-    design_desc_col = design_bom_df.columns[1] # Default fallback
+    design_desc_col = design_bom_df.columns[1] 
     for col in design_bom_df.columns:
         if "desc" in col.lower() or "part" in col.lower() or "name" in col.lower():
             design_desc_col = col
             break
             
-    # Find Inventory Columns (Description, Cost, Stock)
-    inv_desc_col = inventory_df.columns[1] # Default fallback
+    # Find Inventory Columns
+    inv_desc_col = inventory_df.columns[1]
     inv_cost_col = None
     inv_stock_col = None
     
@@ -89,58 +72,67 @@ def compute_semantic_matches(design_bom_df, inventory_df, semantic_engine, thres
         elif "stock" in c_low or "qty" in c_low or "available" in c_low:
             inv_stock_col = col
 
-    # --- 2. AI MATCHING PROCESS ---
     design_names = design_bom_df[design_desc_col].astype(str).tolist()
     inventory_names = inventory_df[inv_desc_col].astype(str).tolist()
 
     design_embeddings = semantic_engine.encode(design_names)
     inventory_embeddings = semantic_engine.encode(inventory_names)
-
     similarity_matrix = cosine_similarity(design_embeddings, inventory_embeddings)
 
     results = []
+    
+    # Get Global Brain
+    global_mem = st.session_state.get("global_knowledge_base", {})
 
-    # --- 3. LOGIC LOOP (MATCHING + BUSINESS MATH) ---
     for i in range(len(design_names)):
-        scores = similarity_matrix[i]
-        best_idx = np.argmax(scores)
-        best_score = scores[best_idx]
+        d_name = design_names[i]
+        
+        # --- LOGIC CHANGE: Handle Complex Dictionary Structure ---
+        is_learned = False
+        if d_name in global_mem:
+            # NEW: We now access ["target"] because dictionary has votes/status
+            matched_name = global_mem[d_name]["target"]
+            
+            # Verify if this matches verified status (Optional: Require 2 votes)
+            # For now, we take it if it exists.
+            
+            match_rows = inventory_df[inventory_df[inv_desc_col] == matched_name]
+            
+            if not match_rows.empty:
+                best_idx = match_rows.index[0]
+                best_score = 1.0
+                is_learned = True
+            else:
+                scores = similarity_matrix[i]
+                best_idx = np.argmax(scores)
+                best_score = scores[best_idx]
+        else:
+            scores = similarity_matrix[i]
+            best_idx = np.argmax(scores)
+            best_score = scores[best_idx]
 
-        # Logic: Check Threshold
-        if best_score >= threshold:
-            status = "✅ Auto-Match"
+        if best_score >= threshold or is_learned:
+            status = "🧠 FL Learned Match" if is_learned else "✅ AI Auto-Match"
             matched_name = inventory_names[best_idx]
             conf_score = f"{round(best_score * 100, 1)}%"
             
-            # --- COST CALCULATION ---
-            # Get Required Qty (Default to 1 if missing)
             req_qty = 1
             if "Quantity" in design_bom_df.columns:
-                try:
-                    req_qty = float(design_bom_df.iloc[i]["Quantity"])
-                except:
-                    req_qty = 1
+                try: req_qty = float(design_bom_df.iloc[i]["Quantity"])
+                except: req_qty = 1
             
-            # Get Unit Cost
             unit_cost = 0.0
             if inv_cost_col:
-                try:
-                    unit_cost = float(inventory_df.iloc[best_idx][inv_cost_col])
-                except:
-                    unit_cost = 0.0
+                try: unit_cost = float(inventory_df.iloc[best_idx][inv_cost_col])
+                except: unit_cost = 0.0
             
-            # Get Stock
             stock_avail = 0
             if inv_stock_col:
-                try:
-                    stock_avail = float(inventory_df.iloc[best_idx][inv_stock_col])
-                except:
-                    stock_avail = 0
+                try: stock_avail = float(inventory_df.iloc[best_idx][inv_stock_col])
+                except: stock_avail = 0
 
-            # The Business Math
             total_cost = req_qty * unit_cost
             
-            # Stock Check
             if stock_avail >= req_qty:
                 stock_msg = "📦 In Stock"
             else:
@@ -148,7 +140,6 @@ def compute_semantic_matches(design_bom_df, inventory_df, semantic_engine, thres
                 stock_msg = f"⚠️ Shortage (-{int(shortage)})"
 
         else:
-            # Fallback for No Match
             status = "❌ No Match Found"
             matched_name = "N/A"
             conf_score = f"{round(best_score * 100, 1)}%"
@@ -157,7 +148,6 @@ def compute_semantic_matches(design_bom_df, inventory_df, semantic_engine, thres
             total_cost = "-"
             stock_msg = "❓ Unknown"
 
-        # Create Output Row
         results.append({
             "Design Part (eBOM)": design_names[i],
             "Required Qty": req_qty,
@@ -171,14 +161,49 @@ def compute_semantic_matches(design_bom_df, inventory_df, semantic_engine, thres
 
     return pd.DataFrame(results)
 
-def federated_learning_update(feedback, current_threshold):
-    """Simulates the Federated Learning Update"""
-    if feedback == "False Positive (Wrong Match)":
-        current_threshold += 0.05 # Make AI stricter
-    elif feedback == "False Negative (Missed Match)":
-        current_threshold -= 0.05 # Make AI looser
+def federated_learning_update(wrong_part, correct_part, factory_name):
+    """
+    Advanced FL: Implements Voting & Aggregation.
+    Only updates if consensus is reached or tracks votes.
+    """
+    kb = st.session_state["global_knowledge_base"]
     
-    return max(0.4, min(current_threshold, 0.95))
+    # Current Time
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    
+    # Check if this mismatch is already tracked
+    if wrong_part in kb:
+        # Check if the target is the same (Consensus check)
+        if kb[wrong_part]["target"] == correct_part:
+            # Avoid duplicate votes from same factory
+            if factory_name not in kb[wrong_part]["sources"]:
+                kb[wrong_part]["votes"] += 1
+                kb[wrong_part]["sources"].append(factory_name)
+                kb[wrong_part]["last_updated"] = timestamp
+                
+                # Update Status based on votes
+                if kb[wrong_part]["votes"] >= 2:
+                    kb[wrong_part]["status"] = "🟢 Verified Global Rule"
+        else:
+            # Conflict! Overwrite for now (Simple Logic)
+            kb[wrong_part] = {
+                "target": correct_part,
+                "votes": 1,
+                "sources": [factory_name],
+                "last_updated": timestamp,
+                "status": "🟡 Pending Verification"
+            }
+    else:
+        # New Entry
+        kb[wrong_part] = {
+            "target": correct_part,
+            "votes": 1,
+            "sources": [factory_name],
+            "last_updated": timestamp,
+            "status": "🟡 Pending Verification"
+        }
+    
+    return len(kb)
 
 # --------------------------------------------------
 # 4. MAIN UI PAGES
@@ -246,94 +271,106 @@ def render_bom_converter(semantic_engine, threshold):
         # THE RUN BUTTON YOU ASKED FOR
         if st.button("🚀 Run AI Matching Process"):
             with st.spinner("🤖 AI is analyzing semantic meanings..."):
-                df_design = pd.read_csv(design_file)
-                df_inventory = pd.read_csv(inventory_file)
-                
-                results_df = compute_semantic_matches(df_design, df_inventory, semantic_engine, threshold)
-                
-                st.subheader("📋 Match Results")
-                st.dataframe(results_df, use_container_width=True)
-                
-                # DOWNLOAD BUTTON
-                csv = results_df.to_csv(index=False).encode('utf-8')
-                st.download_button(
-                    label="📥 Download Result CSV",
-                    data=csv,
-                    file_name="OptiBOM_Results.csv",
-                    mime="text/csv"
-                )
+                try:
+                    df_design = pd.read_csv(design_file)
+                    df_inventory = pd.read_csv(inventory_file)
+                    
+                    results_df = compute_semantic_matches(df_design, df_inventory, semantic_engine, threshold)
+                    
+                    st.subheader("📋 Match Results")
+                    st.dataframe(results_df, use_container_width=True)
+                    
+                    # DOWNLOAD BUTTON
+                    csv = results_df.to_csv(index=False).encode('utf-8')
+                    st.download_button(
+                        label="📥 Download Result CSV",
+                        data=csv,
+                        file_name="OptiBOM_Results.csv",
+                        mime="text/csv"
+                    )
+                except Exception as e:
+                    st.error(f"⚠️ Error during processing: {e}")
 
 def render_federated_learning():
-    st.title("🌐 Federated Learning Network (Dual-Client Simulation)")
+    st.title("🌐 Federated Knowledge Network (Enterprise Grade)")
 
-    # Initialize History
-    if "history" not in st.session_state:
-        st.session_state["history"] = [st.session_state["global_threshold"]]
+    if "global_knowledge_base" not in st.session_state:
+        st.session_state["global_knowledge_base"] = {}
 
-    # --- NEW: TAB SYSTEM (The Feature B Upgrade) ---
     tab_a, tab_b, tab_hq = st.tabs(["🏭 Factory A (India)", "🏭 Factory B (Germany)", "☁️ Central Server (HQ)"])
 
     # --- TAB 1: FACTORY A ---
     with tab_a:
-        st.subheader("📍 Factory A Console")
-        st.info("Status: ✅ Online | Connection: Secure VPN (India Node)")
+        st.subheader("📍 Factory A Console (India)")
+        st.info("Status: ✅ Online | Mode: Voting Node")
         
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns(2)
         with col1:
-            fb_a = st.radio("Technician Feedback (Factory A):", 
-                          ["None", "False Positive (Wrong Match)", "False Negative (Missed Match)"], 
-                          key="fb_a")
+            wrong_a = st.text_input("Mismatch Name (eBOM):", key="wa", placeholder="e.g., Screw M6")
         with col2:
-            st.metric("Local Threshold", f"{int(st.session_state['global_threshold']*100)}%")
+            correct_a = st.text_input("Correct Map (Inventory):", key="ca", placeholder="e.g., Fastener-Steel-06")
 
-        if st.button("📡 Push Update from Factory A"):
-            if fb_a != "None":
-                with st.spinner("Encrypting gradients & syncing with Global Model..."):
-                    # Use the helper function to update
-                    new_val = federated_learning_update(fb_a, st.session_state["global_threshold"])
-                    st.session_state["global_threshold"] = new_val
-                    st.session_state["history"].append(new_val)
-                    st.success(f"✅ Gradient Update Sent! Global Model Adjusted.")
+        if st.button("📡 Vote/Push Correction (Factory A)"):
+            if wrong_a and correct_a:
+                # Passing "Factory A" as the source
+                count = federated_learning_update(wrong_a, correct_a, "Factory A")
+                st.success(f"✅ Vote Registered for '{wrong_a}'")
             else:
-                st.warning("⚠️ Select an issue to report first.")
+                st.warning("Enter both names.")
 
     # --- TAB 2: FACTORY B ---
     with tab_b:
-        st.subheader("📍 Factory B Console")
-        st.info("Status: ✅ Online | Connection: Secure VPN (Germany Node)")
+        st.subheader("📍 Factory B Console (Germany)")
+        st.info("Status: ✅ Online | Mode: Voting Node")
         
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns(2)
         with col1:
-            fb_b = st.radio("Technician Feedback (Factory B):", 
-                          ["None", "False Positive (Wrong Match)", "False Negative (Missed Match)"], 
-                          key="fb_b")
+            wrong_b = st.text_input("Mismatch Name (eBOM):", key="wb")
         with col2:
-            st.metric("Local Threshold", f"{int(st.session_state['global_threshold']*100)}%")
+            correct_b = st.text_input("Correct Map (Inventory):", key="cb")
 
-        if st.button("📡 Push Update from Factory B"):
-            if fb_b != "None":
-                with st.spinner("Encrypting gradients & syncing with Global Model..."):
-                    # Use the helper function to update
-                    new_val = federated_learning_update(fb_b, st.session_state["global_threshold"])
-                    st.session_state["global_threshold"] = new_val
-                    st.session_state["history"].append(new_val)
-                    st.success(f"✅ Gradient Update Sent! Global Model Adjusted.")
+        if st.button("📡 Vote/Push Correction (Factory B)"):
+            if wrong_b and correct_b:
+                # Passing "Factory B" as the source
+                count = federated_learning_update(wrong_b, correct_b, "Factory B")
+                st.success(f"✅ Vote Registered for '{wrong_b}'")
             else:
-                st.warning("⚠️ Select an issue to report first.")
+                st.warning("Enter both names.")
 
-    # --- TAB 3: CENTRAL SERVER ---
+    # --- TAB 3: HQ (Analytics Dashboard) ---
     with tab_hq:
-        st.subheader("🧠 Global Model Aggregation (Headquarters)")
-        st.caption("Visualizing real-time weight updates from all connected factories.")
+        st.subheader("🧠 Global Federated Brain (Analytics)")
         
-        # Professional Metrics
-        m1, m2, m3 = st.columns(3)
-        m1.metric("Global Threshold", f"{int(st.session_state['global_threshold']*100)}%", delta="Live")
-        m2.metric("Total Updates", len(st.session_state["history"])-1)
-        m3.metric("Active Nodes", "2 Sites")
+        kb = st.session_state["global_knowledge_base"]
+        
+        if kb:
+            # 1. Metrics
+            total_rules = len(kb)
+            verified_rules = sum(1 for v in kb.values() if v["votes"] >= 2)
+            
+            c1, c2 = st.columns(2)
+            c1.metric("Total Learned Patterns", total_rules)
+            c2.metric("✅ Verified Rules (Consensus > 1)", verified_rules)
+            
+            # 2. Detailed Table
+            st.write("### 📖 Live Knowledge Ledger")
+            
+            # Convert Dict to Table for display
+            table_data = []
+            for wrong, info in kb.items():
+                table_data.append({
+                    "Mismatch (Input)": wrong,
+                    "Correction (Output)": info['target'],
+                    "Votes": info['votes'],
+                    "Status": info['status'], # 🟢 or 🟡
+                    "Contributors": ", ".join(info['sources']),
+                    "Last Update": info['last_updated']
+                })
+            
+            st.dataframe(pd.DataFrame(table_data), use_container_width=True)
+        else:
+            st.info("System is waiting for updates from Factories...")
 
-        # The Graph
-        st.area_chart(st.session_state["history"], color="#00ff00")
 # --------------------------------------------------
 # 5. APP EXECUTION
 # --------------------------------------------------
@@ -341,9 +378,12 @@ def render_federated_learning():
 def main():
     configure_application_ui()
     
-    # Initialize Session State
+    # --- IMPORTANT FIX: Initialize BOTH Threshold and Brain ---
     if "global_threshold" not in st.session_state:
-        st.session_state["global_threshold"] = 0.65 # Default 65% match
+        st.session_state["global_threshold"] = 0.65  # General AI Strictness
+
+    if "global_knowledge_base" not in st.session_state:
+        st.session_state["global_knowledge_base"] = {} # Specific Learned Words
 
     semantic_engine = load_semantic_engine()
 

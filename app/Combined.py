@@ -17,6 +17,7 @@ import plotly.express as px
 from PIL import Image
 import io
 import pdfplumber
+import ezdxf
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -88,69 +89,88 @@ def extract_from_cad_image(image_file):
     ]
     return pd.DataFrame(mock_extracted_data)
 
+def extract_from_dxf(dxf_file):
+    """
+    Parses a real DXF CAD file. 
+    It scans the drawing for TEXT and MTEXT entities (where Part Names/Qty live).
+    """
+    extracted_items = []
+    try:
+        # Load the DXF from memory
+        # We wrap the uploaded file in a BytesIO stream
+        stream = io.BytesIO(dxf_file.read())
+        doc = ezdxf.read(stream)
+        msp = doc.modelspace()
+
+        # Search for TEXT and MTEXT entities
+        # Usually, BOM data in CAD is stored in these entities
+        for entity in msp.query("TEXT MTEXT"):
+            text_content = entity.dxf.text if entity.dxftype() == "TEXT" else entity.text
+            
+            # Simple logic: If the text contains numbers and letters, it might be a part
+            if len(text_content) > 2:
+                extracted_items.append(text_content)
+
+        # Since CAD text is often scattered, we group them into a DataFrame
+        # For a POC, we assume a "Description" is found. Qty defaults to 1.
+        df = pd.DataFrame(extracted_items, columns=["Description"])
+        df["Quantity"] = 1 # CAD metadata usually requires manual Qty check
+        return df
+    except Exception as e:
+        st.error(f"CAD Parsing Error: {e}")
+        return pd.DataFrame()
+
 def parse_multimodal_ebom(uploaded_file):
+    """
+    Universal Parser: Now supports DXF CAD files!
+    """
     file_ext = uploaded_file.name.split('.')[-1].lower()
-    with st.status(f"🔍 Universal Scanning {file_ext.upper()}...", expanded=True) as status:
+    
+    with st.status(f"🔍 Deep-Scanning {file_ext.upper()}...", expanded=True) as status:
         try:
             if file_ext == 'csv':
                 df = pd.read_csv(uploaded_file, encoding_errors='replace')
             elif file_ext in ['xlsx', 'xls']:
                 df = pd.read_excel(uploaded_file)
-            elif file_ext == 'pdf':
-                df = extract_from_pdf(uploaded_file)
-            elif file_ext in ['png', 'jpg', 'jpeg']:
-                df = extract_from_cad_image(uploaded_file)
             elif file_ext == 'json':
-                # --- UNIVERSAL JSON WALKER ---
+                # (Your existing deep-scan JSON logic here)
                 data = json.load(uploaded_file)
                 all_items = []
-
                 def walk_json(obj):
                     if isinstance(obj, dict):
-                        # Look for components specifically
-                        if "components" in obj and isinstance(obj["components"], list):
-                            for comp in obj["components"]:
-                                all_items.append({
-                                    "Description": comp.get("item_name") or comp.get("name"),
-                                    "Quantity": comp.get("qty") or comp.get("quantity") or 1
-                                })
-                        # Also look for parts_list (for your other JSON format)
-                        elif "parts_list" in obj and isinstance(obj["parts_list"], list):
-                            for part in obj["parts_list"]:
-                                all_items.append({
-                                    "Description": part.get("name") or part.get("item_name"),
-                                    "Quantity": part.get("qty") or part.get("quantity") or 1
-                                })
-                        
-                        # Keep walking deeper into the tree
-                        for value in obj.values():
-                            walk_json(value)
+                        name = obj.get("item_name") or obj.get("name")
+                        qty = obj.get("qty") or obj.get("quantity")
+                        if name and qty is not None and not any(isinstance(v, list) for v in obj.values()):
+                            all_items.append({"Description": str(name), "Quantity": qty})
+                        for v in obj.values(): walk_json(v)
                     elif isinstance(obj, list):
-                        for item in obj:
-                            walk_json(item)
-
+                        for i in obj: walk_json(i)
                 walk_json(data)
                 df = pd.DataFrame(all_items)
+            
+            elif file_ext == 'pdf':
+                df = extract_from_pdf(uploaded_file)
+            
+            elif file_ext == 'dxf': # <--- NEW CAD ROUTE
+                status.update(label="📐 Parsing DXF Geometry & Metadata...", state="running")
+                df = extract_from_dxf(uploaded_file)
+                
+            elif file_ext in ['png', 'jpg', 'jpeg']:
+                st.image(Image.open(uploaded_file), width=300)
+                df = extract_from_cad_image(uploaded_file)
             else:
                 return None
             
             # --- NORMALIZATION ---
             if df is None or df.empty:
+                st.error("No components found in the file.")
                 return None
 
             final_ebom = pd.DataFrame()
-            # Find the best columns
-            d_col = next((c for c in df.columns if any(x in str(c).lower() for x in ["name", "desc", "item"])), df.columns[0])
-            q_col = next((c for c in df.columns if any(x in str(c).lower() for x in ["qty", "quantity", "count"])), None)
-
-            final_ebom["Description"] = df[d_col].astype(str)
-            if q_col:
-                # Force conversion to number
-                final_ebom["Quantity"] = pd.to_numeric(df[q_col], errors='coerce').fillna(1)
-            else:
-                final_ebom["Quantity"] = 1
+            final_ebom["Description"] = df["Description"].astype(str)
+            final_ebom["Quantity"] = pd.to_numeric(df["Quantity"], errors='coerce').fillna(1)
             
-            status.update(label=f"✅ Extracted {len(final_ebom)} items", state="complete")
+            status.update(label=f"✅ Extracted {len(final_ebom)} components", state="complete")
             return final_ebom
 
         except Exception as e:
@@ -320,9 +340,9 @@ def render_bom_converter(semantic_engine, threshold):
     
     col1, col2 = st.columns(2)
     with col1:
-        # Added PDF to the allowed types
-        ebom_file = st.file_uploader("📂 Upload eBOM (PDF, Image, Excel, JSON, CSV)", 
-                                     type=["csv", "xlsx", "json", "png", "jpg", "pdf"])
+        # Added .dxf to the allowed types
+        ebom_file = st.file_uploader("📂 Upload eBOM (DXF, PDF, Image, Excel, JSON, CSV)", 
+                                     type=["csv", "xlsx", "json", "png", "jpg", "pdf", "dxf"])
     with col2:
         inventory_file = st.file_uploader("🏭 Upload Factory Inventory (CSV)", type=["csv"])
 

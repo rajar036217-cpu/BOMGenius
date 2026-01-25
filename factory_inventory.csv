@@ -1,10 +1,17 @@
-Inventory_ID,Item_Name,Unit_Cost,Available_Stock,Warehouse_Loc
-INV-9001,M6 Hex Bolt 20mm Length,0.50,5000,Bin-A1
-INV-9002,Resistor 10k 0.25W,0.10,2000,Bin-B2
-INV-9003,5mm Al Plate Standard,15.00,50,Yard-1
-INV-9004,10mm Inner Dia Bearing,2.50,150,Bin-C3
-INV-9005,5mm Red LED Standard,0.05,10000,Bin-D4
-INV-9999,Hydraulic Pump Large,500.00,2,Yard-2
 ItemID,ItemName,UnitCost,StockQty
-A-01,Bolt-Steel-06mm,5.0,100
-A-02,Secret-Component-X,500.0,20
+INV-A01,Housing-Casting-CI-Grade25,1200.0,50
+INV-A02,Plate-Cover-Steel-5mm,150.0,100
+INV-B01,Shaft-Input-Dia25-L150,450.0,80
+INV-B02,Pinion-Helical-M2.5-Z18,300.0,120
+INV-B03,Bearing-Timken-32206-TRB,25.0,200
+INV-B04,Seal-Oil-25x40x7-TC,5.0,500
+INV-C01,Shaft-Output-Dia30-Keyway,550.0,60
+INV-C02,Gear-Helical-M2.5-Z55,800.0,40
+INV-C03,Bearing-SKF-6206-2Z,18.0,300
+INV-C04,Seal-Oil-30x50x8-Nitrile,6.0,450
+INV-D01,Bolt-Hex-M8x25-Gr8.8-Zinc,2.0,1000
+INV-D02,Washer-Spring-M8-DIN127,0.5,2000
+INV-D03,Bolt-Hex-M10x40-Black,3.5,500
+INV-E01,Plug-Drain-Mag-0.5BSP,12.0,100
+INV-E02,Plug-Breather-Plastic-0.25BSP,4.0,150
+INV-E03,Washer-Bonded-Seal-0.5in,1.5,300

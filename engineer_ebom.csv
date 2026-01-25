@@ -1,9 +1,17 @@
-Design_ID,Part_Description,Quantity,Material
-EB-101,Hexagon Head Screw M6 x 20mm,50,Steel
-EB-102,10k Ohm Resistor 1/4 Watt,20,Carbon
-EB-103,Aluminium Sheet 5mm Thk,5,Aluminium
-EB-104,Ball Bearing 10mm ID,12,Steel
-EB-105,LED Red 5mm Diffused,100,Plastic
-PartID,Description,Quantity
-101,Steel Bolt M6,10
-102,Alien-Tech-Part,5
+PartID,Description,Quantity,SubAssembly_Group
+GB-100,Gearbox Main Housing (Cast Iron),1,Housing
+GB-101,Top Inspection Cover Plate,1,Housing
+GB-201,Input Shaft - AISI 4340 Steel,1,Input_Assy
+GB-202,Helical Pinion Gear (Module 2.5 - 18 Teeth),1,Input_Assy
+GB-203,Taper Roller Bearing 32206,2,Input_Assy
+GB-204,Oil Seal Double Lip 25x40x7,1,Input_Assy
+GB-301,Output Shaft - Keyed Dia 30mm,1,Output_Assy
+GB-302,Helical Gear Wheel (Module 2.5 - 55 Teeth),1,Output_Assy
+GB-303,Deep Groove Ball Bearing 6206,2,Output_Assy
+GB-304,Oil Seal Nitrile 30x50x8,1,Output_Assy
+GB-401,Hexagon Head Screw M8 x 25mm 8.8,12,Fasteners
+GB-402,Spring Washer M8,12,Fasteners
+GB-403,Hex Bolt M10 x 40mm,4,Mounting
+GB-501,Magnetic Drain Plug 1/2 inch BSP,1,Lubrication
+GB-502,Breather Plug 1/4 inch BSP,1,Lubrication
+GB-601,Bonded Seal Washer 1/2 inch,1,Lubrication

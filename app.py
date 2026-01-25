@@ -15,6 +15,10 @@ import datetime
 import plotly.express as px
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+from db import save_bom_match
+from db import fetch_federated_learning, fetch_bom_matches
+
+
 
 # --------------------------------------------------
 # 1. SETUP & CONFIGURATION
@@ -268,28 +272,50 @@ def render_bom_converter(semantic_engine, threshold):
     if design_file and inventory_file:
         st.success("✅ Files Ready!")
         
-        # THE RUN BUTTON YOU ASKED FOR
         if st.button("🚀 Run AI Matching Process"):
             with st.spinner("🤖 AI is analyzing semantic meanings..."):
                 try:
                     df_design = pd.read_csv(design_file)
                     df_inventory = pd.read_csv(inventory_file)
                     
+                    # Run matching
                     results_df = compute_semantic_matches(df_design, df_inventory, semantic_engine, threshold)
                     
-                    st.subheader("📋 Match Results")
-                    st.dataframe(results_df, use_container_width=True)
+                    # --- PERSISTENCE: Save to Session State ---
+                    st.session_state["persistent_results"] = results_df
                     
-                    # DOWNLOAD BUTTON
-                    csv = results_df.to_csv(index=False).encode('utf-8')
-                    st.download_button(
-                        label="📥 Download Result CSV",
-                        data=csv,
-                        file_name="OptiBOM_Results.csv",
-                        mime="text/csv"
-                    )
+                    # Save to Database
+                    for _, row in results_df.iterrows():
+                        save_bom_match(
+                            design_part=row["Design Part (eBOM)"],
+                            matched_part=row["Matched Inventory (mBOM)"],
+                            confidence=float(str(row["Confidence"]).replace("%", "")) / 100,
+                            unit_cost=row["Unit Price ($)"],
+                            total_cost=row["Total Cost ($)"],
+                            stock_status=row["Stock Status"],
+                            match_type=row["Match Status"]
+                        )
+                    st.toast("Match Complete & Saved to DB!", icon="✅")
                 except Exception as e:
                     st.error(f"⚠️ Error during processing: {e}")
+
+    # --- THIS PART SHOWS THE DATA EVEN IF YOU SWITCH PAGES ---
+    if "persistent_results" in st.session_state and st.session_state["persistent_results"] is not None:
+        st.divider()
+        st.subheader("📋 Latest Match Results")
+        
+        # We show the data from the Session Memory
+        res_df = st.session_state["persistent_results"]
+        st.dataframe(res_df, use_container_width=True)
+        
+        # The download button will now stay visible
+        csv_data = res_df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📥 Download Result CSV",
+            data=csv_data,
+            file_name="OptiBOM_Export.csv",
+            mime="text/csv"
+        )
 
 def render_federated_learning():
     st.title("🌐 Federated Knowledge Network (Enterprise Grade)")
@@ -370,6 +396,55 @@ def render_federated_learning():
             st.dataframe(pd.DataFrame(table_data), use_container_width=True)
         else:
             st.info("System is waiting for updates from Factories...")
+            
+def render_database_admin():
+    st.title("🗄️ Database Control Panel")
+    st.caption("Live system records (Read-Only)")
+
+    tab1, tab2 = st.tabs(["🧠 Federated Learning", "📦 BOM Match History"])
+
+    # ---------------------------
+    # Federated Learning Table
+    # ---------------------------
+    with tab1:
+        st.subheader("Federated Knowledge Base")
+
+        data = fetch_federated_learning()
+
+        if data:
+            df = pd.DataFrame([dict(row) for row in data])
+
+            st.dataframe(df, use_container_width=True)
+
+            st.metric("Total Learned Rules", len(df))
+            st.metric(
+                "Verified Rules",
+                len(df[df["votes"] >= 2]) if "votes" in df else 0
+            )
+        else:
+            st.info("No federated learning data yet.")
+
+    # ---------------------------
+    # BOM Match History
+    # ---------------------------
+    with tab2:
+        st.subheader("BOM Match Logs")
+
+        data = fetch_bom_matches()
+
+        if data:
+            df = pd.DataFrame([dict(row) for row in data])
+
+            st.dataframe(df, use_container_width=True)
+
+            st.metric("Total Matches", len(df))
+            st.metric(
+                "Avg Confidence",
+                f"{df['confidence'].mean():.2f}"
+            )
+        else:
+            st.info("No BOM matches recorded yet.")
+
 
 # --------------------------------------------------
 # 5. APP EXECUTION
@@ -390,7 +465,11 @@ def main():
     # Sidebar Navigation
     with st.sidebar:
         st.title("🏭 OptiBOM Pro")
-        page = st.radio("Go to:", ["Dashboard", "BOM Converter", "Federated Learning"])
+        page = st.radio(
+    "Go to:",
+    ["Dashboard", "BOM Converter", "Federated Learning"]
+)
+
         st.divider()
         st.caption("Powered by L&T TECHgium POC")
 
@@ -402,5 +481,41 @@ def main():
     elif page == "Federated Learning":
         render_federated_learning()
 
+
 if __name__ == "__main__":
     main()
+    
+def main():
+    configure_application_ui()
+    
+    # Initialize session states
+    if "global_threshold" not in st.session_state:
+        st.session_state["global_threshold"] = 0.65 
+
+    if "global_knowledge_base" not in st.session_state:
+        st.session_state["global_knowledge_base"] = {} 
+
+    if "persistent_results" not in st.session_state:
+        st.session_state["persistent_results"] = None
+
+    semantic_engine = load_semantic_engine()
+
+    # Sidebar Navigation - "Database" removed from the list below
+    with st.sidebar:
+        st.title("🏭 OptiBOM Pro")
+        page = st.radio(
+            "Go to:",
+            ["Dashboard", "BOM Converter", "Federated Learning"] # Database inga illa!
+        )
+
+        st.divider()
+        st.caption("Powered by L&T TECHgium POC")
+
+    # Page Routing - Database block removed
+    if page == "Dashboard":
+        render_dashboard(st.session_state["global_threshold"])
+    elif page == "BOM Converter":
+        render_bom_converter(semantic_engine, st.session_state["global_threshold"])
+    elif page == "Federated Learning":
+        render_federated_learning()
+    

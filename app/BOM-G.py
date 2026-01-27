@@ -83,9 +83,9 @@ def load_verified_kb():
     return {row['wrong_part']: row['correct_part'] for row in rows}
 
 def save_bom_match(design_part, matched_part, confidence, unit_cost, total_cost, stock_status, match_type):
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("""
+    with sqlite3.connect(DB_NAME) as conn:
+        cur = conn.cursor()
+        cur.execute("""
     INSERT INTO bom_matches
     (design_part, matched_part, confidence, unit_cost, total_cost, stock_status, match_type, created_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
@@ -123,15 +123,31 @@ def load_models():
 
 def extract_with_gemini(file_bytes, mime_type):
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        prompt = "Extract BOM. Return ONLY JSON array: [{\"Description\": \"...\", \"Quantity\": 1}]"
+        # Update model name to 1.5-flash for speed/cost
+        model = genai.GenerativeModel('gemini-1.5-flash') 
+        
+        prompt = "Extract BOM data. Return ONLY a JSON array: [{\"Description\": \"...\", \"Quantity\": 1}]"
+
         if "image" in mime_type:
             img = Image.open(io.BytesIO(file_bytes))
             response = model.generate_content([prompt, img])
         else:
-            response = model.generate_content([prompt, {'mime_type': 'application/pdf', 'data': file_bytes}])
-        clean_json = response.text.replace('```json', '').replace('```', '').strip()
-        return pd.DataFrame(json.loads(clean_json))
+            response = model.generate_content([
+                prompt,
+                {"mime_type": "application/pdf", "data": file_bytes}
+            ])
+
+        # More robust JSON cleaning
+        text = response.text
+        if "```json" in text:
+            clean_json = text.split("```json")[1].split("```")[0].strip()
+        elif "```" in text:
+            clean_json = text.split("```")[1].split("```")[0].strip()
+        else:
+            clean_json = text.strip()
+
+        data = json.loads(clean_json)
+        return pd.DataFrame(data)
     except Exception as e:
         st.error(f"Gemini Error: {e}")
         return None
@@ -141,15 +157,47 @@ def extract_with_gemini(file_bytes, mime_type):
 # --------------------------------------------------
 
 def extract_from_pdf_local(pdf_file):
-    """Fallback PDF parser if Gemini is unavailable"""
-    extracted_data = []
-    with pdfplumber.open(pdf_file) as pdf:
-        for page in pdf.pages:
-            table = page.extract_table()
-            if table:
-                df_page = pd.DataFrame(table[1:], columns=table[0])
-                extracted_data.append(df_page)
-    return pd.concat(extracted_data, ignore_index=True) if extracted_data else None
+    """
+    Robust local PDF table extractor. 
+    Cleans newline characters and handles multi-page tables.
+    """
+    all_tables = []
+
+    try:
+        with pdfplumber.open(pdf_file) as pdf:
+            for page in pdf.pages:
+                # Use extract_tables (plural) to find all tables on a page
+                tables = page.extract_tables()
+                
+                for table in tables:
+                    if table and len(table) > 1:
+                        # Convert to DataFrame
+                        df_page = pd.DataFrame(table)
+                        
+                        # CLEANING STEP 1: Use first row as header
+                        df_page.columns = df_page.iloc[0]
+                        df_page = df_page[1:].reset_index(drop=True)
+                        
+                        # CLEANING STEP 2: Remove None values and '\n' characters
+                        # This prevents the AI from getting confused by "Bolt\nGrade 8"
+                        df_page = df_page.applymap(lambda x: str(x).replace('\n', ' ').strip() if x is not None else "")
+                        
+                        all_tables.append(df_page)
+
+        if not all_tables:
+            return None
+
+        # Combine all tables found in the PDF
+        full_df = pd.concat(all_tables, ignore_index=True)
+        
+        # Remove completely empty rows
+        full_df = full_df.replace('', np.nan).dropna(how='all')
+        
+        return full_df
+
+    except Exception as e:
+        st.error(f"Local PDF Parsing Error: {e}")
+        return None
 
 def extract_from_dxf(dxf_file):
     extracted_items = []
@@ -212,6 +260,9 @@ def parse_multimodal_ebom(uploaded_file):
         
         final_ebom["Description"] = df[desc_col].astype(str)
         final_ebom["Quantity"] = pd.to_numeric(df[qty_col], errors='coerce').fillna(1) if qty_col else 1
+        st.write("DEBUG extracted df:", df)
+        st.write("DEBUG final ebom:", final_ebom)
+
         return final_ebom
     except Exception as e:
         st.error(f"Ingestion Error: {e}")
@@ -269,7 +320,7 @@ def render_dashboard():
         df_conf = pd.DataFrame({'Confidence': ['High (>90%)', 'Medium (70-90%)', 'Low (<70%)'], 'Items': [850, 300, 90]})
         st.plotly_chart(px.bar(df_conf, x='Confidence', y='Items', color='Confidence', title='Match Reliability'), use_container_width=True)
 # --- Recent Activity Log ---
-    st.subheader("📝 Recent System Activity")
+    st.subheader("Recent System Activity")
     st.dataframe(pd.DataFrame({
         "Timestamp": ["10:05 AM", "10:12 AM", "10:45 AM"],
         "User": ["Factory_Admin_IN", "System_AI", "Factory_Admin_DE"],
@@ -296,6 +347,11 @@ def render_bom_converter(bi_encoder, cross_encoder, threshold=0.5):
             
             kb_map = load_verified_kb()
             df_design = parse_multimodal_ebom(ebom_file)
+            
+            if df_design is None or df_design.empty:
+                st.error("Failed to extract eBOM data. Please check your file format.")
+                return
+            
             df_inventory = pd.read_csv(inventory_file)
             
             # Inventory Indexing

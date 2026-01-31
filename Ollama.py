@@ -85,61 +85,60 @@ def read_md_file(filename):
 # MATCHING ENGINE
 # --------------------------------------------------
 def find_best_match(query, inventory_records, inventory_names, embeddings, bi, cross, row_data):
-    """Semantic matching engine to find inventory parts."""
-    if not isinstance(query, str) or query.strip() == "":
+    """Semantic matching engine that auto-detects column names."""
+    if not isinstance(query, str) or query.strip() == "" or query.lower() == "nan":
         return None
 
-    # Semantic Search
+    # 1. Semantic Search
     q_emb = bi.encode(query, convert_to_tensor=True)
     hits = util.semantic_search(q_emb, embeddings, top_k=5)[0]
     candidates = [inventory_names[h["corpus_id"]] for h in hits]
     
-    # Reranking
+    # 2. Reranking
     scores = cross.predict([[query, c] for c in candidates])
     best_idx = int(np.argmax(scores))
     match_name = candidates[best_idx]
     confidence = float(1 / (1 + np.exp(-scores[best_idx])))
 
-    # Retrieve Inventory Record
-    inv_item = next((item for item in inventory_records if str(item.get('Part Name')) == match_name), {})
+    # 3. Robust Record Retrieval (finds row where match_name exists in any column)
+    inv_item = next((item for item in inventory_records if any(str(v) == match_name for v in item.values())), {})
     
-    # Logic: Make/Buy Code
-    location = inv_item.get("Location_ID", "")
+    # 4. Auto-detect Inventory Columns (Part Number, Location)
+    part_no = next((v for k, v in inv_item.items() if "part" in k.lower() or "id" in k.lower()), "UNKNOWN")
+    location = next((v for k, v in inv_item.items() if "loc" in k.lower() or "bin" in k.lower()), "")
+    work_center = next((v for k, v in inv_item.items() if "center" in k.lower() or "work" in k.lower()), "GENERAL_ASSY")
+
+    # 5. Logic: Make/Buy
     make_buy = "B" if (isinstance(location, str) and len(location) > 1) else "M"
 
-    # Logic: Op_Sequence & BOM Level
+    # 6. Logic: Op_Sequence & Level
     raw_level = str(row_data.get("Level", "2"))
     level = "".join(filter(str.isdigit, raw_level)) or "2"
     op_seq = "10" if int(level) >= 2 else "20"
 
-    # Logic: Total_Qty_Req with Scrap Factor
+    # 7. Logic: Quantity (Detects 'Qty' or 'Quantity' or 'Amount')
     try:
-        base_qty = float(row_data.get("Quantity", 1))
-        scrap = 0.02 # Default 2%
-        total_qty = base_qty * (1 + scrap)
-    except (ValueError, TypeError):
+        qty_key = next((k for k in row_data.keys() if "qty" in k.lower() or "quant" in k.lower()), None)
+        base_qty = float(row_data.get(qty_key, 1)) if qty_key else 1.0
+        total_qty = base_qty * 1.02
+    except:
         total_qty = 1.02
 
-    # Logic: Backflush & Item Type
-    electronics = ["PCB", "SCREEN", "BATTERY", "MOTOR", "CPU", "RAM", "SSD"]
+    # 8. Logic: Backflush
+    electronics = ["PCB", "SCREEN", "BATTERY", "MOTOR", "CPU", "RAM", "SSD", "BOARD"]
     is_electronic = any(kw in match_name.upper() for kw in electronics)
-    
     backflush = "False" if is_electronic else "True"
-    
-    consumables = ["SCREW", "GLUE", "TAPE", "PASTE", "LABEL"]
-    is_consumable = any(kw in match_name.upper() for kw in consumables)
-    item_type = "Consumable" if is_consumable else "Standard"
 
     return {
         "EBOM_Ref_ID": query,
-        "Mfg_Part_No": inv_item.get("Part_Number", "UNKNOWN"),
+        "Mfg_Part_No": part_no,
         "Make_Buy_Code": make_buy,
         "Op_Sequence": op_seq,
-        "Work_Center": inv_item.get("Work_Center", "GENERAL_ASSY"),
+        "Work_Center": work_center,
         "BOM_Level": level,
         "Bin_Location": location if location else "SHORTAGE",
         "Backflush_Ind": backflush,
-        "MBOM_Item_Type": item_type,
+        "MBOM_Item_Type": "Standard",
         "Total_Qty_Req": round(total_qty, 2),
         "Confidence": f"{confidence:.2%}"
     }
@@ -226,7 +225,6 @@ def main():
         inv_name_col = next((c for c in df_inv_raw.columns if "name" in c.lower()), df_inv_raw.columns[0])
 
         if st.button("Generate MBOM"):
-            # Prepare inventory context
             inventory_names = df_inv_raw[inv_name_col].astype(str).tolist()
             inventory_data = df_inv_raw.to_dict('records')
             
@@ -234,27 +232,24 @@ def main():
                 embeddings = bi.encode(inventory_names, convert_to_tensor=True)
 
             results = []
-            progress_bar = st.progress(0)
-            
-            for idx, row in df_ebom_raw.iterrows():
-                match_res = find_best_match(
-                    str(row[ebom_desc_col]), 
-                    inventory_data,
-                    inventory_names,
-                    embeddings, 
-                    bi, 
-                    cross,
-                    row
-                )
-                if match_res:
-                    results.append(match_res)
-                    save_bom_match(str(row[ebom_desc_col]), match_res["Mfg_Part_No"], match_res["Confidence"])
-                
-                progress_bar.progress((idx + 1) / len(df_ebom_raw))
+            with st.status("Matching Parts...", expanded=True) as status:
+                for idx, row in df_ebom_raw.iterrows():
+                    match_res = find_best_match(
+                        str(row[ebom_desc_col]), 
+                        inventory_data,
+                        inventory_names,
+                        embeddings, 
+                        bi, 
+                        cross,
+                        row
+                    )
+                    if match_res:
+                        results.append(match_res)
+                        save_bom_match(str(row[ebom_desc_col]), match_res["Mfg_Part_No"], match_res["Confidence"])
+                status.update(label="Matching Complete!", state="complete")
 
             if results:
                 df_results = pd.DataFrame(results)
-                
                 st.subheader("Semantic Mapping Results")
                 st.dataframe(df_results, use_container_width=True)
 
@@ -262,8 +257,6 @@ def main():
                 with st.spinner("AI applying manufacturing logic..."):
                     final_mbom = generate_mbom_with_ollama(df_results)
                     st.markdown(final_mbom)
-            else:
-                st.error("No matches could be generated.")
 
 if __name__ == "__main__":
     main()

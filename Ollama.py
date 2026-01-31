@@ -254,9 +254,29 @@ def main():
                 st.dataframe(df_results, use_container_width=True)
 
                 st.subheader("Final Manufacturing BOM")
-                with st.spinner("AI applying manufacturing logic..."):
-                    final_mbom = generate_mbom_with_ollama(df_results)
-                    st.markdown(final_mbom)
+                with st.spinner("AI is applying Manufacturing Logic..."):
+                    # We send the results to AI for review/formatting
+                    ai_response = generate_mbom_with_ollama(df_results)
+                    
+                    # Convert the AI response back into a DataFrame so it looks like a real table
+                    try:
+                        import io
+                        # Clean the AI text to extract just the table data
+                        lines = [line.strip() for line in ai_response.split('\n') if '|' in line]
+                        clean_md = '\n'.join(lines)
+                        
+                        # Parse the Markdown string into a Pandas DataFrame
+                        df_final = pd.read_csv(io.StringIO(clean_md), sep="|", skipinitialspace=True).dropna(axis=1, how='all')
+                        
+                        # Remove the '---' separator row if it exists
+                        df_final = df_final[~df_final.iloc[:, 0].str.contains('---', na=False)]
+                        df_final.columns = [c.strip() for c in df_final.columns]
+                        
+                        # Display using Streamlit's interactive table component
+                        st.dataframe(df_final, use_container_width=True)
+                    except Exception:
+                        # Fallback: If AI formatting fails, display the high-quality Python-calculated table
+                        st.dataframe(df_results, use_container_width=True)
 
 if __name__ == "__main__":
     main()

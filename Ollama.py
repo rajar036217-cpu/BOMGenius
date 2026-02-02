@@ -47,24 +47,42 @@ def run_llama_matching(ebom_df, inv_df):
     ebom_context = ebom_df.to_csv(index=False)
 
     prompt = f"""
-    [ROLE] You are a Manufacturing Systems Architect.
-    [TASK] Match items from the EBOM to the best fit in the Factory Inventory and generate a 10-column MBOM Table.
+    You are a Manufacturing BOM Engineer AI embedded in a PLM-to-MES integration system.
 
-    [RULES]
-    {main_rules}
-    {proc_rules}
+GOAL:
+Convert the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) suitable for factory execution.
 
-    [INVENTORY LIST]
-    {inv_context}
+INPUT:
+You will receive an eBOM in CSV-like format with one part per line:
+Part Name | Part Type | Qty | Parent Assembly | Make/Buy | Material | Weight | Standard/Custom | Fastener
 
-    [EBOM ITEMS TO MATCH]
-    {ebom_context}
+CONVERSION RULES:
+1. Preserve all original parts and quantities from the eBOM.
+2. Re-group parts into logical manufacturing sub-assemblies based on build sequence and shop-floor practicality.
+   - Examples of sub-assemblies: Frame Assembly, Door Shell Assembly, Window Mechanism Assembly, Final Assembly.
+3. Create manufacturing sub-assemblies even if they do not exist in the eBOM (use synthetic IDs like SUBASM-001, SUBASM-002).
+4. Assign each part to exactly one sub-assembly.
+5. Introduce a final top-level assembly node that consumes all sub-assemblies.
+6. Add manufacturing attributes for each line:
+   - Op_Sequence (10, 20, 30, ...)
+   - Work_Center (e.g., Welding, Assembly, QC, Packaging)
+   - Make_Buy (default from eBOM; if missing, assume MAKE for custom parts, BUY for standard fasteners)
+   - MBOM_Item_Type (RAW, SUBASM, FG)
+7. Do NOT remove any part present in the eBOM.
+8. Do NOT invent quantities. Quantities must match the total from the eBOM.
+9. If parts are ambiguous, choose the most reasonable manufacturing grouping and explain assumptions in a short “Assumptions” section.
 
-    [OUTPUT INSTRUCTIONS]
-    1. Match each EBOM item to the most logical part in the Inventory.
-    2. Provide ONLY a Markdown Table with exactly these 10 headers:
-    EBOM_Ref_ID | Mfg_Part_No | Make_Buy_Code | Op_Sequence | Work_Center | BOM_Level | Bin_Location | Backflush_Ind | MBOM_Item_Type | Total_Qty_Req
-    """
+OUTPUT FORMAT:
+Return the mBOM in CSV-like lines with the following schema:
+Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
+
+Also return a short section:
+- Assumptions
+- Mapping Notes (how eBOM items were grouped into sub-assemblies)
+
+QUALITY BAR:
+The mBOM must be directly usable by MES/ERP for routing and material consumption planning.
+No explanations outside the requested output format."""
 
     try:
         response = ollama.generate(model=MODEL_NAME, prompt=prompt)
@@ -114,4 +132,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

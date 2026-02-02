@@ -23,13 +23,28 @@ def init_db():
     conn.close()
 
 def run_llama_matching(ebom_df, inv_df):
-    """The core engine: LLaMA performs lookup, matching, and rule application."""
+    """The core engine: LLaMA performs lookup and matching with flexible column detection."""
     main_rules = open("main.md", "r").read() if os.path.exists("main.md") else ""
     proc_rules = open("Process.md", "r").read() if os.path.exists("Process.md") else ""
     
-    # Convert dataframes to strings for the prompt
+    # --- FIX: DYNAMIC COLUMN DETECTION ---
+    # This finds the best columns even if they are named slightly differently
+    def get_col(df, keywords, default):
+        for col in df.columns:
+            if any(k.lower() in col.lower() for k in keywords):
+                return col
+        return default
+
+    inv_name = get_col(inv_df, ["name", "desc"], inv_df.columns[0])
+    inv_part = get_col(inv_df, ["part", "number", "id"], inv_df.columns[0])
+    inv_loc = get_col(inv_df, ["loc", "bin"], "Location_ID") # default if not found
+    inv_wc = get_col(inv_df, ["work", "center", "wc"], "Work_Center") # default if not found
+
+    # Create a simplified inventory view for LLaMA context
+    # Use only columns that actually exist to avoid the KeyError
+    existing_cols = [c for c in [inv_name, inv_part, inv_loc, inv_wc] if c in inv_df.columns]
+    inv_context = inv_df[existing_cols].to_csv(index=False)
     ebom_context = ebom_df.to_csv(index=False)
-    inv_context = inv_df[['Part_Number', 'Part Name', 'Location_ID', 'Work_Center']].to_csv(index=False)
 
     prompt = f"""
     [ROLE] You are a Manufacturing Systems Architect.
@@ -46,10 +61,8 @@ def run_llama_matching(ebom_df, inv_df):
     {ebom_context}
 
     [OUTPUT INSTRUCTIONS]
-    1. Match each EBOM item to the most logical 'Part Name' in Inventory.
-    2. Calculate 'Total_Qty_Req' (EBOM Qty + 2% scrap).
-    3. Determine 'Make_Buy_Code' (B if Location_ID exists, else M).
-    4. Provide ONLY a Markdown Table with exactly these headers:
+    1. Match each EBOM item to the most logical part in the Inventory.
+    2. Provide ONLY a Markdown Table with exactly these 10 headers:
     EBOM_Ref_ID | Mfg_Part_No | Make_Buy_Code | Op_Sequence | Work_Center | BOM_Level | Bin_Location | Backflush_Ind | MBOM_Item_Type | Total_Qty_Req
     """
 
@@ -101,3 +114,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

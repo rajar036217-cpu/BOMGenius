@@ -138,11 +138,13 @@ def main():
                     
                     # Log matches to DB
                     # Log the entire MBOM to the database
+                # Log the MBOM to the database
                 with sqlite3.connect(DB_NAME) as conn:
-                        # We save all columns from df_final into the DB
-                        # index=False prevents pandas from adding an extra column
-                    df_final.to_sql('matches', conn, if_exists='append', index=False)
-                st.success("MBOM successfully logged to Database.")
+                    # FIX: Using if_exists='replace' ensures the table structure 
+                    # matches exactly what the AI generated, preventing "column not found" errors.
+                    df_final.to_sql('matches', conn, if_exists='replace', index=False)
+                st.success("MBOM successfully saved to Database (bomgenius.db).")
 
 if __name__ == "__main__":
     main()
+

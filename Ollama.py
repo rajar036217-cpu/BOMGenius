@@ -19,7 +19,10 @@ def ensure_rules_files():
 
 def init_db():
     conn = sqlite3.connect(DB_NAME)
-    conn.execute("CREATE TABLE IF NOT EXISTS matches (ebom_item TEXT, mfg_item TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)")
+    conn.execute("""CREATE TABLE IF NOT EXISTS matches (
+    ebom_item TEXT,
+    mfg_item TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)""")
     conn.close()
 
 def run_llama_matching(ebom_df, inv_df):
@@ -46,43 +49,44 @@ def run_llama_matching(ebom_df, inv_df):
     inv_context = inv_df[existing_cols].to_csv(index=False)
     ebom_context = ebom_df.to_csv(index=False)
 
-    prompt = f"""
-    You are a Manufacturing BOM Engineer AI embedded in a PLM-to-MES integration system.
+    prompt = f"""You are a Manufacturing BOM Engineer AI embedded in a PLM-to-MES integration system.
 
 GOAL:
 Convert the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) suitable for factory execution.
 
-INPUT:
-You will receive an eBOM in CSV-like format with one part per line:
-Part Name | Part Type | Qty | Parent Assembly | Make/Buy | Material | Weight | Standard/Custom | Fastener
+EBOM (CSV):
+{ebom_context}
+
+INVENTORY (CSV):
+{inv_context}
 
 CONVERSION RULES:
 1. Preserve all original parts and quantities from the eBOM.
 2. Re-group parts into logical manufacturing sub-assemblies based on build sequence and shop-floor practicality.
-   - Examples of sub-assemblies: Frame Assembly, Door Shell Assembly, Window Mechanism Assembly, Final Assembly.
 3. Create manufacturing sub-assemblies even if they do not exist in the eBOM (use synthetic IDs like SUBASM-001, SUBASM-002).
 4. Assign each part to exactly one sub-assembly.
 5. Introduce a final top-level assembly node that consumes all sub-assemblies.
 6. Add manufacturing attributes for each line:
    - Op_Sequence (10, 20, 30, ...)
-   - Work_Center (e.g., Welding, Assembly, QC, Packaging)
+   - Work_Center (Welding, Assembly, QC, Packaging only)
    - Make_Buy (default from eBOM; if missing, assume MAKE for custom parts, BUY for standard fasteners)
    - MBOM_Item_Type (RAW, SUBASM, FG)
 7. Do NOT remove any part present in the eBOM.
-8. Do NOT invent quantities. Quantities must match the total from the eBOM.
-9. If parts are ambiguous, choose the most reasonable manufacturing grouping and explain assumptions in a short “Assumptions” section.
+8. Do NOT invent quantities. Quantities must match totals from the eBOM.
+9. If ambiguous, choose the most reasonable grouping and list assumptions.
 
-OUTPUT FORMAT:
-Return the mBOM in CSV-like lines with the following schema:
+OUTPUT FORMAT (STRICT):
+Return ONLY CSV-like rows using this exact schema:
 Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
 
-Also return a short section:
-- Assumptions
-- Mapping Notes (how eBOM items were grouped into sub-assemblies)
+After the table, add:
+ASSUMPTIONS:
+- <short bullets>
 
-QUALITY BAR:
-The mBOM must be directly usable by MES/ERP for routing and material consumption planning.
-No explanations outside the requested output format."""
+MAPPING_NOTES:
+- <short bullets>
+
+No markdown. No explanations before or after the table."""
 
     try:
         response = ollama.generate(model=MODEL_NAME, prompt=prompt)
@@ -124,7 +128,7 @@ def main():
                     
                     # Log matches to DB
                     with sqlite3.connect(DB_NAME) as conn:
-                        df_final[['EBOM_Ref_ID', 'Mfg_Part_No']].to_sql('matches', conn, if_exists='append', index=False)
+                        df_final[['EBOM_Ref_ID', 'Item_ID']].to_sql('matches', conn, if_exists='append', index=False)
                         
                 except Exception as e:
                     st.error("AI Output Format Error. Raw response shown below.")

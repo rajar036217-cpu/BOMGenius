@@ -111,7 +111,7 @@ def main():
     st.set_page_config(page_title="BOMGenius AI", layout="wide")
     
     st.title("BOMGenius: Pure LLaMA MBOM Engine")
-    st.info("System: SentenceTransformers Disabled. LLaMA is handling all semantic matching and logic.")
+    st.info("System: SentenceTransformers Disabled. LLaMA is handling all matching.")
 
     c1, c2 = st.columns(2)
     with c1:
@@ -127,24 +127,45 @@ def main():
             with st.spinner("LLaMA is cross-referencing inventory and applying rules..."):
                 raw_result = run_llama_matching(df_ebom, df_inv)
                 
-                # Extract and parse the table from LLaMA's response
+                # --- NEW ROBUST PARSING LOGIC ---
                 lines = [l.strip() for l in raw_result.split('\n') if '|' in l]
-                df_final = pd.read_csv(io.StringIO('\n'.join(lines)), sep="|", skipinitialspace=True).dropna(axis=1, how='all')
-                df_final = df_final[~df_final.iloc[:, 0].str.contains('---', na=False)]
-                df_final.columns = [c.strip() for c in df_final.columns]
-                    
-                st.subheader("Final Manufacturing BOM (AI Generated)")
-                st.dataframe(df_final, use_container_width=True)
-                    
-                    # Log matches to DB
-                    # Log the entire MBOM to the database
-                # Log the MBOM to the database
-                with sqlite3.connect(DB_NAME) as conn:
-                    # FIX: Using if_exists='replace' ensures the table structure 
-                    # matches exactly what the AI generated, preventing "column not found" errors.
-                    df_final.to_sql('matches', conn, if_exists='replace', index=False)
-                st.success("MBOM successfully saved to Database (bomgenius.db).")
+                
+                if len(lines) < 2:
+                    st.error("AI did not return a valid table. See raw response below.")
+                    st.markdown(raw_result)
+                else:
+                    try:
+                        # 1. Join lines and clean extra pipes
+                        table_str = '\n'.join(lines)
+                        
+                        # 2. Parse Markdown string into DataFrame
+                        df_final = pd.read_csv(
+                            io.StringIO(table_str), 
+                            sep="|", 
+                            skipinitialspace=True,
+                            engine='python'
+                        ).dropna(axis=1, how='all')
 
+                        # 3. Final Clean: Remove the Markdown separator row (---|---|---)
+                        df_final = df_final[~df_final.iloc[:, 0].astype(str).str.contains('---', na=False)]
+                        
+                        # 4. Clean column names (remove leading/trailing spaces)
+                        df_final.columns = [c.strip() for c in df_final.columns]
+
+                        st.subheader("Final Manufacturing BOM (AI Generated)")
+                        st.dataframe(df_final, use_container_width=True)
+                        
+                        # 5. Save to Database
+                        with sqlite3.connect(DB_NAME) as conn:
+                            df_final.to_sql('matches', conn, if_exists='replace', index=False)
+                        st.success(f"MBOM saved to {DB_NAME}")
+
+                    except Exception as e:
+                        st.error(f"Parsing Error: {str(e)}")
+                        st.subheader("Raw AI Output")
+                        st.markdown(raw_result)
+                        
 if __name__ == "__main__":
     main()
+
 

@@ -87,8 +87,17 @@ CONVERSION RULES:
 9. If ambiguous, choose the most reasonable grouping and list assumptions.
 
 OUTPUT FORMAT (STRICT):
-Return ONLY CSV-like rows using this exact schema:
-Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
+Return ONLY rows separated by NEWLINES.
+Each row MUST use the pipe character | as the delimiter.
+
+Correct example:
+PARENT1 | ITEM1 | Item Name | 1 | 10 | Welding | MAKE | RAW | EBOM-001
+PARENT1 | ITEM2 | Item Name | 2 | 20 | Assembly | BUY | RAW | EBOM-002
+
+Do NOT use commas.
+Do NOT put everything in one line.
+Do NOT add headers.
+Do NOT add markdown tables.
 
 After the table, add:
 ASSUMPTIONS:
@@ -100,7 +109,15 @@ MAPPING_NOTES:
 No markdown. No explanations before or after the table."""
 
     try:
-        response = ollama.generate(model=MODEL_NAME, prompt=prompt)
+        response = ollama.generate(
+            model=MODEL_NAME,
+            prompt=prompt,
+            options={
+                "temperature": 0.05,
+                "top_p": 0.9,
+                "num_ctx": 4096
+            }
+        )
         return response["response"]
     except Exception as e:
         return f"Error: {str(e)}"
@@ -127,9 +144,16 @@ def main():
             with st.spinner("LLaMA is cross-referencing inventory and applying rules..."):
                 raw_result = run_llama_matching(df_ebom, df_inv)
                 
-                # --- NEW ROBUST PARSING LOGIC ---
-                lines = [l.strip() for l in raw_result.split('\n') if '|' in l]
-                
+                raw_lines = [l.strip() for l in raw_result.split('\n') if l.strip()]
+                # If model used pipes, use that. Else, fallback to commas.
+                if any('|' in l for l in raw_lines):
+                    lines = [l for l in raw_lines if '|' in l]
+                    sep = '|'
+                else:
+                    # Model returned comma CSV in one or more lines
+                    lines = raw_lines
+                    sep = ','
+                    
                 if len(lines) < 2:
                     st.error("AI did not return a valid table. See raw response below.")
                     st.markdown(raw_result)
@@ -138,13 +162,19 @@ def main():
                         # 1. Join lines and clean extra pipes
                         table_str = '\n'.join(lines)
                         
-                        # 2. Parse Markdown string into DataFrame
                         df_final = pd.read_csv(
-                            io.StringIO(table_str), 
-                            sep="|", 
+                            io.StringIO('\n'.join(lines)),
+                            sep=sep,
                             skipinitialspace=True,
                             engine='python'
-                        ).dropna(axis=1, how='all')
+                            ).dropna(axis=1, how='all')
+
+                        EXPECTED_COLS = 9  # Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
+
+                        if df_final.shape[1] != EXPECTED_COLS:
+                            st.error(f"AI returned {df_final.shape[1]} columns, expected {EXPECTED_COLS}. Raw output below.")
+                            st.markdown(raw_result)
+                            return
 
                         # 3. Final Clean: Remove the Markdown separator row (---|---|---)
                         df_final = df_final[~df_final.iloc[:, 0].astype(str).str.contains('---', na=False)]
@@ -167,5 +197,6 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 

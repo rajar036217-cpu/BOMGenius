@@ -90,10 +90,6 @@ OUTPUT FORMAT (STRICT):
 Return ONLY rows separated by NEWLINES.
 Each row MUST use the pipe character | as the delimiter.
 
-Correct example:
-PARENT1 | ITEM1 | Item Name | 1 | 10 | Welding | MAKE | RAW | EBOM-001
-PARENT1 | ITEM2 | Item Name | 2 | 20 | Assembly | BUY | RAW | EBOM-002
-
 Do NOT use commas.
 Do NOT put everything in one line.
 Do NOT add headers.
@@ -169,12 +165,12 @@ def main():
                             engine='python'
                             ).dropna(axis=1, how='all')
 
-                        EXPECTED_COLS = 9  # Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
+                        #EXPECTED_COLS = 9  # Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
 
-                        if df_final.shape[1] != EXPECTED_COLS:
-                            st.error(f"AI returned {df_final.shape[1]} columns, expected {EXPECTED_COLS}. Raw output below.")
-                            st.markdown(raw_result)
-                            return
+                        #if df_final.shape[1] != EXPECTED_COLS:
+                         #   st.error(f"AI returned {df_final.shape[1]} columns, expected {EXPECTED_COLS}. Raw output below.")
+                          #  st.markdown(raw_result)
+                           # return
 
                         # 3. Final Clean: Remove the Markdown separator row (---|---|---)
                         df_final = df_final[~df_final.iloc[:, 0].astype(str).str.contains('---', na=False)]
@@ -197,6 +193,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

@@ -18,22 +18,26 @@ def ensure_rules_files():
             f.write("# Process\n1. Level 2+ at Op 10.\n2. Level 1 at Op 20.")
 
 def init_db():
-    """Initializes the database to match the 10-column MBOM structure."""
+    """Initializes the database to match the MBOM structure."""
     conn = sqlite3.connect(DB_NAME)
-    # This creates a table that matches exactly what LLaMA produces
     conn.execute("""
-        CREATE TABLE IF NOT EXISTS matches(
-            EBOM_Ref_ID TEXT, 
-            Mfg_Part_No TEXT, 
-            Make_Buy_Code TEXT, 
-            Op_Sequence TEXT, 
-            Work_Center TEXT, 
-            BOM_Level TEXT, 
-            Bin_Location TEXT, 
-            Backflush_Ind TEXT, 
-            MBOM_Item_Type TEXT, 
-            Total_Qty_Req TEXT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)""")
+        CREATE TABLE IF NOT EXISTS mbom (
+            Parent_Part_No   TEXT,
+            Child_Part_No    TEXT,
+            Description      TEXT,
+            Qty_Per          REAL,
+            UOM              TEXT,
+            BOM_Level        INTEGER,
+            Op_Sequence      INTEGER,
+            Work_Center      TEXT,
+            Make_Buy         TEXT,
+            Backflush_Ind    TEXT,
+            Scrap_Pct        REAL,
+            Plant            TEXT,
+            Bin_Location     TEXT,
+            timestamp        DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
     conn.close()
 
 def run_llama_matching(ebom_df, inv_df):
@@ -179,12 +183,28 @@ def main():
                             engine='python'
                             ).dropna(axis=1, how='all')
 
-                        #EXPECTED_COLS = 9  # Parent_ID | Item_ID | Item_Name | Qty | Op_Sequence | Work_Center | Make_Buy | MBOM_Item_Type | EBOM_Ref_ID
+                        df_final.columns = [
+                            "Parent_Part_No",
+                            "Child_Part_No",
+                            "Description",
+                            "Qty_Per",
+                            "UOM",
+                            "BOM_Level",
+                            "Op_Sequence",
+                            "Work_Center",
+                            "Make_Buy",
+                            "Backflush_Ind",
+                            "Scrap_Pct",
+                            "Plant",
+                            "Bin_Location"]
 
-                        #if df_final.shape[1] != EXPECTED_COLS:
-                         #   st.error(f"AI returned {df_final.shape[1]} columns, expected {EXPECTED_COLS}. Raw output below.")
-                          #  st.markdown(raw_result)
-                           # return
+
+                        EXPECTED_COLS = 13
+                        if df_final.shape[1] != EXPECTED_COLS:
+                            st.error(f"AI returned {df_final.shape[1]} columns, expected {EXPECTED_COLS}. Raw output below.")
+                            st.markdown(raw_result)
+                            return
+
 
                         # 3. Final Clean: Remove the Markdown separator row (---|---|---)
                         df_final = df_final[~df_final.iloc[:, 0].astype(str).str.contains('---', na=False)]
@@ -207,6 +227,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

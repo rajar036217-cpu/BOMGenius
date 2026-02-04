@@ -95,6 +95,20 @@ Do NOT put everything in one line.
 Do NOT add headers.
 Do NOT add markdown tables.
 
+Each row MUST follow this exact column order:
+
+Parent_Part_No | Child_Part_No | Description | Qty_Per | UOM | BOM_Level | Op_Sequence | Work_Center | Make_Buy | Backflush_Ind | Scrap_Pct | Plant | Bin_Location
+
+Allowed values:
+- UOM: EA
+- Work_Center: Welding, Assembly, QC, Packaging
+- Make_Buy: MAKE or BUY
+- Backflush_Ind: Yes or No
+- Scrap_Pct: numeric (e.g., 2)
+- BOM_Level: 0 for FG, 1 for sub-assembly, 2+ for parts
+- Plant: PLANT-01 (default if not provided by inventory)
+- Bin_Location: if inventory location exists use it, else NA
+
 After the table, add:
 ASSUMPTIONS:
 - <short bullets>
@@ -102,7 +116,7 @@ ASSUMPTIONS:
 MAPPING_NOTES:
 - <short bullets>
 
-No markdown. No explanations before or after the table."""
+No markdown."""
 
     try:
         response = ollama.generate(
@@ -193,6 +207,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

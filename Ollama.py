@@ -4,6 +4,8 @@ import ollama
 import sqlite3
 import os
 import io
+import torch
+torch.set_num_threads(1)
 
 # Configuration
 DB_NAME = "bomgenius.db"
@@ -13,7 +15,7 @@ MODEL_NAME = "llama3.2:3b"
 # CANONICAL INVENTORY SCHEMA
 # ============================
 
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, util
 
 @st.cache_resource
 def load_embedding_model():
@@ -98,19 +100,6 @@ def run_llama_matching(ebom_df, inv_df):
     main_rules = open("main.md", "r").read() if os.path.exists("main.md") else ""
     proc_rules = open("Process.md", "r").read() if os.path.exists("Process.md") else ""
     
-    # --- FIX: DYNAMIC COLUMN DETECTION ---
-    # This finds the best columns even if they are named slightly differently
-    def get_col(df, keywords, default):
-        for col in df.columns:
-            if any(k.lower() in col.lower() for k in keywords):
-                return col
-        return default
-
-    inv_name = get_col(inv_df, ["name", "desc"], inv_df.columns[0])
-    inv_part = get_col(inv_df, ["part", "number", "id"], inv_df.columns[0])
-    inv_loc = get_col(inv_df, ["loc", "bin"], "Location_ID") # default if not found
-    inv_wc = get_col(inv_df, ["work", "center", "wc"], "Work_Center") # default if not found
-
     learned_schema = learn_inventory_schema(inv_df)
     normalized_inv = normalize_inventory(inv_df, learned_schema)
     inv_context = normalized_inv.to_csv(index=False)
@@ -146,6 +135,12 @@ CONVERSION RULES:
 OUTPUT FORMAT (STRICT):
 Return ONLY rows separated by NEWLINES.
 Each row MUST use the pipe character | as the delimiter.
+Hierarchy Rules (MANDATORY):
+- FG must be BOM_Level = 0
+- Subassemblies must be BOM_Level = 1
+- Leaf parts must be BOM_Level >= 2
+- FG must have ONLY subassemblies as children
+- Subassemblies must have ONLY parts as children
 
 Do NOT use commas.
 Do NOT put everything in one line.
@@ -287,7 +282,7 @@ def main():
                         
                         # 5. Save to Database
                         with sqlite3.connect(DB_NAME) as conn:
-                            df_final.to_sql('matches', conn, if_exists='replace', index=False)
+                            df_final.to_sql('mbom', conn, if_exists='replace', index=False)
                         st.success(f"MBOM saved to {DB_NAME}")
 
                     except Exception as e:
@@ -297,6 +292,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

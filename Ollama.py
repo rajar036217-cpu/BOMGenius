@@ -13,9 +13,14 @@ MODEL_NAME = "llama3.2:3b"
 # CANONICAL INVENTORY SCHEMA
 # ============================
 
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer
 
-schema_model = SentenceTransformer("all-MiniLM-L6-v2")
+@st.cache_resource
+def load_embedding_model():
+    return SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
+
+schema_model = load_embedding_model()
+
 
 CANONICAL_FIELDS = {
     "part_name": ["name", "desc", "description", "item", "part name"],
@@ -292,6 +297,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

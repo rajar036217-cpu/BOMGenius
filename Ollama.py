@@ -9,6 +9,21 @@ import io
 DB_NAME = "bomgenius.db"
 MODEL_NAME = "llama3.2:3b"
 
+# ============================
+# CANONICAL INVENTORY SCHEMA
+# ============================
+
+from sentence_transformers import SentenceTransformer, util
+
+schema_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+CANONICAL_FIELDS = {
+    "part_name": ["name", "desc", "description", "item", "part name"],
+    "part_no": ["part", "number", "pn", "id", "code"],
+    "bin_location": ["bin", "location", "loc", "warehouse", "stock", "store", "depot"],
+    "work_center": ["wc", "workcenter", "work center", "dept", "shop", "line"],
+}
+
 def ensure_rules_files():
     if not os.path.exists("main.md"):
         with open("main.md", "w") as f:
@@ -40,6 +55,39 @@ def init_db():
     """)
     conn.close()
 
+CANONICAL_EMBEDDINGS = {
+    k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()
+}
+
+def learn_inventory_schema(df):
+    col_map = {}
+
+    for col in df.columns:
+        col_emb = schema_model.encode(col.lower())
+
+        best_match = None
+        best_score = 0
+
+        for canon, emb_list in CANONICAL_EMBEDDINGS.items():
+            scores = util.cos_sim(col_emb, emb_list)
+            max_score = scores.max().item()
+
+            if max_score > best_score:
+                best_score = max_score
+                best_match = canon
+
+        if best_score > 0.55:
+            col_map[col] = best_match
+
+    return col_map
+
+
+def normalize_inventory(df, col_map):
+    norm = pd.DataFrame()
+    for raw_col, canon in col_map.items():
+        norm[canon] = df[raw_col]
+    return norm
+
 def run_llama_matching(ebom_df, inv_df):
     """The core engine: LLaMA performs lookup and matching with flexible column detection."""
     main_rules = open("main.md", "r").read() if os.path.exists("main.md") else ""
@@ -58,10 +106,10 @@ def run_llama_matching(ebom_df, inv_df):
     inv_loc = get_col(inv_df, ["loc", "bin"], "Location_ID") # default if not found
     inv_wc = get_col(inv_df, ["work", "center", "wc"], "Work_Center") # default if not found
 
-    # Create a simplified inventory view for LLaMA context
-    # Use only columns that actually exist to avoid the KeyError
-    existing_cols = [c for c in [inv_name, inv_part, inv_loc, inv_wc] if c in inv_df.columns]
-    inv_context = inv_df[existing_cols].to_csv(index=False)
+    learned_schema = learn_inventory_schema(inv_df)
+    normalized_inv = normalize_inventory(inv_df, learned_schema)
+    inv_context = normalized_inv.to_csv(index=False)
+
     ebom_context = ebom_df.to_csv(index=False)
 
     prompt = f"""You are a Manufacturing BOM Engineer AI embedded in a PLM-to-MES integration system.
@@ -199,13 +247,6 @@ def main():
                             "Bin_Location"]
 
 
-                        EXPECTED_COLS = 13
-                        if df_final.shape[1] != EXPECTED_COLS:
-                            st.error(f"AI returned {df_final.shape[1]} columns, expected {EXPECTED_COLS}. Raw output below.")
-                            st.markdown(raw_result)
-                            return
-
-
                         # 3. Final Clean: Remove the Markdown separator row (---|---|---)
                         df_final = df_final[~df_final.iloc[:, 0].astype(str).str.contains('---', na=False)]
                         
@@ -227,6 +268,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

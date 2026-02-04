@@ -161,6 +161,29 @@ Allowed values:
 - Plant: PLANT-01 (default if not provided by inventory)
 - Bin_Location: if inventory location exists use it, else NA
 
+Child_Part_No MUST NEVER be null, empty, or "None".
+If no part number exists, generate PN-<UPPERCASE_DESCRIPTION_NO_SPACES>.
+
+Do NOT output assembly rows with Child_Part_No = None.
+
+If a Parent_Part_No is an Assembly or Sub-Assembly,
+you MUST explode it into at least 2 child components or subassemblies.
+
+All rows in mBOM must represent a parent-child relationship.
+No leaf node should appear as a parent without children.
+
+Assign UOM based on part type:
+
+- Fasteners (bolts, nuts, clips, rivets) → EA
+- Panels, brackets, frames → EA
+- Adhesives, sealants, paints → L or KG
+- Welding wire → M or KG
+- Sheet metal stock → KG
+- Fluids → L
+- If material includes 'kg' or 'litre', use KG or L
+Do not default all UOM to EA.
+
+
 After the table, add:
 ASSUMPTIONS:
 - <short bullets>
@@ -175,9 +198,10 @@ No markdown."""
             model=MODEL_NAME,
             prompt=prompt,
             options={
-                "temperature": 0.05,
-                "top_p": 0.9,
-                "num_ctx": 4096
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "num_ctx": 4096,
+                "seed": 42
             }
         )
         return response["response"]
@@ -268,6 +292,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

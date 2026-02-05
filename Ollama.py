@@ -106,93 +106,94 @@ def run_llama_matching(ebom_df, inv_df):
 
     ebom_context = ebom_df.to_csv(index=False)
 
-    prompt = f"""You are a Manufacturing BOM Engineer AI embedded in a PLM-to-MES integration system.
+    prompt = f"""
+SYSTEM ROLE:
+You are a senior Manufacturing BOM Engineer AI operating inside a PLM-to-MES pipeline.
 
-GOAL:
-Convert the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) suitable for factory execution.
+OBJECTIVE:
+Transform the given Engineering BOM (eBOM) into a factory-executable Manufacturing BOM (mBOM).
 
-EBOM (CSV):
+INPUT CONTEXT:
+The input may originate from ANY format (CSV, Excel, JSON, PDF, images, CAD screenshots, engineering drawings, OCR outputs, CAD exports).
+Assume all such inputs have been pre-parsed and normalized into structured text below.
+
+EBOM (normalized):
 {ebom_context}
 
-INVENTORY (CSV):
+INVENTORY (normalized):
 {inv_context}
 
-CONVERSION RULES:
-1. Preserve all original parts and quantities from the eBOM.
-2. Re-group parts into logical manufacturing sub-assemblies based on build sequence and shop-floor practicality.
-3. Create manufacturing sub-assemblies even if they do not exist in the eBOM (use synthetic IDs like SUBASM-001, SUBASM-002).
-4. Assign each part to exactly one sub-assembly.
-5. Introduce a final top-level assembly node that consumes all sub-assemblies.
-6. Add manufacturing attributes for each line:
-   - Op_Sequence (10, 20, 30, ...)
-   - Work_Center (Welding, Assembly, QC, Packaging only)
-   - Make_Buy (default from eBOM; if missing, assume MAKE for custom parts, BUY for standard fasteners)
-   - MBOM_Item_Type (RAW, SUBASM, FG)
-7. Do NOT remove any part present in the eBOM.
-8. Do NOT invent quantities. Quantities must match totals from the eBOM.
-9. If ambiguous, choose the most reasonable grouping and list assumptions.
+REASONING TASK:
+Use manufacturing logic and shop-floor practicality to derive a structured mBOM.
+Apply domain knowledge to infer reasonable subassemblies, phantom groupings, and operation sequencing.
+If multiple valid structures exist, choose the most production-efficient one and note assumptions.
 
-OUTPUT FORMAT (STRICT):
-Return ONLY rows separated by NEWLINES.
-Each row MUST use the pipe character | as the delimiter.
-Hierarchy Rules (MANDATORY):
-- FG must be BOM_Level = 0
-- Subassemblies must be BOM_Level = 1
-- Leaf parts must be BOM_Level >= 2
-- FG must have ONLY subassemblies as children
-- Subassemblies must have ONLY parts as children
+CONSTRAINTS:
+- Preserve all original parts and total quantities from eBOM.
+- Re-group parts into logical manufacturing subassemblies.
+- Create manufacturing subassemblies even if not present in eBOM (use synthetic IDs: SUBASM-001, SUBASM-002, ...).
+- Each part must belong to exactly one subassembly.
+- Create exactly one final FG (finished good) node consuming all subassemblies.
+- Do NOT remove any eBOM parts.
+- Do NOT invent quantities.
+- If ambiguous, make reasonable assumptions and report them.
 
-Do NOT use commas.
-Do NOT put everything in one line.
-Do NOT add headers.
-Do NOT add markdown tables.
+MBOM ATTRIBUTES (infer intelligently if missing):
+- Op_Sequence: 10, 20, 30...
+- Work_Center: Welding | Assembly | QC | Packaging
+- Make_Buy:
+  - Use inventory if present.
+  - Else infer: standard fasteners = BUY, custom/fabricated parts = MAKE
+- MBOM_Item_Type: RAW | SUBASM | FG
+- Backflush_Ind: Yes for consumables/fasteners, No otherwise
+- Scrap_Pct: numeric default 0–5 based on process
+- Plant: PLANT-01 (default)
+- Bin_Location: use inventory location else NA
 
-Each row MUST follow this exact column order:
+HIERARCHY RULES (MANDATORY):
+- FG = BOM_Level 0
+- Subassemblies = BOM_Level 1
+- Leaf parts = BOM_Level >= 2
+- FG must ONLY have subassemblies as children
+- Subassemblies must ONLY have parts as children
+- Assemblies must explode into at least 2 children
+- No leaf node may appear as a parent
 
-Parent_Part_No | Child_Part_No | Description | Qty_Per | UOM | BOM_Level | Op_Sequence | Work_Center | Make_Buy | Backflush_Ind | Scrap_Pct | Plant | Bin_Location
-
-Allowed values:
-- UOM: EA
-- Work_Center: Welding, Assembly, QC, Packaging
-- Make_Buy: MAKE or BUY
-- Backflush_Ind: Yes or No
-- Scrap_Pct: numeric (e.g., 2)
-- BOM_Level: 0 for FG, 1 for sub-assembly, 2+ for parts
-- Plant: PLANT-01 (default if not provided by inventory)
-- Bin_Location: if inventory location exists use it, else NA
-
-Child_Part_No MUST NEVER be null, empty, or "None".
-If no part number exists, generate PN-<UPPERCASE_DESCRIPTION_NO_SPACES>.
-
-Do NOT output assembly rows with Child_Part_No = None.
-
-If a Parent_Part_No is an Assembly or Sub-Assembly,
-you MUST explode it into at least 2 child components or subassemblies.
-
-All rows in mBOM must represent a parent-child relationship.
-No leaf node should appear as a parent without children.
-
-Assign UOM based on part type:
-
-- Fasteners (bolts, nuts, clips, rivets) → EA
+UOM INFERENCE:
+- Fasteners (bolt, nut, rivet, clip) → EA
 - Panels, brackets, frames → EA
-- Adhesives, sealants, paints → L or KG
+- Adhesives, sealants, paint → L or KG
 - Welding wire → M or KG
 - Sheet metal stock → KG
 - Fluids → L
-- If material includes 'kg' or 'litre', use KG or L
-Do not default all UOM to EA.
+- If description includes kg/litre → use KG or L
+- Do NOT default everything to EA
 
+PART NUMBER RULE:
+Child_Part_No must NEVER be null.
+If missing, generate PN-<UPPERCASE_DESCRIPTION_NO_SPACES>.
 
-After the table, add:
+OUTPUT FORMAT (STRICT CSV):
+- Output ONLY CSV rows (newline-separated)
+- NO headers
+- NO markdown
+- NO commas inside fields
+- Pipe character | as delimiter
+
+COLUMN ORDER (MANDATORY):
+Parent_Part_No | Child_Part_No | Description | Qty_Per | UOM | BOM_Level | Op_Sequence | Work_Center | Make_Buy | Backflush_Ind | Scrap_Pct | Plant | Bin_Location
+
+After CSV rows, append:
+
 ASSUMPTIONS:
 - <short bullets>
 
 MAPPING_NOTES:
 - <short bullets>
 
-No markdown."""
-
+No markdown.
+"""
+    
     try:
         response = ollama.generate(
             model=MODEL_NAME,
@@ -292,6 +293,7 @@ def main():
                         
 if __name__ == "__main__":
     main()
+
 
 
 

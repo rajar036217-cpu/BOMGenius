@@ -1,0 +1,64 @@
+S,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Speaker Assembly,Sub-Assembly,1,Laptop Base Assembly,Buy,N/A,0 g,Custom,No
+Left Speaker Sub-Assembly,Sub-Assembly,1,Speaker Assembly,Buy,N/A,0 g,Custom,No
+Right Speaker Sub-Assembly,Sub-Assembly,1,Speaker Assembly,Buy,N/A,0 g,Custom,No
+Speaker Housing – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,PC+ABS,6.8 g,Custom,No
+Speaker Housing – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,PC+ABS,6.8 g,Custom,No
+Speaker Housing UV Coating – Left,Material,1,Speaker Housing – Left,Make,UV Resin,0.2 g,Custom,No
+Speaker Housing UV Coating – Right,Material,1,Speaker Housing – Right,Make,UV Resin,0.2 g,Custom,No
+Speaker Acoustic Chamber – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,PC+ABS,4.5 g,Custom,No
+Speaker Acoustic Chamber – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,PC+ABS,4.5 g,Custom,No
+Acoustic Chamber Sealant – Left,Material,1,Left Speaker Sub-Assembly,Make,Silicone Sealant,0.4 g,Custom,No
+Acoustic Chamber Sealant – Right,Material,1,Right Speaker Sub-Assembly,Make,Silicone Sealant,0.4 g,Custom,No
+Speaker Diaphragm – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,PET Film,0.9 g,Custom,No
+Speaker Diaphragm – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,PET Film,0.9 g,Custom,No
+Diaphragm Edge Coating – Left,Material,1,Speaker Diaphragm – Left,Make,Acrylic Resin,0.1 g,Custom,No
+Diaphragm Edge Coating – Right,Material,1,Speaker Diaphragm – Right,Make,Acrylic Resin,0.1 g,Custom,No
+Speaker Voice Coil – Left,Electrical,1,Left Speaker Sub-Assembly,Buy,Enamel Copper,1.2 g,Custom,No
+Speaker Voice Coil – Right,Electrical,1,Right Speaker Sub-Assembly,Buy,Enamel Copper,1.2 g,Custom,No
+Voice Coil Former – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,Kapton,0.3 g,Custom,No
+Voice Coil Former – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,Kapton,0.3 g,Custom,No
+Speaker Magnet – Left,Electrical,1,Left Speaker Sub-Assembly,Buy,NdFeB,3.6 g,Standard,No
+Speaker Magnet – Right,Electrical,1,Right Speaker Sub-Assembly,Buy,NdFeB,3.6 g,Standard,No
+Magnet Anti-Corrosion Coating – Left,Material,1,Speaker Magnet – Left,Make,Nickel Plating,0 g,Standard,No
+Magnet Anti-Corrosion Coating – Right,Material,1,Speaker Magnet – Right,Make,Nickel Plating,0 g,Standard,No
+Speaker Pole Plate – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,Low Carbon Steel,1.5 g,Custom,No
+Speaker Pole Plate – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,Low Carbon Steel,1.5 g,Custom,No
+Speaker Top Plate – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,Low Carbon Steel,1.2 g,Custom,No
+Speaker Top Plate – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,Low Carbon Steel,1.2 g,Custom,No
+Magnetic Gap Spacer – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,Stainless Steel,0.2 g,Custom,No
+Magnetic Gap Spacer – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,Stainless Steel,0.2 g,Custom,No
+Speaker Suspension (Spider) – Left,Mechanical,1,Left Speaker Sub-Assembly,Buy,Fabric Resin,0.6 g,Custom,No
+Speaker Suspension (Spider) – Right,Mechanical,1,Right Speaker Sub-Assembly,Buy,Fabric Resin,0.6 g,Custom,No
+Spider Adhesive – Left,Material,1,Left Speaker Sub-Assembly,Make,Epoxy,0.15 g,Custom,No
+Spider Adhesive – Right,Material,1,Right Speaker Sub-Assembly,Make,Epoxy,0.15 g,Custom,No
+Speaker Terminal Pad – Left,Electrical,1,Left Speaker Sub-Assembly,Buy,Copper Alloy,0.3 g,Standard,No
+Speaker Terminal Pad – Right,Electrical,1,Right Speaker Sub-Assembly,Buy,Copper Alloy,0.3 g,Standard,No
+Speaker Lead Wire – Left,Electrical,1,Left Speaker Sub-Assembly,Buy,Copper,0.4 g,Custom,No
+Speaker Lead Wire – Right,Electrical,1,Right Speaker Sub-Assembly,Buy,Copper,0.4 g,Custom,No
+Lead Wire Insulation – Left,Material,1,Speaker Lead Wire – Left,Make,Polyurethane,0.1 g,Custom,No
+Lead Wire Insulation – Right,Material,1,Speaker Lead Wire – Right,Make,Polyurethane,0.1 g,Custom,No
+Speaker Damping Foam – Left,Material,1,Left Speaker Sub-Assembly,Buy,PU Foam,1.1 g,Custom,No
+Speaker Damping Foam – Right,Material,1,Right Speaker Sub-Assembly,Buy,PU Foam,1.1 g,Custom,No
+Speaker Sealing Gasket – Left,Material,1,Left Speaker Sub-Assembly,Buy,Silicone Rubber,0.8 g,Custom,No
+Speaker Sealing Gasket – Right,Material,1,Right Speaker Sub-Assembly,Buy,Silicone Rubber,0.8 g,Custom,No
+Acoustic Mesh – Left,Material,1,Left Speaker Sub-Assembly,Buy,Nylon Mesh,0.3 g,Custom,No
+Acoustic Mesh – Right,Material,1,Right Speaker Sub-Assembly,Buy,Nylon Mesh,0.3 g,Custom,No
+Speaker Wire Harness – Left,Component,1,Speaker Assembly,Buy,Copper / PVC,2.2 g,Custom,No
+Speaker Wire Harness – Right,Component,1,Speaker Assembly,Buy,Copper / PVC,2.2 g,Custom,No
+Harness Strain Relief – Left,Material,1,Speaker Wire Harness – Left,Make,TPE,0.3 g,Custom,No
+Harness Strain Relief – Right,Material,1,Speaker Wire Harness – Right,Make,TPE,0.3 g,Custom,No
+Speaker Connector (Board Side),Electrical,1,Speaker Assembly,Buy,Copper Alloy,0.5 g,Standard,No
+Connector Lock Housing,Mechanical,1,Speaker Connector (Board Side),Buy,Nylon,0.2 g,Standard,No
+Speaker EMI Ferrite Bead – Left,Electrical,1,Speaker Wire Harness – Left,Buy,Ferrite,0.3 g,Standard,No
+Speaker EMI Ferrite Bead – Right,Electrical,1,Speaker Wire Harness – Right,Buy,Ferrite,0.3 g,Standard,No
+Speaker Mounting Screw – Left,Fastener,1,Left Speaker Sub-Assembly,Buy,Steel,0.4 g,Standard,Yes
+Speaker Mounting Screw – Right,Fastener,1,Right Speaker Sub-Assembly,Buy,Steel,0.4 g,Standard,Yes
+Speaker Assembly Process – Left,Process,1,Left Speaker Sub-Assembly,Make,N/A,0 g,Custom,No
+Speaker Assembly Process – Right,Process,1,Right Speaker Sub-Assembly,Make,N/A,0 g,Custom,No
+Speaker Frequency Sweep Test – Left,Process,1,Left Speaker Sub-Assembly,Make,N/A,0 g,Custom,No
+Speaker Frequency Sweep Test – Right,Process,1,Right Speaker Sub-Assembly,Make,N/A,0 g,Custom,No
+Speaker THD Test – Left,Process,1,Left Speaker Sub-Assembly,Make,N/A,0 g,Custom,No
+Speaker THD Test – Right,Process,1,Right Speaker Sub-Assembly,Make,N/A,0 g,Custom,No
+Speaker Identification Label – Left,Material,1,Left Speaker Sub-Assembly,Buy,PET,0.15 g,Standard,No
+Speaker Identification Label – Right,Material,1,Right Speaker Sub-Assembly,Buy,PET,0.15 g,Standard,No

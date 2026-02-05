@@ -1,0 +1,61 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Wi-Fi Card Sub-Assembly,Sub-Assembly,1,Laptop Motherboard,Buy,N/A,0 g,Custom,No
+Wi-Fi PCB Assembly,Sub-Assembly,1,Wi-Fi Card Sub-Assembly,Make,N/A,0 g,Custom,No
+Wi-Fi PCB Bare Board,Component,1,Wi-Fi PCB Assembly,Make,FR-4,2.2 g,Custom,No
+PCB Copper Layer – Top,Material,1,Wi-Fi PCB Bare Board,Make,Copper,0.3 g,Custom,No
+PCB Copper Layer – Inner 1,Material,1,Wi-Fi PCB Bare Board,Make,Copper,0.25 g,Custom,No
+PCB Copper Layer – Inner 2,Material,1,Wi-Fi PCB Bare Board,Make,Copper,0.25 g,Custom,No
+PCB Copper Layer – Bottom,Material,1,Wi-Fi PCB Bare Board,Make,Copper,0.3 g,Custom,No
+PCB Solder Mask,Material,1,Wi-Fi PCB Bare Board,Make,Epoxy,0 g,Custom,No
+PCB Silkscreen,Material,1,Wi-Fi PCB Bare Board,Make,Ink,0 g,Custom,No
+PCB Surface Finish,Process,1,Wi-Fi PCB Bare Board,Make,ENIG,0 g,Custom,No
+Wi-Fi / Bluetooth Combo SoC,Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.22 g,Standard,No
+RF Front-End Module,Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.18 g,Standard,No
+Power Management IC (PMIC),Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.12 g,Standard,No
+Serial Flash Memory,Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.08 g,Standard,No
+Crystal Oscillator – Main,Electrical,1,Wi-Fi PCB Assembly,Buy,Quartz,0.05 g,Standard,No
+Crystal Oscillator – Bluetooth,Electrical,1,Wi-Fi PCB Assembly,Buy,Quartz,0.04 g,Standard,No
+RF Switch IC,Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.06 g,Standard,No
+Low Noise Amplifier (LNA),Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.05 g,Standard,No
+Power Amplifier (PA),Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.07 g,Standard,No
+ESD Protection Diode – RF,Electrical,1,Wi-Fi PCB Assembly,Buy,Silicon,0.03 g,Standard,No
+Buck Converter Inductor,Electrical,1,Wi-Fi PCB Assembly,Buy,Ferrite,0.18 g,Standard,No
+Buck Converter Capacitor – C1,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.02 g,Standard,No
+Buck Converter Capacitor – C2,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.02 g,Standard,No
+Decoupling Capacitor – C3,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.01 g,Standard,No
+Decoupling Capacitor – C4,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.01 g,Standard,No
+Decoupling Capacitor – C5,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.01 g,Standard,No
+Pull-Up Resistor – R1,Electrical,1,Wi-Fi PCB Assembly,Buy,Thick Film,0.01 g,Standard,No
+Pull-Up Resistor – R2,Electrical,1,Wi-Fi PCB Assembly,Buy,Thick Film,0.01 g,Standard,No
+Pull-Up Resistor – R3,Electrical,1,Wi-Fi PCB Assembly,Buy,Thick Film,0.01 g,Standard,No
+RF Matching Network – L1,Electrical,1,Wi-Fi PCB Assembly,Buy,Ceramic,0.01 g,Standard,No
+RF Matching Network – C6,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.01 g,Standard,No
+RF Matching Network – C7,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.01 g,Standard,No
+RF Matching Network – C8,Electrical,1,Wi-Fi PCB Assembly,Buy,MLCC,0.01 g,Standard,No
+M.2 Edge Connector Pads,Electrical,1,Wi-Fi PCB Assembly,Make,Gold-Plated Copper,0.15 g,Custom,No
+M.2 Key E Mechanical Slot,Mechanical,1,Wi-Fi Card Sub-Assembly,Buy,FR-4,0 g,Standard,No
+RF Coax Connector – Main,Electrical,1,Wi-Fi PCB Assembly,Buy,Brass,0.35 g,Standard,No
+RF Coax Connector – Aux,Electrical,1,Wi-Fi PCB Assembly,Buy,Brass,0.35 g,Standard,No
+Antenna Coax Cable – Main,Component,1,Wi-Fi Card Sub-Assembly,Buy,Copper / PTFE,1.6 g,Custom,No
+Antenna Coax Cable – Aux,Component,1,Wi-Fi Card Sub-Assembly,Buy,Copper / PTFE,1.6 g,Custom,No
+RF Shield Can – Top,Mechanical,1,Wi-Fi PCB Assembly,Buy,Nickel-Silver,1.2 g,Custom,No
+RF Shield Can – Bottom,Mechanical,1,Wi-Fi PCB Assembly,Buy,Nickel-Silver,0.9 g,Custom,No
+RF Shield Soldering Process,Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+Thermal Interface Pad,Material,1,Wi-Fi Card Sub-Assembly,Buy,Silicone,0.4 g,Custom,No
+Insulating Mylar Sheet,Material,1,Wi-Fi Card Sub-Assembly,Buy,PET,0.25 g,Standard,No
+M.2 Retention Screw,Fastener,1,Wi-Fi Card Sub-Assembly,Buy,Steel,0.4 g,Standard,Yes
+M.2 Standoff,Mechanical,1,Wi-Fi Card Sub-Assembly,Buy,Brass,0.5 g,Standard,No
+PCB Assembly Process (SMT),Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+Reflow Soldering Process,Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+AOI Inspection,Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+RF Calibration Process,Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+Bluetooth Function Test,Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+Wi-Fi Throughput Test,Process,1,Wi-Fi Card Sub-Assembly,Make,N/A,0 g,Custom,No
+EMI Compliance Test,Process,1,Wi-Fi Card Sub-Assembly,Make,N/A,0 g,Custom,No
+MAC Address Programming,Process,1,Wi-Fi PCB Assembly,Make,N/A,0 g,Custom,No
+Module Identification Label,Material,1,Wi-Fi Card Sub-Assembly,Buy,PET,0.15 g,Standard,No
+Laser Marking Process,Process,1,Module Identification Label,Make,N/A,0 g,Custom,No
+ESD Protective Bag,Material,1,Wi-Fi Card Sub-Assembly,Buy,Conductive Plastic,4 g,Standard,No
+Moisture Barrier Bag,Material,1,Wi-Fi Card Sub-Assembly,Buy,Aluminum Foil,3 g,Standard,No
+Desiccant Pack,Material,1,Wi-Fi Card Sub-Assembly,Buy,Silica Gel,2 g,Standard,No
+Humidity Indicator Card,Material,1,Wi-Fi Card Sub-Assembly,Buy,Paper / Chemical,1 g,Standard,No

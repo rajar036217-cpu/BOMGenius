@@ -1,0 +1,72 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Display Panel Sub-Assembly,Sub-Assembly,1,Laptop Display Assembly,Buy,N/A,0 g,Custom,No
+LCD Glass Cell,Component,1,Display Panel Sub-Assembly,Buy,Glass,120 g,Custom,No
+Front Polarizer Film,Material,1,LCD Glass Cell,Buy,PVA / PET,6 g,Custom,No
+Front Polarizer Adhesive,Material,1,LCD Glass Cell,Make,Acrylic,0.8 g,Custom,No
+TFT Glass Substrate,Material,1,LCD Glass Cell,Buy,Aluminosilicate Glass,45 g,Custom,No
+TFT Pixel Matrix,Material,1,TFT Glass Substrate,Make,Silicon / ITO,2 g,Custom,No
+Thin Film Transistor Layer,Material,1,TFT Glass Substrate,Make,Amorphous Silicon,1 g,Custom,No
+ITO Transparent Electrode Layer,Material,1,TFT Glass Substrate,Make,Indium Tin Oxide,0.6 g,Custom,No
+Color Filter Glass Substrate,Material,1,LCD Glass Cell,Buy,Glass,40 g,Custom,No
+Red Color Filter Layer,Material,1,Color Filter Glass Substrate,Make,Organic Pigment,0.5 g,Custom,No
+Green Color Filter Layer,Material,1,Color Filter Glass Substrate,Make,Organic Pigment,0.5 g,Custom,No
+Blue Color Filter Layer,Material,1,Color Filter Glass Substrate,Make,Organic Pigment,0.5 g,Custom,No
+Black Matrix Layer,Material,1,Color Filter Glass Substrate,Make,Resin / Carbon,0.4 g,Custom,No
+Liquid Crystal Material,Material,1,LCD Glass Cell,Buy,LC Compound,0.9 g,Custom,No
+Cell Gap Spacer Beads,Material,1,LCD Glass Cell,Make,Polymer,0.2 g,Custom,No
+Sealant Epoxy,Material,1,LCD Glass Cell,Make,Epoxy,0.6 g,Custom,No
+Rear Polarizer Film,Material,1,LCD Glass Cell,Buy,PVA / PET,6 g,Custom,No
+Rear Polarizer Adhesive,Material,1,LCD Glass Cell,Make,Acrylic,0.8 g,Custom,No
+Source Driver IC,Electrical,1,LCD Glass Cell,Buy,Silicon,0.4 g,Custom,No
+Gate Driver IC,Electrical,1,LCD Glass Cell,Buy,Silicon,0.4 g,Custom,No
+Chip-on-Glass Bonding Adhesive,Material,1,LCD Glass Cell,Make,ACF,0.3 g,Custom,No
+TCON (Timing Controller) IC,Electrical,1,Display Panel Sub-Assembly,Buy,Silicon,0.8 g,Custom,No
+TCON PCB,Component,1,Display Panel Sub-Assembly,Make,FR4,4 g,Custom,No
+TCON Decoupling Capacitor 01,Electrical,1,TCON PCB,Buy,Ceramic,0.02 g,Standard,No
+TCON Decoupling Capacitor 02,Electrical,1,TCON PCB,Buy,Ceramic,0.02 g,Standard,No
+TCON Decoupling Capacitor 03,Electrical,1,TCON PCB,Buy,Ceramic,0.02 g,Standard,No
+TCON Core Resistor,Electrical,1,TCON PCB,Buy,Thick Film,0.01 g,Standard,No
+Display eDP Connector,Electrical,1,Display Panel Sub-Assembly,Buy,Copper Alloy,1.2 g,Standard,No
+eDP Connector Solder Joints,Material,1,Display Panel Sub-Assembly,Make,SAC Alloy,0.4 g,Custom,No
+Display FPC Cable,Component,1,Display Panel Sub-Assembly,Buy,Polyimide / Copper,3 g,Custom,No
+FPC EMI Shield Layer,Material,1,Display FPC Cable,Make,Aluminum,0.5 g,Custom,No
+FPC Stiffener,Material,1,Display FPC Cable,Make,FR4,0.6 g,Custom,No
+Backlight Unit Sub-Assembly,Sub-Assembly,1,Display Panel Sub-Assembly,Buy,N/A,0 g,Custom,No
+LED Backlight PCB,Component,1,Backlight Unit Sub-Assembly,Make,Aluminum Core PCB,12 g,Custom,No
+White LED 01,Electrical,1,LED Backlight PCB,Buy,GaN,0.1 g,Standard,No
+White LED 02,Electrical,1,LED Backlight PCB,Buy,GaN,0.1 g,Standard,No
+White LED 03,Electrical,1,LED Backlight PCB,Buy,GaN,0.1 g,Standard,No
+White LED 04,Electrical,1,LED Backlight PCB,Buy,GaN,0.1 g,Standard,No
+LED Current Sense Resistor,Electrical,1,LED Backlight PCB,Buy,Thick Film,0.01 g,Standard,No
+LED Driver IC,Electrical,1,Backlight Unit Sub-Assembly,Buy,Silicon,0.5 g,Custom,No
+LED Driver Decoupling Capacitor,Electrical,1,Backlight Unit Sub-Assembly,Buy,Ceramic,0.03 g,Standard,No
+Reflector Sheet,Material,1,Backlight Unit Sub-Assembly,Buy,PET,5 g,Custom,No
+Light Guide Plate (LGP),Component,1,Backlight Unit Sub-Assembly,Buy,PMMA,35 g,Custom,No
+Diffuser Film 1,Material,1,Backlight Unit Sub-Assembly,Buy,PET,4 g,Custom,No
+Diffuser Film 2,Material,1,Backlight Unit Sub-Assembly,Buy,PET,4 g,Custom,No
+Prism Film A,Material,1,Backlight Unit Sub-Assembly,Buy,PET,3 g,Custom,No
+Prism Film B,Material,1,Backlight Unit Sub-Assembly,Buy,PET,3 g,Custom,No
+Rear Reflective Sheet,Material,1,Backlight Unit Sub-Assembly,Buy,PET / TiO2,4 g,Custom,No
+Backlight Frame,Mechanical,1,Backlight Unit Sub-Assembly,Buy,Aluminum,18 g,Custom,No
+Panel Bezel Tape – Top,Material,1,Display Panel Sub-Assembly,Buy,Acrylic Foam,1 g,Custom,No
+Panel Bezel Tape – Bottom,Material,1,Display Panel Sub-Assembly,Buy,Acrylic Foam,1 g,Custom,No
+Panel Bezel Tape – Left,Material,1,Display Panel Sub-Assembly,Buy,Acrylic Foam,1 g,Custom,No
+Panel Bezel Tape – Right,Material,1,Display Panel Sub-Assembly,Buy,Acrylic Foam,1 g,Custom,No
+EMI Shielding Tape,Material,1,Display Panel Sub-Assembly,Buy,Copper Foil,0.8 g,Standard,No
+Grounding Spring Contact,Mechanical,1,Display Panel Sub-Assembly,Buy,Stainless Steel,0.3 g,Standard,No
+Display Identification Label,Material,1,Display Panel Sub-Assembly,Buy,PET,0.2 g,Standard,No
+Regulatory Compliance Label,Material,1,Display Panel Sub-Assembly,Buy,PET,0.2 g,Standard,No
+LCD Cell Assembly Process,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+Backlight Assembly Process,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+Optical Alignment Process,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+Gamma Calibration Process,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+White Balance Calibration,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+AOI Inspection,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+Pixel Defect Inspection,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+Functional Display Test,Process,1,Display Panel Sub-Assembly,Make,N/A,0 g,Custom,No
+ESD Protective Film,Material,1,Display Panel Sub-Assembly,Buy,PET,5 g,Standard,No
+Protective Foam Sheet,Material,1,Display Panel Sub-Assembly,Buy,PU Foam,8 g,Standard,No
+Display Shipping Tray,Material,1,Display Panel Sub-Assembly,Buy,EPP Plastic,40 g,Standard,No
+Moisture Barrier Bag,Material,1,Display Panel Sub-Assembly,Buy,Aluminum Foil,5 g,Standard,No
+Desiccant Pack,Material,1,Display Panel Sub-Assembly,Buy,Silica Gel,3 g,Standard,No
+Humidity Indicator Card,Material,1,Display Panel Sub-Assembly,Buy,Paper / Chemical,1 g,Standard,No

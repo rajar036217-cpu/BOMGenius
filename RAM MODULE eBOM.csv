@@ -1,0 +1,77 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+RAM Module Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,Make,N/A,0 g,Custom,No
+RAM Module PCB,Component,1,RAM Module Sub-Assembly,Make,FR4,12 g,Custom,No
+PCB Copper Layer Top,Material,1,RAM Module PCB,Make,Copper,0.6 g,Custom,No
+PCB Copper Layer Inner 1,Material,1,RAM Module PCB,Make,Copper,0.6 g,Custom,No
+PCB Copper Layer Inner 2,Material,1,RAM Module PCB,Make,Copper,0.6 g,Custom,No
+PCB Copper Layer Inner 3,Material,1,RAM Module PCB,Make,Copper,0.6 g,Custom,No
+PCB Copper Layer Bottom,Material,1,RAM Module PCB,Make,Copper,0.6 g,Custom,No
+PCB Core Laminate 1,Material,1,RAM Module PCB,Make,Glass Fiber,2 g,Custom,No
+PCB Core Laminate 2,Material,1,RAM Module PCB,Make,Glass Fiber,2 g,Custom,No
+PCB Prepreg Layer 1,Material,1,RAM Module PCB,Make,Epoxy,0.5 g,Custom,No
+PCB Prepreg Layer 2,Material,1,RAM Module PCB,Make,Epoxy,0.5 g,Custom,No
+PCB Solder Mask Top,Material,1,RAM Module PCB,Make,Epoxy,0.5 g,Custom,No
+PCB Solder Mask Bottom,Material,1,RAM Module PCB,Make,Epoxy,0.5 g,Custom,No
+PCB Silkscreen Top,Material,1,RAM Module PCB,Make,Epoxy Ink,0.2 g,Custom,No
+PCB Silkscreen Bottom,Material,1,RAM Module PCB,Make,Epoxy Ink,0.2 g,Custom,No
+PCB Surface Finish ENIG,Material,1,RAM Module PCB,Make,Gold / Nickel,0.4 g,Custom,No
+Edge Connector Gold Finger Set,Material,1,RAM Module PCB,Make,Gold Plated Copper,0.8 g,Custom,No
+Edge Connector Chamfer Process,Process,1,RAM Module PCB,Make,N/A,0 g,Custom,No
+LPDDR5 Memory IC 01,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 02,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 03,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 04,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 05,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 06,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 07,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+LPDDR5 Memory IC 08,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,1.8 g,Custom,No
+DRAM Die Passivation Layer,Material,1,LPDDR5 Memory IC 01,Make,Silicon Nitride,0.05 g,Custom,No
+DRAM Package Mold Compound,Material,1,LPDDR5 Memory IC 01,Make,Epoxy,0.4 g,Custom,No
+DRAM Solder Ball Array,Material,1,LPDDR5 Memory IC 01,Make,SAC Alloy,0.25 g,Custom,No
+DRAM Ball 001,Material,1,DRAM Solder Ball Array,Make,SAC Alloy,0.01 g,Custom,No
+DRAM Ball 002,Material,1,DRAM Solder Ball Array,Make,SAC Alloy,0.01 g,Custom,No
+DRAM Ball 003,Material,1,DRAM Solder Ball Array,Make,SAC Alloy,0.01 g,Custom,No
+DRAM Ball 004,Material,1,DRAM Solder Ball Array,Make,SAC Alloy,0.01 g,Custom,No
+DRAM Die Attach Adhesive,Material,1,LPDDR5 Memory IC 01,Make,Epoxy,0.4 g,Custom,No
+DRAM Underfill Adhesive Primary,Material,1,RAM Module Sub-Assembly,Make,Epoxy,0.3 g,Custom,No
+DRAM Underfill Adhesive Secondary,Material,1,RAM Module Sub-Assembly,Make,Epoxy,0.2 g,Custom,No
+DRAM Core Decoupling Capacitor 01,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM Core Decoupling Capacitor 02,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM Core Decoupling Capacitor 03,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM Core Decoupling Capacitor 04,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM Core Decoupling Capacitor 05,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM IO Decoupling Capacitor 01,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM IO Decoupling Capacitor 02,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM PLL Decoupling Capacitor,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+DRAM VDD Bulk Capacitor 01,Electrical,1,RAM Module Sub-Assembly,Buy,Polymer,0.5 g,Standard,No
+DRAM VDD Bulk Capacitor 02,Electrical,1,RAM Module Sub-Assembly,Buy,Polymer,0.5 g,Standard,No
+DRAM Termination Resistor 01,Electrical,1,RAM Module Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+DRAM Termination Resistor 02,Electrical,1,RAM Module Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+DRAM Termination Resistor 03,Electrical,1,RAM Module Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+DRAM Termination Resistor 04,Electrical,1,RAM Module Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+SPD EEPROM,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,0.3 g,Standard,No
+SPD Pull-Up Resistor 01,Electrical,1,RAM Module Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+SPD Pull-Up Resistor 02,Electrical,1,RAM Module Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+SPD Decoupling Capacitor,Electrical,1,RAM Module Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+On-Module Temperature Sensor,Electrical,1,RAM Module Sub-Assembly,Buy,Silicon,0.2 g,Standard,No
+EMI Shield Foil Top,Material,1,RAM Module Sub-Assembly,Buy,Aluminum,1.2 g,Standard,No
+EMI Shield Foil Bottom,Material,1,RAM Module Sub-Assembly,Buy,Aluminum,1.2 g,Standard,No
+Thermal Spreader Plate,Mechanical,1,RAM Module Sub-Assembly,Buy,Aluminum,6 g,Custom,No
+Thermal Interface Pad 01,Material,1,RAM Module Sub-Assembly,Buy,Silicone,1 g,Standard,No
+Thermal Interface Pad 02,Material,1,RAM Module Sub-Assembly,Buy,Silicone,1 g,Standard,No
+Thermal Interface Pad 03,Material,1,RAM Module Sub-Assembly,Buy,Silicone,1 g,Standard,No
+Thermal Interface Pad 04,Material,1,RAM Module Sub-Assembly,Buy,Silicone,1 g,Standard,No
+Module Identification Label,Material,1,RAM Module Sub-Assembly,Buy,PET,0.2 g,Standard,No
+Regulatory Compliance Label,Material,1,RAM Module Sub-Assembly,Buy,PET,0.2 g,Standard,No
+SMT Placement Process,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+SMT Reflow Process,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+AOI Inspection,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+X-Ray Inspection,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+Electrical Continuity Test,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+SPD Programming Process,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+Burn-In Test,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+Functional Memory Test,Process,1,RAM Module Sub-Assembly,Make,N/A,0 g,Custom,No
+ESD Protective Clamshell,Material,1,RAM Module Sub-Assembly,Buy,Conductive Plastic,10 g,Standard,No
+Moisture Barrier Bag,Material,1,RAM Module Sub-Assembly,Buy,Aluminum Foil,3 g,Standard,No
+Desiccant Pack,Material,1,RAM Module Sub-Assembly,Buy,Silica Gel,2 g,Standard,No
+Humidity Indicator Card,Material,1,RAM Module Sub-Assembly,Buy,Paper / Chemical,1 g,Standard,No

@@ -1,0 +1,71 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Keyboard Sub-Assembly,Sub-Assembly,1,Laptop Top Case Assembly,Buy,N/A,0 g,Custom,No
+Keyboard Metal Back Plate,Mechanical,1,Keyboard Sub-Assembly,Buy,Aluminum,85 g,Custom,No
+Keyboard Plastic Frame,Mechanical,1,Keyboard Sub-Assembly,Buy,PC+ABS,28 g,Custom,No
+Keyboard Alignment Bracket – Left,Mechanical,1,Keyboard Sub-Assembly,Buy,Stainless Steel,2 g,Custom,No
+Keyboard Alignment Bracket – Right,Mechanical,1,Keyboard Sub-Assembly,Buy,Stainless Steel,2 g,Custom,No
+Keycap – A,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – B,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – C,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – D,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – E,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – F,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – G,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – H,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – I,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – J,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – K,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – L,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,0.4 g,Custom,No
+Keycap – Enter,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,1.8 g,Custom,No
+Keycap – Spacebar,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,2.5 g,Custom,No
+Keycap – Backspace,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,1.2 g,Custom,No
+Keycap – Shift Left,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,1.4 g,Custom,No
+Keycap – Shift Right,Mechanical,1,Keyboard Sub-Assembly,Buy,ABS Plastic,1.4 g,Custom,No
+Scissor Switch – Key 01,Mechanical,1,Keyboard Sub-Assembly,Buy,POM,0.25 g,Custom,No
+Scissor Switch – Key 02,Mechanical,1,Keyboard Sub-Assembly,Buy,POM,0.25 g,Custom,No
+Scissor Switch – Key 03,Mechanical,1,Keyboard Sub-Assembly,Buy,POM,0.25 g,Custom,No
+Scissor Switch – Key 04,Mechanical,1,Keyboard Sub-Assembly,Buy,POM,0.25 g,Custom,No
+Scissor Switch – Key 05,Mechanical,1,Keyboard Sub-Assembly,Buy,POM,0.25 g,Custom,No
+Rubber Dome – Key 01,Material,1,Keyboard Sub-Assembly,Buy,Silicone Rubber,0.15 g,Custom,No
+Rubber Dome – Key 02,Material,1,Keyboard Sub-Assembly,Buy,Silicone Rubber,0.15 g,Custom,No
+Rubber Dome – Key 03,Material,1,Keyboard Sub-Assembly,Buy,Silicone Rubber,0.15 g,Custom,No
+Rubber Dome – Key 04,Material,1,Keyboard Sub-Assembly,Buy,Silicone Rubber,0.15 g,Custom,No
+Rubber Dome – Key 05,Material,1,Keyboard Sub-Assembly,Buy,Silicone Rubber,0.15 g,Custom,No
+Top Membrane Circuit Layer,Material,1,Keyboard Sub-Assembly,Make,PET / Silver Ink,6 g,Custom,No
+Spacer Membrane Layer,Material,1,Keyboard Sub-Assembly,Make,PET,4 g,Custom,No
+Bottom Membrane Circuit Layer,Material,1,Keyboard Sub-Assembly,Make,PET / Silver Ink,6 g,Custom,No
+Carbon Contact Pad – 01,Material,1,Keyboard Sub-Assembly,Make,Carbon Ink,0.05 g,Custom,No
+Carbon Contact Pad – 02,Material,1,Keyboard Sub-Assembly,Make,Carbon Ink,0.05 g,Custom,No
+Carbon Contact Pad – 03,Material,1,Keyboard Sub-Assembly,Make,Carbon Ink,0.05 g,Custom,No
+Keyboard Backlight Sub-Assembly,Sub-Assembly,1,Keyboard Sub-Assembly,Buy,N/A,0 g,Custom,No
+Backlight LED PCB,Component,1,Keyboard Backlight Sub-Assembly,Make,FR4,5 g,Custom,No
+White LED – BL01,Electrical,1,Backlight LED PCB,Buy,GaN,0.05 g,Standard,No
+White LED – BL02,Electrical,1,Backlight LED PCB,Buy,GaN,0.05 g,Standard,No
+White LED – BL03,Electrical,1,Backlight LED PCB,Buy,GaN,0.05 g,Standard,No
+White LED – BL04,Electrical,1,Backlight LED PCB,Buy,GaN,0.05 g,Standard,No
+LED Current Resistor – R1,Electrical,1,Backlight LED PCB,Buy,Thick Film,0.01 g,Standard,No
+LED Current Resistor – R2,Electrical,1,Backlight LED PCB,Buy,Thick Film,0.01 g,Standard,No
+Backlight Diffuser Film,Material,1,Keyboard Backlight Sub-Assembly,Buy,PET,3 g,Custom,No
+Reflective Film,Material,1,Keyboard Backlight Sub-Assembly,Buy,PET / TiO?,2 g,Custom,No
+Keyboard FPC Cable,Component,1,Keyboard Sub-Assembly,Buy,Polyimide / Copper,2.5 g,Custom,No
+FPC Stiffener,Material,1,Keyboard Sub-Assembly,Buy,FR4,0.8 g,Custom,No
+Keyboard Connector,Electrical,1,Keyboard Sub-Assembly,Buy,Copper Alloy,0.8 g,Standard,No
+EMI Shielding Tape – Top,Material,1,Keyboard Sub-Assembly,Buy,Copper Foil,0.6 g,Standard,No
+EMI Shielding Tape – Bottom,Material,1,Keyboard Sub-Assembly,Buy,Copper Foil,0.6 g,Standard,No
+Grounding Spring Finger,Mechanical,1,Keyboard Sub-Assembly,Buy,Stainless Steel,0.2 g,Standard,No
+Foam Pad – Left,Material,1,Keyboard Sub-Assembly,Buy,PU Foam,1 g,Custom,No
+Foam Pad – Right,Material,1,Keyboard Sub-Assembly,Buy,PU Foam,1 g,Custom,No
+Adhesive Tape – Top,Material,1,Keyboard Sub-Assembly,Buy,Acrylic,0.5 g,Custom,No
+Adhesive Tape – Bottom,Material,1,Keyboard Sub-Assembly,Buy,Acrylic,0.5 g,Custom,No
+Identification Label,Material,1,Keyboard Sub-Assembly,Buy,PET,0.2 g,Standard,No
+Regulatory Label,Material,1,Keyboard Sub-Assembly,Buy,PET,0.2 g,Standard,No
+Keyboard Assembly Process,Process,1,Keyboard Sub-Assembly,Make,N/A,0 g,Custom,No
+Key Travel Calibration,Process,1,Keyboard Sub-Assembly,Make,N/A,0 g,Custom,No
+Backlight Uniformity Test,Process,1,Keyboard Sub-Assembly,Make,N/A,0 g,Custom,No
+Key Scan Electrical Test,Process,1,Keyboard Sub-Assembly,Make,N/A,0 g,Custom,No
+Typing Functional Test,Process,1,Keyboard Sub-Assembly,Make,N/A,0 g,Custom,No
+AOI Inspection,Process,1,Keyboard Sub-Assembly,Make,N/A,0 g,Custom,No
+ESD Protective Bag,Material,1,Keyboard Sub-Assembly,Buy,Conductive Plastic,6 g,Standard,No
+Moisture Barrier Bag,Material,1,Keyboard Sub-Assembly,Buy,Aluminum Foil,4 g,Standard,No
+Desiccant Pack,Material,1,Keyboard Sub-Assembly,Buy,Silica Gel,2 g,Standard,No
+Humidity Indicator Card,Material,1,Keyboard Sub-Assembly,Buy,Paper / Chemical,1 g,Standard,No

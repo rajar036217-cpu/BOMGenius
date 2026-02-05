@@ -1,0 +1,80 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Laptop Charger Assembly,Assembly,1,Laptop Accessory,Buy,N/A,0 g,Custom,No
+AC-DC Power Adapter Sub-Assembly,Sub-Assembly,1,Laptop Charger Assembly,Buy,N/A,0 g,Custom,No
+Adapter Housing – Top Shell,Mechanical,1,AC-DC Power Adapter Sub-Assembly,Buy,PC+ABS FR,85 g,Custom,No
+Adapter Housing – Bottom Shell,Mechanical,1,AC-DC Power Adapter Sub-Assembly,Buy,PC+ABS FR,85 g,Custom,No
+Housing Internal Rib Structure,Mechanical,1,Adapter Housing – Bottom Shell,Buy,PC+ABS FR,12 g,Custom,No
+Housing Flame Retardant System,Material,1,Adapter Housing – Top Shell,Make,Brominated FR,0 g,Standard,No
+Housing Ultrasonic Weld Joint,Process,1,AC-DC Power Adapter Sub-Assembly,Make,N/A,0 g,Custom,No
+Power PCB Assembly,Sub-Assembly,1,AC-DC Power Adapter Sub-Assembly,Make,N/A,0 g,Custom,No
+Power PCB Bare Board,Component,1,Power PCB Assembly,Make,FR-4,45 g,Custom,No
+PCB Glass Epoxy Core,Material,1,Power PCB Bare Board,Make,FR-4,22 g,Custom,No
+PCB Copper Layer – Top,Material,1,Power PCB Bare Board,Make,Copper,6 g,Custom,No
+PCB Copper Layer – Inner 1,Material,1,Power PCB Bare Board,Make,Copper,5 g,Custom,No
+PCB Copper Layer – Inner 2,Material,1,Power PCB Bare Board,Make,Copper,5 g,Custom,No
+PCB Copper Layer – Bottom,Material,1,Power PCB Bare Board,Make,Copper,6 g,Custom,No
+PCB Prepreg Layer,Material,1,Power PCB Bare Board,Make,Epoxy Glass,1.5 g,Custom,No
+PCB Solder Mask – Top,Material,1,Power PCB Bare Board,Make,Epoxy,0 g,Custom,No
+PCB Solder Mask – Bottom,Material,1,Power PCB Bare Board,Make,Epoxy,0 g,Custom,No
+PCB Silkscreen Ink,Material,1,Power PCB Bare Board,Make,Epoxy Ink,0 g,Custom,No
+PCB ENIG Finish,Process,1,Power PCB Bare Board,Make,ENIG,0 g,Custom,No
+AC Input Fuse,Electrical,1,Power PCB Assembly,Buy,Ceramic,1.2 g,Standard,No
+Fuse Heat Shrink Sleeve,Material,1,AC Input Fuse,Buy,Polyolefin,0.1 g,Standard,No
+MOV Surge Suppressor,Electrical,1,Power PCB Assembly,Buy,Zinc Oxide,2.5 g,Standard,No
+MOV Insulation Sleeve,Material,1,MOV Surge Suppressor,Buy,Silicone,0.2 g,Standard,No
+NTC Inrush Current Limiter,Electrical,1,Power PCB Assembly,Buy,Ceramic,1.8 g,Standard,No
+EMI Common Mode Choke,Electrical,1,Power PCB Assembly,Buy,Ferrite,6 g,Standard,No
+EMI Differential Mode Inductor,Electrical,1,Power PCB Assembly,Buy,Ferrite,4 g,Standard,No
+EMI X-Class Capacitor,Electrical,1,Power PCB Assembly,Buy,Polypropylene,2.2 g,Standard,No
+EMI Y-Class Capacitor – Line to GND,Electrical,1,Power PCB Assembly,Buy,Ceramic,0.8 g,Standard,No
+EMI Y-Class Capacitor – Neutral to GND,Electrical,1,Power PCB Assembly,Buy,Ceramic,0.8 g,Standard,No
+Bridge Rectifier,Electrical,1,Power PCB Assembly,Buy,Silicon,3.5 g,Standard,No
+Bridge Rectifier Heatslug,Mechanical,1,Bridge Rectifier,Buy,Copper,1.1 g,Standard,No
+Primary Bulk Capacitor,Electrical,1,Power PCB Assembly,Buy,Aluminum Electrolytic,18 g,Standard,No
+Bulk Capacitor PVC Sleeve,Material,1,Primary Bulk Capacitor,Buy,PVC,0.4 g,Standard,No
+Active PFC Controller IC,Electrical,1,Power PCB Assembly,Buy,Silicon,0.3 g,Standard,No
+PFC MOSFET,Electrical,1,Power PCB Assembly,Buy,Silicon,1.5 g,Standard,No
+PFC Boost Diode,Electrical,1,Power PCB Assembly,Buy,Silicon,1.1 g,Standard,No
+Main PWM Controller IC,Electrical,1,Power PCB Assembly,Buy,Silicon,0.25 g,Standard,No
+Primary Switching MOSFET,Electrical,1,Power PCB Assembly,Buy,Silicon,1.6 g,Standard,No
+Primary Transformer,Electrical,1,Power PCB Assembly,Buy,Copper / Ferrite,48 g,Custom,No
+Transformer Bobbin,Mechanical,1,Primary Transformer,Buy,Nylon,4 g,Custom,No
+Transformer Copper Windings,Electrical,1,Primary Transformer,Buy,Enamel Copper,18 g,Custom,No
+Transformer Core – Ferrite,Electrical,1,Primary Transformer,Buy,Ferrite,22 g,Custom,No
+Transformer Insulation Tape,Material,1,Primary Transformer,Make,Polyimide,1.2 g,Custom,No
+Transformer Potting Compound,Material,1,Primary Transformer,Make,Epoxy,3 g,Custom,No
+Secondary Rectifier Diode,Electrical,1,Power PCB Assembly,Buy,Silicon,1.1 g,Standard,No
+Synchronous Rectifier MOSFET,Electrical,1,Power PCB Assembly,Buy,Silicon,1.4 g,Standard,No
+Output Filter Inductor,Electrical,1,Power PCB Assembly,Buy,Ferrite,6.5 g,Standard,No
+Output Electrolytic Capacitor,Electrical,1,Power PCB Assembly,Buy,Aluminum Electrolytic,12 g,Standard,No
+Output MLCC Capacitor,Electrical,1,Power PCB Assembly,Buy,MLCC,0.2 g,Standard,No
+Optocoupler Feedback Device,Electrical,1,Power PCB Assembly,Buy,Silicon,0.4 g,Standard,No
+Secondary Regulation IC,Electrical,1,Power PCB Assembly,Buy,Silicon,0.2 g,Standard,No
+Output OVP / UVP IC,Electrical,1,Power PCB Assembly,Buy,Silicon,0.15 g,Standard,No
+Thermal Fuse,Electrical,1,Power PCB Assembly,Buy,Bimetal,0.8 g,Standard,No
+Primary Aluminum Heatsink,Mechanical,1,Power PCB Assembly,Buy,Aluminum,22 g,Custom,No
+Secondary Aluminum Heatsink,Mechanical,1,Power PCB Assembly,Buy,Aluminum,18 g,Custom,No
+Heatsink Anodization,Process,1,Primary Aluminum Heatsink,Make,N/A,0 g,Custom,No
+Thermal Interface Pad – Primary,Material,1,Primary Aluminum Heatsink,Buy,Silicone,0.6 g,Custom,No
+Thermal Interface Pad – Secondary,Material,1,Secondary Aluminum Heatsink,Buy,Silicone,0.6 g,Custom,No
+Internal Electrical Insulation Sheet,Material,1,AC-DC Power Adapter Sub-Assembly,Buy,PET (Mylar),4 g,Standard,No
+Internal Shielding Tape,Material,1,AC-DC Power Adapter Sub-Assembly,Buy,Copper Foil,2 g,Custom,No
+AC Input Cable Assembly,Sub-Assembly,1,Laptop Charger Assembly,Buy,N/A,0 g,Standard,No
+AC Input Cable,Component,1,AC Input Cable Assembly,Buy,Copper / PVC,120 g,Standard,No
+AC Plug (Country Specific),Mechanical,1,AC Input Cable Assembly,Buy,Copper / PC,35 g,Standard,No
+Strain Relief – AC Side,Mechanical,1,AC Input Cable Assembly,Buy,TPE,6 g,Standard,No
+DC Output Cable Assembly,Sub-Assembly,1,Laptop Charger Assembly,Buy,N/A,0 g,Custom,No
+DC Output Cable,Component,1,DC Output Cable Assembly,Buy,Copper / TPE,95 g,Custom,No
+DC Cable Shield Braid,Material,1,DC Output Cable,Buy,Tinned Copper,6 g,Custom,No
+DC Cable Ferrite Core,Electrical,1,DC Output Cable Assembly,Buy,Ferrite,6 g,Standard,No
+DC Connector (USB-C / Barrel),Electrical,1,DC Output Cable Assembly,Buy,Copper Alloy,5 g,Custom,No
+Connector Overmold,Mechanical,1,DC Output Cable Assembly,Buy,TPE,4 g,Custom,No
+Adapter Rating & Safety Label,Material,1,Laptop Charger Assembly,Buy,PET,1.5 g,Standard,No
+Laser Marking / Printing Process,Process,1,Adapter Rating & Safety Label,Make,N/A,0 g,Standard,No
+SMT Assembly Process,Process,1,Power PCB Assembly,Make,N/A,0 g,Custom,No
+Reflow Soldering Process,Process,1,Power PCB Assembly,Make,N/A,0 g,Custom,No
+Hi-Pot Safety Test,Process,1,Laptop Charger Assembly,Make,N/A,0 g,Custom,No
+Load Regulation Test,Process,1,Laptop Charger Assembly,Make,N/A,0 g,Custom,No
+Efficiency Measurement Test,Process,1,Laptop Charger Assembly,Make,N/A,0 g,Custom,No
+Thermal Soak Test,Process,1,Laptop Charger Assembly,Make,N/A,0 g,Custom,No
+Burn-In Reliability Test,Process,1,Laptop Charger Assembly,Make,N/A,0 g,Custom,No

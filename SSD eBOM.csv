@@ -1,0 +1,79 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+SSD Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,Buy,N/A,0 g,Standard,No
+SSD PCB 2280,Component,1,SSD Sub-Assembly,Make,FR4,8 g,Custom,No
+PCB Copper Layer Top,Material,1,SSD PCB 2280,Make,Copper,0.5 g,Custom,No
+PCB Copper Layer Inner 1,Material,1,SSD PCB 2280,Make,Copper,0.5 g,Custom,No
+PCB Copper Layer Inner 2,Material,1,SSD PCB 2280,Make,Copper,0.5 g,Custom,No
+PCB Copper Layer Bottom,Material,1,SSD PCB 2280,Make,Copper,0.5 g,Custom,No
+PCB Core Laminate,Material,1,SSD PCB 2280,Make,Glass Fiber,2 g,Custom,No
+PCB Prepreg Layer A,Material,1,SSD PCB 2280,Make,Epoxy,0.4 g,Custom,No
+PCB Prepreg Layer B,Material,1,SSD PCB 2280,Make,Epoxy,0.4 g,Custom,No
+PCB Solder Mask Top,Material,1,SSD PCB 2280,Make,Epoxy,0.3 g,Custom,No
+PCB Solder Mask Bottom,Material,1,SSD PCB 2280,Make,Epoxy,0.3 g,Custom,No
+PCB Silkscreen Ink Top,Material,1,SSD PCB 2280,Make,Epoxy Ink,0.1 g,Custom,No
+PCB Silkscreen Ink Bottom,Material,1,SSD PCB 2280,Make,Epoxy Ink,0.1 g,Custom,No
+PCB ENIG Finish,Material,1,SSD PCB 2280,Make,Gold / Nickel,0.3 g,Custom,No
+M.2 Edge Connector Gold Fingers,Material,1,SSD PCB 2280,Make,Gold-Plated Copper,0.6 g,Custom,No
+PCB Edge Chamfering,Process,1,SSD PCB 2280,Make,N/A,0 g,Custom,No
+NVMe SSD Controller IC,Electrical,1,SSD Sub-Assembly,Buy,Silicon,1.5 g,Custom,No
+Controller Silicon Die,Material,1,NVMe SSD Controller IC,Make,Silicon,0.4 g,Custom,No
+Controller Die Passivation,Material,1,NVMe SSD Controller IC,Make,Silicon Nitride,0.05 g,Custom,No
+Controller Mold Compound,Material,1,NVMe SSD Controller IC,Make,Epoxy,0.5 g,Custom,No
+Controller Leadframe,Material,1,NVMe SSD Controller IC,Make,Copper Alloy,0.3 g,Custom,No
+Controller Solder Ball Array,Material,1,NVMe SSD Controller IC,Make,SAC Alloy,0.2 g,Custom,No
+NAND Flash IC 01,Electrical,1,SSD Sub-Assembly,Buy,Silicon,1.7 g,Custom,No
+NAND Flash IC 02,Electrical,1,SSD Sub-Assembly,Buy,Silicon,1.7 g,Custom,No
+NAND Flash IC 03,Electrical,1,SSD Sub-Assembly,Buy,Silicon,1.7 g,Custom,No
+NAND Flash IC 04,Electrical,1,SSD Sub-Assembly,Buy,Silicon,1.7 g,Custom,No
+NAND Die Stack – Die 1,Material,1,NAND Flash IC 01,Make,Silicon,0.15 g,Custom,No
+NAND Die Stack – Die 2,Material,1,NAND Flash IC 01,Make,Silicon,0.15 g,Custom,No
+NAND Die Stack – Die 3,Material,1,NAND Flash IC 01,Make,Silicon,0.15 g,Custom,No
+NAND Die Stack – Die 4,Material,1,NAND Flash IC 01,Make,Silicon,0.15 g,Custom,No
+NAND Die Attach Adhesive,Material,1,NAND Flash IC 01,Make,Epoxy,0.2 g,Custom,No
+NAND Mold Compound,Material,1,NAND Flash IC 01,Make,Epoxy,0.4 g,Custom,No
+NAND Solder Ball Array,Material,1,NAND Flash IC 01,Make,SAC Alloy,0.2 g,Custom,No
+DRAM Cache IC,Electrical,1,SSD Sub-Assembly,Buy,Silicon,0.8 g,Custom,No
+DRAM Die,Material,1,DRAM Cache IC,Make,Silicon,0.25 g,Custom,No
+DRAM Mold Compound,Material,1,DRAM Cache IC,Make,Epoxy,0.2 g,Custom,No
+DRAM Solder Ball Array,Material,1,DRAM Cache IC,Make,SAC Alloy,0.1 g,Custom,No
+PMIC,Electrical,1,SSD Sub-Assembly,Buy,Silicon,0.4 g,Custom,No
+PMIC Die,Material,1,PMIC,Make,Silicon,0.12 g,Custom,No
+PMIC Mold Compound,Material,1,PMIC,Make,Epoxy,0.15 g,Custom,No
+PMIC Solder Ball Array,Material,1,PMIC,Make,SAC Alloy,0.08 g,Custom,No
+3.3V Buck Inductor,Electrical,1,SSD Sub-Assembly,Buy,Ferrite,0.4 g,Standard,No
+Buck Input Capacitor,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.03 g,Standard,No
+Buck Output Capacitor A,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.03 g,Standard,No
+Buck Output Capacitor B,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.03 g,Standard,No
+Controller Decoupling Capacitor 01,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+Controller Decoupling Capacitor 02,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+Controller Decoupling Capacitor 03,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+NAND VCC Decoupling Capacitor 01,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+NAND VCC Decoupling Capacitor 02,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+NAND VCC Decoupling Capacitor 03,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.02 g,Standard,No
+PCIe TX Series Resistor A,Electrical,1,SSD Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+PCIe TX Series Resistor B,Electrical,1,SSD Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+PCIe RX Termination Resistor A,Electrical,1,SSD Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+PCIe RX Termination Resistor B,Electrical,1,SSD Sub-Assembly,Buy,Thick Film,0.01 g,Standard,No
+32 kHz Reference Crystal,Electrical,1,SSD Sub-Assembly,Buy,Quartz,0.1 g,Standard,No
+Crystal Load Capacitor A,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.01 g,Standard,No
+Crystal Load Capacitor B,Electrical,1,SSD Sub-Assembly,Buy,Ceramic,0.01 g,Standard,No
+ESD Diode – PCIe Lane 0,Electrical,1,SSD Sub-Assembly,Buy,Silicon,0.05 g,Standard,No
+ESD Diode – PCIe Lane 1,Electrical,1,SSD Sub-Assembly,Buy,Silicon,0.05 g,Standard,No
+EMI Shield Foil Top,Material,1,SSD Sub-Assembly,Buy,Aluminum,0.8 g,Standard,No
+EMI Shield Foil Bottom,Material,1,SSD Sub-Assembly,Buy,Aluminum,0.8 g,Standard,No
+Controller Thermal Pad,Material,1,SSD Sub-Assembly,Buy,Silicone,1.2 g,Standard,No
+NAND Thermal Pad,Material,1,SSD Sub-Assembly,Buy,Silicone,1.5 g,Standard,No
+Graphite Heat Spreader Label,Material,1,SSD Sub-Assembly,Buy,Graphite,0.9 g,Custom,No
+SSD Product Label,Material,1,SSD Sub-Assembly,Buy,PET,0.2 g,Standard,No
+Regulatory Compliance Label,Material,1,SSD Sub-Assembly,Buy,PET,0.2 g,Standard,No
+SMT Placement,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+SMT Reflow,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+AOI Inspection,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+X-Ray Inspection,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+Firmware Flash Programming,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+Functional Read/Write Test,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+Burn-In Stress Test,Process,1,SSD Sub-Assembly,Make,N/A,0 g,Custom,No
+ESD Protective Tray,Material,1,SSD Sub-Assembly,Buy,Conductive Plastic,12 g,Standard,No
+Moisture Barrier Bag,Material,1,SSD Sub-Assembly,Buy,Aluminum Foil,3 g,Standard,No
+Desiccant Pack,Material,1,SSD Sub-Assembly,Buy,Silica Gel,2 g,Standard,No
+Humidity Indicator Card,Material,1,SSD Sub-Assembly,Buy,Paper / Chemical,1 g,Standard,No

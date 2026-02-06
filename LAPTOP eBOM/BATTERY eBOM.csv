@@ -1,0 +1,55 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight (g),Standard vs Custom
+Battery Pack Housing - Top Cover,Component,1,Battery Assembly,,ABS Plastic,50,Custom
+Battery Pack Housing - Bottom Cover,Component,1,Battery Assembly,,ABS Plastic,60,Custom
+Battery Cell 1 - Li-ion 18650,Component,1,Battery Assembly,,Li-ion,45,Standard
+Battery Cell 2 - Li-ion 18650,Component,1,Battery Assembly,,Li-ion,45,Standard
+Battery Cell 3 - Li-ion 18650,Component,1,Battery Assembly,,Li-ion,45,Standard
+Battery Cell 4 - Li-ion 18650,Component,1,Battery Assembly,,Li-ion,45,Standard
+Battery Cell 5 - Li-ion 18650,Component,1,Battery Assembly,,Li-ion,45,Standard
+Battery Cell 6 - Li-ion 18650,Component,1,Battery Assembly,,Li-ion,45,Standard
+Interconnect Busbar 1,Component,1,Battery Assembly,,Nickel-plated Copper,15,Custom
+Interconnect Busbar 2,Component,1,Battery Assembly,,Nickel-plated Copper,15,Custom
+PCM / BMS Board,Electrical,1,Battery Assembly,,FR4 / Electronic,10,Custom
+BMS IC - Protection Chip,Electrical,1,Battery Assembly,,Silicon,0.5,Standard
+BMS IC - Fuel Gauge,Electrical,1,Battery Assembly,,Silicon,0.5,Standard
+Thermistor Sensor 1,Electrical,1,Battery Assembly,,NTC Thermistor,0.2,Standard
+Thermistor Sensor 2,Electrical,1,Battery Assembly,,NTC Thermistor,0.2,Standard
+Temperature Fuse,Electrical,1,Battery Assembly,,Metal Alloy,0.1,Standard
+Nickel-plated Connector 1,Component,1,Battery Assembly,,Copper,2,Standard
+Nickel-plated Connector 2,Component,1,Battery Assembly,,Copper,2,Standard
+Adhesive Tape - Cell Insulation 1,Material,1,Battery Assembly,,Polyimide,2,Standard
+Adhesive Tape - Cell Insulation 2,Material,1,Battery Assembly,,Polyimide,2,Standard
+Adhesive Tape - Cell Insulation 3,Material,1,Battery Assembly,,Polyimide,2,Standard
+Adhesive Tape - Cell Insulation 4,Material,1,Battery Assembly,,Polyimide,2,Standard
+Adhesive Tape - Cell Insulation 5,Material,1,Battery Assembly,,Polyimide,2,Standard
+Adhesive Tape - Cell Insulation 6,Material,1,Battery Assembly,,Polyimide,2,Standard
+Double-sided Foam Pad 1,Material,1,Battery Assembly,,PU Foam,5,Standard
+Double-sided Foam Pad 2,Material,1,Battery Assembly,,PU Foam,5,Standard
+Shrink Wrap - Cell Bundle,Material,1,Battery Assembly,,Polyolefin,10,Standard
+Heat Shrink Tube - Wire 1,Material,1,Battery Assembly,,Polyolefin,1,Standard
+Heat Shrink Tube - Wire 2,Material,1,Battery Assembly,,Polyolefin,1,Standard
+Heat Shrink Tube - Wire 3,Material,1,Battery Assembly,,Polyolefin,1,Standard
+Heat Shrink Tube - Wire 4,Material,1,Battery Assembly,,Polyolefin,1,Standard
+Foam Gasket - EMI Shield 1,Material,1,Battery Assembly,,PU Foam,1,Standard
+Foam Gasket - EMI Shield 2,Material,1,Battery Assembly,,PU Foam,1,Standard
+Silicone Pad - Cell Cushion 1,Material,1,Battery Assembly,,Silicone,3,Standard
+Silicone Pad - Cell Cushion 2,Material,1,Battery Assembly,,Silicone,3,Standard
+Screw M2x4 Phillips 1,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 2,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 3,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 4,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 5,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 6,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 7,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 8,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 9,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x4 Phillips 10,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x3 Phillips 1,Fastener,1,Battery Assembly,,Steel,0.4,Standard
+Screw M2x3 Phillips 2,Fastener,1,Battery Assembly,,Steel,0.4,Standard
+Screw M2x3 Phillips 3,Fastener,1,Battery Assembly,,Steel,0.4,Standard
+Screw M2x3 Phillips 4,Fastener,1,Battery Assembly,,Steel,0.4,Standard
+Retaining Bracket,Component,1,Battery Assembly,,Steel,15,Custom
+Screw M2x6 - Retaining Bracket 1,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x6 - Retaining Bracket 2,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x6 - Retaining Bracket 3,Fastener,1,Battery Assembly,,Steel,0.5,Standard
+Screw M2x6 - Retaining Bracket 4,Fastener,1,Battery Assembly,,Steel,0.5,Standard

@@ -1,0 +1,72 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+Display Panel Sub-Assembly,Sub-Assembly,1,Laptop Display Assembly,,N/A,0 g,Custom
+LCD Glass Cell,Component,1,Display Panel Sub-Assembly,,Glass,120 g,Custom
+Front Polarizer Film,Material,1,LCD Glass Cell,,PVA / PET,6 g,Custom
+Front Polarizer Adhesive,Material,1,LCD Glass Cell,,Acrylic,0.8 g,Custom
+TFT Glass Substrate,Material,1,LCD Glass Cell,,Aluminosilicate Glass,45 g,Custom
+TFT Pixel Matrix,Material,1,TFT Glass Substrate,,Silicon / ITO,2 g,Custom
+Thin Film Transistor Layer,Material,1,TFT Glass Substrate,,Amorphous Silicon,1 g,Custom
+ITO Transparent Electrode Layer,Material,1,TFT Glass Substrate,,Indium Tin Oxide,0.6 g,Custom
+Color Filter Glass Substrate,Material,1,LCD Glass Cell,,Glass,40 g,Custom
+Red Color Filter Layer,Material,1,Color Filter Glass Substrate,,Organic Pigment,0.5 g,Custom
+Green Color Filter Layer,Material,1,Color Filter Glass Substrate,,Organic Pigment,0.5 g,Custom
+Blue Color Filter Layer,Material,1,Color Filter Glass Substrate,,Organic Pigment,0.5 g,Custom
+Black Matrix Layer,Material,1,Color Filter Glass Substrate,,Resin / Carbon,0.4 g,Custom
+Liquid Crystal Material,Material,1,LCD Glass Cell,,LC Compound,0.9 g,Custom
+Cell Gap Spacer Beads,Material,1,LCD Glass Cell,,Polymer,0.2 g,Custom
+Sealant Epoxy,Material,1,LCD Glass Cell,,Epoxy,0.6 g,Custom
+Rear Polarizer Film,Material,1,LCD Glass Cell,,PVA / PET,6 g,Custom
+Rear Polarizer Adhesive,Material,1,LCD Glass Cell,,Acrylic,0.8 g,Custom
+Source Driver IC,Electrical,1,LCD Glass Cell,,Silicon,0.4 g,Custom
+Gate Driver IC,Electrical,1,LCD Glass Cell,,Silicon,0.4 g,Custom
+Chip-on-Glass Bonding Adhesive,Material,1,LCD Glass Cell,,ACF,0.3 g,Custom
+TCON (Timing Controller) IC,Electrical,1,Display Panel Sub-Assembly,,Silicon,0.8 g,Custom
+TCON PCB,Component,1,Display Panel Sub-Assembly,,FR4,4 g,Custom
+TCON Decoupling Capacitor 01,Electrical,1,TCON PCB,,Ceramic,0.02 g,Standard
+TCON Decoupling Capacitor 02,Electrical,1,TCON PCB,,Ceramic,0.02 g,Standard
+TCON Decoupling Capacitor 03,Electrical,1,TCON PCB,,Ceramic,0.02 g,Standard
+TCON Core Resistor,Electrical,1,TCON PCB,,Thick Film,0.01 g,Standard
+Display eDP Connector,Electrical,1,Display Panel Sub-Assembly,,Copper Alloy,1.2 g,Standard
+eDP Connector Solder Joints,Material,1,Display Panel Sub-Assembly,,SAC Alloy,0.4 g,Custom
+Display FPC Cable,Component,1,Display Panel Sub-Assembly,,Polyimide / Copper,3 g,Custom
+FPC EMI Shield Layer,Material,1,Display FPC Cable,,Aluminum,0.5 g,Custom
+FPC Stiffener,Material,1,Display FPC Cable,,FR4,0.6 g,Custom
+Backlight Unit Sub-Assembly,Sub-Assembly,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+LED Backlight PCB,Component,1,Backlight Unit Sub-Assembly,,Aluminum Core PCB,12 g,Custom
+White LED 01,Electrical,1,LED Backlight PCB,,GaN,0.1 g,Standard
+White LED 02,Electrical,1,LED Backlight PCB,,GaN,0.1 g,Standard
+White LED 03,Electrical,1,LED Backlight PCB,,GaN,0.1 g,Standard
+White LED 04,Electrical,1,LED Backlight PCB,,GaN,0.1 g,Standard
+LED Current Sense Resistor,Electrical,1,LED Backlight PCB,,Thick Film,0.01 g,Standard
+LED Driver IC,Electrical,1,Backlight Unit Sub-Assembly,,Silicon,0.5 g,Custom
+LED Driver Decoupling Capacitor,Electrical,1,Backlight Unit Sub-Assembly,,Ceramic,0.03 g,Standard
+Reflector Sheet,Material,1,Backlight Unit Sub-Assembly,,PET,5 g,Custom
+Light Guide Plate (LGP),Component,1,Backlight Unit Sub-Assembly,,PMMA,35 g,Custom
+Diffuser Film 1,Material,1,Backlight Unit Sub-Assembly,,PET,4 g,Custom
+Diffuser Film 2,Material,1,Backlight Unit Sub-Assembly,,PET,4 g,Custom
+Prism Film A,Material,1,Backlight Unit Sub-Assembly,,PET,3 g,Custom
+Prism Film B,Material,1,Backlight Unit Sub-Assembly,,PET,3 g,Custom
+Rear Reflective Sheet,Material,1,Backlight Unit Sub-Assembly,,PET / TiO2,4 g,Custom
+Backlight Frame,Mechanical,1,Backlight Unit Sub-Assembly,,Aluminum,18 g,Custom
+Panel Bezel Tape – Top,Material,1,Display Panel Sub-Assembly,,Acrylic Foam,1 g,Custom
+Panel Bezel Tape – Bottom,Material,1,Display Panel Sub-Assembly,,Acrylic Foam,1 g,Custom
+Panel Bezel Tape – Left,Material,1,Display Panel Sub-Assembly,,Acrylic Foam,1 g,Custom
+Panel Bezel Tape – Right,Material,1,Display Panel Sub-Assembly,,Acrylic Foam,1 g,Custom
+EMI Shielding Tape,Material,1,Display Panel Sub-Assembly,,Copper Foil,0.8 g,Standard
+Grounding Spring Contact,Mechanical,1,Display Panel Sub-Assembly,,Stainless Steel,0.3 g,Standard
+Display Identification Label,Material,1,Display Panel Sub-Assembly,,PET,0.2 g,Standard
+Regulatory Compliance Label,Material,1,Display Panel Sub-Assembly,,PET,0.2 g,Standard
+LCD Cell Assembly Process,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+Backlight Assembly Process,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+Optical Alignment Process,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+Gamma Calibration Process,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+White Balance Calibration,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+AOI Inspection,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+Pixel Defect Inspection,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+Functional Display Test,Process,1,Display Panel Sub-Assembly,,N/A,0 g,Custom
+ESD Protective Film,Material,1,Display Panel Sub-Assembly,,PET,5 g,Standard
+Protective Foam Sheet,Material,1,Display Panel Sub-Assembly,,PU Foam,8 g,Standard
+Display Shipping Tray,Material,1,Display Panel Sub-Assembly,,EPP Plastic,40 g,Standard
+Moisture Barrier Bag,Material,1,Display Panel Sub-Assembly,,Aluminum Foil,5 g,Standard
+Desiccant Pack,Material,1,Display Panel Sub-Assembly,,Silica Gel,3 g,Standard
+Humidity Indicator Card,Material,1,Display Panel Sub-Assembly,,Paper / Chemical,1 g,Standard

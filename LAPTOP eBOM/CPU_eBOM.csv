@@ -1,0 +1,66 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+CPU Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+CPU Silicon Die,Electrical,1,CPU Sub-Assembly,,Silicon,6.5 g,Custom
+CPU Die Passivation Layer,Material,1,CPU Silicon Die,,Silicon Nitride,0.05 g,Custom
+CPU Die Backside Metallization,Material,1,CPU Silicon Die,,Titanium / Nickel,0.08 g,Custom
+CPU Package Organic Substrate,Component,1,CPU Sub-Assembly,,BT Resin,4.2 g,Custom
+Substrate Core Layer,Material,1,CPU Package Organic Substrate,,Glass Fiber,0.8 g,Custom
+Substrate Copper Layer Top,Material,1,CPU Package Organic Substrate,,Copper,0.4 g,Custom
+Substrate Copper Layer Bottom,Material,1,CPU Package Organic Substrate,,Copper,0.4 g,Custom
+Substrate Solder Mask Top,Material,1,CPU Package Organic Substrate,,Epoxy,0.2 g,Custom
+Substrate Solder Mask Bottom,Material,1,CPU Package Organic Substrate,,Epoxy,0.2 g,Custom
+CPU Solder Bump Array,Material,1,CPU Sub-Assembly,,SAC305,1.2 g,Custom
+CPU Micro Bump 001,Material,1,CPU Solder Bump Array,,SAC Alloy,0.01 g,Custom
+CPU Micro Bump 002,Material,1,CPU Solder Bump Array,,SAC Alloy,0.01 g,Custom
+CPU Micro Bump 003,Material,1,CPU Solder Bump Array,,SAC Alloy,0.01 g,Custom
+CPU Micro Bump 004,Material,1,CPU Solder Bump Array,,SAC Alloy,0.01 g,Custom
+CPU Land Grid Pad Field,Material,1,CPU Sub-Assembly,,Gold Plated Copper,0.6 g,Custom
+Die Attach Adhesive,Material,1,CPU Sub-Assembly,,Epoxy,0.7 g,Custom
+Underfill Adhesive Primary,Material,1,CPU Sub-Assembly,,Epoxy,0.6 g,Custom
+Underfill Adhesive Secondary,Material,1,CPU Sub-Assembly,,Epoxy,0.2 g,Custom
+Integrated Heat Spreader,Mechanical,1,CPU Sub-Assembly,,Nickel Plated Copper,12 g,Custom
+IHS Nickel Plating,Material,1,Integrated Heat Spreader,,Nickel,0.3 g,Custom
+Thermal Interface Material (Die to IHS),Material,1,CPU Sub-Assembly,,Silicone TIM,0.5 g,Custom
+TIM Dispense Process,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU Core Decoupling Capacitor 01,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 02,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 03,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 04,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 05,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 06,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 07,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Core Decoupling Capacitor 08,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU IO Decoupling Capacitor 01,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU IO Decoupling Capacitor 02,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU PLL Decoupling Capacitor 01,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU PLL Decoupling Capacitor 02,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Bulk Capacitor 01,Electrical,1,CPU Sub-Assembly,,Polymer,0.6 g,Standard
+CPU Bulk Capacitor 02,Electrical,1,CPU Sub-Assembly,,Polymer,0.6 g,Standard
+CPU Bulk Capacitor 03,Electrical,1,CPU Sub-Assembly,,Polymer,0.6 g,Standard
+CPU Signal Series Resistor 01,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Signal Series Resistor 02,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Signal Series Resistor 03,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Signal Series Resistor 04,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Power Sense Resistor 01,Electrical,1,CPU Sub-Assembly,,Metal Strip,0.05 g,Standard
+CPU Power Sense Resistor 02,Electrical,1,CPU Sub-Assembly,,Metal Strip,0.05 g,Standard
+CPU Internal Thermal Sensor,Electrical,1,CPU Sub-Assembly,,Silicon,0.1 g,Custom
+CPU Clock Distribution Buffer,Electrical,1,CPU Sub-Assembly,,Silicon,0.3 g,Custom
+CPU EMI Shield Frame,Mechanical,1,CPU Sub-Assembly,,Stainless Steel,1.8 g,Custom
+CPU EMI Shield Cover,Mechanical,1,CPU Sub-Assembly,,Nickel Silver,2.2 g,Custom
+EMI Shield Solder Attach Process,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU Retention Frame,Mechanical,1,CPU Sub-Assembly,,Stainless Steel,6 g,Custom
+CPU Retention Screw 01,Fastener,1,CPU Sub-Assembly,,Steel,0.4 g,Standard
+CPU Retention Screw 02,Fastener,1,CPU Sub-Assembly,,Steel,0.4 g,Standard
+CPU Retention Screw 03,Fastener,1,CPU Sub-Assembly,,Steel,0.4 g,Standard
+CPU Retention Screw 04,Fastener,1,CPU Sub-Assembly,,Steel,0.4 g,Standard
+CPU Identification Label,Material,1,CPU Sub-Assembly,,PET,0.2 g,Standard
+CPU Traceability Label,Material,1,CPU Sub-Assembly,,PET,0.2 g,Standard
+CPU Assembly SMT Process,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU Underfill Cure Process,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU Electrical Wafer Sort Test,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU Package Burn-In Test,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU Final Functional Test,Process,1,CPU Sub-Assembly,,N/A,0 g,Custom
+CPU ESD Protective Tray,Material,1,CPU Sub-Assembly,,Conductive Plastic,15 g,Standard
+Moisture Barrier Bag,Material,1,CPU Sub-Assembly,,Aluminum Foil,3 g,Standard
+Desiccant Pack,Material,1,CPU Sub-Assembly,,Silica Gel,2 g,Standard
+Humidity Indicator Card,Material,1,CPU Sub-Assembly,,Paper / Chemical,1 g,Standard

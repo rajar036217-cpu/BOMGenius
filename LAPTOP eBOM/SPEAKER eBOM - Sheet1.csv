@@ -1,0 +1,64 @@
+S,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+Speaker Assembly,Sub-Assembly,1,Laptop Base Assembly,,N/A,0 g,Custom
+Left Speaker Sub-Assembly,Sub-Assembly,1,Speaker Assembly,,N/A,0 g,Custom
+Right Speaker Sub-Assembly,Sub-Assembly,1,Speaker Assembly,,N/A,0 g,Custom
+Speaker Housing – Left,Mechanical,1,Left Speaker Sub-Assembly,,PC+ABS,6.8 g,Custom
+Speaker Housing – Right,Mechanical,1,Right Speaker Sub-Assembly,,PC+ABS,6.8 g,Custom
+Speaker Housing UV Coating – Left,Material,1,Speaker Housing – Left,,UV Resin,0.2 g,Custom
+Speaker Housing UV Coating – Right,Material,1,Speaker Housing – Right,,UV Resin,0.2 g,Custom
+Speaker Acoustic Chamber – Left,Mechanical,1,Left Speaker Sub-Assembly,,PC+ABS,4.5 g,Custom
+Speaker Acoustic Chamber – Right,Mechanical,1,Right Speaker Sub-Assembly,,PC+ABS,4.5 g,Custom
+Acoustic Chamber Sealant – Left,Material,1,Left Speaker Sub-Assembly,,Silicone Sealant,0.4 g,Custom
+Acoustic Chamber Sealant – Right,Material,1,Right Speaker Sub-Assembly,,Silicone Sealant,0.4 g,Custom
+Speaker Diaphragm – Left,Mechanical,1,Left Speaker Sub-Assembly,,PET Film,0.9 g,Custom
+Speaker Diaphragm – Right,Mechanical,1,Right Speaker Sub-Assembly,,PET Film,0.9 g,Custom
+Diaphragm Edge Coating – Left,Material,1,Speaker Diaphragm – Left,,Acrylic Resin,0.1 g,Custom
+Diaphragm Edge Coating – Right,Material,1,Speaker Diaphragm – Right,,Acrylic Resin,0.1 g,Custom
+Speaker Voice Coil – Left,Electrical,1,Left Speaker Sub-Assembly,,Enamel Copper,1.2 g,Custom
+Speaker Voice Coil – Right,Electrical,1,Right Speaker Sub-Assembly,,Enamel Copper,1.2 g,Custom
+Voice Coil Former – Left,Mechanical,1,Left Speaker Sub-Assembly,,Kapton,0.3 g,Custom
+Voice Coil Former – Right,Mechanical,1,Right Speaker Sub-Assembly,,Kapton,0.3 g,Custom
+Speaker Magnet – Left,Electrical,1,Left Speaker Sub-Assembly,,NdFeB,3.6 g,Standard
+Speaker Magnet – Right,Electrical,1,Right Speaker Sub-Assembly,,NdFeB,3.6 g,Standard
+Magnet Anti-Corrosion Coating – Left,Material,1,Speaker Magnet – Left,,Nickel Plating,0 g,Standard
+Magnet Anti-Corrosion Coating – Right,Material,1,Speaker Magnet – Right,,Nickel Plating,0 g,Standard
+Speaker Pole Plate – Left,Mechanical,1,Left Speaker Sub-Assembly,,Low Carbon Steel,1.5 g,Custom
+Speaker Pole Plate – Right,Mechanical,1,Right Speaker Sub-Assembly,,Low Carbon Steel,1.5 g,Custom
+Speaker Top Plate – Left,Mechanical,1,Left Speaker Sub-Assembly,,Low Carbon Steel,1.2 g,Custom
+Speaker Top Plate – Right,Mechanical,1,Right Speaker Sub-Assembly,,Low Carbon Steel,1.2 g,Custom
+Magnetic Gap Spacer – Left,Mechanical,1,Left Speaker Sub-Assembly,,Stainless Steel,0.2 g,Custom
+Magnetic Gap Spacer – Right,Mechanical,1,Right Speaker Sub-Assembly,,Stainless Steel,0.2 g,Custom
+Speaker Suspension (Spider) – Left,Mechanical,1,Left Speaker Sub-Assembly,,Fabric Resin,0.6 g,Custom
+Speaker Suspension (Spider) – Right,Mechanical,1,Right Speaker Sub-Assembly,,Fabric Resin,0.6 g,Custom
+Spider Adhesive – Left,Material,1,Left Speaker Sub-Assembly,,Epoxy,0.15 g,Custom
+Spider Adhesive – Right,Material,1,Right Speaker Sub-Assembly,,Epoxy,0.15 g,Custom
+Speaker Terminal Pad – Left,Electrical,1,Left Speaker Sub-Assembly,,Copper Alloy,0.3 g,Standard
+Speaker Terminal Pad – Right,Electrical,1,Right Speaker Sub-Assembly,,Copper Alloy,0.3 g,Standard
+Speaker Lead Wire – Left,Electrical,1,Left Speaker Sub-Assembly,,Copper,0.4 g,Custom
+Speaker Lead Wire – Right,Electrical,1,Right Speaker Sub-Assembly,,Copper,0.4 g,Custom
+Lead Wire Insulation – Left,Material,1,Speaker Lead Wire – Left,,Polyurethane,0.1 g,Custom
+Lead Wire Insulation – Right,Material,1,Speaker Lead Wire – Right,,Polyurethane,0.1 g,Custom
+Speaker Damping Foam – Left,Material,1,Left Speaker Sub-Assembly,,PU Foam,1.1 g,Custom
+Speaker Damping Foam – Right,Material,1,Right Speaker Sub-Assembly,,PU Foam,1.1 g,Custom
+Speaker Sealing Gasket – Left,Material,1,Left Speaker Sub-Assembly,,Silicone Rubber,0.8 g,Custom
+Speaker Sealing Gasket – Right,Material,1,Right Speaker Sub-Assembly,,Silicone Rubber,0.8 g,Custom
+Acoustic Mesh – Left,Material,1,Left Speaker Sub-Assembly,,Nylon Mesh,0.3 g,Custom
+Acoustic Mesh – Right,Material,1,Right Speaker Sub-Assembly,,Nylon Mesh,0.3 g,Custom
+Speaker Wire Harness – Left,Component,1,Speaker Assembly,,Copper / PVC,2.2 g,Custom
+Speaker Wire Harness – Right,Component,1,Speaker Assembly,,Copper / PVC,2.2 g,Custom
+Harness Strain Relief – Left,Material,1,Speaker Wire Harness – Left,,TPE,0.3 g,Custom
+Harness Strain Relief – Right,Material,1,Speaker Wire Harness – Right,,TPE,0.3 g,Custom
+Speaker Connector (Board Side),Electrical,1,Speaker Assembly,,Copper Alloy,0.5 g,Standard
+Connector Lock Housing,Mechanical,1,Speaker Connector (Board Side),,Nylon,0.2 g,Standard
+Speaker EMI Ferrite Bead – Left,Electrical,1,Speaker Wire Harness – Left,,Ferrite,0.3 g,Standard
+Speaker EMI Ferrite Bead – Right,Electrical,1,Speaker Wire Harness – Right,,Ferrite,0.3 g,Standard
+Speaker Mounting Screw – Left,Fastener,1,Left Speaker Sub-Assembly,,Steel,0.4 g,Standard
+Speaker Mounting Screw – Right,Fastener,1,Right Speaker Sub-Assembly,,Steel,0.4 g,Standard
+Speaker Assembly Process – Left,Process,1,Left Speaker Sub-Assembly,,N/A,0 g,Custom
+Speaker Assembly Process – Right,Process,1,Right Speaker Sub-Assembly,,N/A,0 g,Custom
+Speaker Frequency Sweep Test – Left,Process,1,Left Speaker Sub-Assembly,,N/A,0 g,Custom
+Speaker Frequency Sweep Test – Right,Process,1,Right Speaker Sub-Assembly,,N/A,0 g,Custom
+Speaker THD Test – Left,Process,1,Left Speaker Sub-Assembly,,N/A,0 g,Custom
+Speaker THD Test – Right,Process,1,Right Speaker Sub-Assembly,,N/A,0 g,Custom
+Speaker Identification Label – Left,Material,1,Left Speaker Sub-Assembly,,PET,0.15 g,Standard
+Speaker Identification Label – Right,Material,1,Right Speaker Sub-Assembly,,PET,0.15 g,Standard

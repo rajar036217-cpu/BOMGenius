@@ -1,0 +1,62 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+Touchpad Sub-Assembly,Sub-Assembly,1,Laptop Top Case Assembly,,N/A,0 g,Custom
+Touchpad Cover Glass,Mechanical,1,Touchpad Sub-Assembly,,Chemically Strengthened Glass,22 g,Custom
+Glass Edge Chamfer Process,Process,1,Touchpad Cover Glass,,N/A,0 g,Custom
+Oleophobic Coating Layer,Material,1,Touchpad Cover Glass,,Fluoropolymer,0.2 g,Custom
+Anti-Fingerprint Coating,Material,1,Touchpad Cover Glass,,Nano Coating,0.1 g,Custom
+Touchpad Sensor Film,Component,1,Touchpad Sub-Assembly,,PET / ITO,6 g,Custom
+ITO Capacitive X-Axis Layer,Material,1,Touchpad Sensor Film,,Indium Tin Oxide,0.8 g,Custom
+ITO Capacitive Y-Axis Layer,Material,1,Touchpad Sensor Film,,Indium Tin Oxide,0.8 g,Custom
+Dielectric Spacer Film,Material,1,Touchpad Sensor Film,,PET,0.6 g,Custom
+Optical Bonding Adhesive,Material,1,Touchpad Sub-Assembly,,OCA,0.7 g,Custom
+Touchpad Controller IC,Electrical,1,Touchpad PCB Assembly,,Silicon,0.3 g,Standard
+Touchpad Firmware Flash IC,Electrical,1,Touchpad PCB Assembly,,Silicon,0.2 g,Standard
+ESD Protection Diode – D1,Electrical,1,Touchpad PCB Assembly,,Silicon,0.05 g,Standard
+ESD Protection Diode – D2,Electrical,1,Touchpad PCB Assembly,,Silicon,0.05 g,Standard
+Pull-up Resistor – R1,Electrical,1,Touchpad PCB Assembly,,Thick Film,0.01 g,Standard
+Pull-up Resistor – R2,Electrical,1,Touchpad PCB Assembly,,Thick Film,0.01 g,Standard
+Pull-up Resistor – R3,Electrical,1,Touchpad PCB Assembly,,Thick Film,0.01 g,Standard
+Decoupling Capacitor – C1,Electrical,1,Touchpad PCB Assembly,,MLCC,0.01 g,Standard
+Decoupling Capacitor – C2,Electrical,1,Touchpad PCB Assembly,,MLCC,0.01 g,Standard
+Decoupling Capacitor – C3,Electrical,1,Touchpad PCB Assembly,,MLCC,0.01 g,Standard
+Crystal Oscillator,Electrical,1,Touchpad PCB Assembly,,Quartz,0.05 g,Standard
+Touchpad PCB,Component,1,Touchpad PCB Assembly,,FR4,4 g,Custom
+PCB Copper Layer,Material,1,Touchpad PCB,,Copper,0.5 g,Custom
+PCB Solder Mask,Material,1,Touchpad PCB,,Epoxy,0 g,Custom
+PCB Silkscreen Layer,Material,1,Touchpad PCB,,Epoxy Ink,0 g,Custom
+PCB Surface Finish,Process,1,Touchpad PCB,,ENIG,0 g,Custom
+Click Dome – Left,Mechanical,1,Touchpad Sub-Assembly,,Stainless Steel,0.6 g,Custom
+Click Dome – Right,Mechanical,1,Touchpad Sub-Assembly,,Stainless Steel,0.6 g,Custom
+Click Force Leaf Spring,Mechanical,1,Touchpad Sub-Assembly,,Spring Steel,0.4 g,Custom
+Click Cushion Pad,Material,1,Touchpad Sub-Assembly,,Silicone Rubber,0.5 g,Custom
+Touchpad Support Bracket,Mechanical,1,Touchpad Sub-Assembly,,Aluminum,6 g,Custom
+Touchpad Retention Frame,Mechanical,1,Touchpad Sub-Assembly,,PC+ABS,4 g,Custom
+Grounding Bracket,Mechanical,1,Touchpad Sub-Assembly,,Stainless Steel,1 g,Standard
+Grounding Spring Finger,Mechanical,1,Touchpad Sub-Assembly,,Stainless Steel,0.2 g,Standard
+EMI Shielding Film – Top,Material,1,Touchpad Sub-Assembly,,Copper Foil,0.8 g,Standard
+EMI Shielding Film – Bottom,Material,1,Touchpad Sub-Assembly,,Copper Foil,0.8 g,Standard
+EMI Insulation Film,Material,1,Touchpad Sub-Assembly,,Polyimide,0.5 g,Standard
+Touchpad FPC Cable,Component,1,Touchpad Sub-Assembly,,Polyimide / Copper,2 g,Custom
+FPC Copper Trace Layer,Material,1,Touchpad FPC Cable,,Copper,0.4 g,Custom
+FPC Coverlay,Material,1,Touchpad FPC Cable,,Polyimide,0.3 g,Custom
+FPC Stiffener Plate,Material,1,Touchpad Sub-Assembly,,FR4,0.6 g,Custom
+Touchpad Board Connector,Electrical,1,Touchpad Sub-Assembly,,Copper Alloy,0.7 g,Standard
+Adhesive Tape – Perimeter,Material,1,Touchpad Sub-Assembly,,Acrylic,0.7 g,Custom
+Adhesive Tape – Center,Material,1,Touchpad Sub-Assembly,,Acrylic,0.5 g,Custom
+Cushion Foam – Left,Material,1,Touchpad Sub-Assembly,,PU Foam,0.8 g,Custom
+Cushion Foam – Right,Material,1,Touchpad Sub-Assembly,,PU Foam,0.8 g,Custom
+Cushion Foam – Bottom,Material,1,Touchpad Sub-Assembly,,PU Foam,1 g,Custom
+Dust Barrier Film,Material,1,Touchpad Sub-Assembly,,PET,0.4 g,Custom
+Touchpad Identification Label,Material,1,Touchpad Sub-Assembly,,PET,0.2 g,Standard
+Regulatory Compliance Label,Material,1,Touchpad Sub-Assembly,,PET,0.2 g,Standard
+Touchpad Assembly Process,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+Capacitive Sensitivity Calibration,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+Click Force Calibration,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+Gesture Accuracy Validation,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+ESD Robustness Test,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+Functional Click Test,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+AOI Inspection,Process,1,Touchpad Sub-Assembly,,N/A,0 g,Custom
+ESD Protective Bag,Material,1,Touchpad Sub-Assembly,,Conductive Plastic,5 g,Standard
+Moisture Barrier Bag,Material,1,Touchpad Sub-Assembly,,Aluminum Foil,4 g,Standard
+Desiccant Pack,Material,1,Touchpad Sub-Assembly,,Silica Gel,2 g,Standard
+Humidity Indicator Card,Material,1,Touchpad Sub-Assembly,,Paper / Chemical,1 g,Standard

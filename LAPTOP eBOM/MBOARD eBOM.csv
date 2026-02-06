@@ -1,0 +1,75 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+Laptop Motherboard Assembly,Assembly,1,Laptop,,FR4 / Mixed,180 g,Custom
+Motherboard PCB,Component,1,Laptop Motherboard Assembly,,FR4,120 g,Custom
+PCB Solder Mask,Material,1,Motherboard PCB,,Epoxy,2 g,Custom
+PCB Silkscreen,Material,1,Motherboard PCB,,Epoxy Ink,1 g,Custom
+CPU Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+CPU SoC,Electrical,1,CPU Sub-Assembly,,Silicon,15 g,Custom
+CPU Underfill Adhesive,Material,1,CPU Sub-Assembly,,Epoxy,1 g,Custom
+CPU Decoupling Capacitor 01,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 02,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 03,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 04,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 05,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 06,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 07,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Decoupling Capacitor 08,Electrical,1,CPU Sub-Assembly,,Ceramic,0.02 g,Standard
+CPU Series Resistor 01,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Series Resistor 02,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Series Resistor 03,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+CPU Series Resistor 04,Electrical,1,CPU Sub-Assembly,,Thick Film,0.01 g,Standard
+Memory Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+LPDDR IC 01,Electrical,1,Memory Sub-Assembly,,Silicon,2 g,Custom
+LPDDR IC 02,Electrical,1,Memory Sub-Assembly,,Silicon,2 g,Custom
+LPDDR IC 03,Electrical,1,Memory Sub-Assembly,,Silicon,2 g,Custom
+LPDDR IC 04,Electrical,1,Memory Sub-Assembly,,Silicon,2 g,Custom
+Memory Decoupling Capacitor 01,Electrical,1,Memory Sub-Assembly,,Ceramic,0.02 g,Standard
+Memory Decoupling Capacitor 02,Electrical,1,Memory Sub-Assembly,,Ceramic,0.02 g,Standard
+Memory Decoupling Capacitor 03,Electrical,1,Memory Sub-Assembly,,Ceramic,0.02 g,Standard
+Memory Decoupling Capacitor 04,Electrical,1,Memory Sub-Assembly,,Ceramic,0.02 g,Standard
+Memory Termination Resistor 01,Electrical,1,Memory Sub-Assembly,,Thick Film,0.01 g,Standard
+Memory Termination Resistor 02,Electrical,1,Memory Sub-Assembly,,Thick Film,0.01 g,Standard
+Power Delivery Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+VRM Controller IC,Electrical,1,Power Delivery Sub-Assembly,,Silicon,1 g,Custom
+High-Side MOSFET 01,Electrical,1,Power Delivery Sub-Assembly,,Silicon,1 g,Standard
+High-Side MOSFET 02,Electrical,1,Power Delivery Sub-Assembly,,Silicon,1 g,Standard
+Low-Side MOSFET 01,Electrical,1,Power Delivery Sub-Assembly,,Silicon,1 g,Standard
+Low-Side MOSFET 02,Electrical,1,Power Delivery Sub-Assembly,,Silicon,1 g,Standard
+Inductor 01,Electrical,1,Power Delivery Sub-Assembly,,Ferrite,2 g,Standard
+Inductor 02,Electrical,1,Power Delivery Sub-Assembly,,Ferrite,2 g,Standard
+Bulk Capacitor 01,Electrical,1,Power Delivery Sub-Assembly,,Polymer,1 g,Standard
+Bulk Capacitor 02,Electrical,1,Power Delivery Sub-Assembly,,Polymer,1 g,Standard
+Bulk Capacitor 03,Electrical,1,Power Delivery Sub-Assembly,,Polymer,1 g,Standard
+BIOS Flash IC,Electrical,1,Laptop Motherboard Assembly,,Silicon,0.5 g,Standard
+Embedded Controller IC,Electrical,1,Laptop Motherboard Assembly,,Silicon,1 g,Custom
+32 kHz Crystal,Electrical,1,Laptop Motherboard Assembly,,Quartz,0.2 g,Standard
+25 MHz Crystal,Electrical,1,Laptop Motherboard Assembly,,Quartz,0.2 g,Standard
+USB-C Connector 01,Component,1,Laptop Motherboard Assembly,,Copper / Steel,4 g,Standard
+USB-C Connector 02,Component,1,Laptop Motherboard Assembly,,Copper / Steel,4 g,Standard
+USB-A Connector,Component,1,Laptop Motherboard Assembly,,Copper / Steel,4 g,Standard
+HDMI Connector,Component,1,Laptop Motherboard Assembly,,Copper / Steel,5 g,Standard
+Audio Jack,Component,1,Laptop Motherboard Assembly,,Plastic / Copper,2 g,Standard
+LAN Controller IC,Electrical,1,Laptop Motherboard Assembly,,Silicon,1 g,Standard
+ESD Diode USB-01,Electrical,1,Laptop Motherboard Assembly,,Silicon,0.01 g,Standard
+ESD Diode USB-02,Electrical,1,Laptop Motherboard Assembly,,Silicon,0.01 g,Standard
+ESD Diode HDMI,Electrical,1,Laptop Motherboard Assembly,,Silicon,0.01 g,Standard
+M.2 Connector,Component,1,Laptop Motherboard Assembly,,Plastic / Copper,3 g,Standard
+M.2 Retention Screw,Fastener,1,Laptop Motherboard Assembly,,Steel,0.2 g,Standard
+EMI Shield Can 01,Component,1,Laptop Motherboard Assembly,,Nickel Silver,3 g,Custom
+EMI Shield Can 02,Component,1,Laptop Motherboard Assembly,,Nickel Silver,3 g,Custom
+EMI Shield Can 03,Component,1,Laptop Motherboard Assembly,,Nickel Silver,3 g,Custom
+Thermal Pad 01,Material,1,Laptop Motherboard Assembly,,Silicone,2 g,Standard
+Thermal Pad 02,Material,1,Laptop Motherboard Assembly,,Silicone,2 g,Standard
+Thermal Pad 03,Material,1,Laptop Motherboard Assembly,,Silicone,2 g,Standard
+Motherboard Mounting Screw 01,Fastener,1,Laptop Motherboard Assembly,,Steel,0.5 g,Standard
+Motherboard Mounting Screw 02,Fastener,1,Laptop Motherboard Assembly,,Steel,0.5 g,Standard
+Motherboard Mounting Screw 03,Fastener,1,Laptop Motherboard Assembly,,Steel,0.5 g,Standard
+Motherboard Mounting Screw 04,Fastener,1,Laptop Motherboard Assembly,,Steel,0.5 g,Standard
+Motherboard Serial Label,Material,1,Laptop Motherboard Assembly,,PET,0.5 g,Standard
+Regulatory Label,Material,1,Laptop Motherboard Assembly,,PET,0.5 g,Standard
+SMT Reflow Process,Process,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+AOI Inspection,Process,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+X-Ray Inspection,Process,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+Functional Test,Process,1,Laptop Motherboard Assembly,,N/A,0 g,Custom
+ESD Packaging Bag,Material,1,Laptop Motherboard Assembly,,Polyethylene,5 g,Standard
+Silica Gel Packet,Material,1,Laptop Motherboard Assembly,,Silica,2 g,Standard

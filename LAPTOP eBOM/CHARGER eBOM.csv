@@ -1,0 +1,80 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom
+Laptop Charger Assembly,Assembly,1,Laptop Accessory,N/A,0 g,Custom
+AC-DC Power Adapter Sub-Assembly,Sub-Assembly,1,Laptop Charger Assembly,N/A,0 g,Custom
+Adapter Housing – Top Shell,Mechanical,1,AC-DC Power Adapter Sub-Assembly,PC+ABS FR,85 g,Custom
+Adapter Housing – Bottom Shell,Mechanical,1,AC-DC Power Adapter Sub-Assembly,PC+ABS FR,85 g,Custom
+Housing Internal Rib Structure,Mechanical,1,Adapter Housing – Bottom Shell,PC+ABS FR,12 g,Custom
+Housing Flame Retardant System,Material,1,Adapter Housing – Top Shell,Brominated FR,0 g,Standard
+Housing Ultrasonic Weld Joint,Process,1,AC-DC Power Adapter Sub-Assembly,N/A,0 g,Custom
+Power PCB Assembly,Sub-Assembly,1,AC-DC Power Adapter Sub-Assembly,N/A,0 g,Custom
+Power PCB Bare Board,Component,1,Power PCB Assembly,FR-4,45 g,Custom
+PCB Glass Epoxy Core,Material,1,Power PCB Bare Board,FR-4,22 g,Custom
+PCB Copper Layer – Top,Material,1,Power PCB Bare Board,Copper,6 g,Custom
+PCB Copper Layer – Inner 1,Material,1,Power PCB Bare Board,Copper,5 g,Custom
+PCB Copper Layer – Inner 2,Material,1,Power PCB Bare Board,Copper,5 g,Custom
+PCB Copper Layer – Bottom,Material,1,Power PCB Bare Board,Copper,6 g,Custom
+PCB Prepreg Layer,Material,1,Power PCB Bare Board,Epoxy Glass,1.5 g,Custom
+PCB Solder Mask – Top,Material,1,Power PCB Bare Board,Epoxy,0 g,Custom
+PCB Solder Mask – Bottom,Material,1,Power PCB Bare Board,Epoxy,0 g,Custom
+PCB Silkscreen Ink,Material,1,Power PCB Bare Board,Epoxy Ink,0 g,Custom
+PCB ENIG Finish,Process,1,Power PCB Bare Board,ENIG,0 g,Custom
+AC Input Fuse,Electrical,1,Power PCB Assembly,Ceramic,1.2 g,Standard
+Fuse Heat Shrink Sleeve,Material,1,AC Input Fuse,Polyolefin,0.1 g,Standard
+MOV Surge Suppressor,Electrical,1,Power PCB Assembly,Zinc Oxide,2.5 g,Standard
+MOV Insulation Sleeve,Material,1,MOV Surge Suppressor,Silicone,0.2 g,Standard
+NTC Inrush Current Limiter,Electrical,1,Power PCB Assembly,Ceramic,1.8 g,Standard
+EMI Common Mode Choke,Electrical,1,Power PCB Assembly,Ferrite,6 g,Standard
+EMI Differential Mode Inductor,Electrical,1,Power PCB Assembly,Ferrite,4 g,Standard
+EMI X-Class Capacitor,Electrical,1,Power PCB Assembly,Polypropylene,2.2 g,Standard
+EMI Y-Class Capacitor – Line to GND,Electrical,1,Power PCB Assembly,Ceramic,0.8 g,Standard
+EMI Y-Class Capacitor – Neutral to GND,Electrical,1,Power PCB Assembly,Ceramic,0.8 g,Standard
+Bridge Rectifier,Electrical,1,Power PCB Assembly,Silicon,3.5 g,Standard
+Bridge Rectifier Heatslug,Mechanical,1,Bridge Rectifier,Copper,1.1 g,Standard
+Primary Bulk Capacitor,Electrical,1,Power PCB Assembly,Aluminum Electrolytic,18 g,Standard
+Bulk Capacitor PVC Sleeve,Material,1,Primary Bulk Capacitor,PVC,0.4 g,Standard
+Active PFC Controller IC,Electrical,1,Power PCB Assembly,Silicon,0.3 g,Standard
+PFC MOSFET,Electrical,1,Power PCB Assembly,Silicon,1.5 g,Standard
+PFC Boost Diode,Electrical,1,Power PCB Assembly,Silicon,1.1 g,Standard
+Main PWM Controller IC,Electrical,1,Power PCB Assembly,Silicon,0.25 g,Standard
+Primary Switching MOSFET,Electrical,1,Power PCB Assembly,Silicon,1.6 g,Standard
+Primary Transformer,Electrical,1,Power PCB Assembly,Copper / Ferrite,48 g,Custom
+Transformer Bobbin,Mechanical,1,Primary Transformer,Nylon,4 g,Custom
+Transformer Copper Windings,Electrical,1,Primary Transformer,Enamel Copper,18 g,Custom
+Transformer Core – Ferrite,Electrical,1,Primary Transformer,Ferrite,22 g,Custom
+Transformer Insulation Tape,Material,1,Primary Transformer,Polyimide,1.2 g,Custom
+Transformer Potting Compound,Material,1,Primary Transformer,Epoxy,3 g,Custom
+Secondary Rectifier Diode,Electrical,1,Power PCB Assembly,Silicon,1.1 g,Standard
+Synchronous Rectifier MOSFET,Electrical,1,Power PCB Assembly,Silicon,1.4 g,Standard
+Output Filter Inductor,Electrical,1,Power PCB Assembly,Ferrite,6.5 g,Standard
+Output Electrolytic Capacitor,Electrical,1,Power PCB Assembly,Aluminum Electrolytic,12 g,Standard
+Output MLCC Capacitor,Electrical,1,Power PCB Assembly,MLCC,0.2 g,Standard
+Optocoupler Feedback Device,Electrical,1,Power PCB Assembly,Silicon,0.4 g,Standard
+Secondary Regulation IC,Electrical,1,Power PCB Assembly,Silicon,0.2 g,Standard
+Output OVP / UVP IC,Electrical,1,Power PCB Assembly,Silicon,0.15 g,Standard
+Thermal Fuse,Electrical,1,Power PCB Assembly,Bimetal,0.8 g,Standard
+Primary Aluminum Heatsink,Mechanical,1,Power PCB Assembly,Aluminum,22 g,Custom
+Secondary Aluminum Heatsink,Mechanical,1,Power PCB Assembly,Aluminum,18 g,Custom
+Heatsink Anodization,Process,1,Primary Aluminum Heatsink,N/A,0 g,Custom
+Thermal Interface Pad – Primary,Material,1,Primary Aluminum Heatsink,Silicone,0.6 g,Custom
+Thermal Interface Pad – Secondary,Material,1,Secondary Aluminum Heatsink,Silicone,0.6 g,Custom
+Internal Electrical Insulation Sheet,Material,1,AC-DC Power Adapter Sub-Assembly,PET (Mylar),4 g,Standard
+Internal Shielding Tape,Material,1,AC-DC Power Adapter Sub-Assembly,Copper Foil,2 g,Custom
+AC Input Cable Assembly,Sub-Assembly,1,Laptop Charger Assembly,N/A,0 g,Standard
+AC Input Cable,Component,1,AC Input Cable Assembly,Copper / PVC,120 g,Standard
+AC Plug (Country Specific),Mechanical,1,AC Input Cable Assembly,Copper / PC,35 g,Standard
+Strain Relief – AC Side,Mechanical,1,AC Input Cable Assembly,TPE,6 g,Standard
+DC Output Cable Assembly,Sub-Assembly,1,Laptop Charger Assembly,N/A,0 g,Custom
+DC Output Cable,Component,1,DC Output Cable Assembly,Copper / TPE,95 g,Custom
+DC Cable Shield Braid,Material,1,DC Output Cable,Tinned Copper,6 g,Custom
+DC Cable Ferrite Core,Electrical,1,DC Output Cable Assembly,Ferrite,6 g,Standard
+DC Connector (USB-C / Barrel),Electrical,1,DC Output Cable Assembly,Copper Alloy,5 g,Custom
+Connector Overmold,Mechanical,1,DC Output Cable Assembly,TPE,4 g,Custom
+Adapter Rating & Safety Label,Material,1,Laptop Charger Assembly,PET,1.5 g,Standard
+Laser Marking / Printing Process,Process,1,Adapter Rating & Safety Label,N/A,0 g,Standard
+SMT Assembly Process,Process,1,Power PCB Assembly,N/A,0 g,Custom
+Reflow Soldering Process,Process,1,Power PCB Assembly,N/A,0 g,Custom
+Hi-Pot Safety Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom
+Load Regulation Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom
+Efficiency Measurement Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom
+Thermal Soak Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom
+Burn-In Reliability Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom

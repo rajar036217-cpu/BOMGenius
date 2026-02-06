@@ -1,0 +1,61 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+Wi-Fi Card Sub-Assembly,Sub-Assembly,1,Laptop Motherboard,,N/A,0 g,Custom
+Wi-Fi PCB Assembly,Sub-Assembly,1,Wi-Fi Card Sub-Assembly,,N/A,0 g,Custom
+Wi-Fi PCB Bare Board,Component,1,Wi-Fi PCB Assembly,,FR-4,2.2 g,Custom
+PCB Copper Layer – Top,Material,1,Wi-Fi PCB Bare Board,,Copper,0.3 g,Custom
+PCB Copper Layer – Inner 1,Material,1,Wi-Fi PCB Bare Board,,Copper,0.25 g,Custom
+PCB Copper Layer – Inner 2,Material,1,Wi-Fi PCB Bare Board,,Copper,0.25 g,Custom
+PCB Copper Layer – Bottom,Material,1,Wi-Fi PCB Bare Board,,Copper,0.3 g,Custom
+PCB Solder Mask,Material,1,Wi-Fi PCB Bare Board,,Epoxy,0 g,Custom
+PCB Silkscreen,Material,1,Wi-Fi PCB Bare Board,,Ink,0 g,Custom
+PCB Surface Finish,Process,1,Wi-Fi PCB Bare Board,,ENIG,0 g,Custom
+Wi-Fi / Bluetooth Combo SoC,Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.22 g,Standard
+RF Front-End Module,Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.18 g,Standard
+Power Management IC (PMIC),Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.12 g,Standard
+Serial Flash Memory,Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.08 g,Standard
+Crystal Oscillator – Main,Electrical,1,Wi-Fi PCB Assembly,,Quartz,0.05 g,Standard
+Crystal Oscillator – Bluetooth,Electrical,1,Wi-Fi PCB Assembly,,Quartz,0.04 g,Standard
+RF Switch IC,Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.06 g,Standard
+Low Noise Amplifier (LNA),Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.05 g,Standard
+Power Amplifier (PA),Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.07 g,Standard
+ESD Protection Diode – RF,Electrical,1,Wi-Fi PCB Assembly,,Silicon,0.03 g,Standard
+Buck Converter Inductor,Electrical,1,Wi-Fi PCB Assembly,,Ferrite,0.18 g,Standard
+Buck Converter Capacitor – C1,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.02 g,Standard
+Buck Converter Capacitor – C2,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.02 g,Standard
+Decoupling Capacitor – C3,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.01 g,Standard
+Decoupling Capacitor – C4,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.01 g,Standard
+Decoupling Capacitor – C5,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.01 g,Standard
+Pull-Up Resistor – R1,Electrical,1,Wi-Fi PCB Assembly,,Thick Film,0.01 g,Standard
+Pull-Up Resistor – R2,Electrical,1,Wi-Fi PCB Assembly,,Thick Film,0.01 g,Standard
+Pull-Up Resistor – R3,Electrical,1,Wi-Fi PCB Assembly,,Thick Film,0.01 g,Standard
+RF Matching Network – L1,Electrical,1,Wi-Fi PCB Assembly,,Ceramic,0.01 g,Standard
+RF Matching Network – C6,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.01 g,Standard
+RF Matching Network – C7,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.01 g,Standard
+RF Matching Network – C8,Electrical,1,Wi-Fi PCB Assembly,,MLCC,0.01 g,Standard
+M.2 Edge Connector Pads,Electrical,1,Wi-Fi PCB Assembly,,Gold-Plated Copper,0.15 g,Custom
+M.2 Key E Mechanical Slot,Mechanical,1,Wi-Fi Card Sub-Assembly,,FR-4,0 g,Standard
+RF Coax Connector – Main,Electrical,1,Wi-Fi PCB Assembly,,Brass,0.35 g,Standard
+RF Coax Connector – Aux,Electrical,1,Wi-Fi PCB Assembly,,Brass,0.35 g,Standard
+Antenna Coax Cable – Main,Component,1,Wi-Fi Card Sub-Assembly,,Copper / PTFE,1.6 g,Custom
+Antenna Coax Cable – Aux,Component,1,Wi-Fi Card Sub-Assembly,,Copper / PTFE,1.6 g,Custom
+RF Shield Can – Top,Mechanical,1,Wi-Fi PCB Assembly,,Nickel-Silver,1.2 g,Custom
+RF Shield Can – Bottom,Mechanical,1,Wi-Fi PCB Assembly,,Nickel-Silver,0.9 g,Custom
+RF Shield Soldering Process,Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+Thermal Interface Pad,Material,1,Wi-Fi Card Sub-Assembly,,Silicone,0.4 g,Custom
+Insulating Mylar Sheet,Material,1,Wi-Fi Card Sub-Assembly,,PET,0.25 g,Standard
+M.2 Retention Screw,Fastener,1,Wi-Fi Card Sub-Assembly,,Steel,0.4 g,Standard
+M.2 Standoff,Mechanical,1,Wi-Fi Card Sub-Assembly,,Brass,0.5 g,Standard
+PCB Assembly Process (SMT),Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+Reflow Soldering Process,Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+AOI Inspection,Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+RF Calibration Process,Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+Bluetooth Function Test,Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+Wi-Fi Throughput Test,Process,1,Wi-Fi Card Sub-Assembly,,N/A,0 g,Custom
+EMI Compliance Test,Process,1,Wi-Fi Card Sub-Assembly,,N/A,0 g,Custom
+MAC Address Programming,Process,1,Wi-Fi PCB Assembly,,N/A,0 g,Custom
+Module Identification Label,Material,1,Wi-Fi Card Sub-Assembly,,PET,0.15 g,Standard
+Laser Marking Process,Process,1,Module Identification Label,,N/A,0 g,Custom
+ESD Protective Bag,Material,1,Wi-Fi Card Sub-Assembly,,Conductive Plastic,4 g,Standard
+Moisture Barrier Bag,Material,1,Wi-Fi Card Sub-Assembly,,Aluminum Foil,3 g,Standard
+Desiccant Pack,Material,1,Wi-Fi Card Sub-Assembly,,Silica Gel,2 g,Standard
+Humidity Indicator Card,Material,1,Wi-Fi Card Sub-Assembly,,Paper / Chemical,1 g,Standard

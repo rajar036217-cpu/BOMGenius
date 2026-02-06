@@ -1,0 +1,79 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom
+SSD Sub-Assembly,Sub-Assembly,1,Laptop Motherboard Assembly,,N/A,0 g,Standard
+SSD PCB 2280,Component,1,SSD Sub-Assembly,,FR4,8 g,Custom
+PCB Copper Layer Top,Material,1,SSD PCB 2280,,Copper,0.5 g,Custom
+PCB Copper Layer Inner 1,Material,1,SSD PCB 2280,,Copper,0.5 g,Custom
+PCB Copper Layer Inner 2,Material,1,SSD PCB 2280,,Copper,0.5 g,Custom
+PCB Copper Layer Bottom,Material,1,SSD PCB 2280,,Copper,0.5 g,Custom
+PCB Core Laminate,Material,1,SSD PCB 2280,,Glass Fiber,2 g,Custom
+PCB Prepreg Layer A,Material,1,SSD PCB 2280,,Epoxy,0.4 g,Custom
+PCB Prepreg Layer B,Material,1,SSD PCB 2280,,Epoxy,0.4 g,Custom
+PCB Solder Mask Top,Material,1,SSD PCB 2280,,Epoxy,0.3 g,Custom
+PCB Solder Mask Bottom,Material,1,SSD PCB 2280,,Epoxy,0.3 g,Custom
+PCB Silkscreen Ink Top,Material,1,SSD PCB 2280,,Epoxy Ink,0.1 g,Custom
+PCB Silkscreen Ink Bottom,Material,1,SSD PCB 2280,,Epoxy Ink,0.1 g,Custom
+PCB ENIG Finish,Material,1,SSD PCB 2280,,Gold / Nickel,0.3 g,Custom
+M.2 Edge Connector Gold Fingers,Material,1,SSD PCB 2280,,Gold-Plated Copper,0.6 g,Custom
+PCB Edge Chamfering,Process,1,SSD PCB 2280,,N/A,0 g,Custom
+NVMe SSD Controller IC,Electrical,1,SSD Sub-Assembly,,Silicon,1.5 g,Custom
+Controller Silicon Die,Material,1,NVMe SSD Controller IC,,Silicon,0.4 g,Custom
+Controller Die Passivation,Material,1,NVMe SSD Controller IC,,Silicon Nitride,0.05 g,Custom
+Controller Mold Compound,Material,1,NVMe SSD Controller IC,,Epoxy,0.5 g,Custom
+Controller Leadframe,Material,1,NVMe SSD Controller IC,,Copper Alloy,0.3 g,Custom
+Controller Solder Ball Array,Material,1,NVMe SSD Controller IC,,SAC Alloy,0.2 g,Custom
+NAND Flash IC 01,Electrical,1,SSD Sub-Assembly,,Silicon,1.7 g,Custom
+NAND Flash IC 02,Electrical,1,SSD Sub-Assembly,,Silicon,1.7 g,Custom
+NAND Flash IC 03,Electrical,1,SSD Sub-Assembly,,Silicon,1.7 g,Custom
+NAND Flash IC 04,Electrical,1,SSD Sub-Assembly,,Silicon,1.7 g,Custom
+NAND Die Stack – Die 1,Material,1,NAND Flash IC 01,,Silicon,0.15 g,Custom
+NAND Die Stack – Die 2,Material,1,NAND Flash IC 01,,Silicon,0.15 g,Custom
+NAND Die Stack – Die 3,Material,1,NAND Flash IC 01,,Silicon,0.15 g,Custom
+NAND Die Stack – Die 4,Material,1,NAND Flash IC 01,,Silicon,0.15 g,Custom
+NAND Die Attach Adhesive,Material,1,NAND Flash IC 01,,Epoxy,0.2 g,Custom
+NAND Mold Compound,Material,1,NAND Flash IC 01,,Epoxy,0.4 g,Custom
+NAND Solder Ball Array,Material,1,NAND Flash IC 01,,SAC Alloy,0.2 g,Custom
+DRAM Cache IC,Electrical,1,SSD Sub-Assembly,,Silicon,0.8 g,Custom
+DRAM Die,Material,1,DRAM Cache IC,,Silicon,0.25 g,Custom
+DRAM Mold Compound,Material,1,DRAM Cache IC,,Epoxy,0.2 g,Custom
+DRAM Solder Ball Array,Material,1,DRAM Cache IC,,SAC Alloy,0.1 g,Custom
+PMIC,Electrical,1,SSD Sub-Assembly,,Silicon,0.4 g,Custom
+PMIC Die,Material,1,PMIC,,Silicon,0.12 g,Custom
+PMIC Mold Compound,Material,1,PMIC,,Epoxy,0.15 g,Custom
+PMIC Solder Ball Array,Material,1,PMIC,,SAC Alloy,0.08 g,Custom
+3.3V Buck Inductor,Electrical,1,SSD Sub-Assembly,,Ferrite,0.4 g,Standard
+Buck Input Capacitor,Electrical,1,SSD Sub-Assembly,,Ceramic,0.03 g,Standard
+Buck Output Capacitor A,Electrical,1,SSD Sub-Assembly,,Ceramic,0.03 g,Standard
+Buck Output Capacitor B,Electrical,1,SSD Sub-Assembly,,Ceramic,0.03 g,Standard
+Controller Decoupling Capacitor 01,Electrical,1,SSD Sub-Assembly,,Ceramic,0.02 g,Standard
+Controller Decoupling Capacitor 02,Electrical,1,SSD Sub-Assembly,,Ceramic,0.02 g,Standard
+Controller Decoupling Capacitor 03,Electrical,1,SSD Sub-Assembly,,Ceramic,0.02 g,Standard
+NAND VCC Decoupling Capacitor 01,Electrical,1,SSD Sub-Assembly,,Ceramic,0.02 g,Standard
+NAND VCC Decoupling Capacitor 02,Electrical,1,SSD Sub-Assembly,,Ceramic,0.02 g,Standard
+NAND VCC Decoupling Capacitor 03,Electrical,1,SSD Sub-Assembly,,Ceramic,0.02 g,Standard
+PCIe TX Series Resistor A,Electrical,1,SSD Sub-Assembly,,Thick Film,0.01 g,Standard
+PCIe TX Series Resistor B,Electrical,1,SSD Sub-Assembly,,Thick Film,0.01 g,Standard
+PCIe RX Termination Resistor A,Electrical,1,SSD Sub-Assembly,,Thick Film,0.01 g,Standard
+PCIe RX Termination Resistor B,Electrical,1,SSD Sub-Assembly,,Thick Film,0.01 g,Standard
+32 kHz Reference Crystal,Electrical,1,SSD Sub-Assembly,,Quartz,0.1 g,Standard
+Crystal Load Capacitor A,Electrical,1,SSD Sub-Assembly,,Ceramic,0.01 g,Standard
+Crystal Load Capacitor B,Electrical,1,SSD Sub-Assembly,,Ceramic,0.01 g,Standard
+ESD Diode – PCIe Lane 0,Electrical,1,SSD Sub-Assembly,,Silicon,0.05 g,Standard
+ESD Diode – PCIe Lane 1,Electrical,1,SSD Sub-Assembly,,Silicon,0.05 g,Standard
+EMI Shield Foil Top,Material,1,SSD Sub-Assembly,,Aluminum,0.8 g,Standard
+EMI Shield Foil Bottom,Material,1,SSD Sub-Assembly,,Aluminum,0.8 g,Standard
+Controller Thermal Pad,Material,1,SSD Sub-Assembly,,Silicone,1.2 g,Standard
+NAND Thermal Pad,Material,1,SSD Sub-Assembly,,Silicone,1.5 g,Standard
+Graphite Heat Spreader Label,Material,1,SSD Sub-Assembly,,Graphite,0.9 g,Custom
+SSD Product Label,Material,1,SSD Sub-Assembly,,PET,0.2 g,Standard
+Regulatory Compliance Label,Material,1,SSD Sub-Assembly,,PET,0.2 g,Standard
+SMT Placement,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+SMT Reflow,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+AOI Inspection,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+X-Ray Inspection,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+Firmware Flash Programming,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+Functional Read/Write Test,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+Burn-In Stress Test,Process,1,SSD Sub-Assembly,,N/A,0 g,Custom
+ESD Protective Tray,Material,1,SSD Sub-Assembly,,Conductive Plastic,12 g,Standard
+Moisture Barrier Bag,Material,1,SSD Sub-Assembly,,Aluminum Foil,3 g,Standard
+Desiccant Pack,Material,1,SSD Sub-Assembly,,Silica Gel,2 g,Standard
+Humidity Indicator Card,Material,1,SSD Sub-Assembly,,Paper / Chemical,1 g,Standard

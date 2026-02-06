@@ -1,0 +1,68 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom
+Cooling Fan Sub-Assembly,Sub-Assembly,1,Laptop Thermal Module,N/A,0 g,Custom
+Fan Upper Housing,Mechanical,1,Cooling Fan Sub-Assembly,PC+ABS,17 g,Custom
+Fan Lower Housing,Mechanical,1,Cooling Fan Sub-Assembly,PC+ABS,15 g,Custom
+Fan Inlet Ring,Mechanical,1,Cooling Fan Sub-Assembly,PC+ABS,4 g,Custom
+Fan Outlet Duct,Mechanical,1,Cooling Fan Sub-Assembly,PC+ABS,6 g,Custom
+Impeller Wheel,Mechanical,1,Cooling Fan Sub-Assembly,Glass-Filled PBT,11 g,Custom
+Impeller Hub Insert,Mechanical,1,Impeller Wheel,Steel,0.8 g,Custom
+Dynamic Balance Weight,Mechanical,1,Impeller Wheel,Steel,0.25 g,Custom
+Brushless DC Motor Assembly,Sub-Assembly,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+Rotor Permanent Magnet,Electrical,1,Brushless DC Motor Assembly,NdFeB,3.5 g,Standard
+Rotor Shaft,Mechanical,1,Brushless DC Motor Assembly,Stainless Steel,1.8 g,Custom
+Shaft Surface Polishing Process,Process,1,Rotor Shaft,N/A,0 g,Custom
+Upper Sleeve Bearing,Mechanical,1,Brushless DC Motor Assembly,Oil-Impregnated Bronze,1.1 g,Standard
+Lower Sleeve Bearing,Mechanical,1,Brushless DC Motor Assembly,Oil-Impregnated Bronze,1.1 g,Standard
+Bearing Lubrication Oil,Material,1,Brushless DC Motor Assembly,Synthetic Oil,0.2 g,Standard
+Bearing Retainer Washer,Mechanical,1,Brushless DC Motor Assembly,Spring Steel,0.15 g,Standard
+Stator Core Lamination,Electrical,1,Brushless DC Motor Assembly,Silicon Steel,4.8 g,Custom
+Copper Winding – Phase A,Electrical,1,Brushless DC Motor Assembly,Enameled Copper,2.1 g,Custom
+Copper Winding – Phase B,Electrical,1,Brushless DC Motor Assembly,Enameled Copper,2.1 g,Custom
+Copper Winding – Phase C,Electrical,1,Brushless DC Motor Assembly,Enameled Copper,2.1 g,Custom
+Winding Insulation Coating,Material,1,Brushless DC Motor Assembly,Epoxy Resin,0.4 g,Custom
+Motor Control PCB,Component,1,Cooling Fan Sub-Assembly,FR-4,2.8 g,Custom
+PCB Copper Layer,Material,1,Motor Control PCB,Copper,0.35 g,Custom
+PCB Solder Mask,Material,1,Motor Control PCB,Epoxy,0 g,Custom
+PCB Surface Finish,Process,1,Motor Control PCB,ENIG,0 g,Custom
+BLDC Motor Driver IC,Electrical,1,Motor Control PCB,Silicon,0.12 g,Standard
+Hall Sensor IC – U1,Electrical,1,Motor Control PCB,Silicon,0.08 g,Standard
+Hall Sensor IC – U2,Electrical,1,Motor Control PCB,Silicon,0.08 g,Standard
+Hall Sensor IC – U3,Electrical,1,Motor Control PCB,Silicon,0.08 g,Standard
+PWM Control IC,Electrical,1,Motor Control PCB,Silicon,0.1 g,Standard
+Flyback Diode,Electrical,1,Motor Control PCB,Silicon,0.04 g,Standard
+Current Sense Resistor,Electrical,1,Motor Control PCB,Thick Film,0.02 g,Standard
+Pull-Up Resistor – R1,Electrical,1,Motor Control PCB,Thick Film,0.01 g,Standard
+Pull-Up Resistor – R2,Electrical,1,Motor Control PCB,Thick Film,0.01 g,Standard
+Pull-Up Resistor – R3,Electrical,1,Motor Control PCB,Thick Film,0.01 g,Standard
+Decoupling Capacitor – C1,Electrical,1,Motor Control PCB,MLCC,0.01 g,Standard
+Decoupling Capacitor – C2,Electrical,1,Motor Control PCB,MLCC,0.01 g,Standard
+Decoupling Capacitor – C3,Electrical,1,Motor Control PCB,MLCC,0.01 g,Standard
+Fan Power Cable,Component,1,Cooling Fan Sub-Assembly,Copper / PVC,2.6 g,Custom
+Cable PVC Insulation,Material,1,Fan Power Cable,PVC,0.9 g,Custom
+Ferrite Bead EMI Filter,Electrical,1,Fan Power Cable,Ferrite,0.35 g,Standard
+Fan Connector Housing,Electrical,1,Cooling Fan Sub-Assembly,Nylon,0.3 g,Standard
+Crimp Terminal – Pin 1,Electrical,1,Fan Connector Housing,Phosphor Bronze,0.08 g,Standard
+Crimp Terminal – Pin 2,Electrical,1,Fan Connector Housing,Phosphor Bronze,0.08 g,Standard
+Crimp Terminal – Pin 3,Electrical,1,Fan Connector Housing,Phosphor Bronze,0.08 g,Standard
+Crimp Terminal – Pin 4,Electrical,1,Fan Connector Housing,Phosphor Bronze,0.08 g,Standard
+Cable Strain Relief Clip,Mechanical,1,Cooling Fan Sub-Assembly,Nylon,0.25 g,Custom
+Anti-Vibration Pad – A,Material,1,Cooling Fan Sub-Assembly,Silicone Rubber,0.6 g,Custom
+Anti-Vibration Pad – B,Material,1,Cooling Fan Sub-Assembly,Silicone Rubber,0.6 g,Custom
+Acoustic Absorber Foam,Material,1,Cooling Fan Sub-Assembly,PU Foam,1.1 g,Custom
+Dust Filter Mesh,Material,1,Cooling Fan Sub-Assembly,Nylon Mesh,0.45 g,Custom
+Fan Mounting Screw – 1,Fastener,1,Cooling Fan Sub-Assembly,Steel,0.4 g,Standard
+Fan Mounting Screw – 2,Fastener,1,Cooling Fan Sub-Assembly,Steel,0.4 g,Standard
+Fan Mounting Screw – 3,Fastener,1,Cooling Fan Sub-Assembly,Steel,0.4 g,Standard
+Fan Identification Label,Material,1,Cooling Fan Sub-Assembly,PET,0.15 g,Standard
+Laser Marking Process,Process,1,Fan Identification Label,N/A,0 g,Custom
+Fan Assembly Process,Process,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+Rotor Dynamic Balancing,Process,1,Brushless DC Motor Assembly,N/A,0 g,Custom
+Electrical Spin-Up Test,Process,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+PWM Speed Calibration,Process,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+Noise & Vibration Test,Process,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+Airflow & Static Pressure Test,Process,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+Burn-In Reliability Test,Process,1,Cooling Fan Sub-Assembly,N/A,0 g,Custom
+ESD Protective Bag,Material,1,Cooling Fan Sub-Assembly,Conductive Plastic,5 g,Standard
+Moisture Barrier Bag,Material,1,Cooling Fan Sub-Assembly,Aluminum Foil,4 g,Standard
+Desiccant Pack,Material,1,Cooling Fan Sub-Assembly,Silica Gel,2 g,Standard
+Humidity Indicator Card,Material,1,Cooling Fan Sub-Assembly,Paper / Chemical,1 g,Standard

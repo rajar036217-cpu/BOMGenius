@@ -1,0 +1,11 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+Steering Gear Assy,Assembly,1,Top Level,Buy,Mixed,14 kg,Custom,No
+EPAS Motor/Rack Assy,Sub-Assy,1,Steering Gear Assy,Buy,Al/Steel/Elec,11.5 kg,Custom,No
+Inner Tie Rod,Component,1,EPAS Motor/Rack,Buy,Forged Steel,0.8 kg,Custom,No
+Inner Tie Rod,Component,1,EPAS Motor/Rack,Buy,Forged Steel,0.8 kg,Custom,No
+Tie Rod End,Component,1,Steering Gear Assy,Buy,Steel,0.5 kg,Standard,No
+Tie Rod End,Component,1,Steering Gear Assy,Buy,Steel,0.5 kg,Standard,No
+Steering Column,Sub-Assy,1,Top Level,Buy,Steel/Plastic,4.2 kg,Custom,No
+Universal Joint,Component,1,Steering Column,Buy,Steel,0.3 kg,Standard,No
+Pinch Bolt M10,Fastener,1,Steering Column,Buy,Grade 10.9,35g,Standard,Yes
+Pinch Bolt M10,Fastener,1,Steering Column,Buy,Grade 10.9,35g,Standard,Yes

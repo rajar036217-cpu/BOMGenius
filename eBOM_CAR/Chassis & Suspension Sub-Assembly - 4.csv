@@ -1,0 +1,19 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+Front Suspension Assy,Assembly,1,Top Level,Make,Steel/Al,55 kg,Custom,No
+MacPherson Strut,Sub-Assy,1,Front Suspension,Buy,Steel/Oil,8.5 kg,Custom,No
+MacPherson Strut,Sub-Assy,1,Front Suspension,Buy,Steel/Oil,8.5 kg,Custom,No
+Lower Control Arm,Component,1,Front Suspension,Buy,Forged Al,3.2 kg,Custom,No
+Lower Control Arm,Component,1,Front Suspension,Buy,Forged Al,3.2 kg,Custom,No
+Stabilizer Bar,Component,1,Front Suspension,Make,Spring Steel,4.5 kg,Custom,No
+Hub & Bearing Assy,Sub-Assy,1,Front Suspension,Buy,Steel,4.1 kg,Standard,No
+Hub & Bearing Assy,Sub-Assy,1,Front Suspension,Buy,Steel,4.1 kg,Standard,No
+Ball Joint,Component,1,Lower Control Arm,Buy,Steel/Rubber,0.6 kg,Standard,No
+Ball Joint,Component,1,Lower Control Arm,Buy,Steel/Rubber,0.6 kg,Standard,No
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes
+Flange Bolt M14x1.5,Fastener,1,Front Suspension,Buy,Grade 12.9,110g,Standard,Yes

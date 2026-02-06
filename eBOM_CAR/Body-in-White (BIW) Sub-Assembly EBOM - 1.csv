@@ -1,0 +1,50 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+BIW Structure Assy,Assembly,1,Top Level,Make,Steel/Al,380 kg,Custom,No
+Floor Pan Assembly,Sub-Assy,1,BIW Structure Assy,Make,DP600 Steel,85 kg,Custom,No
+Front Engine Cradle,Component,1,Floor Pan Assembly,Buy,Boron Steel,18 kg,Custom,No
+Side Frame Outer (LH),Component,1,BIW Structure Assy,Make,Trip Steel,12 kg,Custom,No
+Side Frame Outer (RH),Component,1,BIW Structure Assy,Make,Trip Steel,12 kg,Custom,No
+Roof Panel,Component,1,BIW Structure Assy,Make,Aluminum 6xxx,9 kg,Custom,No
+A-Pillar Reinforcement,Component,1,BIW Structure Assy,Make,UHSS,3.5 kg,Custom,No
+A-Pillar Reinforcement,Component,1,BIW Structure Assy,Make,UHSS,3.5 kg,Custom,No
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+M8x1.25 Weld Nut,Fastener,1,Floor Pan Assembly,Buy,Class 10 Steel,12g,Standard,Yes
+Structural Adhesive,Component,1,BIW Structure Assy,Buy,Epoxy,4 kg,Standard,No

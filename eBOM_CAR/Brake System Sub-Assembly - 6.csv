@@ -1,0 +1,12 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+Brake Corner Module,Assembly,1,Top Level,Make,Cast Iron/Al,12 kg,Custom,No
+Brake Corner Module,Assembly,1,Top Level,Make,Cast Iron/Al,12 kg,Custom,No
+Brake Corner Module,Assembly,1,Top Level,Make,Cast Iron/Al,12 kg,Custom,No
+Brake Corner Module,Assembly,1,Top Level,Make,Cast Iron/Al,12 kg,Custom,No
+Brake Caliper,Sub-Assy,1,Brake Corner Mod,Buy,Aluminum,3.2 kg,Custom,No
+Ventilated Rotor,Component,1,Brake Corner Mod,Buy,Cast Iron,7.5 kg,Custom,No
+Brake Pad Set,Component,1,Brake Caliper,Buy,Semi-Metallic,0.8 kg,Standard,No
+Brake Booster (iBooster),Sub-Assy,1,Top Level,Buy,Mixed,4.5 kg,Custom,No
+Brake Line (Flex),Component,1,Brake Corner Mod,Buy,Reinforced EPDM,0.2 kg,Standard,No
+Caliper Mounting Bolt,Fastener,1,Brake Corner Mod,Buy,Grade 10.9,60g,Standard,Yes
+Caliper Mounting Bolt,Fastener,1,Brake Corner Mod,Buy,Grade 10.9,60g,Standard,Yes

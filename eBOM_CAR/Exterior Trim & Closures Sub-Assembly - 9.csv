@@ -1,0 +1,16 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+Front Door Assy (LH),Assembly,1,Top Level,Make,Steel/Al,22 kg,Custom,No
+Door Outer Panel,Component,1,Front Door Assy,Make,Steel,6.5 kg,Custom,No
+Door Inner Module,Sub-Assy,1,Front Door Assy,Buy,PP/Steel,4.2 kg,Custom,No
+Window Regulator,Sub-Assy,1,Door Inner Module,Buy,Steel/Plastic,1.8 kg,Custom,No
+Side Mirror Assembly,Sub-Assy,1,Front Door Assy,Buy,Plastic/Glass,1.2 kg,Custom,No
+Door Hinge,Component,1,Front Door Assy,Buy,Forged Steel,0.7 kg,Standard,No
+Door Hinge,Component,1,Front Door Assy,Buy,Forged Steel,0.7 kg,Standard,No
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes
+M8 Torx Bolt,Fastener,1,Door Hinge,Buy,Grade 8.8,15g,Standard,Yes

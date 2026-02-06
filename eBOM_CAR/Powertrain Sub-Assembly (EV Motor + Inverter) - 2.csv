@@ -1,0 +1,19 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+Drive Unit Assy,Assembly,1,Top Level,Make,Mixed,95 kg,Custom,No
+Traction Motor,Sub-Assy,1,Drive Unit Assy,Buy,Copper/Steel,60 kg,Custom,No
+Power Inverter Module,Sub-Assy,1,Drive Unit Assy,Buy,Al/Electronics,12 kg,Custom,No
+Single-Speed Gearbox,Sub-Assy,1,Drive Unit Assy,Make,Steel/Al,22 kg,Custom,No
+Rotor Shaft,Component,1,Traction Motor,Make,40Cr Steel,8 kg,Custom,No
+IGBT Heat Sink,Component,1,Power Inverter,Buy,Al 6061,1.2 kg,Custom,No
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes
+Housing Bolt M10x50,Fastener,1,Drive Unit Assy,Buy,Grade 10.9,45g,Standard,Yes

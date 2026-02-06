@@ -1,0 +1,18 @@
+Part Name,Part Type,Qty,Parent Assembly,Make/Buy,Material,Weight,Standard/Custom,Fastener
+Front Cooling Pack,Assembly,1,Top Level,Make,Mixed,15 kg,Custom,No
+Radiator / Heat Exchanger,Component,1,Front Cooling Pack,Buy,Aluminum,3.5 kg,Custom,No
+Condenser,Component,1,Front Cooling Pack,Buy,Aluminum,2.2 kg,Custom,No
+Cooling Fan Motor,Sub-Assy,1,Front Cooling Pack,Buy,Plastic/Copper,2.8 kg,Standard,No
+Shroud / Ducting,Component,1,Front Cooling Pack,Make,PP,1.5 kg,Custom,No
+Electric Coolant Pump,Component,1,Top Level,Buy,Plastic/Al,0.9 kg,Custom,No
+Electric Coolant Pump,Component,1,Top Level,Buy,Plastic/Al,0.9 kg,Custom,No
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes
+Self-Tapping Screw,Fastener,1,Shroud,Buy,Zinc Plated Steel,4g,Standard,Yes

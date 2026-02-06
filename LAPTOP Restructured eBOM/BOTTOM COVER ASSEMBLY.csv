@@ -1,0 +1,48 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Bottom Cover / D-Cover Assembly,Sub-Assembly,1,Laptop Main Assembly,Buy,N/A,0 g,Standard,No
+Bottom Cover Main Housing,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,160 g,Custom,No
+Bottom Cover Internal Rib Structure,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,35 g,Custom,No
+Molded Screw Boss – Front Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Molded Screw Boss – Front Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Molded Screw Boss – Rear Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Molded Screw Boss – Rear Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Ventilation Grill – Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,4 g,Custom,No
+Ventilation Grill – Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,ABS Plastic,4 g,Custom,No
+Air Intake Mesh – Left,Material,1,Bottom Cover / D-Cover Assembly,Buy,Stainless Steel Mesh,2 g,Standard,No
+Air Intake Mesh – Right,Material,1,Bottom Cover / D-Cover Assembly,Buy,Stainless Steel Mesh,2 g,Standard,No
+Mesh Fixing Adhesive – Left,Material,1,Bottom Cover / D-Cover Assembly,Buy,Acrylic Adhesive,0.2 g,Standard,No
+Mesh Fixing Adhesive – Right,Material,1,Bottom Cover / D-Cover Assembly,Buy,Acrylic Adhesive,0.2 g,Standard,No
+Bottom Cover Surface Texture Etching,Process,1,Bottom Cover / D-Cover Assembly,Make,N/A,0 g,Standard,No
+Bottom Cover UV / Paint Coating,Process,1,Bottom Cover / D-Cover Assembly,Make,UV Coating,0 g,Custom,No
+EMI Shield Foil – Center Area,Material,1,Bottom Cover / D-Cover Assembly,Buy,Aluminum Foil,6 g,Standard,No
+EMI Shield Foil – Battery Area,Material,1,Bottom Cover / D-Cover Assembly,Buy,Aluminum Foil,4 g,Standard,No
+EMI Shield Foil – SSD Area,Material,1,Bottom Cover / D-Cover Assembly,Buy,Aluminum Foil,2 g,Standard,No
+EMI Foil Grounding Tab,Material,1,Bottom Cover / D-Cover Assembly,Buy,Copper,0.3 g,Standard,No
+Insulation Mylar – Battery Zone,Material,1,Bottom Cover / D-Cover Assembly,Buy,PET,5 g,Standard,No
+Insulation Mylar – Motherboard Zone,Material,1,Bottom Cover / D-Cover Assembly,Buy,PET,4 g,Standard,No
+Insulation Mylar – Fan Zone,Material,1,Bottom Cover / D-Cover Assembly,Buy,PET,3 g,Standard,No
+Foam Cushion – Battery Support,Material,1,Bottom Cover / D-Cover Assembly,Buy,PU Foam,4 g,Standard,No
+Foam Cushion – Speaker Support Left,Material,1,Bottom Cover / D-Cover Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Cushion – Speaker Support Right,Material,1,Bottom Cover / D-Cover Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Cushion – Fan Isolation,Material,1,Bottom Cover / D-Cover Assembly,Buy,PU Foam,1.5 g,Standard,No
+Rubber Foot – Front Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,Rubber,3 g,Standard,No
+Rubber Foot – Front Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,Rubber,3 g,Standard,No
+Rubber Foot – Rear Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,Rubber,3 g,Standard,No
+Rubber Foot – Rear Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Buy,Rubber,3 g,Standard,No
+Rubber Foot Adhesive – Front Left,Material,1,Bottom Cover / D-Cover Assembly,Buy,PSA Adhesive,0.1 g,Standard,No
+Rubber Foot Adhesive – Front Right,Material,1,Bottom Cover / D-Cover Assembly,Buy,PSA Adhesive,0.1 g,Standard,No
+Rubber Foot Adhesive – Rear Left,Material,1,Bottom Cover / D-Cover Assembly,Buy,PSA Adhesive,0.1 g,Standard,No
+Rubber Foot Adhesive – Rear Right,Material,1,Bottom Cover / D-Cover Assembly,Buy,PSA Adhesive,0.1 g,Standard,No
+Bottom Cover Screw – Front Left,Fastener,1,Bottom Cover / D-Cover Assembly,Buy,Steel,0.4 g,Standard,Yes
+Bottom Cover Screw – Front Right,Fastener,1,Bottom Cover / D-Cover Assembly,Buy,Steel,0.4 g,Standard,Yes
+Bottom Cover Screw – Middle Left,Fastener,1,Bottom Cover / D-Cover Assembly,Buy,Steel,0.4 g,Standard,Yes
+Bottom Cover Screw – Middle Right,Fastener,1,Bottom Cover / D-Cover Assembly,Buy,Steel,0.4 g,Standard,Yes
+Bottom Cover Screw – Rear Left,Fastener,1,Bottom Cover / D-Cover Assembly,Buy,Steel,0.4 g,Standard,Yes
+Bottom Cover Screw – Rear Right,Fastener,1,Bottom Cover / D-Cover Assembly,Buy,Steel,0.4 g,Standard,Yes
+Bottom Cover Logo / Branding Label,Material,1,Bottom Cover / D-Cover Assembly,Buy,PET,0.3 g,Custom,No
+Regulatory Compliance Label,Material,1,Bottom Cover / D-Cover Assembly,Buy,PET,0.3 g,Standard,No
+Serial Number Label,Material,1,Bottom Cover / D-Cover Assembly,Buy,PET,0.3 g,Standard,No
+Bottom Cover Fitment Inspection,Process,1,Bottom Cover / D-Cover Assembly,Make,N/A,0 g,Standard,No
+Cosmetic Surface Inspection,Process,1,Bottom Cover / D-Cover Assembly,Make,N/A,0 g,Standard,No
+EMI Continuity Test,Process,1,Bottom Cover / D-Cover Assembly,Make,N/A,0 g,Standard,No
+Final QA Inspection,Process,1,Bottom Cover / D-Cover Assembly,Make,N/A,0 g,Standard,No

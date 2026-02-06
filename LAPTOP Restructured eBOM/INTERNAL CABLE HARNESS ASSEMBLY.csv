@@ -1,0 +1,48 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Internal Cable Harness Assembly,Sub-Assembly,1,Laptop Main Assembly,Buy,N/A,0 g,Standard,No
+Main Harness Trunk Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,12 g,Custom,No
+Display eDP Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PET,8 g,Custom,No
+Display eDP Connector – Motherboard Side,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.6 g,Standard,No
+Display eDP Connector – Panel Side,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.6 g,Standard,No
+Display Cable EMI Foil Wrap,Material,1,Internal Cable Harness Assembly,Buy,Aluminum Foil,1.2 g,Standard,No
+Display Cable Ground Drain Wire,Electrical,1,Internal Cable Harness Assembly,Buy,Copper,0.4 g,Standard,No
+Battery Power Cable – Red,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,1.2 g,Standard,No
+Battery Power Cable – Black,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,1.2 g,Standard,No
+Battery Connector – Motherboard Side,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.5 g,Standard,No
+Speaker Cable – Left Channel,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,0.6 g,Standard,No
+Speaker Cable – Right Channel,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,0.6 g,Standard,No
+Speaker Connector – Motherboard Side,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.4 g,Standard,No
+Keyboard FPC Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Polyimide + Copper,1.5 g,Custom,No
+Keyboard FPC Connector,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.3 g,Standard,No
+Touchpad FPC Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Polyimide + Copper,1.2 g,Custom,No
+Touchpad FPC Connector,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.3 g,Standard,No
+Power Button Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,0.5 g,Standard,No
+Power Button Connector,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.2 g,Standard,No
+I/O Daughter Board Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,1.8 g,Custom,No
+I/O Board Connector – MB Side,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.4 g,Standard,No
+Wi-Fi Antenna Cable – Main,Electrical,1,Internal Cable Harness Assembly,Buy,Coaxial Copper,0.8 g,Standard,No
+Wi-Fi Antenna Cable – Aux,Electrical,1,Internal Cable Harness Assembly,Buy,Coaxial Copper,0.8 g,Standard,No
+Antenna I-PEX Connector – Main,Electrical,1,Internal Cable Harness Assembly,Buy,Brass + Gold Plate,0.15 g,Standard,No
+Antenna I-PEX Connector – Aux,Electrical,1,Internal Cable Harness Assembly,Buy,Brass + Gold Plate,0.15 g,Standard,No
+Camera Module Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PET,1.0 g,Custom,No
+Camera Connector – Motherboard,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.3 g,Standard,No
+Microphone Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,0.4 g,Standard,No
+Microphone Connector,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.2 g,Standard,No
+DC-In Jack Cable,Electrical,1,Internal Cable Harness Assembly,Buy,Copper + PVC,2.0 g,Custom,No
+DC-In Connector,Electrical,1,Internal Cable Harness Assembly,Buy,Nylon + Copper,0.6 g,Standard,No
+Cable Sleeve – Main Harness,Material,1,Internal Cable Harness Assembly,Buy,PET Braided Sleeve,1.5 g,Standard,No
+Heat-Shrink Tube – Harness Joint A,Material,1,Internal Cable Harness Assembly,Buy,Polyolefin,0.2 g,Standard,No
+Heat-Shrink Tube – Harness Joint B,Material,1,Internal Cable Harness Assembly,Buy,Polyolefin,0.2 g,Standard,No
+Kapton Tape – Harness Wrap A,Material,1,Internal Cable Harness Assembly,Buy,Polyimide,0.3 g,Standard,No
+Kapton Tape – Harness Wrap B,Material,1,Internal Cable Harness Assembly,Buy,Polyimide,0.3 g,Standard,No
+Harness Fixing Tape – Chassis Area,Material,1,Internal Cable Harness Assembly,Buy,Acrylic Tape,0.4 g,Standard,No
+Harness Retention Clip – Left,Mechanical,1,Internal Cable Harness Assembly,Buy,Nylon Plastic,0.3 g,Standard,No
+Harness Retention Clip – Right,Mechanical,1,Internal Cable Harness Assembly,Buy,Nylon Plastic,0.3 g,Standard,No
+Ground Ring Terminal,Electrical,1,Internal Cable Harness Assembly,Buy,Copper,0.4 g,Standard,No
+Ground Screw – Harness,Fastener,1,Internal Cable Harness Assembly,Buy,Steel,0.3 g,Standard,Yes
+Harness Continuity Test,Process,1,Internal Cable Harness Assembly,Make,N/A,0 g,Standard,No
+Insulation Resistance Test,Process,1,Internal Cable Harness Assembly,Make,N/A,0 g,Standard,No
+EMI Leakage Test,Process,1,Internal Cable Harness Assembly,Make,N/A,0 g,Standard,No
+Connector Pull-Force Test,Process,1,Internal Cable Harness Assembly,Make,N/A,0 g,Standard,No
+Final Harness Visual Inspection,Process,1,Internal Cable Harness Assembly,Make,N/A,0 g,Standard,No
+Harness Identification Label,Material,1,Internal Cable Harness Assembly,Buy,PET,0.2 g,Standard,No

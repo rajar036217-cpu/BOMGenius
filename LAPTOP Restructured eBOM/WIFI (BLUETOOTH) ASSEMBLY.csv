@@ -1,0 +1,56 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Wi-Fi / Bluetooth Card Assembly,Sub-Assembly,1,Motherboard Assembly,Buy,N/A,0 g,Standard,No
+M.2 2230 RF PCB,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Buy,FR4,3.5 g,Custom,No
+Wi-Fi / BT Combo SoC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.6 g,Standard,No
+RF Front End Module (FEM),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.3 g,Standard,No
+Low Noise Amplifier (LNA),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.15 g,Standard,No
+Power Amplifier (PA),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,GaAs,0.2 g,Standard,No
+Bluetooth RF Transceiver,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.2 g,Standard,No
+Power Management IC (PMIC),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.2 g,Standard,No
+Buck Converter IC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.2 g,Standard,No
+LDO Regulator – RF Rail,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.15 g,Standard,No
+LDO Regulator – Logic Rail,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.15 g,Standard,No
+EEPROM / Flash NVM IC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.1 g,Standard,No
+40 MHz Crystal Oscillator,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Quartz,0.1 g,Standard,No
+32 kHz Sleep Crystal,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Quartz,0.05 g,Standard,No
+RF Switch IC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicon,0.1 g,Standard,No
+Balun Transformer – ANT1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Ferrite,0.05 g,Standard,No
+Balun Transformer – ANT2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Ferrite,0.05 g,Standard,No
+RF Matching Capacitor – ANT1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,MLCC,0.03 g,Standard,No
+RF Matching Capacitor – ANT2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,MLCC,0.03 g,Standard,No
+RF Matching Capacitor – BT,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,MLCC,0.03 g,Standard,No
+RF Matching Inductor – ANT1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Ferrite,0.04 g,Standard,No
+RF Matching Inductor – ANT2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Ferrite,0.04 g,Standard,No
+Decoupling Capacitor – Core Rail 1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,MLCC,0.03 g,Standard,No
+Decoupling Capacitor – Core Rail 2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,MLCC,0.03 g,Standard,No
+Decoupling Capacitor – RF Rail,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,MLCC,0.03 g,Standard,No
+Bulk Capacitor – Power Input,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Ceramic,0.1 g,Standard,No
+Pull-Up Resistor – Enable Line,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Thick Film,0.02 g,Standard,No
+Pull-Down Resistor – Reset Line,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Thick Film,0.02 g,Standard,No
+Termination Resistor – PCIe,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Thick Film,0.02 g,Standard,No
+M.2 Edge Connector (Gold Finger),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Gold-Plated Copper,0.5 g,Standard,No
+U.FL Antenna Connector – Main,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Copper Alloy,0.2 g,Standard,No
+U.FL Antenna Connector – Aux,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Copper Alloy,0.2 g,Standard,No
+RF Shield Can – Top,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Stainless Steel,0.6 g,Standard,No
+RF Shield Can – Bottom,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Stainless Steel,0.4 g,Standard,No
+RF Shield Solder Frame,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Buy,Stainless Steel,0.3 g,Standard,No
+Thermal Pad – RF IC,Material,1,Wi-Fi / Bluetooth Card Assembly,Buy,Silicone,0.2 g,Optional,No
+Solder Mask Layer,Material,1,M.2 RF PCB,Make,Epoxy,0 g,Standard,No
+Copper RF Trace Layer,Material,1,M.2 RF PCB,Make,Copper,0 g,Standard,No
+PCB Silkscreen Ink,Material,1,M.2 RF PCB,Make,Ink,0 g,Standard,No
+RF IC Underfill,Material,1,Wi-Fi / Bluetooth Card Assembly,Buy,Epoxy Resin,0.15 g,Standard,No
+SMT Placement Process,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+Reflow Soldering,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+RF Shield Soldering,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+AOI Inspection,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+X-Ray Inspection (BGA),Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Optional,No
+Firmware Programming,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+RF Calibration – Wi-Fi,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+RF Calibration – Bluetooth,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+Functional Test – Wi-Fi,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+Functional Test – Bluetooth,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No
+Regulatory RF Compliance Test,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Optional,No
+MAC Address Label,Material,1,Wi-Fi / Bluetooth Card Assembly,Buy,PET,0.1 g,Standard,No
+Regulatory Label (FCC/CE),Material,1,Wi-Fi / Bluetooth Card Assembly,Buy,PET,0.1 g,Standard,No
+Protective Film – Edge Connector,Material,1,Wi-Fi / Bluetooth Card Assembly,Buy,PET,0.2 g,Standard,No
+Final Visual Inspection,Process,1,Wi-Fi / Bluetooth Card Assembly,Make,N/A,0 g,Standard,No

@@ -1,0 +1,44 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+SSD / Storage Assembly,Sub-Assembly,1,Motherboard Assembly,Buy,N/A,0 g,Standard,No
+M.2 SSD PCB,Mechanical,1,SSD / Storage Assembly,Buy,FR4,6 g,Custom,No
+NAND Flash IC – Chip 1,Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.6 g,Standard,No
+NAND Flash IC – Chip 2,Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.6 g,Standard,No
+NAND Flash IC – Chip 3,Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.6 g,Standard,No
+NAND Flash IC – Chip 4,Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.6 g,Standard,No
+SSD Controller IC,Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.8 g,Standard,No
+DRAM Cache IC,Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.4 g,Optional,No
+Power Management IC (PMIC),Electrical,1,SSD / Storage Assembly,Buy,Silicon,0.3 g,Standard,No
+PMIC Input Capacitor,Electrical,1,SSD / Storage Assembly,Buy,Ceramic (MLCC),0.1 g,Standard,No
+PMIC Output Capacitor,Electrical,1,SSD / Storage Assembly,Buy,Ceramic (MLCC),0.1 g,Standard,No
+Bulk Tantalum Capacitor,Electrical,1,SSD / Storage Assembly,Buy,Tantalum,0.3 g,Standard,No
+Decoupling Capacitor – NAND 1,Electrical,1,SSD / Storage Assembly,Buy,MLCC,0.05 g,Standard,No
+Decoupling Capacitor – NAND 2,Electrical,1,SSD / Storage Assembly,Buy,MLCC,0.05 g,Standard,No
+Decoupling Capacitor – Controller,Electrical,1,SSD / Storage Assembly,Buy,MLCC,0.05 g,Standard,No
+Pull-Up Resistor – Signal Line 1,Electrical,1,SSD / Storage Assembly,Buy,Thick Film,0.05 g,Standard,No
+Pull-Up Resistor – Signal Line 2,Electrical,1,SSD / Storage Assembly,Buy,Thick Film,0.05 g,Standard,No
+Termination Resistor – PCIe Line,Electrical,1,SSD / Storage Assembly,Buy,Thick Film,0.05 g,Standard,No
+Clock Crystal Oscillator,Electrical,1,SSD / Storage Assembly,Buy,Quartz,0.1 g,Standard,No
+M.2 Edge Connector (Gold Finger),Electrical,1,SSD / Storage Assembly,Buy,Gold-Plated Copper,0.8 g,Standard,No
+EMI Shield Can – Controller,Mechanical,1,SSD / Storage Assembly,Buy,Stainless Steel,0.7 g,Optional,No
+Thermal Pad – Controller,Material,1,SSD / Storage Assembly,Buy,Silicone,0.5 g,Optional,No
+Thermal Pad – NAND,Material,1,SSD / Storage Assembly,Buy,Silicone,0.4 g,Optional,No
+Solder Mask Layer,Material,1,M.2 SSD PCB,Make,Epoxy,0 g,Standard,No
+Copper Signal Layer,Material,1,M.2 SSD PCB,Make,Copper,0 g,Standard,No
+PCB Silkscreen Layer,Material,1,M.2 SSD PCB,Make,Ink,0 g,Standard,No
+NAND IC Underfill,Material,1,SSD / Storage Assembly,Buy,Epoxy Resin,0.2 g,Standard,No
+Controller IC Underfill,Material,1,SSD / Storage Assembly,Buy,Epoxy Resin,0.2 g,Standard,No
+Conformal Coating,Process,1,SSD / Storage Assembly,Make,Acrylic,0 g,Optional,No
+NAND IC Placement Process,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+Controller IC Placement Process,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+Reflow Soldering Process,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+AOI Inspection – SSD PCB,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+X-Ray Inspection – BGA,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Optional,No
+Firmware Programming Process,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+Bad Block Mapping Process,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+Functional Read/Write Test,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No
+Performance Validation Test,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Optional,No
+Burn-In Stress Test,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Optional,No
+Label – Capacity & Model,Material,1,SSD / Storage Assembly,Buy,PET,0.2 g,Standard,No
+Regulatory Label – CE/FCC,Material,1,SSD / Storage Assembly,Buy,PET,0.2 g,Standard,No
+Protective Film – Gold Fingers,Material,1,SSD / Storage Assembly,Buy,PET,0.3 g,Standard,No
+Final Visual Inspection,Process,1,SSD / Storage Assembly,Make,N/A,0 g,Standard,No

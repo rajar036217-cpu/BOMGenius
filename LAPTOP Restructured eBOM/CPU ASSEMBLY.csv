@@ -1,0 +1,29 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+CPU Assembly,Sub-Assembly,1,Motherboard Assembly,Make,N/A,0 g,Custom,No
+CPU SoC Package,Electrical,1,CPU Assembly,Buy,Silicon,2.0 g,Standard,No
+Integrated CPU Die,Electrical,1,CPU SoC Package,Buy,Silicon,1.2 g,Standard,No
+Integrated GPU Die,Electrical,1,CPU SoC Package,Buy,Silicon,0.6 g,Standard,No
+On-Die Memory Controller,Electrical,1,CPU SoC Package,Buy,Silicon,0.2 g,Standard,No
+CPU Heat Spreader (IHS),Mechanical,1,CPU SoC Package,Buy,Nickel-Plated Copper,1.8 g,Standard,No
+Thermal Interface Material (TIM – Internal),Material,1,CPU SoC Package,Buy,Thermal Paste,0.1 g,Standard,No
+CPU Substrate (Organic),Material,1,CPU SoC Package,Buy,BT Resin,0.8 g,Standard,No
+BGA Solder Ball Array,Material,1,CPU Assembly,Buy,SAC Alloy,0.2 g,Standard,No
+CPU Power Delivery Pads,Electrical,1,CPU SoC Package,Buy,Copper,0.1 g,Standard,No
+CPU Signal Pads,Electrical,1,CPU SoC Package,Buy,Copper,0.1 g,Standard,No
+CPU Decoupling Capacitor – 1,Electrical,1,CPU Assembly,Buy,MLCC,0.05 g,Standard,No
+CPU Decoupling Capacitor – 2,Electrical,1,CPU Assembly,Buy,MLCC,0.05 g,Standard,No
+CPU Decoupling Capacitor – 3,Electrical,1,CPU Assembly,Buy,MLCC,0.05 g,Standard,No
+CPU Decoupling Capacitor – 4,Electrical,1,CPU Assembly,Buy,MLCC,0.05 g,Standard,No
+CPU Reference Clock Input,Electrical,1,CPU Assembly,Buy,Silicon,0.05 g,Standard,No
+CPU Reset Logic Block,Electrical,1,CPU Assembly,Buy,Silicon,0.05 g,Standard,No
+CPU Thermal Sensor,Electrical,1,CPU Assembly,Buy,Silicon,0.05 g,Standard,No
+CPU Power Management Logic,Electrical,1,CPU Assembly,Buy,Silicon,0.1 g,Standard,No
+CPU Ground Pad Matrix,Electrical,1,CPU Assembly,Buy,Copper,0.1 g,Standard,No
+Underfill Epoxy,Material,1,CPU Assembly,Buy,Epoxy Resin,0.2 g,Standard,No
+CPU EMI Shielding Ring,Material,1,CPU Assembly,Buy,Conductive Polymer,0.1 g,Standard,No
+CPU Placement Process,Process,1,CPU Assembly,Make,N/A,0 g,Standard,No
+BGA Reflow Soldering Process,Process,1,CPU Assembly,Make,N/A,0 g,Standard,No
+X-Ray Solder Joint Inspection,Process,1,CPU Assembly,Make,N/A,0 g,Standard,No
+CPU Electrical Functional Test,Process,1,CPU Assembly,Make,N/A,0 g,Standard,No
+CPU Burn-In Test,Process,1,CPU Assembly,Make,N/A,0 g,Optional,No
+CPU Power-On Validation,Process,1,CPU Assembly,Make,N/A,0 g,Standard,No

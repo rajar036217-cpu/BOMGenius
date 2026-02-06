@@ -1,0 +1,43 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Speaker Assembly – Stereo (L & R),Sub-Assembly,1,Laptop Main Assembly,Buy,N/A,0 g,Standard,No
+Left Speaker Module,Sub-Assembly,1,Speaker Assembly – Stereo (L & R),Buy,N/A,0 g,Custom,No
+Right Speaker Module,Sub-Assembly,1,Speaker Assembly – Stereo (L & R),Buy,N/A,0 g,Custom,No
+Speaker Driver – Left,Electrical,1,Left Speaker Module,Buy,Ferrite + Copper,8 g,Standard,No
+Speaker Driver – Right,Electrical,1,Right Speaker Module,Buy,Ferrite + Copper,8 g,Standard,No
+Voice Coil – Left,Electrical,1,Left Speaker Module,Buy,Copper,1 g,Standard,No
+Voice Coil – Right,Electrical,1,Right Speaker Module,Buy,Copper,1 g,Standard,No
+Speaker Diaphragm – Left,Mechanical,1,Left Speaker Module,Buy,Mylar,0.5 g,Standard,No
+Speaker Diaphragm – Right,Mechanical,1,Right Speaker Module,Buy,Mylar,0.5 g,Standard,No
+Speaker Magnet – Left,Mechanical,1,Left Speaker Module,Buy,Ferrite,3 g,Standard,No
+Speaker Magnet – Right,Mechanical,1,Right Speaker Module,Buy,Ferrite,3 g,Standard,No
+Speaker Frame – Left,Mechanical,1,Left Speaker Module,Buy,ABS Plastic,2 g,Custom,No
+Speaker Frame – Right,Mechanical,1,Right Speaker Module,Buy,ABS Plastic,2 g,Custom,No
+Acoustic Chamber Housing – Left,Mechanical,1,Left Speaker Module,Buy,ABS Plastic,6 g,Custom,No
+Acoustic Chamber Housing – Right,Mechanical,1,Right Speaker Module,Buy,ABS Plastic,6 g,Custom,No
+Acoustic Seal Gasket – Left,Material,1,Left Speaker Module,Buy,Silicone Rubber,0.3 g,Standard,No
+Acoustic Seal Gasket – Right,Material,1,Right Speaker Module,Buy,Silicone Rubber,0.3 g,Standard,No
+Damping Foam – Left Chamber,Material,1,Left Speaker Module,Buy,PU Foam,0.5 g,Standard,No
+Damping Foam – Right Chamber,Material,1,Right Speaker Module,Buy,PU Foam,0.5 g,Standard,No
+Speaker Wire – Red (Left),Electrical,1,Left Speaker Module,Buy,Copper + PVC,0.5 g,Standard,No
+Speaker Wire – Black (Left),Electrical,1,Left Speaker Module,Buy,Copper + PVC,0.5 g,Standard,No
+Speaker Wire – Red (Right),Electrical,1,Right Speaker Module,Buy,Copper + PVC,0.5 g,Standard,No
+Speaker Wire – Black (Right),Electrical,1,Right Speaker Module,Buy,Copper + PVC,0.5 g,Standard,No
+Speaker Connector – Motherboard Side,Electrical,1,Speaker Assembly – Stereo (L & R),Buy,Nylon + Copper,0.4 g,Standard,No
+Wire Solder Joint – Left +,Process,1,Left Speaker Module,Make,N/A,0 g,Standard,No
+Wire Solder Joint – Left –,Process,1,Left Speaker Module,Make,N/A,0 g,Standard,No
+Wire Solder Joint – Right +,Process,1,Right Speaker Module,Make,N/A,0 g,Standard,No
+Wire Solder Joint – Right –,Process,1,Right Speaker Module,Make,N/A,0 g,Standard,No
+Internal EMI Tape – Left,Material,1,Left Speaker Module,Buy,Conductive Fabric,0.2 g,Optional,No
+Internal EMI Tape – Right,Material,1,Right Speaker Module,Buy,Conductive Fabric,0.2 g,Optional,No
+Speaker Fixing Tape – Left,Material,1,Speaker Assembly – Stereo (L & R),Buy,Acrylic Tape,0.3 g,Standard,No
+Speaker Fixing Tape – Right,Material,1,Speaker Assembly – Stereo (L & R),Buy,Acrylic Tape,0.3 g,Standard,No
+Speaker Mounting Screw – Left 1,Fastener,1,Speaker Assembly – Stereo (L & R),Buy,Steel,0.25 g,Standard,Yes
+Speaker Mounting Screw – Left 2,Fastener,1,Speaker Assembly – Stereo (L & R),Buy,Steel,0.25 g,Standard,Yes
+Speaker Mounting Screw – Right 1,Fastener,1,Speaker Assembly – Stereo (L & R),Buy,Steel,0.25 g,Standard,Yes
+Speaker Mounting Screw – Right 2,Fastener,1,Speaker Assembly – Stereo (L & R),Buy,Steel,0.25 g,Standard,Yes
+Speaker Polarity Test,Process,1,Speaker Assembly – Stereo (L & R),Make,N/A,0 g,Standard,No
+Frequency Response Test,Process,1,Speaker Assembly – Stereo (L & R),Make,N/A,0 g,Standard,No
+Distortion Test,Process,1,Speaker Assembly – Stereo (L & R),Make,N/A,0 g,Standard,No
+Audio Output Functional Test,Process,1,Speaker Assembly – Stereo (L & R),Make,N/A,0 g,Standard,No
+Final Visual Inspection,Process,1,Speaker Assembly – Stereo (L & R),Make,N/A,0 g,Standard,No
+Speaker Identification Label,Material,1,Speaker Assembly – Stereo (L & R),Buy,PET,0.1 g,Standard,No

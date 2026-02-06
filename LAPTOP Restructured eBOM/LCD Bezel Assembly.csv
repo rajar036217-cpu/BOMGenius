@@ -1,0 +1,37 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+LCD Bezel Assembly,Sub-Assembly,1,Laptop Assembly,Buy,N/A,0 g,Custom,No
+LCD Bezel Outer Frame,Mechanical,1,LCD Bezel Assembly,Buy,PC+ABS,85 g,Custom,No
+Bezel Inner Lip Structure,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Bezel Surface Texture Finish,Process,1,LCD Bezel Outer Frame,Make,Mold Texture,0 g,Custom,No
+Matte Anti-Glare Coating,Process,1,LCD Bezel Outer Frame,Make,PU Coating,0 g,Custom,No
+Camera Window Insert,Mechanical,1,LCD Bezel Assembly,Buy,Polycarbonate,3 g,Custom,No
+Camera Window Adhesive,Material,1,Camera Window Insert,Buy,Optical Acrylic,0.3 g,Standard,No
+Microphone Hole Mesh,Material,1,LCD Bezel Assembly,Buy,Stainless Steel Mesh,0.5 g,Standard,No
+Microphone Mesh Adhesive,Material,1,Microphone Hole Mesh,Buy,Acrylic Adhesive,0.2 g,Standard,No
+Bezel EMI Shield Foil – Top,Material,1,LCD Bezel Assembly,Buy,Aluminum Foil,2 g,Standard,No
+Bezel EMI Shield Foil – Bottom,Material,1,LCD Bezel Assembly,Buy,Aluminum Foil,2 g,Standard,No
+Bezel EMI Shield Foil – Left,Material,1,LCD Bezel Assembly,Buy,Aluminum Foil,1.5 g,Standard,No
+Bezel EMI Shield Foil – Right,Material,1,LCD Bezel Assembly,Buy,Aluminum Foil,1.5 g,Standard,No
+Bezel Grounding Contact Pad,Material,1,LCD Bezel Assembly,Buy,Conductive Foam,1 g,Standard,No
+Foam Cushion – Top Edge,Material,1,LCD Bezel Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Cushion – Bottom Edge,Material,1,LCD Bezel Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Cushion – Left Edge,Material,1,LCD Bezel Assembly,Buy,PU Foam,1.5 g,Standard,No
+Foam Cushion – Right Edge,Material,1,LCD Bezel Assembly,Buy,PU Foam,1.5 g,Standard,No
+Double-Sided Adhesive Tape – Top,Material,1,LCD Bezel Assembly,Buy,PET Acrylic Tape,1 g,Standard,No
+Double-Sided Adhesive Tape – Bottom,Material,1,LCD Bezel Assembly,Buy,PET Acrylic Tape,1 g,Standard,No
+Double-Sided Adhesive Tape – Left,Material,1,LCD Bezel Assembly,Buy,PET Acrylic Tape,0.8 g,Standard,No
+Double-Sided Adhesive Tape – Right,Material,1,LCD Bezel Assembly,Buy,PET Acrylic Tape,0.8 g,Standard,No
+Snap Fit Retention Hook – Top,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Snap Fit Retention Hook – Bottom,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Snap Fit Retention Hook – Left,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Snap Fit Retention Hook – Right,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Alignment Boss – Top Left,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Alignment Boss – Top Right,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Alignment Boss – Bottom Left,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Alignment Boss – Bottom Right,Mechanical,1,LCD Bezel Outer Frame,Make,PC+ABS,0 g,Custom,No
+Light Leakage Blocker Strip,Material,1,LCD Bezel Assembly,Buy,Black PET Foam,1 g,Standard,No
+Camera Privacy Indicator Window,Mechanical,1,LCD Bezel Assembly,Buy,Tinted PC,1 g,Optional,No
+Bezel Logo Print,Process,1,LCD Bezel Outer Frame,Make,Ink Print,0 g,Custom,No
+Protective Film – Bezel Surface,Material,1,LCD Bezel Assembly,Buy,PET,3 g,Standard,No
+Visual Cosmetic Inspection,Process,1,LCD Bezel Assembly,Make,N/A,0 g,Standard,No
+Bezel Fitment Verification,Process,1,LCD Bezel Assembly,Make,N/A,0 g,Standard,No

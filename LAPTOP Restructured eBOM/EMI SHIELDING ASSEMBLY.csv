@@ -1,0 +1,54 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+EMI Shielding Assembly,Sub-Assembly,1,Laptop Main Assembly,Buy,N/A,0 g,Standard,No
+CPU EMI Shield Can – Top Half,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,2.1 g,Custom,No
+CPU EMI Shield Can – Bottom Frame,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,1.6 g,Custom,No
+CPU EMI Shield Side Wall – North,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.6 g,Custom,No
+CPU EMI Shield Side Wall – South,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.6 g,Custom,No
+CPU EMI Shield Side Wall – East,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.5 g,Custom,No
+CPU EMI Shield Side Wall – West,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.5 g,Custom,No
+CPU Shield Retention Tab – Left,Mechanical,1,EMI Shielding Assembly,Buy,Stainless Steel,0.2 g,Custom,No
+CPU Shield Retention Tab – Right,Mechanical,1,EMI Shielding Assembly,Buy,Stainless Steel,0.2 g,Custom,No
+VRM EMI Shield Can – Main,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,1.9 g,Custom,No
+VRM EMI Shield Cover Plate,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.9 g,Custom,No
+VRM EMI Shield Isolation Spacer,Material,1,EMI Shielding Assembly,Buy,Polyimide,0.3 g,Standard,No
+PCH EMI Shield Can,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,1.5 g,Custom,No
+RAM EMI Shield Plate – Upper,Mechanical,1,EMI Shielding Assembly,Buy,Aluminum Alloy,0.9 g,Custom,No
+RAM EMI Shield Plate – Lower,Mechanical,1,EMI Shielding Assembly,Buy,Aluminum Alloy,0.7 g,Custom,No
+SSD EMI Shield Plate,Mechanical,1,EMI Shielding Assembly,Buy,Aluminum Alloy,1.2 g,Custom,No
+Wi-Fi EMI Shield Can – RF Top,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.7 g,Custom,No
+Wi-Fi EMI Shield Can – RF Base,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.5 g,Custom,No
+USB Controller EMI Shield,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.8 g,Custom,No
+HDMI Controller EMI Shield,Mechanical,1,EMI Shielding Assembly,Buy,Nickel Silver,0.7 g,Custom,No
+Display eDP Connector Shield,Mechanical,1,EMI Shielding Assembly,Buy,Stainless Steel,0.6 g,Custom,No
+Battery Connector EMI Shield,Mechanical,1,EMI Shielding Assembly,Buy,Stainless Steel,0.6 g,Custom,No
+Camera Connector EMI Shield,Mechanical,1,EMI Shielding Assembly,Buy,Stainless Steel,0.4 g,Custom,No
+EMI Ground Spring – CPU Corner 1,Mechanical,1,EMI Shielding Assembly,Buy,Phosphor Bronze,0.15 g,Standard,No
+EMI Ground Spring – CPU Corner 2,Mechanical,1,EMI Shielding Assembly,Buy,Phosphor Bronze,0.15 g,Standard,No
+EMI Ground Spring – CPU Corner 3,Mechanical,1,EMI Shielding Assembly,Buy,Phosphor Bronze,0.15 g,Standard,No
+EMI Ground Spring – CPU Corner 4,Mechanical,1,EMI Shielding Assembly,Buy,Phosphor Bronze,0.15 g,Standard,No
+EMI Ground Spring – VRM,Mechanical,1,EMI Shielding Assembly,Buy,Phosphor Bronze,0.2 g,Standard,No
+EMI Finger Clip – Left Edge,Mechanical,1,EMI Shielding Assembly,Buy,BeCu,0.2 g,Standard,No
+EMI Finger Clip – Right Edge,Mechanical,1,EMI Shielding Assembly,Buy,BeCu,0.2 g,Standard,No
+EMI Finger Clip – Rear Edge,Mechanical,1,EMI Shielding Assembly,Buy,BeCu,0.2 g,Standard,No
+Conductive Foam – CPU Top,Material,1,EMI Shielding Assembly,Buy,PU + Ni,0.4 g,Standard,No
+Conductive Foam – CPU Side,Material,1,EMI Shielding Assembly,Buy,PU + Ni,0.3 g,Standard,No
+Conductive Foam – VRM Area,Material,1,EMI Shielding Assembly,Buy,PU + Ni,0.3 g,Standard,No
+Conductive Foam – Wi-Fi Area,Material,1,EMI Shielding Assembly,Buy,PU + Ni,0.2 g,Standard,No
+Copper EMI Tape – CPU Perimeter,Material,1,EMI Shielding Assembly,Buy,Copper + PSA,0.6 g,Standard,No
+Copper EMI Tape – VRM,Material,1,EMI Shielding Assembly,Buy,Copper + PSA,0.5 g,Standard,No
+Aluminum EMI Tape – eDP Cable,Material,1,EMI Shielding Assembly,Buy,Aluminum + PSA,0.4 g,Standard,No
+Aluminum EMI Tape – Antenna Cable,Material,1,EMI Shielding Assembly,Buy,Aluminum + PSA,0.4 g,Standard,No
+Grounding Pad – Shield to PCB,Material,1,EMI Shielding Assembly,Buy,Silicone + Carbon,0.6 g,Standard,No
+Grounding Pad – Shield to Chassis,Material,1,EMI Shielding Assembly,Buy,Silicone + Carbon,0.6 g,Standard,No
+Shield Fixing Screw – CPU Front,Fastener,1,EMI Shielding Assembly,Buy,Steel,0.35 g,Standard,Yes
+Shield Fixing Screw – CPU Rear,Fastener,1,EMI Shielding Assembly,Buy,Steel,0.35 g,Standard,Yes
+Shield Fixing Screw – VRM,Fastener,1,EMI Shielding Assembly,Buy,Steel,0.35 g,Standard,Yes
+Shield Fixing Screw – RF,Fastener,1,EMI Shielding Assembly,Buy,Steel,0.35 g,Standard,Yes
+Shield Can Solder Land Pattern,Material,1,EMI Shielding Assembly,Buy,Copper Pad,0.2 g,Standard,No
+Reflow Solder – Shield Can,Process,1,EMI Shielding Assembly,Make,SAC305,0 g,Standard,No
+Shield Can Placement Operation,Process,1,EMI Shielding Assembly,Make,N/A,0 g,Standard,No
+Shield Ground Continuity Test,Process,1,EMI Shielding Assembly,Make,N/A,0 g,Standard,No
+EMI Radiated Emission Test,Process,1,EMI Shielding Assembly,Make,N/A,0 g,Standard,No
+EMI Conducted Emission Test,Process,1,EMI Shielding Assembly,Make,N/A,0 g,Standard,No
+Shield Visual & Alignment Inspection,Process,1,EMI Shielding Assembly,Make,N/A,0 g,Standard,No
+EMI Compliance Tracking Label,Material,1,EMI Shielding Assembly,Buy,PET,0.2 g,Standard,No

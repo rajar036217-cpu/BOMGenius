@@ -1,0 +1,42 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Display Hinge Assembly,Sub-Assembly,1,Laptop Assembly,Buy,N/A,0 g,Custom,No
+Left Display Hinge Unit,Mechanical,1,Display Hinge Assembly,Buy,Steel Alloy,28 g,Custom,No
+Right Display Hinge Unit,Mechanical,1,Display Hinge Assembly,Buy,Steel Alloy,28 g,Custom,No
+Hinge Barrel – Left,Mechanical,1,Left Display Hinge Unit,Buy,Carbon Steel,12 g,Custom,No
+Hinge Barrel – Right,Mechanical,1,Right Display Hinge Unit,Buy,Carbon Steel,12 g,Custom,No
+Hinge Shaft – Left,Mechanical,1,Left Display Hinge Unit,Buy,Stainless Steel,6 g,Standard,No
+Hinge Shaft – Right,Mechanical,1,Right Display Hinge Unit,Buy,Stainless Steel,6 g,Standard,No
+Friction Washer – Left,Mechanical,1,Left Display Hinge Unit,Buy,Phosphor Bronze,1 g,Standard,No
+Friction Washer – Right,Mechanical,1,Right Display Hinge Unit,Buy,Phosphor Bronze,1 g,Standard,No
+Torque Spring – Left,Mechanical,1,Left Display Hinge Unit,Buy,Spring Steel,2 g,Custom,No
+Torque Spring – Right,Mechanical,1,Right Display Hinge Unit,Buy,Spring Steel,2 g,Custom,No
+Torque Adjustment Nut – Left,Mechanical,1,Left Display Hinge Unit,Buy,Steel,1 g,Custom,No
+Torque Adjustment Nut – Right,Mechanical,1,Right Display Hinge Unit,Buy,Steel,1 g,Custom,No
+Hinge Mount Bracket – A-Cover Side (Left),Mechanical,1,Left Display Hinge Unit,Buy,Steel,6 g,Custom,No
+Hinge Mount Bracket – A-Cover Side (Right),Mechanical,1,Right Display Hinge Unit,Buy,Steel,6 g,Custom,No
+Hinge Mount Bracket – C-Cover Side (Left),Mechanical,1,Left Display Hinge Unit,Buy,Steel,6 g,Custom,No
+Hinge Mount Bracket – C-Cover Side (Right),Mechanical,1,Right Display Hinge Unit,Buy,Steel,6 g,Custom,No
+Hinge Stopper Feature – Open Angle,Mechanical,1,Left Display Hinge Unit,Make,Steel,0 g,Custom,No
+Hinge Stopper Feature – Close Angle,Mechanical,1,Right Display Hinge Unit,Make,Steel,0 g,Custom,No
+Hinge Rotation Bushing – Left,Mechanical,1,Left Display Hinge Unit,Buy,Brass,1 g,Standard,No
+Hinge Rotation Bushing – Right,Mechanical,1,Right Display Hinge Unit,Buy,Brass,1 g,Standard,No
+Hinge Lubrication Grease,Material,1,Display Hinge Assembly,Buy,Synthetic Grease,0.5 g,Standard,No
+Anti-Wear Coating,Process,1,Hinge Barrel,Make,Phosphate Coating,0 g,Standard,No
+Anti-Corrosion Plating,Process,1,Hinge Components,Make,Zinc Plating,0 g,Standard,No
+Hinge Cover Sleeve – Left,Mechanical,1,Display Hinge Assembly,Buy,PC+ABS,3 g,Custom,No
+Hinge Cover Sleeve – Right,Mechanical,1,Display Hinge Assembly,Buy,PC+ABS,3 g,Custom,No
+Hinge Cable Guide Channel,Mechanical,1,Display Hinge Assembly,Buy,Nylon,2 g,Custom,No
+Display Cable Strain Relief,Mechanical,1,Display Hinge Assembly,Buy,Rubber,2 g,Standard,No
+EMI Grounding Spring – Left,Mechanical,1,Left Display Hinge Unit,Buy,Stainless Steel,1 g,Standard,No
+EMI Grounding Spring – Right,Mechanical,1,Right Display Hinge Unit,Buy,Stainless Steel,1 g,Standard,No
+Hinge to A-Cover Screw – 1,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to A-Cover Screw – 2,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to A-Cover Screw – 3,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to A-Cover Screw – 4,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to C-Cover Screw – 1,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to C-Cover Screw – 2,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to C-Cover Screw – 3,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Hinge to C-Cover Screw – 4,Fastener,1,Display Hinge Assembly,Buy,Steel,0.8 g,Standard,Yes
+Torque Calibration Process,Process,1,Display Hinge Assembly,Make,N/A,0 g,Standard,No
+Open-Close Cycle Life Test,Process,1,Display Hinge Assembly,Make,N/A,0 g,Standard,No
+Hinge Alignment Inspection,Process,1,Display Hinge Assembly,Make,N/A,0 g,Standard,No

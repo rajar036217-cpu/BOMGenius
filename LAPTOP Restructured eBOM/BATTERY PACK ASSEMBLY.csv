@@ -1,0 +1,64 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Battery Pack Assembly,Sub-Assembly,1,Laptop Main Assembly,Buy,N/A,0 g,Standard,No
+Li-Ion Polymer Cell – Cell A,Electrical,1,Battery Pack Assembly,Buy,Li-Ion Polymer,45 g,Standard,No
+Li-Ion Polymer Cell – Cell B,Electrical,1,Battery Pack Assembly,Buy,Li-Ion Polymer,45 g,Standard,No
+Li-Ion Polymer Cell – Cell C,Electrical,1,Battery Pack Assembly,Buy,Li-Ion Polymer,45 g,Standard,No
+Li-Ion Polymer Cell – Cell D,Electrical,1,Battery Pack Assembly,Buy,Li-Ion Polymer,45 g,Optional,No
+Positive Nickel Tab – Cell A,Electrical,1,Battery Pack Assembly,Buy,Nickel,0.5 g,Standard,No
+Negative Nickel Tab – Cell A,Electrical,1,Battery Pack Assembly,Buy,Nickel,0.5 g,Standard,No
+Positive Nickel Tab – Cell B,Electrical,1,Battery Pack Assembly,Buy,Nickel,0.5 g,Standard,No
+Negative Nickel Tab – Cell B,Electrical,1,Battery Pack Assembly,Buy,Nickel,0.5 g,Standard,No
+Positive Nickel Tab – Cell C,Electrical,1,Battery Pack Assembly,Buy,Nickel,0.5 g,Standard,No
+Negative Nickel Tab – Cell C,Electrical,1,Battery Pack Assembly,Buy,Nickel,0.5 g,Standard,No
+Cell-to-Cell Series Weld – 1,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Cell-to-Cell Series Weld – 2,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Cell-to-Cell Series Weld – 3,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Battery Management PCB (BMS PCB),Mechanical,1,Battery Pack Assembly,Buy,FR-4,6 g,Custom,No
+Fuel Gauge IC,Electrical,1,Battery Pack Assembly,Buy,Silicon,0.3 g,Standard,No
+Battery Protection IC,Electrical,1,Battery Pack Assembly,Buy,Silicon,0.3 g,Standard,No
+Charge MOSFET,Electrical,1,Battery Pack Assembly,Buy,Silicon,0.4 g,Standard,No
+Discharge MOSFET,Electrical,1,Battery Pack Assembly,Buy,Silicon,0.4 g,Standard,No
+Current Sense Resistor,Electrical,1,Battery Pack Assembly,Buy,Metal Alloy,0.2 g,Standard,No
+SMBus Pull-Up Resistor,Electrical,1,Battery Pack Assembly,Buy,Thick Film,0.02 g,Standard,No
+Enable Pull-Down Resistor,Electrical,1,Battery Pack Assembly,Buy,Thick Film,0.02 g,Standard,No
+Decoupling Capacitor – 1,Electrical,1,Battery Pack Assembly,Buy,MLCC,0.05 g,Standard,No
+Decoupling Capacitor – 2,Electrical,1,Battery Pack Assembly,Buy,MLCC,0.05 g,Standard,No
+EEPROM – Battery Data,Electrical,1,Battery Pack Assembly,Buy,Silicon,0.1 g,Standard,No
+Primary Battery Fuse,Electrical,1,Battery Pack Assembly,Buy,Alloy,0.2 g,Standard,No
+Secondary PTC Fuse,Electrical,1,Battery Pack Assembly,Buy,Polymer,0.2 g,Standard,No
+NTC Temperature Sensor – Cell A,Electrical,1,Battery Pack Assembly,Buy,Ceramic,0.1 g,Standard,No
+NTC Temperature Sensor – Cell B,Electrical,1,Battery Pack Assembly,Buy,Ceramic,0.1 g,Standard,No
+NTC Temperature Sensor – Cell C,Electrical,1,Battery Pack Assembly,Buy,Ceramic,0.1 g,Standard,No
+Battery Output Wire – Red,Electrical,1,Battery Pack Assembly,Buy,Copper + PVC,1 g,Standard,No
+Battery Output Wire – Black,Electrical,1,Battery Pack Assembly,Buy,Copper + PVC,1 g,Standard,No
+Battery Connector – Board Side,Electrical,1,Battery Pack Assembly,Buy,Nylon + Copper,0.5 g,Standard,No
+Cell Insulation Sheet – Bottom,Material,1,Battery Pack Assembly,Buy,PET,0.5 g,Standard,No
+Cell Insulation Sheet – Top,Material,1,Battery Pack Assembly,Buy,PET,0.5 g,Standard,No
+PCB Insulation Sheet,Material,1,Battery Pack Assembly,Buy,Polyimide,0.3 g,Standard,No
+Kapton Tape – Cell Wrap A,Material,1,Battery Pack Assembly,Buy,Polyimide,0.2 g,Standard,No
+Kapton Tape – Cell Wrap B,Material,1,Battery Pack Assembly,Buy,Polyimide,0.2 g,Standard,No
+Kapton Tape – Cell Wrap C,Material,1,Battery Pack Assembly,Buy,Polyimide,0.2 g,Standard,No
+Double-Side Tape – Cell Fix 1,Material,1,Battery Pack Assembly,Buy,Acrylic,0.3 g,Standard,No
+Double-Side Tape – Cell Fix 2,Material,1,Battery Pack Assembly,Buy,Acrylic,0.3 g,Standard,No
+Foam Cushion – Side A,Material,1,Battery Pack Assembly,Buy,PU Foam,1 g,Standard,No
+Foam Cushion – Side B,Material,1,Battery Pack Assembly,Buy,PU Foam,1 g,Standard,No
+Foam Cushion – Bottom,Material,1,Battery Pack Assembly,Buy,PU Foam,1 g,Standard,No
+EMI Shield Film – BMS,Material,1,Battery Pack Assembly,Buy,Aluminum,0.3 g,Optional,No
+Battery Housing – Upper Case,Mechanical,1,Battery Pack Assembly,Buy,ABS,18 g,Custom,No
+Battery Housing – Lower Case,Mechanical,1,Battery Pack Assembly,Buy,ABS,18 g,Custom,No
+Housing Screw – 1,Fastener,1,Battery Pack Assembly,Buy,Steel,0.3 g,Standard,Yes
+Housing Screw – 2,Fastener,1,Battery Pack Assembly,Buy,Steel,0.3 g,Standard,Yes
+Housing Screw – 3,Fastener,1,Battery Pack Assembly,Buy,Steel,0.3 g,Standard,Yes
+Housing Screw – 4,Fastener,1,Battery Pack Assembly,Buy,Steel,0.3 g,Standard,Yes
+Housing Ultrasonic Weld – 1,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Housing Ultrasonic Weld – 2,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Battery Firmware Flashing,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Battery Capacity Calibration,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Over-Voltage Test,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Over-Current Test,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Short-Circuit Test,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Thermal Abuse Test,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Final Electrical Inspection,Process,1,Battery Pack Assembly,Make,N/A,0 g,Standard,No
+Battery Rating Label,Material,1,Battery Pack Assembly,Buy,PET,0.2 g,Standard,No
+Regulatory Label – CE/BIS/UL,Material,1,Battery Pack Assembly,Buy,PET,0.2 g,Standard,No
+Safety Warning Label,Material,1,Battery Pack Assembly,Buy,PET,0.2 g,Standard,No

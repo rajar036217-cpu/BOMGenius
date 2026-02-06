@@ -1,0 +1,49 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Palmrest / C-Cover Assembly,Sub-Assembly,1,Laptop Main Assembly,Buy,N/A,0 g,Standard,No
+Palmrest Upper Cosmetic Housing,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,120 g,Custom,No
+Palmrest Inner Structural Frame,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,35 g,Custom,No
+Molded Screw Boss – Front Left,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Molded Screw Boss – Front Right,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Molded Screw Boss – Rear Left,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Molded Screw Boss – Rear Right,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,1 g,Custom,No
+Keyboard Cut-out Reinforcement Plate,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,12 g,Custom,No
+Touchpad Cut-out Reinforcement Plate,Mechanical,1,Palmrest / C-Cover Assembly,Buy,ABS Plastic,6 g,Custom,No
+Palmrest UV Top-Coat Layer,Process,1,Palmrest / C-Cover Assembly,Make,UV Coating,0 g,Custom,No
+Palmrest Texture Etching,Process,1,Palmrest / C-Cover Assembly,Make,N/A,0 g,Standard,No
+EMI Shield Foil – Keyboard Zone,Material,1,Palmrest / C-Cover Assembly,Buy,Aluminum Foil,5 g,Standard,No
+EMI Shield Foil – Touchpad Zone,Material,1,Palmrest / C-Cover Assembly,Buy,Aluminum Foil,3 g,Standard,No
+EMI Shield Foil – Center Area,Material,1,Palmrest / C-Cover Assembly,Buy,Aluminum Foil,2 g,Standard,No
+EMI Foil Grounding Tab,Material,1,Palmrest / C-Cover Assembly,Buy,Copper,0.3 g,Standard,No
+Insulation Mylar – Keyboard Area,Material,1,Palmrest / C-Cover Assembly,Buy,PET,4 g,Standard,No
+Insulation Mylar – Touchpad Area,Material,1,Palmrest / C-Cover Assembly,Buy,PET,2 g,Standard,No
+Insulation Mylar – Palm Area,Material,1,Palmrest / C-Cover Assembly,Buy,PET,3 g,Standard,No
+Foam Cushion – Left Palm Support,Material,1,Palmrest / C-Cover Assembly,Buy,PU Foam,3 g,Standard,No
+Foam Cushion – Right Palm Support,Material,1,Palmrest / C-Cover Assembly,Buy,PU Foam,3 g,Standard,No
+Foam Cushion – Center Palm Support,Material,1,Palmrest / C-Cover Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Cushion – Touchpad Rear,Material,1,Palmrest / C-Cover Assembly,Buy,PU Foam,1.5 g,Standard,No
+Double-Side Tape – Keyboard Front,Material,1,Palmrest / C-Cover Assembly,Buy,Acrylic,0.5 g,Standard,No
+Double-Side Tape – Keyboard Rear,Material,1,Palmrest / C-Cover Assembly,Buy,Acrylic,0.5 g,Standard,No
+Double-Side Tape – Touchpad Perimeter,Material,1,Palmrest / C-Cover Assembly,Buy,Acrylic,0.8 g,Standard,No
+Double-Side Tape – EMI Foil Fixing,Material,1,Palmrest / C-Cover Assembly,Buy,Acrylic,0.4 g,Standard,No
+Touchpad Support Bracket,Mechanical,1,Palmrest / C-Cover Assembly,Buy,Steel,8 g,Custom,No
+Touchpad Bracket Screw – A,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.3 g,Standard,Yes
+Touchpad Bracket Screw – B,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.3 g,Standard,Yes
+Keyboard Retention Bracket – Left,Mechanical,1,Palmrest / C-Cover Assembly,Buy,Steel,5 g,Custom,No
+Keyboard Retention Bracket – Right,Mechanical,1,Palmrest / C-Cover Assembly,Buy,Steel,5 g,Custom,No
+Keyboard Retention Screw – A,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.25 g,Standard,Yes
+Keyboard Retention Screw – B,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.25 g,Standard,Yes
+Keyboard Retention Screw – C,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.25 g,Standard,Yes
+Keyboard Retention Screw – D,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.25 g,Standard,Yes
+Palmrest-to-Bottom Screw – Front Left,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.35 g,Standard,Yes
+Palmrest-to-Bottom Screw – Front Right,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.35 g,Standard,Yes
+Palmrest-to-Bottom Screw – Rear Left,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.35 g,Standard,Yes
+Palmrest-to-Bottom Screw – Rear Right,Fastener,1,Palmrest / C-Cover Assembly,Buy,Steel,0.35 g,Standard,Yes
+Fingerprint Sensor Window,Mechanical,1,Palmrest / C-Cover Assembly,Buy,Polycarbonate,1 g,Optional,No
+Fingerprint Sensor Adhesive Ring,Material,1,Palmrest / C-Cover Assembly,Buy,Acrylic,0.2 g,Optional,No
+Palmrest Logo Badge,Mechanical,1,Palmrest / C-Cover Assembly,Buy,Aluminum,0.8 g,Custom,No
+Palmrest Serial Number Label,Material,1,Palmrest / C-Cover Assembly,Buy,PET,0.2 g,Standard,No
+Palmrest Regulatory Label,Material,1,Palmrest / C-Cover Assembly,Buy,PET,0.2 g,Standard,No
+Palmrest Cosmetic Inspection,Process,1,Palmrest / C-Cover Assembly,Make,N/A,0 g,Standard,No
+Palmrest Flatness Check,Process,1,Palmrest / C-Cover Assembly,Make,N/A,0 g,Standard,No
+EMI Continuity Verification,Process,1,Palmrest / C-Cover Assembly,Make,N/A,0 g,Standard,No
+Final Assembly QA Inspection,Process,1,Palmrest / C-Cover Assembly,Make,N/A,0 g,Standard,No

@@ -1,0 +1,43 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+VRM / Power Supply Assembly,Sub-Assembly,1,Motherboard Assembly,Make,N/A,0 g,Custom,No
+CPU VRM Section PCB Area,Mechanical,1,VRM / Power Supply Assembly,Make,FR4,0 g,Custom,No
+VRM Controller IC,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.3 g,Standard,No
+High-Side MOSFET – Phase 1,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.5 g,Standard,No
+Low-Side MOSFET – Phase 1,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.5 g,Standard,No
+High-Side MOSFET – Phase 2,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.5 g,Standard,No
+Low-Side MOSFET – Phase 2,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.5 g,Standard,No
+High-Side MOSFET – Phase 3,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.5 g,Standard,No
+Low-Side MOSFET – Phase 3,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.5 g,Standard,No
+VRM Inductor – Phase 1,Electrical,1,VRM / Power Supply Assembly,Buy,Ferrite Core,2.5 g,Standard,No
+VRM Inductor – Phase 2,Electrical,1,VRM / Power Supply Assembly,Buy,Ferrite Core,2.5 g,Standard,No
+VRM Inductor – Phase 3,Electrical,1,VRM / Power Supply Assembly,Buy,Ferrite Core,2.5 g,Standard,No
+Output Capacitor – Polymer 1,Electrical,1,VRM / Power Supply Assembly,Buy,Aluminum Polymer,1.0 g,Standard,No
+Output Capacitor – Polymer 2,Electrical,1,VRM / Power Supply Assembly,Buy,Aluminum Polymer,1.0 g,Standard,No
+Output Capacitor – Polymer 3,Electrical,1,VRM / Power Supply Assembly,Buy,Aluminum Polymer,1.0 g,Standard,No
+Input Capacitor – Bulk 1,Electrical,1,VRM / Power Supply Assembly,Buy,Aluminum Electrolytic,1.2 g,Standard,No
+Input Capacitor – Bulk 2,Electrical,1,VRM / Power Supply Assembly,Buy,Aluminum Electrolytic,1.2 g,Standard,No
+Ceramic Capacitor – Decoupling 1,Electrical,1,VRM / Power Supply Assembly,Buy,MLCC,0.1 g,Standard,No
+Ceramic Capacitor – Decoupling 2,Electrical,1,VRM / Power Supply Assembly,Buy,MLCC,0.1 g,Standard,No
+Ceramic Capacitor – Decoupling 3,Electrical,1,VRM / Power Supply Assembly,Buy,MLCC,0.1 g,Standard,No
+Current Sense Resistor – Phase 1,Electrical,1,VRM / Power Supply Assembly,Buy,Metal Film,0.1 g,Standard,No
+Current Sense Resistor – Phase 2,Electrical,1,VRM / Power Supply Assembly,Buy,Metal Film,0.1 g,Standard,No
+Current Sense Resistor – Phase 3,Electrical,1,VRM / Power Supply Assembly,Buy,Metal Film,0.1 g,Standard,No
+Bootstrap Capacitor – Phase 1,Electrical,1,VRM / Power Supply Assembly,Buy,Ceramic,0.05 g,Standard,No
+Bootstrap Capacitor – Phase 2,Electrical,1,VRM / Power Supply Assembly,Buy,Ceramic,0.05 g,Standard,No
+Bootstrap Capacitor – Phase 3,Electrical,1,VRM / Power Supply Assembly,Buy,Ceramic,0.05 g,Standard,No
+Gate Driver IC,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.3 g,Standard,No
+Power Plane Copper Layer,Material,1,VRM / Power Supply Assembly,Make,Copper,0 g,Custom,No
+VRM Thermal Pad – MOSFET,Material,1,VRM / Power Supply Assembly,Buy,Silicone,1 g,Standard,No
+VRM Thermal Pad – Inductor,Material,1,VRM / Power Supply Assembly,Buy,Silicone,1 g,Standard,No
+VRM EMI Shield Can,Mechanical,1,VRM / Power Supply Assembly,Buy,Tin-Plated Steel,4 g,Standard,No
+EMI Shield Ground Clip,Mechanical,1,VRM / Power Supply Assembly,Buy,Stainless Steel,0.5 g,Standard,No
+Power Enable Logic Circuit,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.1 g,Standard,No
+VRM Feedback Resistor Network,Electrical,1,VRM / Power Supply Assembly,Buy,Thick Film,0.1 g,Standard,No
+Over-Current Protection Circuit,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.1 g,Standard,No
+Over-Voltage Protection Circuit,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.1 g,Standard,No
+VRM Power-Up Sequencing Logic,Electrical,1,VRM / Power Supply Assembly,Buy,Silicon,0.1 g,Standard,No
+Solder Paste (VRM Area),Material,1,VRM / Power Supply Assembly,Buy,SAC Alloy,0.3 g,Standard,No
+VRM Assembly Process,Process,1,VRM / Power Supply Assembly,Make,N/A,0 g,Standard,No
+AOI Inspection – VRM Area,Process,1,VRM / Power Supply Assembly,Make,N/A,0 g,Standard,No
+Power Rail Voltage Test,Process,1,VRM / Power Supply Assembly,Make,N/A,0 g,Standard,No
+Load Line Calibration Test,Process,1,VRM / Power Supply Assembly,Make,N/A,0 g,Standard,No

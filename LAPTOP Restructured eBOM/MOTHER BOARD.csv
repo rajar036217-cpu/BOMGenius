@@ -1,0 +1,58 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Motherboard Assembly,Sub-Assembly,1,Laptop Assembly,Buy,N/A,0 g,Custom,No
+Main Logic PCB,Mechanical,1,Motherboard Assembly,Buy,FR4,120 g,Custom,No
+CPU SoC (BGA),Electrical,1,Motherboard Assembly,Buy,Silicon,2 g,Standard,No
+CPU Solder Ball Array,Material,1,CPU SoC (BGA),Buy,SAC Alloy,0.2 g,Standard,No
+DDR4 RAM Slot,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,8 g,Standard,No
+Chipset (PCH),Electrical,1,Motherboard Assembly,Buy,Silicon,1.5 g,Standard,No
+BIOS Flash ROM,Electrical,1,Motherboard Assembly,Buy,Silicon,0.2 g,Standard,No
+Embedded Controller (EC),Electrical,1,Motherboard Assembly,Buy,Silicon,0.3 g,Standard,No
+Clock Generator IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.2 g,Standard,No
+TPM IC (Optional),Electrical,1,Motherboard Assembly,Buy,Silicon,0.2 g,Optional,No
+VRM Controller IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.3 g,Standard,No
+Power MOSFET – CPU VRM 1,Electrical,1,Motherboard Assembly,Buy,Silicon,0.5 g,Standard,No
+Power MOSFET – CPU VRM 2,Electrical,1,Motherboard Assembly,Buy,Silicon,0.5 g,Standard,No
+Power MOSFET – CPU VRM 3,Electrical,1,Motherboard Assembly,Buy,Silicon,0.5 g,Standard,No
+Inductor – CPU VRM 1,Electrical,1,Motherboard Assembly,Buy,Ferrite,2 g,Standard,No
+Inductor – CPU VRM 2,Electrical,1,Motherboard Assembly,Buy,Ferrite,2 g,Standard,No
+Inductor – CPU VRM 3,Electrical,1,Motherboard Assembly,Buy,Ferrite,2 g,Standard,No
+Solid Capacitor – VRM 1,Electrical,1,Motherboard Assembly,Buy,Aluminum Polymer,1 g,Standard,No
+Solid Capacitor – VRM 2,Electrical,1,Motherboard Assembly,Buy,Aluminum Polymer,1 g,Standard,No
+Ceramic Capacitor – CPU Rail 1,Electrical,1,Motherboard Assembly,Buy,MLCC,0.1 g,Standard,No
+Ceramic Capacitor – CPU Rail 2,Electrical,1,Motherboard Assembly,Buy,MLCC,0.1 g,Standard,No
+USB Type-A Port,Electrical,1,Motherboard Assembly,Buy,Copper Alloy,6 g,Standard,No
+USB Type-C Port,Electrical,1,Motherboard Assembly,Buy,Copper Alloy,6 g,Standard,No
+HDMI Port,Electrical,1,Motherboard Assembly,Buy,Copper Alloy,7 g,Standard,No
+Audio Combo Jack,Electrical,1,Motherboard Assembly,Buy,Copper Alloy,4 g,Standard,No
+LAN Controller IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.5 g,Standard,No
+LAN Magnetics Module,Electrical,1,Motherboard Assembly,Buy,Ferrite,2 g,Standard,No
+Wi-Fi Card Slot (M.2),Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,3 g,Standard,No
+SSD Slot (M.2),Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,4 g,Standard,No
+SATA Controller IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.4 g,Standard,No
+Audio Codec IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.3 g,Standard,No
+Speaker Amplifier IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.3 g,Standard,No
+Microphone Bias IC,Electrical,1,Motherboard Assembly,Buy,Silicon,0.2 g,Standard,No
+RTC Crystal,Electrical,1,Motherboard Assembly,Buy,Quartz,0.1 g,Standard,No
+CMOS Battery Connector,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,1 g,Standard,No
+Fan Connector,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,1 g,Standard,No
+Display eDP Connector,Electrical,1,Motherboard Assembly,Buy,Copper Alloy,2 g,Standard,No
+Keyboard FFC Connector,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,1 g,Standard,No
+Touchpad FFC Connector,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,1 g,Standard,No
+Camera FFC Connector,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,1 g,Standard,No
+Power Button Connector,Electrical,1,Motherboard Assembly,Buy,Plastic / Copper,0.8 g,Standard,No
+DC-In Power Connector,Electrical,1,Motherboard Assembly,Buy,Copper Alloy,5 g,Standard,No
+ESD Protection Diode – USB,Electrical,1,Motherboard Assembly,Buy,Silicon,0.1 g,Standard,No
+ESD Protection Diode – HDMI,Electrical,1,Motherboard Assembly,Buy,Silicon,0.1 g,Standard,No
+EMI Shield Can – CPU,Mechanical,1,Motherboard Assembly,Buy,Tin-Plated Steel,5 g,Standard,No
+EMI Shield Can – VRM,Mechanical,1,Motherboard Assembly,Buy,Tin-Plated Steel,4 g,Standard,No
+Thermal Pad – CPU Contact,Material,1,Motherboard Assembly,Buy,Silicone,1 g,Standard,No
+Thermal Pad – VRM,Material,1,Motherboard Assembly,Buy,Silicone,1 g,Standard,No
+Motherboard Mounting Screw – 1,Fastener,1,Motherboard Assembly,Buy,Steel,0.8 g,Standard,Yes
+Motherboard Mounting Screw – 2,Fastener,1,Motherboard Assembly,Buy,Steel,0.8 g,Standard,Yes
+Motherboard Mounting Screw – 3,Fastener,1,Motherboard Assembly,Buy,Steel,0.8 g,Standard,Yes
+Motherboard Mounting Screw – 4,Fastener,1,Motherboard Assembly,Buy,Steel,0.8 g,Standard,Yes
+Motherboard Mounting Screw – 5,Fastener,1,Motherboard Assembly,Buy,Steel,0.8 g,Standard,Yes
+PCB Assembly Process,Process,1,Motherboard Assembly,Make,N/A,0 g,Standard,No
+AOI Inspection,Process,1,Motherboard Assembly,Make,N/A,0 g,Standard,No
+Functional Board Test,Process,1,Motherboard Assembly,Make,N/A,0 g,Standard,No
+BIOS Programming Process,Process,1,Motherboard Assembly,Make,N/A,0 g,Standard,No

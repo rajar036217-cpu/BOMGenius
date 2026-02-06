@@ -1,0 +1,43 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Top Cover / A-Cover Assembly,Sub-Assembly,1,Laptop Assembly,Buy,N/A,0 g,Custom,No
+A-Cover Outer Shell,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Aluminum / PC+ABS,280 g,Custom,No
+A-Cover Inner Reinforcement Plate,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Magnesium Alloy,95 g,Custom,No
+A-Cover Structural Rib Feature,Mechanical,1,A-Cover Outer Shell,Make,Aluminum / Plastic,0 g,Custom,No
+Logo Badge,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Aluminum,5 g,Custom,No
+Logo Adhesive Layer,Material,1,Logo Badge,Buy,Acrylic Adhesive,0.5 g,Standard,No
+Decorative Surface Coating,Process,1,A-Cover Outer Shell,Make,Anodized / Paint,0 g,Custom,No
+Anodization Layer,Process,1,A-Cover Outer Shell,Make,Oxide Coating,0 g,Custom,No
+Cosmetic Paint Layer,Process,1,A-Cover Outer Shell,Make,PU Paint,0 g,Custom,No
+Scratch-Resistant Clear Coat,Process,1,A-Cover Outer Shell,Make,Polymer Coating,0 g,Custom,No
+LCD Panel Mounting Bracket – Left,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Steel,18 g,Custom,No
+LCD Panel Mounting Bracket – Right,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Steel,18 g,Custom,No
+Camera Module Mount Bracket,Mechanical,1,Top Cover / A-Cover Assembly,Buy,PC+ABS,6 g,Custom,No
+Camera Bracket Adhesive,Material,1,Camera Module Mount Bracket,Buy,Acrylic Foam,0.4 g,Standard,No
+Microphone Holder,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Rubber,2 g,Custom,No
+Antenna Mounting Channel,Mechanical,1,Top Cover / A-Cover Assembly,Buy,PC+ABS,4 g,Custom,No
+Left Wi-Fi Antenna,Electrical,1,Top Cover / A-Cover Assembly,Buy,Copper,6 g,Standard,No
+Right Wi-Fi Antenna,Electrical,1,Top Cover / A-Cover Assembly,Buy,Copper,6 g,Standard,No
+Antenna Adhesive Tape,Material,1,Wi-Fi Antenna,Buy,Acrylic Tape,0.6 g,Standard,No
+Antenna Grounding Foil,Material,1,Wi-Fi Antenna,Buy,Copper Foil,1 g,Standard,No
+Camera to Motherboard FPC,Component,1,Top Cover / A-Cover Assembly,Buy,Polyimide,3 g,Standard,No
+Microphone FPC Cable,Component,1,Top Cover / A-Cover Assembly,Buy,Polyimide,2 g,Standard,No
+Antenna RF Cable – Left,Component,1,Top Cover / A-Cover Assembly,Buy,Coaxial Copper,5 g,Standard,No
+Antenna RF Cable – Right,Component,1,Top Cover / A-Cover Assembly,Buy,Coaxial Copper,5 g,Standard,No
+Cable Routing Clip – 1,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Nylon,1 g,Standard,No
+Cable Routing Clip – 2,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Nylon,1 g,Standard,No
+Cable Routing Clip – 3,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Nylon,1 g,Standard,No
+EMI Shielding Foil,Material,1,Top Cover / A-Cover Assembly,Buy,Aluminum Foil,8 g,Standard,No
+EMI Grounding Spring – Left,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Stainless Steel,1.5 g,Standard,No
+EMI Grounding Spring – Right,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Stainless Steel,1.5 g,Standard,No
+Foam Spacer – LCD Edge,Material,1,Top Cover / A-Cover Assembly,Buy,PU Foam,4 g,Standard,No
+Foam Spacer – Camera Area,Material,1,Top Cover / A-Cover Assembly,Buy,PU Foam,2 g,Standard,No
+Shock Absorption Pad,Material,1,Top Cover / A-Cover Assembly,Buy,Silicone,3 g,Standard,No
+Display Alignment Pin – Left,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Plastic,1 g,Custom,No
+Display Alignment Pin – Right,Mechanical,1,Top Cover / A-Cover Assembly,Buy,Plastic,1 g,Custom,No
+Hinge Mount Boss – Left,Mechanical,1,A-Cover Outer Shell,Make,Aluminum / Plastic,0 g,Custom,No
+Hinge Mount Boss – Right,Mechanical,1,A-Cover Outer Shell,Make,Aluminum / Plastic,0 g,Custom,No
+A-Cover Structural Adhesive,Material,1,Top Cover / A-Cover Assembly,Buy,Epoxy,1 g,Standard,No
+Protective Film – Outer Surface,Material,1,Top Cover / A-Cover Assembly,Buy,PET,6 g,Standard,No
+Laser Marking – Logo Area,Process,1,Top Cover / A-Cover Assembly,Make,N/A,0 g,Custom,No
+Visual Inspection Process,Process,1,Top Cover / A-Cover Assembly,Make,N/A,0 g,Standard,No
+Drop Test Validation,Process,1,Top Cover / A-Cover Assembly,Make,N/A,0 g,Custom,No

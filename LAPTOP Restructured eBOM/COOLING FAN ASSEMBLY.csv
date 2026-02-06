@@ -1,0 +1,51 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Cooling Fan Assembly,Sub-Assembly,1,Thermal Module Assembly,Buy,N/A,0 g,Standard,No
+Fan Housing – Upper Shell,Mechanical,1,Cooling Fan Assembly,Buy,ABS Plastic,6 g,Custom,No
+Fan Housing – Lower Shell,Mechanical,1,Cooling Fan Assembly,Buy,ABS Plastic,6 g,Custom,No
+Air Duct Outlet Nozzle,Mechanical,1,Cooling Fan Assembly,Buy,ABS Plastic,2 g,Custom,No
+Fan Impeller / Blade Rotor,Mechanical,1,Cooling Fan Assembly,Buy,PBT Plastic,3 g,Custom,No
+Fan Shaft,Mechanical,1,Cooling Fan Assembly,Buy,Stainless Steel,1 g,Standard,No
+Sleeve Bearing,Mechanical,1,Cooling Fan Assembly,Buy,Bronze Alloy,0.8 g,Standard,No
+Bearing Lubrication Oil,Material,1,Cooling Fan Assembly,Buy,Synthetic Oil,0.1 g,Standard,No
+Rotor Magnet Ring,Electrical,1,Cooling Fan Assembly,Buy,Ferrite Magnet,2 g,Standard,No
+Stator Core,Electrical,1,Cooling Fan Assembly,Buy,Silicon Steel,2 g,Standard,No
+Stator Coil – Phase A,Electrical,1,Cooling Fan Assembly,Buy,Copper Wire,0.8 g,Standard,No
+Stator Coil – Phase B,Electrical,1,Cooling Fan Assembly,Buy,Copper Wire,0.8 g,Standard,No
+Stator Coil – Phase C,Electrical,1,Cooling Fan Assembly,Buy,Copper Wire,0.8 g,Standard,No
+Coil Insulation Varnish,Material,1,Cooling Fan Assembly,Buy,Epoxy Resin,0.2 g,Standard,No
+Hall Effect Sensor IC,Electrical,1,Cooling Fan Assembly,Buy,Silicon,0.1 g,Standard,No
+Fan Driver IC (BLDC Controller),Electrical,1,Cooling Fan Assembly,Buy,Silicon,0.2 g,Standard,No
+MOSFET – Motor Drive,Electrical,1,Cooling Fan Assembly,Buy,Silicon,0.15 g,Standard,No
+Flyback Diode,Electrical,1,Cooling Fan Assembly,Buy,Silicon,0.05 g,Standard,No
+Decoupling Capacitor – Driver,Electrical,1,Cooling Fan Assembly,Buy,MLCC,0.05 g,Standard,No
+Bulk Capacitor – Motor Supply,Electrical,1,Cooling Fan Assembly,Buy,Ceramic,0.1 g,Standard,No
+Pull-Up Resistor – Hall Signal,Electrical,1,Cooling Fan Assembly,Buy,Thick Film,0.02 g,Standard,No
+Pull-Down Resistor – Enable,Electrical,1,Cooling Fan Assembly,Buy,Thick Film,0.02 g,Standard,No
+Fan Control PCB,Mechanical,1,Cooling Fan Assembly,Buy,FR4,1.5 g,Custom,No
+Copper Trace Layer,Material,1,Fan Control PCB,Make,Copper,0 g,Standard,No
+PCB Solder Mask,Material,1,Fan Control PCB,Make,Epoxy,0 g,Standard,No
+PCB Silkscreen Ink,Material,1,Fan Control PCB,Make,Ink,0 g,Standard,No
+Fan Cable – 4 Wire,Electrical,1,Cooling Fan Assembly,Buy,Copper + PVC,1 g,Standard,No
+Fan Connector – JST 4 Pin,Electrical,1,Cooling Fan Assembly,Buy,Nylon + Copper,0.3 g,Standard,No
+Strain Relief Grommet,Mechanical,1,Cooling Fan Assembly,Buy,Rubber,0.3 g,Standard,No
+EMI Suppression Ferrite Bead,Electrical,1,Cooling Fan Assembly,Buy,Ferrite,0.1 g,Standard,No
+Anti-Vibration Rubber Pad – 1,Mechanical,1,Cooling Fan Assembly,Buy,Silicone Rubber,0.4 g,Standard,No
+Anti-Vibration Rubber Pad – 2,Mechanical,1,Cooling Fan Assembly,Buy,Silicone Rubber,0.4 g,Standard,No
+Anti-Vibration Rubber Pad – 3,Mechanical,1,Cooling Fan Assembly,Buy,Silicone Rubber,0.4 g,Standard,No
+Anti-Vibration Rubber Pad – 4,Mechanical,1,Cooling Fan Assembly,Buy,Silicone Rubber,0.4 g,Standard,No
+Foam Air Seal,Material,1,Cooling Fan Assembly,Buy,PU Foam,0.5 g,Standard,No
+Dust Protection Mesh,Mechanical,1,Cooling Fan Assembly,Buy,Nylon Mesh,0.3 g,Optional,No
+Label – Fan Model & Rating,Material,1,Cooling Fan Assembly,Buy,PET,0.1 g,Standard,No
+Assembly Screw – Fan Housing 1,Fastener,1,Cooling Fan Assembly,Buy,Steel,0.2 g,Standard,Yes
+Assembly Screw – Fan Housing 2,Fastener,1,Cooling Fan Assembly,Buy,Steel,0.2 g,Standard,Yes
+Assembly Screw – Fan Housing 3,Fastener,1,Cooling Fan Assembly,Buy,Steel,0.2 g,Standard,Yes
+Assembly Screw – Fan Housing 4,Fastener,1,Cooling Fan Assembly,Buy,Steel,0.2 g,Standard,Yes
+Motor Assembly Process,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Impeller Balancing Process,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+PCB SMT Assembly Process,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Reflow Soldering Process,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Fan Housing Ultrasonic Welding,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Functional Spin Test,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Noise & Vibration Test,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Power Consumption Test,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No
+Final Visual Inspection,Process,1,Cooling Fan Assembly,Make,N/A,0 g,Standard,No

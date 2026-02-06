@@ -1,0 +1,40 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+RAM Module Assembly,Sub-Assembly,1,Motherboard Assembly,Buy,N/A,0 g,Standard,No
+SO-DIMM PCB,Mechanical,1,RAM Module Assembly,Buy,FR4,8 g,Custom,No
+Memory IC – DDR4 DRAM Chip 1,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 2,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 3,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 4,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 5,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 6,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 7,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+Memory IC – DDR4 DRAM Chip 8,Electrical,1,RAM Module Assembly,Buy,Silicon,0.8 g,Standard,No
+SPD EEPROM IC,Electrical,1,RAM Module Assembly,Buy,Silicon,0.2 g,Standard,No
+Temperature Sensor IC,Electrical,1,RAM Module Assembly,Buy,Silicon,0.2 g,Optional,No
+Power Management IC (PMIC),Electrical,1,RAM Module Assembly,Buy,Silicon,0.3 g,Standard,No
+PMIC Input Capacitor,Electrical,1,RAM Module Assembly,Buy,Ceramic,0.1 g,Standard,No
+PMIC Output Capacitor,Electrical,1,RAM Module Assembly,Buy,Ceramic,0.1 g,Standard,No
+Decoupling Capacitor – DRAM 1,Electrical,1,RAM Module Assembly,Buy,MLCC,0.05 g,Standard,No
+Decoupling Capacitor – DRAM 2,Electrical,1,RAM Module Assembly,Buy,MLCC,0.05 g,Standard,No
+Decoupling Capacitor – DRAM 3,Electrical,1,RAM Module Assembly,Buy,MLCC,0.05 g,Standard,No
+Decoupling Capacitor – DRAM 4,Electrical,1,RAM Module Assembly,Buy,MLCC,0.05 g,Standard,No
+Termination Resistor – Data Line 1,Electrical,1,RAM Module Assembly,Buy,Thick Film,0.05 g,Standard,No
+Termination Resistor – Data Line 2,Electrical,1,RAM Module Assembly,Buy,Thick Film,0.05 g,Standard,No
+Termination Resistor – Address Line,Electrical,1,RAM Module Assembly,Buy,Thick Film,0.05 g,Standard,No
+Clock Buffer Resistor,Electrical,1,RAM Module Assembly,Buy,Thick Film,0.05 g,Standard,No
+Gold Finger Edge Connector,Electrical,1,RAM Module Assembly,Buy,Gold-Plated Copper,1 g,Standard,No
+Solder Mask Layer,Material,1,SO-DIMM PCB,Make,Epoxy,0 g,Standard,No
+Copper Signal Layer,Material,1,SO-DIMM PCB,Make,Copper,0 g,Standard,No
+PCB Silkscreen Layer,Material,1,SO-DIMM PCB,Make,Ink,0 g,Standard,No
+DRAM IC Underfill,Material,1,RAM Module Assembly,Buy,Epoxy Resin,0.2 g,Standard,No
+Conformal Coating,Process,1,RAM Module Assembly,Make,Acrylic,0 g,Optional,No
+SPD Programming Process,Process,1,RAM Module Assembly,Make,N/A,0 g,Standard,No
+DRAM IC Placement Process,Process,1,RAM Module Assembly,Make,N/A,0 g,Standard,No
+Reflow Soldering Process,Process,1,RAM Module Assembly,Make,N/A,0 g,Standard,No
+AOI Inspection – RAM PCB,Process,1,RAM Module Assembly,Make,N/A,0 g,Standard,No
+X-Ray Inspection – BGA,Process,1,RAM Module Assembly,Make,N/A,0 g,Optional,No
+Functional Memory Test,Process,1,RAM Module Assembly,Make,N/A,0 g,Standard,No
+Burn-In Stress Test,Process,1,RAM Module Assembly,Make,N/A,0 g,Optional,No
+Label – Capacity & Speed,Material,1,RAM Module Assembly,Buy,PET,0.2 g,Standard,No
+Protective Film – Gold Fingers,Material,1,RAM Module Assembly,Buy,PET,0.3 g,Standard,No
+Final Visual Inspection,Process,1,RAM Module Assembly,Make,N/A,0 g,Standard,No

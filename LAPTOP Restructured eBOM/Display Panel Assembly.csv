@@ -1,0 +1,46 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Display Panel Assembly,Sub-Assembly,1,Laptop Assembly,Buy,N/A,0 g,Custom,No
+LCD Panel Module,Component,1,Display Panel Assembly,Buy,Glass / Liquid Crystal,220 g,Standard,No
+TFT Glass Substrate,Material,1,LCD Panel Module,Buy,Aluminosilicate Glass,95 g,Standard,No
+Color Filter Glass,Material,1,LCD Panel Module,Buy,Glass,80 g,Standard,No
+Liquid Crystal Layer,Material,1,LCD Panel Module,Buy,LC Compound,2 g,Standard,No
+Polarizer Film – Front,Material,1,LCD Panel Module,Buy,PVA Film,6 g,Standard,No
+Polarizer Film – Rear,Material,1,LCD Panel Module,Buy,PVA Film,6 g,Standard,No
+Alignment Layer,Material,1,LCD Panel Module,Buy,Polyimide,0.5 g,Standard,No
+Sealant Resin,Material,1,LCD Panel Module,Buy,Epoxy,1 g,Standard,No
+Backlight Unit Assembly,Sub-Assembly,1,Display Panel Assembly,Buy,N/A,90 g,Custom,No
+LED Light Bar,Electrical,1,Backlight Unit Assembly,Buy,LED / FR4,12 g,Standard,No
+LED Driver IC,Electrical,1,LED Light Bar,Buy,Silicon,1 g,Standard,No
+Light Guide Plate (LGP),Material,1,Backlight Unit Assembly,Buy,PMMA,28 g,Standard,No
+Diffuser Film – 1,Material,1,Backlight Unit Assembly,Buy,PET,4 g,Standard,No
+Diffuser Film – 2,Material,1,Backlight Unit Assembly,Buy,PET,4 g,Standard,No
+Prism Film – Upper,Material,1,Backlight Unit Assembly,Buy,PET,3 g,Standard,No
+Prism Film – Lower,Material,1,Backlight Unit Assembly,Buy,PET,3 g,Standard,No
+Reflective Sheet,Material,1,Backlight Unit Assembly,Buy,PET / Al Foil,5 g,Standard,No
+Backlight Frame,Mechanical,1,Backlight Unit Assembly,Buy,PC+ABS,18 g,Custom,No
+LCD Metal Frame,Mechanical,1,Display Panel Assembly,Buy,Aluminum,40 g,Custom,No
+Panel Side Bracket – Left,Mechanical,1,Display Panel Assembly,Buy,Steel,12 g,Custom,No
+Panel Side Bracket – Right,Mechanical,1,Display Panel Assembly,Buy,Steel,12 g,Custom,No
+eDP Interface Connector,Electrical,1,LCD Panel Module,Buy,Copper Alloy,1 g,Standard,No
+eDP Display Cable,Component,1,Display Panel Assembly,Buy,Copper / PET,15 g,Standard,No
+Backlight Power Cable,Component,1,Display Panel Assembly,Buy,Copper,6 g,Standard,No
+Display Control PCB,Electrical,1,LCD Panel Module,Buy,FR4,10 g,Custom,No
+Timing Controller (T-CON) IC,Electrical,1,Display Control PCB,Buy,Silicon,1 g,Standard,No
+EEPROM – Panel ID,Electrical,1,Display Control PCB,Buy,Silicon,0.2 g,Standard,No
+Passive Resistor – TCON,Electrical,1,Display Control PCB,Buy,Thick Film,0.1 g,Standard,No
+Passive Capacitor – TCON,Electrical,1,Display Control PCB,Buy,Ceramic,0.1 g,Standard,No
+EMI Shield Can,Mechanical,1,Display Control PCB,Buy,Tin Plated Steel,3 g,Standard,No
+EMI Shield Adhesive,Material,1,EMI Shield Can,Buy,Conductive Adhesive,0.3 g,Standard,No
+Foam Spacer – Panel Edge (Top),Material,1,Display Panel Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Spacer – Panel Edge (Bottom),Material,1,Display Panel Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Spacer – Panel Edge (Left),Material,1,Display Panel Assembly,Buy,PU Foam,2 g,Standard,No
+Foam Spacer – Panel Edge (Right),Material,1,Display Panel Assembly,Buy,PU Foam,2 g,Standard,No
+Cushion Tape – LCD Edge,Material,1,Display Panel Assembly,Buy,PET Foam Tape,3 g,Standard,No
+Panel Grounding Tape,Material,1,Display Panel Assembly,Buy,Copper Tape,1 g,Standard,No
+Backlight Thermal Pad,Material,1,LED Light Bar,Buy,Silicone,1 g,Standard,No
+Panel Alignment Pin – Left,Mechanical,1,Display Panel Assembly,Buy,Plastic,0.5 g,Custom,No
+Panel Alignment Pin – Right,Mechanical,1,Display Panel Assembly,Buy,Plastic,0.5 g,Custom,No
+LCD Protective Film,Material,1,Display Panel Assembly,Buy,PET,5 g,Standard,No
+Optical Inspection Process,Process,1,Display Panel Assembly,Make,N/A,0 g,Standard,No
+Backlight Uniformity Test,Process,1,Display Panel Assembly,Make,N/A,0 g,Standard,No
+Dead Pixel Test,Process,1,Display Panel Assembly,Make,N/A,0 g,Standard,No

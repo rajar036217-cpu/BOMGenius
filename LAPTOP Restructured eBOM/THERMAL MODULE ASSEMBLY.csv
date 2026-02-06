@@ -1,0 +1,54 @@
+Part Name,Part Type,Quantity,Parent Assembly,Make / Buy,Material,Weight,Standard vs Custom,Fastener Flag
+Thermal Module Assembly,Sub-Assembly,1,Motherboard Assembly,Buy,N/A,0 g,Standard,No
+CPU Cold Plate – Base,Mechanical,1,Thermal Module Assembly,Buy,Copper,16 g,Custom,No
+CPU Cold Plate – Nickel Plating,Process,1,CPU Cold Plate – Base,Make,Nickel,0 g,Standard,No
+CPU Cold Plate Flatness Machining,Process,1,CPU Cold Plate – Base,Make,N/A,0 g,Standard,No
+Primary Heatpipe – Outer Tube,Mechanical,1,Thermal Module Assembly,Buy,Copper,9 g,Custom,No
+Primary Heatpipe – Wick Structure,Material,1,Primary Heatpipe – Outer Tube,Buy,Sintered Copper,0 g,Standard,No
+Primary Heatpipe – Working Fluid,Material,1,Primary Heatpipe – Outer Tube,Buy,Deionized Water,0 g,Standard,No
+Heatpipe Vacuum Charging,Process,1,Primary Heatpipe – Outer Tube,Make,N/A,0 g,Standard,No
+Heatpipe End Cap – CPU Side,Mechanical,1,Primary Heatpipe – Outer Tube,Buy,Copper,0.2 g,Standard,No
+Heatpipe End Cap – Fin Side,Mechanical,1,Primary Heatpipe – Outer Tube,Buy,Copper,0.2 g,Standard,No
+Heatpipe Leak Test,Process,1,Primary Heatpipe – Outer Tube,Make,N/A,0 g,Standard,No
+Heatsink Fin – Aluminum #1,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #2,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #3,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #4,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #5,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #6,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #7,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin – Aluminum #8,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,1.2 g,Custom,No
+Heatsink Fin Spacer,Mechanical,1,Thermal Module Assembly,Buy,Aluminum,2 g,Standard,No
+Fin Stack Alignment Jig,Process,1,Heatsink Fin Stack,Make,N/A,0 g,Standard,No
+Fin Stack Brazing Alloy,Material,1,Heatsink Fin Stack,Make,Aluminum Alloy,0 g,Standard,No
+Fin Stack Brazing Process,Process,1,Heatsink Fin Stack,Make,N/A,0 g,Standard,No
+Heatpipe to Cold Plate Solder Layer,Material,1,Thermal Module Assembly,Make,Solder Alloy,0 g,Standard,No
+Heatpipe to Fin Stack Solder Layer,Material,1,Thermal Module Assembly,Make,Solder Alloy,0 g,Standard,No
+Heatpipe Soldering Process,Process,1,Thermal Module Assembly,Make,N/A,0 g,Standard,No
+Thermal Interface Material – CPU,Material,1,Thermal Module Assembly,Buy,Silicone Grease,0.3 g,Standard,No
+TIM Dispensing Process,Process,1,Thermal Module Assembly,Make,N/A,0 g,Standard,No
+Thermal Pad – VRM Left,Material,1,Thermal Module Assembly,Buy,Silicone,0.4 g,Standard,No
+Thermal Pad – VRM Right,Material,1,Thermal Module Assembly,Buy,Silicone,0.4 g,Standard,No
+Insulation Film – CPU Area,Material,1,Thermal Module Assembly,Buy,Polyimide,0.1 g,Standard,No
+Insulation Film – Heatpipe,Material,1,Thermal Module Assembly,Buy,PET,0.1 g,Standard,No
+Mounting Bracket – Left,Mechanical,1,Thermal Module Assembly,Buy,Stainless Steel,3 g,Custom,No
+Mounting Bracket – Right,Mechanical,1,Thermal Module Assembly,Buy,Stainless Steel,3 g,Custom,No
+Spring Plate – CPU Load Control,Mechanical,1,Thermal Module Assembly,Buy,Spring Steel,1 g,Standard,No
+Compression Spring – CPU Screw 1,Mechanical,1,Thermal Module Assembly,Buy,Spring Steel,0.2 g,Standard,No
+Compression Spring – CPU Screw 2,Mechanical,1,Thermal Module Assembly,Buy,Spring Steel,0.2 g,Standard,No
+Compression Spring – CPU Screw 3,Mechanical,1,Thermal Module Assembly,Buy,Spring Steel,0.2 g,Standard,No
+Compression Spring – CPU Screw 4,Mechanical,1,Thermal Module Assembly,Buy,Spring Steel,0.2 g,Standard,No
+CPU Mounting Screw – 1,Fastener,1,Thermal Module Assembly,Buy,Steel,0.3 g,Standard,Yes
+CPU Mounting Screw – 2,Fastener,1,Thermal Module Assembly,Buy,Steel,0.3 g,Standard,Yes
+CPU Mounting Screw – 3,Fastener,1,Thermal Module Assembly,Buy,Steel,0.3 g,Standard,Yes
+CPU Mounting Screw – 4,Fastener,1,Thermal Module Assembly,Buy,Steel,0.3 g,Standard,Yes
+Screw Washer – CPU 1,Mechanical,1,Thermal Module Assembly,Buy,Steel,0.05 g,Standard,No
+Screw Washer – CPU 2,Mechanical,1,Thermal Module Assembly,Buy,Steel,0.05 g,Standard,No
+Screw Washer – CPU 3,Mechanical,1,Thermal Module Assembly,Buy,Steel,0.05 g,Standard,No
+Screw Washer – CPU 4,Mechanical,1,Thermal Module Assembly,Buy,Steel,0.05 g,Standard,No
+Fan Interface Foam Seal,Material,1,Thermal Module Assembly,Buy,Silicone Foam,0.5 g,Standard,No
+Anti-Rattle Foam Strip,Material,1,Thermal Module Assembly,Buy,PU Foam,0.3 g,Standard,No
+Assembly Torque Verification,Process,1,Thermal Module Assembly,Make,N/A,0 g,Standard,No
+Thermal Resistance Measurement,Process,1,Thermal Module Assembly,Make,N/A,0 g,Standard,No
+Power Burn Thermal Validation,Process,1,Thermal Module Assembly,Make,N/A,0 g,Standard,No
+Final Visual Inspection,Process,1,Thermal Module Assembly,Make,N/A,0 g,Standard,No

@@ -6,6 +6,16 @@ import io
 from core.engine import generate_mbom
 from repo.DB import init_db, save_mbom
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # later restrict to your domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -15,6 +25,10 @@ async def lifespan(app: FastAPI):
     print("API shutting down...")
 
 app = FastAPI(title="BOMGenius API")
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "service": "BOMGenius API"}
 
 @app.post("/generate-mbom")
 async def generate_mbom_api(ebom: UploadFile = File(...), inventory: UploadFile = File(...)):
@@ -27,4 +41,15 @@ async def generate_mbom_api(ebom: UploadFile = File(...), inventory: UploadFile 
     return {
         "columns": list(df_final.columns),
         "rows": df_final.to_dict(orient="records")
+
+    }
+
+from db.repository import fetch_latest_mbom
+
+@app.get("/mbom/latest")
+def get_latest_mbom():
+    df = fetch_latest_mbom()
+    return {
+        "columns": list(df.columns),
+        "rows": df.to_dict(orient="records")
     }

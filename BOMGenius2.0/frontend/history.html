@@ -112,6 +112,44 @@
 
 </section>
 
+  <script>
+window.onload = async () => {
+    const tableBody = document.querySelector("tbody"); // Selects the history table body
+    
+    try {
+        const response = await fetch('http://127.0.0.1:8000/mbom/latest');
+        const data = await response.json();
+        
+        if (data.rows && data.rows.length > 0) {
+            tableBody.innerHTML = ""; // Clear the "Processing" dummy data
+
+            data.rows.forEach(row => {
+                const tr = document.createElement("tr");
+                tr.className = "border-t hover:bg-blue-100 transition";
+                
+                // This assumes your backend returns a list of dictionaries 
+                // Adjust keys like 'Date' or 'FileName' to match your actual CSV columns
+                tr.innerHTML = `
+                    <td class="p-4">${new Date().toLocaleDateString()}</td>
+                    <td class="p-4">${new Date().toLocaleTimeString()}</td>
+                    <td class="p-4">${row.part_name || 'MBOM_Output'}</td>
+                    <td class="p-4 text-green-600 font-medium">Generated</td>
+                    <td class="p-4">
+                        <button class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">
+                            View
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+        console.log("Latest MBOM History loaded:", data.rows);
+    } catch (e) {
+        console.error("History could not be loaded:", e);
+    }
+};
+</script>
+
 <!-- ===== FOOTER ===== -->
 <footer class="text-center py-6 text-gray-700 text-sm">
   © 2026 BOM Genius. All rights reserved.
@@ -119,3 +157,4 @@
 
 </body>
 </html>
+

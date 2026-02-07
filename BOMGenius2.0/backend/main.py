@@ -4,17 +4,22 @@ import pandas as pd
 import io
 
 from core.engine import generate_mbom
-from repo.DB import init_db, save_mbom
+from repo.DB import init_db, save_mbom, fetch_mbom
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # later restrict to your domain
-    allow_credentials=True,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,23 +37,24 @@ def health():
 
 @app.post("/generate-mbom")
 async def generate_mbom_api(ebom: UploadFile = File(...), inventory: UploadFile = File(...)):
+    # Read files into dataframes
     ebom_df = pd.read_csv(io.BytesIO(await ebom.read()))
     inv_df = pd.read_csv(io.BytesIO(await inventory.read()))
 
+    # Process data
     df_final = generate_mbom(ebom_df, inv_df)
+    
+    # Save to Database
     save_mbom(df_final)
 
     return {
         "columns": list(df_final.columns),
         "rows": df_final.to_dict(orient="records")
-
     }
 
-from db.repository import fetch_latest_mbom
-
 @app.get("/mbom/latest")
-def get_latest_mbom():
-    df = fetch_latest_mbom()
+def get_mbom():
+    df = fetch_mbom()
     return {
         "columns": list(df.columns),
         "rows": df.to_dict(orient="records")

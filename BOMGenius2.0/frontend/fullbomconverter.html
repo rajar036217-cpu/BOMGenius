@@ -155,17 +155,11 @@ async function generateMBOM() {
 
     // 4. Update the table with real data from the backend
     const tableBody = document.querySelector("#mbomTable tbody");
-    tableBody.innerHTML = ""; // Clear old data
+    tableBody.innerHTML = data.rows.map(row => `
+    <tr class="border-b">
+      ${Object.values(row).map(val => `<td class="p-4">${val}</td>`).join('')}
+    </tr>`).join('');
 
-    data.rows.forEach(row => {
-      const tr = document.createElement("tr");
-      tr.className = "border-b";
-      // Using Object.values to dynamically fill columns based on your CSV
-      tr.innerHTML = Object.values(row).map(val => `<td class="p-4">${val}</td>`).join('');
-      tableBody.appendChild(tr);
-    });
-
-    // 5. Show the result section
     document.getElementById("resultSection").classList.remove("hidden");
     document.getElementById("resultSection").scrollIntoView({ behavior: "smooth" });
 

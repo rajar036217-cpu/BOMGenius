@@ -1,0 +1,99 @@
+<!-- ===== RESULT SECTION ===== -->
+<section id="result" class="py-24 px-12">
+
+  <h2 class="text-3xl font-bold text-center text-blue-900 mb-14">
+    Generated Manufacturing BOM
+  </h2>
+
+  <div class="max-w-5xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl p-12 dark-shadow">
+
+    <p class="text-gray-700 mb-8">
+      ✅ M‑BOM successfully generated based on engineering data 
+      and factory inventory mapping.
+    </p>
+
+    <!-- TABLE FORMAT OUTPUT -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border border-gray-300 rounded-lg overflow-hidden">
+        <thead class="bg-blue-900 text-white">
+          <tr>
+            <th class="p-4">Part Name</th>
+            <th class="p-4">Quantity</th>
+            <th class="p-4">Assembly Line</th>
+            <th class="p-4">Status</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-700 bg-white">
+          <tr class="border-t">
+            <td class="p-4">Part A</td>
+            <td class="p-4">12</td>
+            <td class="p-4">Line 1</td>
+            <td class="p-4 text-green-600 font-medium">Validated</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Part B</td>
+            <td class="p-4">8</td>
+            <td class="p-4">Line 2</td>
+            <td class="p-4 text-green-600 font-medium">Validated</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Component C</td>
+            <td class="p-4">5</td>
+            <td class="p-4">Batch 21</td>
+            <td class="p-4 text-green-600 font-medium">Mapped</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DOWNLOAD FORMAT SELECT -->
+    <div class="mt-10 flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div>
+        <label class="block mb-2 font-semibold text-blue-900">
+          Select Download Format
+        </label>
+
+        <select id="formatSelect"
+          class="p-3 rounded-lg border border-gray-300 bg-white text-gray-700">
+          <option value="pdf">PDF</option>
+          <option value="excel">Excel (.xlsx)</option>
+          <option value="csv">CSV</option>
+        </select>
+      </div>
+
+      <button onclick="downloadFile()"
+        class="bg-blue-800 hover:bg-blue-900 text-white px-10 py-3 rounded-lg font-semibold dark-shadow">
+        Download M‑BOM
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+function downloadFile() {
+  const format = document.getElementById("formatSelect").value;
+
+  let fileName = "mBOM_Report";
+
+  if (format === "pdf") {
+    fileName += ".pdf";
+  } else if (format === "excel") {
+    fileName += ".xlsx";
+  } else if (format === "csv") {
+    fileName += ".csv";
+  }
+
+  alert("Downloading " + fileName);
+
+  // Demo download simulation
+  const blob = new Blob(["Sample M-BOM data"], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  link.click();
+}
+</script>

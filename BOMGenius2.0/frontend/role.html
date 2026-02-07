@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Role - BOM Genius</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="flex justify-between items-center px-10 py-6 
+                   bg-white/70 backdrop-blur-xl shadow-lg border-b border-white/40">
+
+        <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 bg-blue-900 text-white rounded-2xl 
+                        flex items-center justify-center shadow-lg">
+                <span class="text-xl font-bold">BG</span>
+            </div>
+
+            <h1 class="text-3xl font-bold tracking-wide text-blue-900">
+                BOM Genius
+            </h1>
+        </div>
+    </header>
+
+    <!-- ================= ROLE SELECTION ================= -->
+    <section class="flex items-center justify-center py-32 px-6">
+
+        <div class="bg-white/80 backdrop-blur-xl shadow-2xl 
+                    rounded-3xl p-16 w-full max-w-2xl text-center border border-blue-200">
+
+            <h2 class="text-4xl font-bold text-blue-900 mb-8">
+                Select Your Role
+            </h2>
+
+            <p class="text-gray-700 mb-12">
+                Please choose how you want to access BOM Genius
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-8 justify-center">
+
+                <!-- Company Login -->
+                <a href="login.html"
+                   class="px-10 py-4 bg-blue-600 text-white rounded-xl 
+                          text-lg font-semibold shadow-lg 
+                          hover:bg-blue-700 hover:scale-105 transition duration-300">
+                    Company User
+                </a>
+
+                <!-- Admin Login -->
+                <a href="admin-login.html"
+                   class="px-10 py-4 bg-white border-2 border-blue-900 
+                          text-blue-900 rounded-xl text-lg font-semibold 
+                          shadow-lg hover:bg-blue-100 hover:scale-105 
+                          transition duration-300">
+                    Admin
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="text-center py-6 text-gray-700 text-sm border-t border-blue-200 bg-white">
+        © 2026 BOM Genius. All rights reserved.
+    </footer>
+
+</body>
+</html>

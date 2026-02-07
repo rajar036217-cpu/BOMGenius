@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(title="BOMGenius API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,11 +29,13 @@ async def lifespan(app: FastAPI):
     # Shutdown (optional cleanup)
     print("API shutting down...")
 
-app = FastAPI(title="BOMGenius API")
-
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "BOMGenius API"}
+
+@app.get("/")
+def home():
+    return FileResponse("frontend/home.html")
 
 @app.post("/generate-mbom")
 async def generate_mbom_api(ebom: UploadFile = File(...), inventory: UploadFile = File(...)):
@@ -58,4 +60,5 @@ def get_mbom():
     return {
         "columns": list(df.columns),
         "rows": df.to_dict(orient="records")
+
     }

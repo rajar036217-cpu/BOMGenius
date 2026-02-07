@@ -126,29 +126,53 @@
 </section>
 
 <!-- ===== SCRIPT ===== -->
-<script>
 
-function generateMBOM() {
+  <script>
+async function generateMBOM() {
+  // 1. Get the files from the inputs
+  const fileInputs = document.querySelectorAll('input[type="file"]');
+  const ebomFile = fileInputs[0].files[0];
+  const inventoryFile = fileInputs[1].files[0];
 
-  const tableBody = document.querySelector("#mbomTable tbody");
+  if (!ebomFile || !inventoryFile) {
+    alert("Please upload both Engineering BOM and Factory Inventory files.");
+    return;
+  }
 
-  tableBody.innerHTML = `
-    <tr class="border-b">
-      <td class="p-4">Part A</td>
-      <td class="p-4">Assembly Line 1</td>
-      <td class="p-4">Batch 21</td>
-      <td class="p-4 text-green-600">Validated</td>
-    </tr>
-    <tr class="border-b">
-      <td class="p-4">Part B</td>
-      <td class="p-4">Storage Unit 3</td>
-      <td class="p-4">Batch 12</td>
-      <td class="p-4 text-green-600">Validated</td>
-    </tr>
-  `;
+  // 2. Prepare the FormData (matching your FastAPI parameters)
+  const formData = new FormData();
+  formData.append('ebom', ebomFile);
+  formData.append('inventory', inventoryFile);
 
-  document.getElementById("resultSection").classList.remove("hidden");
-  document.getElementById("resultSection").scrollIntoView({behavior:"smooth"});
+  try {
+    // 3. Send the request to main.py
+    const response = await fetch('http://127.0.0.1:8000/generate-mbom', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+
+    // 4. Update the table with real data from the backend
+    const tableBody = document.querySelector("#mbomTable tbody");
+    tableBody.innerHTML = ""; // Clear old data
+
+    data.rows.forEach(row => {
+      const tr = document.createElement("tr");
+      tr.className = "border-b";
+      // Using Object.values to dynamically fill columns based on your CSV
+      tr.innerHTML = Object.values(row).map(val => `<td class="p-4">${val}</td>`).join('');
+      tableBody.appendChild(tr);
+    });
+
+    // 5. Show the result section
+    document.getElementById("resultSection").classList.remove("hidden");
+    document.getElementById("resultSection").scrollIntoView({ behavior: "smooth" });
+
+  } catch (error) {
+    console.error("Connection Error:", error);
+    alert("Could not connect to the BOMGenius API. Make sure main.py is running.");
+  }
 }
 
 function downloadCSV() {
@@ -184,3 +208,4 @@ function downloadCSV() {
 
 </body>
 </html>
+

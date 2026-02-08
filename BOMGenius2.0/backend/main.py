@@ -2,13 +2,14 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, UploadFile, File
 import pandas as pd
 import io
-
-from core.engine import generate_mbom
-from repo.DB import init_db, save_mbom, fetch_mbom
-
+from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+
+from federated.local_trainer import log_human_feedback, export_local_updates
+from core.engine import generate_mbom
+from repo.DB import init_db, save_mbom, fetch_mbom
 
 app = FastAPI(title="BOMGenius API")
 
@@ -60,5 +61,27 @@ def get_mbom():
     return {
         "columns": list(df.columns),
         "rows": df.to_dict(orient="records")
-
     }
+
+class Feedback(BaseModel):
+    part_no: str
+    correct_make_buy: str | None = None
+    correct_uom: str | None = None
+    correct_work_center: str | None = None
+
+@app.post("/feedback")
+def submit_feedback(feedback: Feedback):
+    log_human_feedback(feedback.dict())
+    return {"status": "feedback recorded"}
+
+@app.get("/federated/export")
+def federated_export():
+    return export_local_updates()
+
+@app.post("/federated/import")
+def federated_import(global_rules: dict):
+    import json
+    os.makedirs("federated", exist_ok=True)
+    with open("federated/global_rules.json", "w") as f:
+        json.dump(global_rules, f, indent=2)
+    return {"status": "global rules updated"}

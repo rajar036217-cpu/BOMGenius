@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maintenance Control – Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 font-sans">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50
+               px-10 py-6
+               bg-white/30 backdrop-blur-xl
+               border-b border-white/40
+               shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
+
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+    <!-- LEFT : LOGO + TITLE -->
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-blue-900 text-white rounded-full
+                  flex items-center justify-center font-bold text-xl">
+        BG
+      </div>
+      <h1 class="text-2xl font-bold text-blue-900 whitespace-nowrap">
+        BOM Genius – Admin
+      </h1>
+    </div>
+
+    <!-- CENTER : NAV LINKS -->
+    <nav class="flex space-x-10 text-lg font-medium text-gray-800">
+      <a href="dashboard.html"
+         class="hover:text-blue-700 transition">
+        Admin Panel
+      </a>
+
+      <a href="feedbackview.html"
+         class="hover:text-blue-700 transition">
+        Feedback View
+      </a>
+
+      <a href="feedbackcorrection.html"
+         class="hover:text-blue-700 transition">
+        Feedback Correction
+      </a>
+
+      <a href="adminsetting.html"
+         class="hover:text-blue-700 transition">
+        Settings
+      </a>
+
+      <a href="maintenance.html"
+         class="text-blue-900 border-b-2 border-blue-900 pb-1">
+        Maintenance
+      </a>
+    </nav>
+
+    <!-- RIGHT : PROFILE -->
+    <img src="https://via.placeholder.com/40"
+         class="w-10 h-10 rounded-full border-2 border-blue-900
+                cursor-pointer hover:scale-110 transition"
+         alt="Profile">
+
+  </div>
+</header>
+
+
+  <!-- CONTENT -->
+  <section class="py-20 text-center">
+    <h2 class="text-4xl font-bold text-blue-900 mb-4">
+      Maintenance Mode Control
+    </h2>
+
+    <p class="text-gray-700 mb-10">
+      Enable / Disable maintenance notice for users
+    </p>
+
+    <div class="max-w-xl mx-auto bg-white/80 backdrop-blur-xl
+                rounded-2xl shadow-2xl p-10">
+
+      <p class="text-lg mb-6">
+        When enabled, users will see a maintenance notice page.
+      </p>
+
+      <form>
+        <textarea
+          class="w-full p-4 border rounded-lg mb-6"
+          placeholder="Enter maintenance message for users..."
+          rows="4"></textarea>
+
+        <div class="flex justify-center gap-6">
+          <button type="button"
+                  class="bg-green-600 hover:bg-green-700
+                         text-white px-6 py-3 rounded-lg">
+            Activate Maintenance
+          </button>
+
+          <button type="button"
+                  class="bg-red-600 hover:bg-red-700
+                         text-white px-6 py-3 rounded-lg">
+            Disable Maintenance
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+</body>
+</html>

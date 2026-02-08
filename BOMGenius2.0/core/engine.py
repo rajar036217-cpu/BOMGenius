@@ -21,6 +21,14 @@ CANONICAL_EMBEDDINGS = {
     k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()
 }
 
+GLOBAL_RULES_FILE = "federated/global_rules.json"
+
+def load_global_rules():
+    if os.path.exists(GLOBAL_RULES_FILE):
+        with open(GLOBAL_RULES_FILE, "r") as f:
+            return json.load(f)
+    return {}
+    
 def learn_inventory_schema(df):
     col_map = {}
     for col in df.columns:
@@ -44,8 +52,10 @@ def generate_mbom(ebom_df, inv_df):
     learned_schema = learn_inventory_schema(inv_df)
     normalized_inv = normalize_inventory(inv_df, learned_schema)
 
+    global_rules = load_global_rules()
+    global_context = json.dumps(global_rules, indent=2)
+    
     inv_context = normalized_inv.to_csv(index=False)
-
     ebom_context = ebom_df.to_csv(index=False)
 
     prompt = f"""
@@ -64,6 +74,11 @@ EBOM (normalized):
 
 INVENTORY (normalized):
 {inv_context}
+
+GLOBAL LEARNED RULES (from federated learning):
+{global_context}
+
+Use these global rules as PRIORITY overrides for Make_Buy, UOM, Work_Center, Backflush_Ind when applicable.
 
 REASONING TASK:
 Use manufacturing logic and shop-floor practicality to derive a structured mBOM.
@@ -153,3 +168,4 @@ No markdown.
 
 
     return df_final
+

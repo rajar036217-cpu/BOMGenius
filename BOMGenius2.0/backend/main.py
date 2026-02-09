@@ -7,6 +7,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
 from federated.local_trainer import log_human_feedback, export_local_updates
 from core.engine import generate_mbom
 from repo.DB import init_db, save_mbom, fetch_mbom
@@ -85,3 +88,4 @@ def federated_import(global_rules: dict):
     with open("federated/global_rules.json", "w") as f:
         json.dump(global_rules, f, indent=2)
     return {"status": "global rules updated"}
+

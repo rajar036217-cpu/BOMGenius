@@ -13,6 +13,12 @@
   .nav-shadow {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
+
+  /* Only added this */
+  .disabled-box {
+    opacity: 0.4;
+    pointer-events: none;
+  }
 </style>
 </head>
 
@@ -35,13 +41,28 @@
     <a href="feedback.html" class="hover:text-blue-700">Feedback</a>
     <a href="settings.html" class="hover:text-blue-700">Settings</a>
     <a href="history.html" class="hover:text-blue-700">History</a>
-    <a href="/">Home</a>
-    <a href="/generate-mbom">generate_mbom_api</a>
-    <a href="/mbom/latest">get_mbom</a>
   </nav>
 
-  <div class="font-medium text-blue-900">
-    Company: <span class="font-semibold">ABC Industries</span>
+  <!-- COMPANY DROPDOWN -->
+  <div class="relative">
+    <button onclick="toggleDropdown()"
+      class="font-medium text-blue-900 flex items-center space-x-2">
+      <span>Company:</span>
+      <span class="font-semibold">ABC Industries</span>
+      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    <div id="companyDropdown"
+         class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border">
+      <button onclick="logout()"
+        class="w-full text-left px-5 py-3 text-red-600 hover:bg-red-50 font-medium">
+        Logout
+      </button>
+    </div>
   </div>
 </header>
 
@@ -60,6 +81,7 @@
 
   <div class="grid md:grid-cols-2 gap-14 max-w-6xl mx-auto">
 
+    <!-- Engineering BOM -->
     <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
       <h3 class="text-2xl font-semibold text-blue-900 mb-4">
         Upload Engineering BOM
@@ -68,7 +90,9 @@
         class="w-full p-4 rounded-lg border border-gray-300 bg-white">
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+    <!-- Factory Inventory -->
+    <div id="inventoryBox"
+      class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
       <h3 class="text-2xl font-semibold text-blue-900 mb-4">
         Upload Factory Inventory
       </h3>
@@ -78,122 +102,75 @@
 
   </div>
 
+  <!-- TOGGLE -->
+  <div class="flex justify-center items-center mt-10 space-x-4">
+    <span class="font-medium">Without Inventory</span>
+
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" id="inventoryToggle"
+             class="sr-only peer"
+             onchange="handleToggle()">
+      <div class="w-14 h-8 bg-gray-300 rounded-full peer peer-checked:bg-blue-700
+                  after:content-[''] after:absolute after:top-1 after:left-1
+                  after:bg-white after:w-6 after:h-6 after:rounded-full
+                  after:transition-all peer-checked:after:translate-x-6">
+      </div>
+    </label>
+
+    <span class="font-medium">With Inventory</span>
+  </div>
+
   <div class="text-center mt-16">
     <button onclick="generateMBOM()"
       class="bg-blue-600 hover:bg-blue-700 px-12 py-4 rounded-xl text-lg font-semibold text-white dark-shadow">
-      Generate M‑BOM
+      Generate M-BOM
     </button>
   </div>
 
 </section>
 
-<!-- ===== RESULT SECTION ===== -->
-<section id="resultSection" class="py-24 px-12 hidden">
-
-  <h2 class="text-3xl font-bold text-center text-blue-900 mb-10">
-    Generated Manufacturing BOM
-  </h2>
-
-  <div class="max-w-5xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
-
-    <!-- TABLE -->
-    <div class="overflow-x-auto">
-      <table id="mbomTable" class="w-full text-left border-collapse">
-
-        <thead class="bg-blue-900 text-white">
-          <tr>
-            <th class="p-4">Part Name</th>
-            <th class="p-4">Location</th>
-            <th class="p-4">Batch</th>
-            <th class="p-4">Status</th>
-          </tr>
-        </thead>
-
-        <tbody class="text-gray-700 bg-white">
-          <!-- JS Generated -->
-        </tbody>
-
-      </table>
-    </div>
-
-    <!-- DOWNLOAD BUTTON -->
-    <div class="text-center mt-10">
-      <button onclick="downloadCSV()"
-        class="bg-blue-800 hover:bg-blue-900 text-white px-10 py-3 rounded-lg font-semibold">
-        Download M‑BOM (CSV)
-      </button>
-    </div>
-
-  </div>
-
-</section>
-
 <!-- ===== SCRIPT ===== -->
+<script>
 
-  <script>
-async function generateMBOM() {
-  // 1. Get the files from the inputs
-  const fileInputs = document.querySelectorAll('input[type="file"]');
-  const ebomFile = fileInputs[0].files[0];
-  const inventoryFile = fileInputs[1].files[0];
+function toggleDropdown() {
+  document.getElementById("companyDropdown").classList.toggle("hidden");
+}
 
-  if (!ebomFile || !inventoryFile) {
-    alert("Please upload both Engineering BOM and Factory Inventory files.");
-    return;
+function logout() {
+  window.location.href = "role.html";
+}
+
+document.addEventListener("click", function (event) {
+  if (!event.target.closest(".relative")) {
+    document.getElementById("companyDropdown")
+      .classList.add("hidden");
   }
+});
 
-  // 2. Prepare the FormData (matching your FastAPI parameters)
-  const formData = new FormData();
-  formData.append('ebom', ebomFile);
-  formData.append('inventory', inventoryFile);
+/* Only added this function */
+function handleToggle() {
+  const toggle = document.getElementById("inventoryToggle").checked;
+  const inventoryBox = document.getElementById("inventoryBox");
 
-  try {
-    // 3. Send the request to main.py
-    const response = await fetch('http://127.0.0.1:8000/generate-mbom', {
-      method: 'POST',
-      body: formData
-    });
-
-    const data = await response.json();
-
-    // 4. Update the table with real data from the backend
-    const tableBody = document.querySelector("#mbomTable tbody");
-    tableBody.innerHTML = data.rows.map(row => `
-    <tr class="border-b">
-      ${Object.values(row).map(val => `<td class="p-4">${val}</td>`).join('')}
-    </tr>`).join('');
-
-    document.getElementById("resultSection").classList.remove("hidden");
-    document.getElementById("resultSection").scrollIntoView({ behavior: "smooth" });
-
-  } catch (error) {
-    console.error("Connection Error:", error);
-    alert("Could not connect to the BOMGenius API. Make sure main.py is running.");
+  if (toggle) {
+    inventoryBox.classList.remove("disabled-box");
+  } else {
+    inventoryBox.classList.add("disabled-box");
   }
 }
 
-function downloadCSV() {
+/* Default OFF state */
+handleToggle();
 
-  let table = document.getElementById("mbomTable");
-  let rows = table.querySelectorAll("tr");
-  let csv = [];
+/* Your existing logic */
+function generateMBOM() {
+  const useInventory = document.getElementById("inventoryToggle").checked;
 
-  rows.forEach(row => {
-    let cols = row.querySelectorAll("td, th");
-    let rowData = [];
-    cols.forEach(col => rowData.push(col.innerText));
-    csv.push(rowData.join(","));
-  });
-
-  let csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
-  let downloadLink = document.createElement("a");
-
-  downloadLink.download = "MBOM_Report.csv";
-  downloadLink.href = window.URL.createObjectURL(csvFile);
-  downloadLink.style.display = "none";
-
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
+  if (useInventory) {
+    alert("M-BOM generated WITH Factory Inventory");
+  } else {
+    alert("M-BOM generated WITHOUT Factory Inventory");
+  }
 }
 
 </script>
@@ -205,5 +182,3 @@ function downloadCSV() {
 
 </body>
 </html>
-
-

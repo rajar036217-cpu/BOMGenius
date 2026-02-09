@@ -6,12 +6,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-  /* Extra Dark Card Shadow */
   .dark-shadow {
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
   }
 
-  /* Navbar Glass Shadow */
   .nav-shadow {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
@@ -21,11 +19,11 @@
 <body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
 
 <!-- ===== GLASS NAVBAR ===== -->
-<header class="sticky top-0 z-50 
-               flex justify-between items-center 
-               px-12 py-6 
-               bg-white/30 backdrop-blur-xl 
-               border-b border-white/40 
+<header class="sticky top-0 z-50
+               flex justify-between items-center
+               px-12 py-6
+               bg-white/30 backdrop-blur-xl
+               border-b border-white/40
                nav-shadow">
 
   <!-- Logo -->
@@ -42,18 +40,31 @@
     <a href="feedback.html" class="hover:text-blue-700 transition">Feedback</a>
     <a href="settings.html" class="hover:text-blue-700 transition">Settings</a>
     <a href="history.html" class="hover:text-blue-700 transition">History</a>
-    <a href="/">Home</a>
-    <a href="/generate-mbom">generate_mbom_api</a>
-    <a href="/mbom/latest">get_mbom</a>
   </nav>
 
-  <!-- Company -->
-  <div class="font-medium text-blue-900">
-    Company: <span class="font-semibold">ABC Industries</span>
+  <!-- Company Dropdown -->
+  <div class="relative">
+    <button onclick="toggleDropdown()" 
+      class="font-medium text-blue-900 focus:outline-none">
+      Company: <span class="font-semibold">ABC Industries ▼</span>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div id="dropdownMenu" 
+         class="hidden absolute right-0 mt-3 w-40
+                bg-white/90 backdrop-blur-md
+                rounded-xl shadow-lg border border-gray-200">
+
+      <button onclick="logout()"
+        class="block w-full text-left px-4 py-3 hover:bg-blue-100 rounded-xl text-blue-900 font-medium">
+        Logout
+      </button>
+    </div>
   </div>
+
 </header>
 
-<!-- ===== HERO SPACING SECTION ===== -->
+<!-- ===== HERO SECTION ===== -->
 <section class="py-16 text-center">
   <h2 class="text-4xl font-bold text-blue-900 mb-4">
     Dashboard Overview
@@ -67,7 +78,6 @@
 <section class="px-12 pb-20">
   <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
 
-    <!-- Card 1 -->
     <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
         Accuracy Maintained
@@ -78,7 +88,6 @@
       </p>
     </div>
 
-    <!-- Card 2 -->
     <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
         BOMs Generated
@@ -89,7 +98,6 @@
       </p>
     </div>
 
-    <!-- Card 3 -->
     <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
         Avg Time per BOM
@@ -103,53 +111,28 @@
   </div>
 </section>
 
-<!-- ===== PERFORMANCE SECTION ===== -->
-<section class="py-24 px-12">
-
-  <h2 class="text-3xl font-bold text-center text-blue-900 mb-16">
-    Performance Overview
-  </h2>
-
-  <div class="grid md:grid-cols-2 gap-14 max-w-5xl mx-auto">
-
-    <!-- Time Chart -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
-      <h3 class="text-xl font-semibold text-blue-900 mb-8">
-        Time Invested in BOM Generation
-      </h3>
-
-      <div class="h-44 flex items-end space-x-4">
-        <div class="w-6 bg-blue-800 h-20 rounded"></div>
-        <div class="w-6 bg-blue-800 h-28 rounded"></div>
-        <div class="w-6 bg-blue-800 h-24 rounded"></div>
-        <div class="w-6 bg-blue-800 h-32 rounded"></div>
-        <div class="w-6 bg-blue-800 h-36 rounded"></div>
-      </div>
-    </div>
-
-    <!-- Accuracy Chart -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
-      <h3 class="text-xl font-semibold text-blue-900 mb-8">
-        Accuracy Rate Over Time
-      </h3>
-
-      <div class="h-44 flex items-end space-x-4">
-        <div class="w-6 bg-blue-600 h-24 rounded"></div>
-        <div class="w-6 bg-blue-600 h-28 rounded"></div>
-        <div class="w-6 bg-blue-600 h-32 rounded"></div>
-        <div class="w-6 bg-blue-600 h-36 rounded"></div>
-        <div class="w-6 bg-blue-600 h-40 rounded"></div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
 <!-- ===== FOOTER ===== -->
 <footer class="text-center py-8 text-gray-700 text-sm">
   © 2026 BOM Genius. All rights reserved.
 </footer>
 
+<!-- ===== SCRIPT ===== -->
+<script>
+  function toggleDropdown() {
+    document.getElementById("dropdownMenu").classList.toggle("hidden");
+  }
+
+  function logout() {
+    window.location.href = "index.html";
+  }
+
+  // Close dropdown if clicked outside
+  window.onclick = function(event) {
+    if (!event.target.closest('.relative')) {
+      document.getElementById("dropdownMenu").classList.add("hidden");
+    }
+  }
+</script>
+
 </body>
 </html>
-

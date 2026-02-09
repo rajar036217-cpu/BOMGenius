@@ -1,0 +1,73 @@
+Part Name,Part Type,Quantity,Parent Assembly,,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Keyboard Sub-Assembly,Sub-Assembly,1,Laptop Top Case Assembly,,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+Keyboard Metal Back Plate,Mechanical,1,Keyboard Sub-Assembly,,Aluminum,85 g,Custom,15.01.2019,31.12.9999,5000000012
+Keyboard Plastic Frame,Mechanical,1,Keyboard Sub-Assembly,,PC+ABS,28 g,Custom,01.02.2019,31.12.9999,5000000013
+Keyboard Alignment Bracket – Left,Mechanical,1,Keyboard Sub-Assembly,,Stainless Steel,2 g,Custom,19.02.2019,31.12.9999,5000000014
+Keyboard Alignment Bracket – Right,Mechanical,1,Keyboard Sub-Assembly,,Stainless Steel,2 g,Custom,05.03.2019,31.12.9999,5000000015
+Keycap – A,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,20.03.2019,31.12.9999,5000000016
+Keycap – B,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,01.04.2019,31.12.9999,5000000017
+Keycap – C,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,15.04.2019,31.12.9999,5000000018
+Keycap – D,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,01.05.2019,31.12.9999,5000000019
+Keycap – E,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,20.05.2019,31.12.9999,5000000020
+Keycap – F,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,01.06.2019,31.12.9999,5000000021
+Keycap – G,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,15.06.2019,31.12.9999,5000000022
+Keycap – H,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,01.07.2019,31.12.9999,5000000023
+Keycap – I,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,12.07.2019,31.12.9999,5000000024
+Keycap – J,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,25.07.2019,31.12.9999,5000000025
+Keycap – K,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,01.08.2019,31.12.9999,5000000026
+Keycap – L,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,0.4 g,Custom,15.08.2019,31.12.9999,5000000027
+Keycap – Enter,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,1.8 g,Custom,01.09.2019,31.12.9999,5000000028
+Keycap – Spacebar,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,2.5 g,Custom,20.09.2019,31.12.9999,5000000029
+Keycap – Backspace,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,1.2 g,Custom,01.10.2019,31.12.9999,5000000030
+Keycap – Shift Left,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,1.4 g,Custom,15.10.2019,31.12.9999,5000000031
+Keycap – Shift Right,Mechanical,1,Keyboard Sub-Assembly,,ABS Plastic,1.4 g,Custom,01.11.2019,31.12.9999,5000000032
+Scissor Switch – Key 01,Mechanical,1,Keyboard Sub-Assembly,,POM,0.25 g,Custom,15.11.2019,31.12.9999,5000000033
+Scissor Switch – Key 02,Mechanical,1,Keyboard Sub-Assembly,,POM,0.25 g,Custom,01.12.2019,31.12.9999,5000000034
+Scissor Switch – Key 03,Mechanical,1,Keyboard Sub-Assembly,,POM,0.25 g,Custom,15.12.2019,31.12.9999,5000000035
+Scissor Switch – Key 04,Mechanical,1,Keyboard Sub-Assembly,,POM,0.25 g,Custom,01.01.2020,31.12.9999,5000000036
+Scissor Switch – Key 05,Mechanical,1,Keyboard Sub-Assembly,,POM,0.25 g,Custom,15.01.2020,31.12.9999,5000000037
+Rubber Dome – Key 01,Material,1,Keyboard Sub-Assembly,,Silicone Rubber,0.15 g,Custom,01.02.2020,31.12.9999,5000000038
+Rubber Dome – Key 02,Material,1,Keyboard Sub-Assembly,,Silicone Rubber,0.15 g,Custom,20.02.2020,31.12.9999,5000000039
+Rubber Dome – Key 03,Material,1,Keyboard Sub-Assembly,,Silicone Rubber,0.15 g,Custom,01.03.2020,31.12.9999,5000000040
+Rubber Dome – Key 04,Material,1,Keyboard Sub-Assembly,,Silicone Rubber,0.15 g,Custom,15.03.2020,31.12.9999,5000000041
+Rubber Dome – Key 05,Material,1,Keyboard Sub-Assembly,,Silicone Rubber,0.15 g,Custom,01.04.2020,31.12.9999,5000000042
+Top Membrane Circuit Layer,Material,1,Keyboard Sub-Assembly,,PET / Silver Ink,6 g,Custom,15.04.2020,31.12.9999,5000000043
+Spacer Membrane Layer,Material,1,Keyboard Sub-Assembly,,PET,4 g,Custom,01.05.2020,31.12.9999,5000000044
+Bottom Membrane Circuit Layer,Material,1,Keyboard Sub-Assembly,,PET / Silver Ink,6 g,Custom,20.05.2020,31.12.9999,5000000045
+Carbon Contact Pad – 01,Material,1,Keyboard Sub-Assembly,,Carbon Ink,0.05 g,Custom,01.06.2020,31.12.9999,5000000046
+Carbon Contact Pad – 02,Material,1,Keyboard Sub-Assembly,,Carbon Ink,0.05 g,Custom,15.06.2020,31.12.9999,5000000047
+Carbon Contact Pad – 03,Material,1,Keyboard Sub-Assembly,,Carbon Ink,0.05 g,Custom,01.07.2020,31.12.9999,5000000048
+Keyboard Backlight Sub-Assembly,Sub-Assembly,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,20.07.2020,31.12.9999,5000000049
+Backlight LED PCB,Component,1,Keyboard Backlight Sub-Assembly,,FR4,5 g,Custom,01.08.2020,31.12.9999,5000000050
+White LED – BL01,Electrical,1,Backlight LED PCB,,GaN,0.05 g,Standard,15.08.2020,31.12.9999,5000000051
+White LED – BL02,Electrical,1,Backlight LED PCB,,GaN,0.05 g,Standard,01.09.2020,31.12.9999,5000000052
+White LED – BL03,Electrical,1,Backlight LED PCB,,GaN,0.05 g,Standard,20.09.2020,31.12.9999,5000000053
+White LED – BL04,Electrical,1,Backlight LED PCB,,GaN,0.05 g,Standard,01.10.2020,31.12.9999,5000000054
+LED Current Resistor – R1,Electrical,1,Backlight LED PCB,,Thick Film,0.01 g,Standard,15.10.2020,31.12.9999,5000000055
+LED Current Resistor – R2,Electrical,1,Backlight LED PCB,,Thick Film,0.01 g,Standard,01.11.2020,31.12.9999,5000000056
+Backlight Diffuser Film,Material,1,Keyboard Backlight Sub-Assembly,,PET,3 g,Custom,15.11.2020,31.12.9999,5000000057
+Reflective Film,Material,1,Keyboard Backlight Sub-Assembly,,PET / TiO?,2 g,Custom,01.12.2020,31.12.9999,5000000058
+Keyboard FPC Cable,Component,1,Keyboard Sub-Assembly,,Polyimide / Copper,2.5 g,Custom,15.12.2020,31.12.9999,5000000059
+FPC Stiffener,Material,1,Keyboard Sub-Assembly,,FR4,0.8 g,Custom,01.01.2021,31.12.9999,5000000060
+Keyboard Connector,Electrical,1,Keyboard Sub-Assembly,,Copper Alloy,0.8 g,Standard,01.10.2019,31.12.9999,5000000030
+EMI Shielding Tape – Top,Material,1,Keyboard Sub-Assembly,,Copper Foil,0.6 g,Standard,01.01.2019,31.12.9999,5000000011
+EMI Shielding Tape – Bottom,Material,1,Keyboard Sub-Assembly,,Copper Foil,0.6 g,Standard,15.01.2019,31.12.9999,5000000012
+Grounding Spring Finger,Mechanical,1,Keyboard Sub-Assembly,,Stainless Steel,0.2 g,Standard,01.02.2019,31.12.9999,5000000013
+Foam Pad – Left,Material,1,Keyboard Sub-Assembly,,PU Foam,1 g,Custom,19.02.2019,31.12.9999,5000000014
+Foam Pad – Right,Material,1,Keyboard Sub-Assembly,,PU Foam,1 g,Custom,05.03.2019,31.12.9999,5000000015
+Adhesive Tape – Top,Material,1,Keyboard Sub-Assembly,,Acrylic,0.5 g,Custom,20.03.2019,31.12.9999,5000000016
+Adhesive Tape – Bottom,Material,1,Keyboard Sub-Assembly,,Acrylic,0.5 g,Custom,01.04.2019,31.12.9999,5000000017
+Identification Label,Material,1,Keyboard Sub-Assembly,,PET,0.2 g,Standard,15.04.2019,31.12.9999,5000000018
+Regulatory Label,Material,1,Keyboard Sub-Assembly,,PET,0.2 g,Standard,01.05.2019,31.12.9999,5000000019
+Keyboard Assembly Process,Process,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,20.05.2019,31.12.9999,5000000020
+Key Travel Calibration,Process,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,01.06.2019,31.12.9999,5000000021
+Backlight Uniformity Test,Process,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,15.06.2019,31.12.9999,5000000022
+Key Scan Electrical Test,Process,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,01.07.2019,31.12.9999,5000000023
+Typing Functional Test,Process,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,12.07.2019,31.12.9999,5000000024
+AOI Inspection,Process,1,Keyboard Sub-Assembly,,N/A,0 g,Custom,25.07.2019,31.12.9999,5000000025
+ESD Protective Bag,Material,1,Keyboard Sub-Assembly,,Conductive Plastic,6 g,Standard,01.08.2019,31.12.9999,5000000026
+Moisture Barrier Bag,Material,1,Keyboard Sub-Assembly,,Aluminum Foil,4 g,Standard,15.08.2019,31.12.9999,5000000027
+Desiccant Pack,Material,1,Keyboard Sub-Assembly,,Silica Gel,2 g,Standard,01.09.2019,31.12.9999,5000000028
+Humidity Indicator Card,Material,1,Keyboard Sub-Assembly,,Paper / Chemical,1 g,Standard,20.09.2019,31.12.9999,5000000029
+,,,,,,,,,,
+,,,,,,,,,,

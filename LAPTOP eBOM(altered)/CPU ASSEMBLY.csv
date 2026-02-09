@@ -1,0 +1,29 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+CPU Assembly,Sub-Assembly,1,Motherboard Assembly,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+CPU SoC Package,Electrical,1,CPU Assembly,Silicon,2.0 g,Standard,15.01.2019,31.12.9999,5000000012
+Integrated CPU Die,Electrical,1,CPU SoC Package,Silicon,1.2 g,Standard,01.02.2019,31.12.9999,5000000013
+Integrated GPU Die,Electrical,1,CPU SoC Package,Silicon,0.6 g,Standard,19.02.2019,31.12.9999,5000000014
+On-Die Memory Controller,Electrical,1,CPU SoC Package,Silicon,0.2 g,Standard,05.03.2019,31.12.9999,5000000015
+CPU Heat Spreader (IHS),Mechanical,1,CPU SoC Package,Nickel-Plated Copper,1.8 g,Standard,20.03.2019,31.12.9999,5000000016
+Thermal Interface Material (TIM – Internal),Material,1,CPU SoC Package,Thermal Paste,0.1 g,Standard,01.04.2019,31.12.9999,5000000017
+CPU Substrate (Organic),Material,1,CPU SoC Package,BT Resin,0.8 g,Standard,15.04.2019,31.12.9999,5000000018
+BGA Solder Ball Array,Material,1,CPU Assembly,SAC Alloy,0.2 g,Standard,01.05.2019,31.12.9999,5000000019
+CPU Power Delivery Pads,Electrical,1,CPU SoC Package,Copper,0.1 g,Standard,20.05.2019,31.12.9999,5000000020
+CPU Signal Pads,Electrical,1,CPU SoC Package,Copper,0.1 g,Standard,01.06.2019,31.12.9999,5000000021
+CPU Decoupling Capacitor – 1,Electrical,1,CPU Assembly,MLCC,0.05 g,Standard,15.06.2019,31.12.9999,5000000022
+CPU Decoupling Capacitor – 2,Electrical,1,CPU Assembly,MLCC,0.05 g,Standard,01.07.2019,31.12.9999,5000000023
+CPU Decoupling Capacitor – 3,Electrical,1,CPU Assembly,MLCC,0.05 g,Standard,12.07.2019,31.12.9999,5000000024
+CPU Decoupling Capacitor – 4,Electrical,1,CPU Assembly,MLCC,0.05 g,Standard,25.07.2019,31.12.9999,5000000025
+CPU Reference Clock Input,Electrical,1,CPU Assembly,Silicon,0.05 g,Standard,01.08.2019,31.12.9999,5000000026
+CPU Reset Logic Block,Electrical,1,CPU Assembly,Silicon,0.05 g,Standard,15.08.2019,31.12.9999,5000000027
+CPU Thermal Sensor,Electrical,1,CPU Assembly,Silicon,0.05 g,Standard,01.09.2019,31.12.9999,5000000028
+CPU Power Management Logic,Electrical,1,CPU Assembly,Silicon,0.1 g,Standard,20.09.2019,31.12.9999,5000000029
+CPU Ground Pad Matrix,Electrical,1,CPU Assembly,Copper,0.1 g,Standard,01.10.2019,31.12.9999,5000000030
+Underfill Epoxy,Material,1,CPU Assembly,Epoxy Resin,0.2 g,Standard,15.10.2019,31.12.9999,5000000031
+CPU EMI Shielding Ring,Material,1,CPU Assembly,Conductive Polymer,0.1 g,Standard,01.11.2019,31.12.9999,5000000032
+CPU Placement Process,Process,1,CPU Assembly,N/A,0 g,Standard,15.11.2019,31.12.9999,5000000033
+BGA Reflow Soldering Process,Process,1,CPU Assembly,N/A,0 g,Standard,01.12.2019,31.12.9999,5000000034
+X-Ray Solder Joint Inspection,Process,1,CPU Assembly,N/A,0 g,Standard,15.12.2019,31.12.9999,5000000035
+CPU Electrical Functional Test,Process,1,CPU Assembly,N/A,0 g,Standard,01.01.2020,31.12.9999,5000000036
+CPU Burn-In Test,Process,1,CPU Assembly,N/A,0 g,Optional,15.01.2020,31.12.9999,5000000037
+CPU Power-On Validation,Process,1,CPU Assembly,N/A,0 g,Standard,01.02.2020,31.12.9999,5000000038

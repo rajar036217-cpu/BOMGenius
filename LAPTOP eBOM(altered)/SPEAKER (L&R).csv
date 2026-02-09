@@ -1,0 +1,43 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Speaker Assembly – Stereo (L & R),Sub-Assembly,1,Laptop Main Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+Left Speaker Module,Sub-Assembly,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Custom,15.01.2019,31.12.9999,5000000012
+Right Speaker Module,Sub-Assembly,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Custom,01.02.2019,31.12.9999,5000000013
+Speaker Driver – Left,Electrical,1,Left Speaker Module,Ferrite + Copper,8 g,Standard,19.02.2019,31.12.9999,5000000014
+Speaker Driver – Right,Electrical,1,Right Speaker Module,Ferrite + Copper,8 g,Standard,05.03.2019,31.12.9999,5000000015
+Voice Coil – Left,Electrical,1,Left Speaker Module,Copper,1 g,Standard,20.03.2019,31.12.9999,5000000016
+Voice Coil – Right,Electrical,1,Right Speaker Module,Copper,1 g,Standard,01.04.2019,31.12.9999,5000000017
+Speaker Diaphragm – Left,Mechanical,1,Left Speaker Module,Mylar,0.5 g,Standard,15.04.2019,31.12.9999,5000000018
+Speaker Diaphragm – Right,Mechanical,1,Right Speaker Module,Mylar,0.5 g,Standard,01.05.2019,31.12.9999,5000000019
+Speaker Magnet – Left,Mechanical,1,Left Speaker Module,Ferrite,3 g,Standard,20.05.2019,31.12.9999,5000000020
+Speaker Magnet – Right,Mechanical,1,Right Speaker Module,Ferrite,3 g,Standard,01.06.2019,31.12.9999,5000000021
+Speaker Frame – Left,Mechanical,1,Left Speaker Module,ABS Plastic,2 g,Custom,15.06.2019,31.12.9999,5000000022
+Speaker Frame – Right,Mechanical,1,Right Speaker Module,ABS Plastic,2 g,Custom,01.07.2019,31.12.9999,5000000023
+Acoustic Chamber Housing – Left,Mechanical,1,Left Speaker Module,ABS Plastic,6 g,Custom,12.07.2019,31.12.9999,5000000024
+Acoustic Chamber Housing – Right,Mechanical,1,Right Speaker Module,ABS Plastic,6 g,Custom,25.07.2019,31.12.9999,5000000025
+Acoustic Seal Gasket – Left,Material,1,Left Speaker Module,Silicone Rubber,0.3 g,Standard,01.08.2019,31.12.9999,5000000026
+Acoustic Seal Gasket – Right,Material,1,Right Speaker Module,Silicone Rubber,0.3 g,Standard,15.08.2019,31.12.9999,5000000027
+Damping Foam – Left Chamber,Material,1,Left Speaker Module,PU Foam,0.5 g,Standard,01.09.2019,31.12.9999,5000000028
+Damping Foam – Right Chamber,Material,1,Right Speaker Module,PU Foam,0.5 g,Standard,20.09.2019,31.12.9999,5000000029
+Speaker Wire – Red (Left),Electrical,1,Left Speaker Module,Copper + PVC,0.5 g,Standard,01.10.2019,31.12.9999,5000000030
+Speaker Wire – Black (Left),Electrical,1,Left Speaker Module,Copper + PVC,0.5 g,Standard,15.10.2019,31.12.9999,5000000031
+Speaker Wire – Red (Right),Electrical,1,Right Speaker Module,Copper + PVC,0.5 g,Standard,01.11.2019,31.12.9999,5000000032
+Speaker Wire – Black (Right),Electrical,1,Right Speaker Module,Copper + PVC,0.5 g,Standard,15.11.2019,31.12.9999,5000000033
+Speaker Connector – Motherboard Side,Electrical,1,Speaker Assembly – Stereo (L & R),Nylon + Copper,0.4 g,Standard,01.12.2019,31.12.9999,5000000034
+Wire Solder Joint – Left +,Process,1,Left Speaker Module,N/A,0 g,Standard,15.12.2019,31.12.9999,5000000035
+Wire Solder Joint – Left –,Process,1,Left Speaker Module,N/A,0 g,Standard,01.01.2020,31.12.9999,5000000036
+Wire Solder Joint – Right +,Process,1,Right Speaker Module,N/A,0 g,Standard,15.01.2020,31.12.9999,5000000037
+Wire Solder Joint – Right –,Process,1,Right Speaker Module,N/A,0 g,Standard,01.02.2020,31.12.9999,5000000038
+Internal EMI Tape – Left,Material,1,Left Speaker Module,Conductive Fabric,0.2 g,Optional,20.02.2020,31.12.9999,5000000039
+Internal EMI Tape – Right,Material,1,Right Speaker Module,Conductive Fabric,0.2 g,Optional,01.03.2020,31.12.9999,5000000040
+Speaker Fixing Tape – Left,Material,1,Speaker Assembly – Stereo (L & R),Acrylic Tape,0.3 g,Standard,15.03.2020,31.12.9999,5000000041
+Speaker Fixing Tape – Right,Material,1,Speaker Assembly – Stereo (L & R),Acrylic Tape,0.3 g,Standard,01.04.2020,31.12.9999,5000000042
+Speaker Mounting Screw – Left 1,Fastener,1,Speaker Assembly – Stereo (L & R),Steel,0.25 g,Standard,15.04.2020,31.12.9999,5000000043
+Speaker Mounting Screw – Left 2,Fastener,1,Speaker Assembly – Stereo (L & R),Steel,0.25 g,Standard,01.05.2020,31.12.9999,5000000044
+Speaker Mounting Screw – Right 1,Fastener,1,Speaker Assembly – Stereo (L & R),Steel,0.25 g,Standard,20.05.2020,31.12.9999,5000000045
+Speaker Mounting Screw – Right 2,Fastener,1,Speaker Assembly – Stereo (L & R),Steel,0.25 g,Standard,01.06.2020,31.12.9999,5000000046
+Speaker Polarity Test,Process,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Standard,15.06.2020,31.12.9999,5000000047
+Frequency Response Test,Process,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Standard,01.07.2020,31.12.9999,5000000048
+Distortion Test,Process,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Standard,20.07.2020,31.12.9999,5000000049
+Audio Output Functional Test,Process,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Standard,01.08.2020,31.12.9999,5000000050
+Final Visual Inspection,Process,1,Speaker Assembly – Stereo (L & R),N/A,0 g,Standard,15.08.2020,31.12.9999,5000000051
+Speaker Identification Label,Material,1,Speaker Assembly – Stereo (L & R),PET,0.1 g,Standard,01.09.2020,31.12.9999,5000000052

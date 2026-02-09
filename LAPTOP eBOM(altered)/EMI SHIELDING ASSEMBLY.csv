@@ -1,0 +1,54 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+EMI Shielding Assembly,Sub-Assembly,1,Laptop Main Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+CPU EMI Shield Can – Top Half,Mechanical,1,EMI Shielding Assembly,Nickel Silver,2.1 g,Custom,15.01.2019,31.12.9999,5000000012
+CPU EMI Shield Can – Bottom Frame,Mechanical,1,EMI Shielding Assembly,Nickel Silver,1.6 g,Custom,01.02.2019,31.12.9999,5000000013
+CPU EMI Shield Side Wall – North,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.6 g,Custom,19.02.2019,31.12.9999,5000000014
+CPU EMI Shield Side Wall – South,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.6 g,Custom,05.03.2019,31.12.9999,5000000015
+CPU EMI Shield Side Wall – East,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.5 g,Custom,20.03.2019,31.12.9999,5000000016
+CPU EMI Shield Side Wall – West,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.5 g,Custom,01.04.2019,31.12.9999,5000000017
+CPU Shield Retention Tab – Left,Mechanical,1,EMI Shielding Assembly,Stainless Steel,0.2 g,Custom,15.04.2019,31.12.9999,5000000018
+CPU Shield Retention Tab – Right,Mechanical,1,EMI Shielding Assembly,Stainless Steel,0.2 g,Custom,01.05.2019,31.12.9999,5000000019
+VRM EMI Shield Can – Main,Mechanical,1,EMI Shielding Assembly,Nickel Silver,1.9 g,Custom,20.05.2019,31.12.9999,5000000020
+VRM EMI Shield Cover Plate,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.9 g,Custom,01.06.2019,31.12.9999,5000000021
+VRM EMI Shield Isolation Spacer,Material,1,EMI Shielding Assembly,Polyimide,0.3 g,Standard,15.06.2019,31.12.9999,5000000022
+PCH EMI Shield Can,Mechanical,1,EMI Shielding Assembly,Nickel Silver,1.5 g,Custom,01.07.2019,31.12.9999,5000000023
+RAM EMI Shield Plate – Upper,Mechanical,1,EMI Shielding Assembly,Aluminum Alloy,0.9 g,Custom,12.07.2019,31.12.9999,5000000024
+RAM EMI Shield Plate – Lower,Mechanical,1,EMI Shielding Assembly,Aluminum Alloy,0.7 g,Custom,25.07.2019,31.12.9999,5000000025
+SSD EMI Shield Plate,Mechanical,1,EMI Shielding Assembly,Aluminum Alloy,1.2 g,Custom,01.08.2019,31.12.9999,5000000026
+Wi-Fi EMI Shield Can – RF Top,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.7 g,Custom,15.08.2019,31.12.9999,5000000027
+Wi-Fi EMI Shield Can – RF Base,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.5 g,Custom,01.09.2019,31.12.9999,5000000028
+USB Controller EMI Shield,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.8 g,Custom,20.09.2019,31.12.9999,5000000029
+HDMI Controller EMI Shield,Mechanical,1,EMI Shielding Assembly,Nickel Silver,0.7 g,Custom,01.10.2019,31.12.9999,5000000030
+Display eDP Connector Shield,Mechanical,1,EMI Shielding Assembly,Stainless Steel,0.6 g,Custom,15.10.2019,31.12.9999,5000000031
+Battery Connector EMI Shield,Mechanical,1,EMI Shielding Assembly,Stainless Steel,0.6 g,Custom,01.11.2019,31.12.9999,5000000032
+Camera Connector EMI Shield,Mechanical,1,EMI Shielding Assembly,Stainless Steel,0.4 g,Custom,15.11.2019,31.12.9999,5000000033
+EMI Ground Spring – CPU Corner 1,Mechanical,1,EMI Shielding Assembly,Phosphor Bronze,0.15 g,Standard,01.12.2019,31.12.9999,5000000034
+EMI Ground Spring – CPU Corner 2,Mechanical,1,EMI Shielding Assembly,Phosphor Bronze,0.15 g,Standard,15.12.2019,31.12.9999,5000000035
+EMI Ground Spring – CPU Corner 3,Mechanical,1,EMI Shielding Assembly,Phosphor Bronze,0.15 g,Standard,01.01.2020,31.12.9999,5000000036
+EMI Ground Spring – CPU Corner 4,Mechanical,1,EMI Shielding Assembly,Phosphor Bronze,0.15 g,Standard,15.01.2020,31.12.9999,5000000037
+EMI Ground Spring – VRM,Mechanical,1,EMI Shielding Assembly,Phosphor Bronze,0.2 g,Standard,01.02.2020,31.12.9999,5000000038
+EMI Finger Clip – Left Edge,Mechanical,1,EMI Shielding Assembly,BeCu,0.2 g,Standard,20.02.2020,31.12.9999,5000000039
+EMI Finger Clip – Right Edge,Mechanical,1,EMI Shielding Assembly,BeCu,0.2 g,Standard,01.03.2020,31.12.9999,5000000040
+EMI Finger Clip – Rear Edge,Mechanical,1,EMI Shielding Assembly,BeCu,0.2 g,Standard,15.03.2020,31.12.9999,5000000041
+Conductive Foam – CPU Top,Material,1,EMI Shielding Assembly,PU + Ni,0.4 g,Standard,01.04.2020,31.12.9999,5000000042
+Conductive Foam – CPU Side,Material,1,EMI Shielding Assembly,PU + Ni,0.3 g,Standard,15.04.2020,31.12.9999,5000000043
+Conductive Foam – VRM Area,Material,1,EMI Shielding Assembly,PU + Ni,0.3 g,Standard,01.05.2020,31.12.9999,5000000044
+Conductive Foam – Wi-Fi Area,Material,1,EMI Shielding Assembly,PU + Ni,0.2 g,Standard,20.05.2020,31.12.9999,5000000045
+Copper EMI Tape – CPU Perimeter,Material,1,EMI Shielding Assembly,Copper + PSA,0.6 g,Standard,01.06.2020,31.12.9999,5000000046
+Copper EMI Tape – VRM,Material,1,EMI Shielding Assembly,Copper + PSA,0.5 g,Standard,15.06.2020,31.12.9999,5000000047
+Aluminum EMI Tape – eDP Cable,Material,1,EMI Shielding Assembly,Aluminum + PSA,0.4 g,Standard,01.07.2020,31.12.9999,5000000048
+Aluminum EMI Tape – Antenna Cable,Material,1,EMI Shielding Assembly,Aluminum + PSA,0.4 g,Standard,20.07.2020,31.12.9999,5000000049
+Grounding Pad – Shield to PCB,Material,1,EMI Shielding Assembly,Silicone + Carbon,0.6 g,Standard,01.08.2020,31.12.9999,5000000050
+Grounding Pad – Shield to Chassis,Material,1,EMI Shielding Assembly,Silicone + Carbon,0.6 g,Standard,15.08.2020,31.12.9999,5000000051
+Shield Fixing Screw – CPU Front,Fastener,1,EMI Shielding Assembly,Steel,0.35 g,Standard,01.09.2020,31.12.9999,5000000052
+Shield Fixing Screw – CPU Rear,Fastener,1,EMI Shielding Assembly,Steel,0.35 g,Standard,20.09.2020,31.12.9999,5000000053
+Shield Fixing Screw – VRM,Fastener,1,EMI Shielding Assembly,Steel,0.35 g,Standard,01.10.2020,31.12.9999,5000000054
+Shield Fixing Screw – RF,Fastener,1,EMI Shielding Assembly,Steel,0.35 g,Standard,15.10.2020,31.12.9999,5000000055
+Shield Can Solder Land Pattern,Material,1,EMI Shielding Assembly,Copper Pad,0.2 g,Standard,01.11.2020,31.12.9999,5000000056
+Reflow Solder – Shield Can,Process,1,EMI Shielding Assembly,SAC305,0 g,Standard,15.11.2020,31.12.9999,5000000057
+Shield Can Placement Operation,Process,1,EMI Shielding Assembly,N/A,0 g,Standard,01.12.2020,31.12.9999,5000000058
+Shield Ground Continuity Test,Process,1,EMI Shielding Assembly,N/A,0 g,Standard,15.12.2020,31.12.9999,5000000059
+EMI Radiated Emission Test,Process,1,EMI Shielding Assembly,N/A,0 g,Standard,01.01.2021,31.12.9999,5000000060
+EMI Conducted Emission Test,Process,1,EMI Shielding Assembly,N/A,0 g,Standard,01.08.2020,31.12.9999,5000000050
+Shield Visual & Alignment Inspection,Process,1,EMI Shielding Assembly,N/A,0 g,Standard,15.08.2020,31.12.9999,5000000051
+EMI Compliance Tracking Label,Material,1,EMI Shielding Assembly,PET,0.2 g,Standard,01.09.2020,31.12.9999,5000000052

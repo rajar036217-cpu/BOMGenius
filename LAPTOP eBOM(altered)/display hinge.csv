@@ -1,0 +1,42 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Display Hinge Assembly,Sub-Assembly,1,Laptop Assembly,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+Left Display Hinge Unit,Mechanical,1,Display Hinge Assembly,Steel Alloy,28 g,Custom,15.01.2019,31.12.9999,5000000012
+Right Display Hinge Unit,Mechanical,1,Display Hinge Assembly,Steel Alloy,28 g,Custom,01.02.2019,31.12.9999,5000000013
+Hinge Barrel – Left,Mechanical,1,Left Display Hinge Unit,Carbon Steel,12 g,Custom,19.02.2019,31.12.9999,5000000014
+Hinge Barrel – Right,Mechanical,1,Right Display Hinge Unit,Carbon Steel,12 g,Custom,05.03.2019,31.12.9999,5000000015
+Hinge Shaft – Left,Mechanical,1,Left Display Hinge Unit,Stainless Steel,6 g,Standard,20.03.2019,31.12.9999,5000000016
+Hinge Shaft – Right,Mechanical,1,Right Display Hinge Unit,Stainless Steel,6 g,Standard,01.04.2019,31.12.9999,5000000017
+Friction Washer – Left,Mechanical,1,Left Display Hinge Unit,Phosphor Bronze,1 g,Standard,15.04.2019,31.12.9999,5000000018
+Friction Washer – Right,Mechanical,1,Right Display Hinge Unit,Phosphor Bronze,1 g,Standard,01.05.2019,31.12.9999,5000000019
+Torque Spring – Left,Mechanical,1,Left Display Hinge Unit,Spring Steel,2 g,Custom,20.05.2019,31.12.9999,5000000020
+Torque Spring – Right,Mechanical,1,Right Display Hinge Unit,Spring Steel,2 g,Custom,01.06.2019,31.12.9999,5000000021
+Torque Adjustment Nut – Left,Mechanical,1,Left Display Hinge Unit,Steel,1 g,Custom,15.06.2019,31.12.9999,5000000022
+Torque Adjustment Nut – Right,Mechanical,1,Right Display Hinge Unit,Steel,1 g,Custom,01.07.2019,31.12.9999,5000000023
+Hinge Mount Bracket – A-Cover Side (Left),Mechanical,1,Left Display Hinge Unit,Steel,6 g,Custom,12.07.2019,31.12.9999,5000000024
+Hinge Mount Bracket – A-Cover Side (Right),Mechanical,1,Right Display Hinge Unit,Steel,6 g,Custom,25.07.2019,31.12.9999,5000000025
+Hinge Mount Bracket – C-Cover Side (Left),Mechanical,1,Left Display Hinge Unit,Steel,6 g,Custom,01.08.2019,31.12.9999,5000000026
+Hinge Mount Bracket – C-Cover Side (Right),Mechanical,1,Right Display Hinge Unit,Steel,6 g,Custom,15.08.2019,31.12.9999,5000000027
+Hinge Stopper Feature – Open Angle,Mechanical,1,Left Display Hinge Unit,Steel,0 g,Custom,01.09.2019,31.12.9999,5000000028
+Hinge Stopper Feature – Close Angle,Mechanical,1,Right Display Hinge Unit,Steel,0 g,Custom,20.09.2019,31.12.9999,5000000029
+Hinge Rotation Bushing – Left,Mechanical,1,Left Display Hinge Unit,Brass,1 g,Standard,01.10.2019,31.12.9999,5000000030
+Hinge Rotation Bushing – Right,Mechanical,1,Right Display Hinge Unit,Brass,1 g,Standard,15.10.2019,31.12.9999,5000000031
+Hinge Lubrication Grease,Material,1,Display Hinge Assembly,Synthetic Grease,0.5 g,Standard,01.11.2019,31.12.9999,5000000032
+Anti-Wear Coating,Process,1,Hinge Barrel,Phosphate Coating,0 g,Standard,15.11.2019,31.12.9999,5000000033
+Anti-Corrosion Plating,Process,1,Hinge Components,Zinc Plating,0 g,Standard,01.12.2019,31.12.9999,5000000034
+Hinge Cover Sleeve – Left,Mechanical,1,Display Hinge Assembly,PC+ABS,3 g,Custom,15.12.2019,31.12.9999,5000000035
+Hinge Cover Sleeve – Right,Mechanical,1,Display Hinge Assembly,PC+ABS,3 g,Custom,01.01.2020,31.12.9999,5000000036
+Hinge Cable Guide Channel,Mechanical,1,Display Hinge Assembly,Nylon,2 g,Custom,15.01.2020,31.12.9999,5000000037
+Display Cable Strain Relief,Mechanical,1,Display Hinge Assembly,Rubber,2 g,Standard,01.02.2020,31.12.9999,5000000038
+EMI Grounding Spring – Left,Mechanical,1,Left Display Hinge Unit,Stainless Steel,1 g,Standard,20.02.2020,31.12.9999,5000000039
+EMI Grounding Spring – Right,Mechanical,1,Right Display Hinge Unit,Stainless Steel,1 g,Standard,01.03.2020,31.12.9999,5000000040
+Hinge to A-Cover Screw – 1,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,15.03.2020,31.12.9999,5000000041
+Hinge to A-Cover Screw – 2,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,01.04.2020,31.12.9999,5000000042
+Hinge to A-Cover Screw – 3,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,15.04.2020,31.12.9999,5000000043
+Hinge to A-Cover Screw – 4,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,01.05.2020,31.12.9999,5000000044
+Hinge to C-Cover Screw – 1,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,20.05.2020,31.12.9999,5000000045
+Hinge to C-Cover Screw – 2,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,01.06.2020,31.12.9999,5000000046
+Hinge to C-Cover Screw – 3,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,15.06.2020,31.12.9999,5000000047
+Hinge to C-Cover Screw – 4,Fastener,1,Display Hinge Assembly,Steel,0.8 g,Standard,01.07.2020,31.12.9999,5000000048
+Torque Calibration Process,Process,1,Display Hinge Assembly,N/A,0 g,Standard,20.07.2020,31.12.9999,5000000049
+Open-Close Cycle Life Test,Process,1,Display Hinge Assembly,N/A,0 g,Standard,01.08.2020,31.12.9999,5000000050
+Hinge Alignment Inspection,Process,1,Display Hinge Assembly,N/A,0 g,Standard,15.08.2020,31.12.9999,5000000051

@@ -1,0 +1,46 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Display Panel Assembly,Sub-Assembly,1,Laptop Assembly,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+LCD Panel Module,Component,1,Display Panel Assembly,Glass / Liquid Crystal,220 g,Standard,15.01.2019,31.12.9999,5000000012
+TFT Glass Substrate,Material,1,LCD Panel Module,Aluminosilicate Glass,95 g,Standard,01.02.2019,31.12.9999,5000000013
+Color Filter Glass,Material,1,LCD Panel Module,Glass,80 g,Standard,19.02.2019,31.12.9999,5000000014
+Liquid Crystal Layer,Material,1,LCD Panel Module,LC Compound,2 g,Standard,05.03.2019,31.12.9999,5000000015
+Polarizer Film – Front,Material,1,LCD Panel Module,PVA Film,6 g,Standard,20.03.2019,31.12.9999,5000000016
+Polarizer Film – Rear,Material,1,LCD Panel Module,PVA Film,6 g,Standard,01.04.2019,31.12.9999,5000000017
+Alignment Layer,Material,1,LCD Panel Module,Polyimide,0.5 g,Standard,15.04.2019,31.12.9999,5000000018
+Sealant Resin,Material,1,LCD Panel Module,Epoxy,1 g,Standard,01.05.2019,31.12.9999,5000000019
+Backlight Unit Assembly,Sub-Assembly,1,Display Panel Assembly,N/A,90 g,Custom,20.05.2019,31.12.9999,5000000020
+LED Light Bar,Electrical,1,Backlight Unit Assembly,LED / FR4,12 g,Standard,01.06.2019,31.12.9999,5000000021
+LED Driver IC,Electrical,1,LED Light Bar,Silicon,1 g,Standard,15.06.2019,31.12.9999,5000000022
+Light Guide Plate (LGP),Material,1,Backlight Unit Assembly,PMMA,28 g,Standard,01.07.2019,31.12.9999,5000000023
+Diffuser Film – 1,Material,1,Backlight Unit Assembly,PET,4 g,Standard,12.07.2019,31.12.9999,5000000024
+Diffuser Film – 2,Material,1,Backlight Unit Assembly,PET,4 g,Standard,25.07.2019,31.12.9999,5000000025
+Prism Film – Upper,Material,1,Backlight Unit Assembly,PET,3 g,Standard,01.08.2019,31.12.9999,5000000026
+Prism Film – Lower,Material,1,Backlight Unit Assembly,PET,3 g,Standard,15.08.2019,31.12.9999,5000000027
+Reflective Sheet,Material,1,Backlight Unit Assembly,PET / Al Foil,5 g,Standard,01.09.2019,31.12.9999,5000000028
+Backlight Frame,Mechanical,1,Backlight Unit Assembly,PC+ABS,18 g,Custom,20.09.2019,31.12.9999,5000000029
+LCD Metal Frame,Mechanical,1,Display Panel Assembly,Aluminum,40 g,Custom,01.10.2019,31.12.9999,5000000030
+Panel Side Bracket – Left,Mechanical,1,Display Panel Assembly,Steel,12 g,Custom,15.10.2019,31.12.9999,5000000031
+Panel Side Bracket – Right,Mechanical,1,Display Panel Assembly,Steel,12 g,Custom,01.11.2019,31.12.9999,5000000032
+eDP Interface Connector,Electrical,1,LCD Panel Module,Copper Alloy,1 g,Standard,15.11.2019,31.12.9999,5000000033
+eDP Display Cable,Component,1,Display Panel Assembly,Copper / PET,15 g,Standard,01.12.2019,31.12.9999,5000000034
+Backlight Power Cable,Component,1,Display Panel Assembly,Copper,6 g,Standard,15.12.2019,31.12.9999,5000000035
+Display Control PCB,Electrical,1,LCD Panel Module,FR4,10 g,Custom,01.01.2020,31.12.9999,5000000036
+Timing Controller (T-CON) IC,Electrical,1,Display Control PCB,Silicon,1 g,Standard,15.01.2020,31.12.9999,5000000037
+EEPROM – Panel ID,Electrical,1,Display Control PCB,Silicon,0.2 g,Standard,01.02.2020,31.12.9999,5000000038
+Passive Resistor – TCON,Electrical,1,Display Control PCB,Thick Film,0.1 g,Standard,20.02.2020,31.12.9999,5000000039
+Passive Capacitor – TCON,Electrical,1,Display Control PCB,Ceramic,0.1 g,Standard,01.03.2020,31.12.9999,5000000040
+EMI Shield Can,Mechanical,1,Display Control PCB,Tin Plated Steel,3 g,Standard,15.03.2020,31.12.9999,5000000041
+EMI Shield Adhesive,Material,1,EMI Shield Can,Conductive Adhesive,0.3 g,Standard,01.04.2020,31.12.9999,5000000042
+Foam Spacer – Panel Edge (Top),Material,1,Display Panel Assembly,PU Foam,2 g,Standard,15.04.2020,31.12.9999,5000000043
+Foam Spacer – Panel Edge (Bottom),Material,1,Display Panel Assembly,PU Foam,2 g,Standard,01.05.2020,31.12.9999,5000000044
+Foam Spacer – Panel Edge (Left),Material,1,Display Panel Assembly,PU Foam,2 g,Standard,20.05.2020,31.12.9999,5000000045
+Foam Spacer – Panel Edge (Right),Material,1,Display Panel Assembly,PU Foam,2 g,Standard,01.06.2020,31.12.9999,5000000046
+Cushion Tape – LCD Edge,Material,1,Display Panel Assembly,PET Foam Tape,3 g,Standard,15.06.2020,31.12.9999,5000000047
+Panel Grounding Tape,Material,1,Display Panel Assembly,Copper Tape,1 g,Standard,01.07.2020,31.12.9999,5000000048
+Backlight Thermal Pad,Material,1,LED Light Bar,Silicone,1 g,Standard,20.07.2020,31.12.9999,5000000049
+Panel Alignment Pin – Left,Mechanical,1,Display Panel Assembly,Plastic,0.5 g,Custom,01.08.2020,31.12.9999,5000000050
+Panel Alignment Pin – Right,Mechanical,1,Display Panel Assembly,Plastic,0.5 g,Custom,15.08.2020,31.12.9999,5000000051
+LCD Protective Film,Material,1,Display Panel Assembly,PET,5 g,Standard,01.09.2020,31.12.9999,5000000052
+Optical Inspection Process,Process,1,Display Panel Assembly,N/A,0 g,Standard,20.09.2020,31.12.9999,5000000053
+Backlight Uniformity Test,Process,1,Display Panel Assembly,N/A,0 g,Standard,01.10.2020,31.12.9999,5000000054
+Dead Pixel Test,Process,1,Display Panel Assembly,N/A,0 g,Standard,15.10.2020,31.12.9999,5000000055

@@ -1,0 +1,51 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Cooling Fan Assembly,Sub-Assembly,1,Thermal Module Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+Fan Housing – Upper Shell,Mechanical,1,Cooling Fan Assembly,ABS Plastic,6 g,Custom,15.01.2019,31.12.9999,5000000012
+Fan Housing – Lower Shell,Mechanical,1,Cooling Fan Assembly,ABS Plastic,6 g,Custom,01.02.2019,31.12.9999,5000000013
+Air Duct Outlet Nozzle,Mechanical,1,Cooling Fan Assembly,ABS Plastic,2 g,Custom,19.02.2019,31.12.9999,5000000014
+Fan Impeller / Blade Rotor,Mechanical,1,Cooling Fan Assembly,PBT Plastic,3 g,Custom,05.03.2019,31.12.9999,5000000015
+Fan Shaft,Mechanical,1,Cooling Fan Assembly,Stainless Steel,1 g,Standard,20.03.2019,31.12.9999,5000000016
+Sleeve Bearing,Mechanical,1,Cooling Fan Assembly,Bronze Alloy,0.8 g,Standard,01.04.2019,31.12.9999,5000000017
+Bearing Lubrication Oil,Material,1,Cooling Fan Assembly,Synthetic Oil,0.1 g,Standard,15.04.2019,31.12.9999,5000000018
+Rotor Magnet Ring,Electrical,1,Cooling Fan Assembly,Ferrite Magnet,2 g,Standard,01.05.2019,31.12.9999,5000000019
+Stator Core,Electrical,1,Cooling Fan Assembly,Silicon Steel,2 g,Standard,20.05.2019,31.12.9999,5000000020
+Stator Coil – Phase A,Electrical,1,Cooling Fan Assembly,Copper Wire,0.8 g,Standard,01.06.2019,31.12.9999,5000000021
+Stator Coil – Phase B,Electrical,1,Cooling Fan Assembly,Copper Wire,0.8 g,Standard,15.06.2019,31.12.9999,5000000022
+Stator Coil – Phase C,Electrical,1,Cooling Fan Assembly,Copper Wire,0.8 g,Standard,01.07.2019,31.12.9999,5000000023
+Coil Insulation Varnish,Material,1,Cooling Fan Assembly,Epoxy Resin,0.2 g,Standard,12.07.2019,31.12.9999,5000000024
+Hall Effect Sensor IC,Electrical,1,Cooling Fan Assembly,Silicon,0.1 g,Standard,25.07.2019,31.12.9999,5000000025
+Fan Driver IC (BLDC Controller),Electrical,1,Cooling Fan Assembly,Silicon,0.2 g,Standard,01.08.2019,31.12.9999,5000000026
+MOSFET – Motor Drive,Electrical,1,Cooling Fan Assembly,Silicon,0.15 g,Standard,15.08.2019,31.12.9999,5000000027
+Flyback Diode,Electrical,1,Cooling Fan Assembly,Silicon,0.05 g,Standard,01.09.2019,31.12.9999,5000000028
+Decoupling Capacitor – Driver,Electrical,1,Cooling Fan Assembly,MLCC,0.05 g,Standard,20.09.2019,31.12.9999,5000000029
+Bulk Capacitor – Motor Supply,Electrical,1,Cooling Fan Assembly,Ceramic,0.1 g,Standard,01.10.2019,31.12.9999,5000000030
+Pull-Up Resistor – Hall Signal,Electrical,1,Cooling Fan Assembly,Thick Film,0.02 g,Standard,15.10.2019,31.12.9999,5000000031
+Pull-Down Resistor – Enable,Electrical,1,Cooling Fan Assembly,Thick Film,0.02 g,Standard,01.11.2019,31.12.9999,5000000032
+Fan Control PCB,Mechanical,1,Cooling Fan Assembly,FR4,1.5 g,Custom,15.11.2019,31.12.9999,5000000033
+Copper Trace Layer,Material,1,Fan Control PCB,Copper,0 g,Standard,01.12.2019,31.12.9999,5000000034
+PCB Solder Mask,Material,1,Fan Control PCB,Epoxy,0 g,Standard,15.12.2019,31.12.9999,5000000035
+PCB Silkscreen Ink,Material,1,Fan Control PCB,Ink,0 g,Standard,01.01.2020,31.12.9999,5000000036
+Fan Cable – 4 Wire,Electrical,1,Cooling Fan Assembly,Copper + PVC,1 g,Standard,15.01.2020,31.12.9999,5000000037
+Fan Connector – JST 4 Pin,Electrical,1,Cooling Fan Assembly,Nylon + Copper,0.3 g,Standard,01.02.2020,31.12.9999,5000000038
+Strain Relief Grommet,Mechanical,1,Cooling Fan Assembly,Rubber,0.3 g,Standard,20.02.2020,31.12.9999,5000000039
+EMI Suppression Ferrite Bead,Electrical,1,Cooling Fan Assembly,Ferrite,0.1 g,Standard,01.03.2020,31.12.9999,5000000040
+Anti-Vibration Rubber Pad – 1,Mechanical,1,Cooling Fan Assembly,Silicone Rubber,0.4 g,Standard,15.03.2020,31.12.9999,5000000041
+Anti-Vibration Rubber Pad – 2,Mechanical,1,Cooling Fan Assembly,Silicone Rubber,0.4 g,Standard,01.04.2020,31.12.9999,5000000042
+Anti-Vibration Rubber Pad – 3,Mechanical,1,Cooling Fan Assembly,Silicone Rubber,0.4 g,Standard,15.04.2020,31.12.9999,5000000043
+Anti-Vibration Rubber Pad – 4,Mechanical,1,Cooling Fan Assembly,Silicone Rubber,0.4 g,Standard,01.05.2020,31.12.9999,5000000044
+Foam Air Seal,Material,1,Cooling Fan Assembly,PU Foam,0.5 g,Standard,20.05.2020,31.12.9999,5000000045
+Dust Protection Mesh,Mechanical,1,Cooling Fan Assembly,Nylon Mesh,0.3 g,Optional,01.06.2020,31.12.9999,5000000046
+Label – Fan Model & Rating,Material,1,Cooling Fan Assembly,PET,0.1 g,Standard,15.06.2020,31.12.9999,5000000047
+Assembly Screw – Fan Housing 1,Fastener,1,Cooling Fan Assembly,Steel,0.2 g,Standard,01.07.2020,31.12.9999,5000000048
+Assembly Screw – Fan Housing 2,Fastener,1,Cooling Fan Assembly,Steel,0.2 g,Standard,20.07.2020,31.12.9999,5000000049
+Assembly Screw – Fan Housing 3,Fastener,1,Cooling Fan Assembly,Steel,0.2 g,Standard,01.08.2020,31.12.9999,5000000050
+Assembly Screw – Fan Housing 4,Fastener,1,Cooling Fan Assembly,Steel,0.2 g,Standard,15.08.2020,31.12.9999,5000000051
+Motor Assembly Process,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,01.09.2020,31.12.9999,5000000052
+Impeller Balancing Process,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,20.09.2020,31.12.9999,5000000053
+PCB SMT Assembly Process,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,01.10.2020,31.12.9999,5000000054
+Reflow Soldering Process,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,15.10.2020,31.12.9999,5000000055
+Fan Housing Ultrasonic Welding,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,01.11.2020,31.12.9999,5000000056
+Functional Spin Test,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,15.11.2020,31.12.9999,5000000057
+Noise & Vibration Test,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,01.12.2020,31.12.9999,5000000058
+Power Consumption Test,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,15.12.2020,31.12.9999,5000000059
+Final Visual Inspection,Process,1,Cooling Fan Assembly,N/A,0 g,Standard,01.01.2021,31.12.9999,5000000060

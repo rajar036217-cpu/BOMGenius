@@ -1,0 +1,37 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+LCD Bezel Assembly,Sub-Assembly,1,Laptop Assembly,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+LCD Bezel Outer Frame,Mechanical,1,LCD Bezel Assembly,PC+ABS,85 g,Custom,15.01.2019,31.12.9999,5000000012
+Bezel Inner Lip Structure,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,01.02.2019,31.12.9999,5000000013
+Bezel Surface Texture Finish,Process,1,LCD Bezel Outer Frame,Mold Texture,0 g,Custom,19.02.2019,31.12.9999,5000000014
+Matte Anti-Glare Coating,Process,1,LCD Bezel Outer Frame,PU Coating,0 g,Custom,05.03.2019,31.12.9999,5000000015
+Camera Window Insert,Mechanical,1,LCD Bezel Assembly,Polycarbonate,3 g,Custom,20.03.2019,31.12.9999,5000000016
+Camera Window Adhesive,Material,1,Camera Window Insert,Optical Acrylic,0.3 g,Standard,01.04.2019,31.12.9999,5000000017
+Microphone Hole Mesh,Material,1,LCD Bezel Assembly,Stainless Steel Mesh,0.5 g,Standard,15.04.2019,31.12.9999,5000000018
+Microphone Mesh Adhesive,Material,1,Microphone Hole Mesh,Acrylic Adhesive,0.2 g,Standard,01.05.2019,31.12.9999,5000000019
+Bezel EMI Shield Foil – Top,Material,1,LCD Bezel Assembly,Aluminum Foil,2 g,Standard,20.05.2019,31.12.9999,5000000020
+Bezel EMI Shield Foil – Bottom,Material,1,LCD Bezel Assembly,Aluminum Foil,2 g,Standard,01.06.2019,31.12.9999,5000000021
+Bezel EMI Shield Foil – Left,Material,1,LCD Bezel Assembly,Aluminum Foil,1.5 g,Standard,15.06.2019,31.12.9999,5000000022
+Bezel EMI Shield Foil – Right,Material,1,LCD Bezel Assembly,Aluminum Foil,1.5 g,Standard,01.07.2019,31.12.9999,5000000023
+Bezel Grounding Contact Pad,Material,1,LCD Bezel Assembly,Conductive Foam,1 g,Standard,12.07.2019,31.12.9999,5000000024
+Foam Cushion – Top Edge,Material,1,LCD Bezel Assembly,PU Foam,2 g,Standard,25.07.2019,31.12.9999,5000000025
+Foam Cushion – Bottom Edge,Material,1,LCD Bezel Assembly,PU Foam,2 g,Standard,01.08.2019,31.12.9999,5000000026
+Foam Cushion – Left Edge,Material,1,LCD Bezel Assembly,PU Foam,1.5 g,Standard,15.08.2019,31.12.9999,5000000027
+Foam Cushion – Right Edge,Material,1,LCD Bezel Assembly,PU Foam,1.5 g,Standard,01.09.2019,31.12.9999,5000000028
+Double-Sided Adhesive Tape – Top,Material,1,LCD Bezel Assembly,PET Acrylic Tape,1 g,Standard,20.09.2019,31.12.9999,5000000029
+Double-Sided Adhesive Tape – Bottom,Material,1,LCD Bezel Assembly,PET Acrylic Tape,1 g,Standard,01.10.2019,31.12.9999,5000000030
+Double-Sided Adhesive Tape – Left,Material,1,LCD Bezel Assembly,PET Acrylic Tape,0.8 g,Standard,15.10.2019,31.12.9999,5000000031
+Double-Sided Adhesive Tape – Right,Material,1,LCD Bezel Assembly,PET Acrylic Tape,0.8 g,Standard,01.11.2019,31.12.9999,5000000032
+Snap Fit Retention Hook – Top,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,15.11.2019,31.12.9999,5000000033
+Snap Fit Retention Hook – Bottom,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,01.12.2019,31.12.9999,5000000034
+Snap Fit Retention Hook – Left,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,15.12.2019,31.12.9999,5000000035
+Snap Fit Retention Hook – Right,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,01.01.2020,31.12.9999,5000000036
+Alignment Boss – Top Left,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,15.01.2020,31.12.9999,5000000037
+Alignment Boss – Top Right,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,01.02.2020,31.12.9999,5000000038
+Alignment Boss – Bottom Left,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,20.02.2020,31.12.9999,5000000039
+Alignment Boss – Bottom Right,Mechanical,1,LCD Bezel Outer Frame,PC+ABS,0 g,Custom,01.03.2020,31.12.9999,5000000040
+Light Leakage Blocker Strip,Material,1,LCD Bezel Assembly,Black PET Foam,1 g,Standard,15.03.2020,31.12.9999,5000000041
+Camera Privacy Indicator Window,Mechanical,1,LCD Bezel Assembly,Tinted PC,1 g,Optional,01.04.2020,31.12.9999,5000000042
+Bezel Logo Print,Process,1,LCD Bezel Outer Frame,Ink Print,0 g,Custom,15.04.2020,31.12.9999,5000000043
+Protective Film – Bezel Surface,Material,1,LCD Bezel Assembly,PET,3 g,Standard,01.05.2020,31.12.9999,5000000044
+Visual Cosmetic Inspection,Process,1,LCD Bezel Assembly,N/A,0 g,Standard,20.05.2020,31.12.9999,5000000045
+Bezel Fitment Verification,Process,1,LCD Bezel Assembly,N/A,0 g,Standard,01.06.2020,31.12.9999,5000000046

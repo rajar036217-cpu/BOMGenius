@@ -1,0 +1,48 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Bottom Cover / D-Cover Assembly,Sub-Assembly,1,Laptop Main Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+Bottom Cover Main Housing,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,160 g,Custom,15.01.2019,31.12.9999,5000000012
+Bottom Cover Internal Rib Structure,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,35 g,Custom,01.02.2019,31.12.9999,5000000013
+Molded Screw Boss – Front Left,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,1 g,Custom,19.02.2019,31.12.9999,5000000014
+Molded Screw Boss – Front Right,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,1 g,Custom,05.03.2019,31.12.9999,5000000015
+Molded Screw Boss – Rear Left,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,1 g,Custom,20.03.2019,31.12.9999,5000000016
+Molded Screw Boss – Rear Right,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,1 g,Custom,01.04.2019,31.12.9999,5000000017
+Ventilation Grill – Left,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,4 g,Custom,15.04.2019,31.12.9999,5000000018
+Ventilation Grill – Right,Mechanical,1,Bottom Cover / D-Cover Assembly,ABS Plastic,4 g,Custom,01.05.2019,31.12.9999,5000000019
+Air Intake Mesh – Left,Material,1,Bottom Cover / D-Cover Assembly,Stainless Steel Mesh,2 g,Standard,20.05.2019,31.12.9999,5000000020
+Air Intake Mesh – Right,Material,1,Bottom Cover / D-Cover Assembly,Stainless Steel Mesh,2 g,Standard,01.06.2019,31.12.9999,5000000021
+Mesh Fixing Adhesive – Left,Material,1,Bottom Cover / D-Cover Assembly,Acrylic Adhesive,0.2 g,Standard,15.06.2019,31.12.9999,5000000022
+Mesh Fixing Adhesive – Right,Material,1,Bottom Cover / D-Cover Assembly,Acrylic Adhesive,0.2 g,Standard,01.07.2019,31.12.9999,5000000023
+Bottom Cover Surface Texture Etching,Process,1,Bottom Cover / D-Cover Assembly,N/A,0 g,Standard,12.07.2019,31.12.9999,5000000024
+Bottom Cover UV / Paint Coating,Process,1,Bottom Cover / D-Cover Assembly,UV Coating,0 g,Custom,25.07.2019,31.12.9999,5000000025
+EMI Shield Foil – Center Area,Material,1,Bottom Cover / D-Cover Assembly,Aluminum Foil,6 g,Standard,01.08.2019,31.12.9999,5000000026
+EMI Shield Foil – Battery Area,Material,1,Bottom Cover / D-Cover Assembly,Aluminum Foil,4 g,Standard,15.08.2019,31.12.9999,5000000027
+EMI Shield Foil – SSD Area,Material,1,Bottom Cover / D-Cover Assembly,Aluminum Foil,2 g,Standard,01.09.2019,31.12.9999,5000000028
+EMI Foil Grounding Tab,Material,1,Bottom Cover / D-Cover Assembly,Copper,0.3 g,Standard,20.09.2019,31.12.9999,5000000029
+Insulation Mylar – Battery Zone,Material,1,Bottom Cover / D-Cover Assembly,PET,5 g,Standard,01.10.2019,31.12.9999,5000000030
+Insulation Mylar – Motherboard Zone,Material,1,Bottom Cover / D-Cover Assembly,PET,4 g,Standard,15.10.2019,31.12.9999,5000000031
+Insulation Mylar – Fan Zone,Material,1,Bottom Cover / D-Cover Assembly,PET,3 g,Standard,01.11.2019,31.12.9999,5000000032
+Foam Cushion – Battery Support,Material,1,Bottom Cover / D-Cover Assembly,PU Foam,4 g,Standard,15.11.2019,31.12.9999,5000000033
+Foam Cushion – Speaker Support Left,Material,1,Bottom Cover / D-Cover Assembly,PU Foam,2 g,Standard,01.12.2019,31.12.9999,5000000034
+Foam Cushion – Speaker Support Right,Material,1,Bottom Cover / D-Cover Assembly,PU Foam,2 g,Standard,15.12.2019,31.12.9999,5000000035
+Foam Cushion – Fan Isolation,Material,1,Bottom Cover / D-Cover Assembly,PU Foam,1.5 g,Standard,01.01.2020,31.12.9999,5000000036
+Rubber Foot – Front Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Rubber,3 g,Standard,15.01.2020,31.12.9999,5000000037
+Rubber Foot – Front Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Rubber,3 g,Standard,01.02.2020,31.12.9999,5000000038
+Rubber Foot – Rear Left,Mechanical,1,Bottom Cover / D-Cover Assembly,Rubber,3 g,Standard,20.02.2020,31.12.9999,5000000039
+Rubber Foot – Rear Right,Mechanical,1,Bottom Cover / D-Cover Assembly,Rubber,3 g,Standard,01.03.2020,31.12.9999,5000000040
+Rubber Foot Adhesive – Front Left,Material,1,Bottom Cover / D-Cover Assembly,PSA Adhesive,0.1 g,Standard,15.03.2020,31.12.9999,5000000041
+Rubber Foot Adhesive – Front Right,Material,1,Bottom Cover / D-Cover Assembly,PSA Adhesive,0.1 g,Standard,01.04.2020,31.12.9999,5000000042
+Rubber Foot Adhesive – Rear Left,Material,1,Bottom Cover / D-Cover Assembly,PSA Adhesive,0.1 g,Standard,15.04.2020,31.12.9999,5000000043
+Rubber Foot Adhesive – Rear Right,Material,1,Bottom Cover / D-Cover Assembly,PSA Adhesive,0.1 g,Standard,01.05.2020,31.12.9999,5000000044
+Bottom Cover Screw – Front Left,Fastener,1,Bottom Cover / D-Cover Assembly,Steel,0.4 g,Standard,20.05.2020,31.12.9999,5000000045
+Bottom Cover Screw – Front Right,Fastener,1,Bottom Cover / D-Cover Assembly,Steel,0.4 g,Standard,01.06.2020,31.12.9999,5000000046
+Bottom Cover Screw – Middle Left,Fastener,1,Bottom Cover / D-Cover Assembly,Steel,0.4 g,Standard,15.06.2020,31.12.9999,5000000047
+Bottom Cover Screw – Middle Right,Fastener,1,Bottom Cover / D-Cover Assembly,Steel,0.4 g,Standard,01.07.2020,31.12.9999,5000000048
+Bottom Cover Screw – Rear Left,Fastener,1,Bottom Cover / D-Cover Assembly,Steel,0.4 g,Standard,20.07.2020,31.12.9999,5000000049
+Bottom Cover Screw – Rear Right,Fastener,1,Bottom Cover / D-Cover Assembly,Steel,0.4 g,Standard,01.08.2020,31.12.9999,5000000050
+Bottom Cover Logo / Branding Label,Material,1,Bottom Cover / D-Cover Assembly,PET,0.3 g,Custom,15.08.2020,31.12.9999,5000000051
+Regulatory Compliance Label,Material,1,Bottom Cover / D-Cover Assembly,PET,0.3 g,Standard,01.09.2020,31.12.9999,5000000052
+Serial Number Label,Material,1,Bottom Cover / D-Cover Assembly,PET,0.3 g,Standard,20.09.2020,31.12.9999,5000000053
+Bottom Cover Fitment Inspection,Process,1,Bottom Cover / D-Cover Assembly,N/A,0 g,Standard,01.10.2020,31.12.9999,5000000054
+Cosmetic Surface Inspection,Process,1,Bottom Cover / D-Cover Assembly,N/A,0 g,Standard,15.10.2020,31.12.9999,5000000055
+EMI Continuity Test,Process,1,Bottom Cover / D-Cover Assembly,N/A,0 g,Standard,01.11.2020,31.12.9999,5000000056
+Final QA Inspection,Process,1,Bottom Cover / D-Cover Assembly,N/A,0 g,Standard,15.11.2020,31.12.9999,5000000057

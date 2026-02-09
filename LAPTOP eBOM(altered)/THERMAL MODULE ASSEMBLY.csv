@@ -1,0 +1,54 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Thermal Module Assembly,Sub-Assembly,1,Motherboard Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+CPU Cold Plate – Base,Mechanical,1,Thermal Module Assembly,Copper,16 g,Custom,15.01.2019,31.12.9999,5000000012
+CPU Cold Plate – Nickel Plating,Process,1,CPU Cold Plate – Base,Nickel,0 g,Standard,01.02.2019,31.12.9999,5000000013
+CPU Cold Plate Flatness Machining,Process,1,CPU Cold Plate – Base,N/A,0 g,Standard,19.02.2019,31.12.9999,5000000014
+Primary Heatpipe – Outer Tube,Mechanical,1,Thermal Module Assembly,Copper,9 g,Custom,05.03.2019,31.12.9999,5000000015
+Primary Heatpipe – Wick Structure,Material,1,Primary Heatpipe – Outer Tube,Sintered Copper,0 g,Standard,20.03.2019,31.12.9999,5000000016
+Primary Heatpipe – Working Fluid,Material,1,Primary Heatpipe – Outer Tube,Deionized Water,0 g,Standard,01.04.2019,31.12.9999,5000000017
+Heatpipe Vacuum Charging,Process,1,Primary Heatpipe – Outer Tube,N/A,0 g,Standard,15.04.2019,31.12.9999,5000000018
+Heatpipe End Cap – CPU Side,Mechanical,1,Primary Heatpipe – Outer Tube,Copper,0.2 g,Standard,01.05.2019,31.12.9999,5000000019
+Heatpipe End Cap – Fin Side,Mechanical,1,Primary Heatpipe – Outer Tube,Copper,0.2 g,Standard,20.05.2019,31.12.9999,5000000020
+Heatpipe Leak Test,Process,1,Primary Heatpipe – Outer Tube,N/A,0 g,Standard,01.06.2019,31.12.9999,5000000021
+Heatsink Fin – Aluminum #1,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,15.06.2019,31.12.9999,5000000022
+Heatsink Fin – Aluminum #2,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,01.07.2019,31.12.9999,5000000023
+Heatsink Fin – Aluminum #3,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,12.07.2019,31.12.9999,5000000024
+Heatsink Fin – Aluminum #4,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,25.07.2019,31.12.9999,5000000025
+Heatsink Fin – Aluminum #5,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,01.08.2019,31.12.9999,5000000026
+Heatsink Fin – Aluminum #6,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,15.08.2019,31.12.9999,5000000027
+Heatsink Fin – Aluminum #7,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,01.09.2019,31.12.9999,5000000028
+Heatsink Fin – Aluminum #8,Mechanical,1,Thermal Module Assembly,Aluminum,1.2 g,Custom,20.09.2019,31.12.9999,5000000029
+Heatsink Fin Spacer,Mechanical,1,Thermal Module Assembly,Aluminum,2 g,Standard,01.10.2019,31.12.9999,5000000030
+Fin Stack Alignment Jig,Process,1,Heatsink Fin Stack,N/A,0 g,Standard,15.10.2019,31.12.9999,5000000031
+Fin Stack Brazing Alloy,Material,1,Heatsink Fin Stack,Aluminum Alloy,0 g,Standard,01.11.2019,31.12.9999,5000000032
+Fin Stack Brazing Process,Process,1,Heatsink Fin Stack,N/A,0 g,Standard,15.11.2019,31.12.9999,5000000033
+Heatpipe to Cold Plate Solder Layer,Material,1,Thermal Module Assembly,Solder Alloy,0 g,Standard,01.12.2019,31.12.9999,5000000034
+Heatpipe to Fin Stack Solder Layer,Material,1,Thermal Module Assembly,Solder Alloy,0 g,Standard,15.12.2019,31.12.9999,5000000035
+Heatpipe Soldering Process,Process,1,Thermal Module Assembly,N/A,0 g,Standard,01.01.2020,31.12.9999,5000000036
+Thermal Interface Material – CPU,Material,1,Thermal Module Assembly,Silicone Grease,0.3 g,Standard,15.01.2020,31.12.9999,5000000037
+TIM Dispensing Process,Process,1,Thermal Module Assembly,N/A,0 g,Standard,01.02.2020,31.12.9999,5000000038
+Thermal Pad – VRM Left,Material,1,Thermal Module Assembly,Silicone,0.4 g,Standard,20.02.2020,31.12.9999,5000000039
+Thermal Pad – VRM Right,Material,1,Thermal Module Assembly,Silicone,0.4 g,Standard,01.03.2020,31.12.9999,5000000040
+Insulation Film – CPU Area,Material,1,Thermal Module Assembly,Polyimide,0.1 g,Standard,15.03.2020,31.12.9999,5000000041
+Insulation Film – Heatpipe,Material,1,Thermal Module Assembly,PET,0.1 g,Standard,01.04.2020,31.12.9999,5000000042
+Mounting Bracket – Left,Mechanical,1,Thermal Module Assembly,Stainless Steel,3 g,Custom,15.04.2020,31.12.9999,5000000043
+Mounting Bracket – Right,Mechanical,1,Thermal Module Assembly,Stainless Steel,3 g,Custom,01.05.2020,31.12.9999,5000000044
+Spring Plate – CPU Load Control,Mechanical,1,Thermal Module Assembly,Spring Steel,1 g,Standard,20.05.2020,31.12.9999,5000000045
+Compression Spring – CPU Screw 1,Mechanical,1,Thermal Module Assembly,Spring Steel,0.2 g,Standard,01.06.2020,31.12.9999,5000000046
+Compression Spring – CPU Screw 2,Mechanical,1,Thermal Module Assembly,Spring Steel,0.2 g,Standard,15.06.2020,31.12.9999,5000000047
+Compression Spring – CPU Screw 3,Mechanical,1,Thermal Module Assembly,Spring Steel,0.2 g,Standard,01.07.2020,31.12.9999,5000000048
+Compression Spring – CPU Screw 4,Mechanical,1,Thermal Module Assembly,Spring Steel,0.2 g,Standard,20.07.2020,31.12.9999,5000000049
+CPU Mounting Screw – 1,Fastener,1,Thermal Module Assembly,Steel,0.3 g,Standard,01.08.2020,31.12.9999,5000000050
+CPU Mounting Screw – 2,Fastener,1,Thermal Module Assembly,Steel,0.3 g,Standard,15.08.2020,31.12.9999,5000000051
+CPU Mounting Screw – 3,Fastener,1,Thermal Module Assembly,Steel,0.3 g,Standard,01.09.2020,31.12.9999,5000000052
+CPU Mounting Screw – 4,Fastener,1,Thermal Module Assembly,Steel,0.3 g,Standard,20.09.2020,31.12.9999,5000000053
+Screw Washer – CPU 1,Mechanical,1,Thermal Module Assembly,Steel,0.05 g,Standard,01.10.2020,31.12.9999,5000000054
+Screw Washer – CPU 2,Mechanical,1,Thermal Module Assembly,Steel,0.05 g,Standard,15.10.2020,31.12.9999,5000000055
+Screw Washer – CPU 3,Mechanical,1,Thermal Module Assembly,Steel,0.05 g,Standard,01.11.2020,31.12.9999,5000000056
+Screw Washer – CPU 4,Mechanical,1,Thermal Module Assembly,Steel,0.05 g,Standard,15.11.2020,31.12.9999,5000000057
+Fan Interface Foam Seal,Material,1,Thermal Module Assembly,Silicone Foam,0.5 g,Standard,01.12.2020,31.12.9999,5000000058
+Anti-Rattle Foam Strip,Material,1,Thermal Module Assembly,PU Foam,0.3 g,Standard,15.12.2020,31.12.9999,5000000059
+Assembly Torque Verification,Process,1,Thermal Module Assembly,N/A,0 g,Standard,01.01.2021,31.12.9999,5000000060
+Thermal Resistance Measurement,Process,1,Thermal Module Assembly,N/A,0 g,Standard,01.03.2020,31.12.9999,5000000040
+Power Burn Thermal Validation,Process,1,Thermal Module Assembly,N/A,0 g,Standard,15.03.2020,31.12.9999,5000000041
+Final Visual Inspection,Process,1,Thermal Module Assembly,N/A,0 g,Standard,01.04.2020,31.12.9999,5000000042

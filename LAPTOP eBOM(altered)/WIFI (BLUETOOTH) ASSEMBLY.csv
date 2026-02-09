@@ -1,0 +1,57 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Wi-Fi / Bluetooth Card Assembly,Sub-Assembly,1,Motherboard Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+M.2 2230 RF PCB,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,FR4,3.5 g,Custom,15.01.2019,31.12.9999,5000000012
+Wi-Fi / BT Combo SoC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.6 g,Standard,01.02.2019,31.12.9999,5000000013
+RF Front End Module (FEM),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.3 g,Standard,19.02.2019,31.12.9999,5000000014
+Low Noise Amplifier (LNA),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.15 g,Standard,05.03.2019,31.12.9999,5000000015
+Power Amplifier (PA),Electrical,1,Wi-Fi / Bluetooth Card Assembly,GaAs,0.2 g,Standard,20.03.2019,31.12.9999,5000000016
+Bluetooth RF Transceiver,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.2 g,Standard,01.04.2019,31.12.9999,5000000017
+Power Management IC (PMIC),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.2 g,Standard,15.04.2019,31.12.9999,5000000018
+Buck Converter IC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.2 g,Standard,01.05.2019,31.12.9999,5000000019
+LDO Regulator – RF Rail,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.15 g,Standard,20.05.2019,31.12.9999,5000000020
+LDO Regulator – Logic Rail,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.15 g,Standard,01.06.2019,31.12.9999,5000000021
+EEPROM / Flash NVM IC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.1 g,Standard,15.06.2019,31.12.9999,5000000022
+40 MHz Crystal Oscillator,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Quartz,0.1 g,Standard,01.07.2019,31.12.9999,5000000023
+32 kHz Sleep Crystal,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Quartz,0.05 g,Standard,12.07.2019,31.12.9999,5000000024
+RF Switch IC,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Silicon,0.1 g,Standard,25.07.2019,31.12.9999,5000000025
+Balun Transformer – ANT1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Ferrite,0.05 g,Standard,01.08.2019,31.12.9999,5000000026
+Balun Transformer – ANT2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Ferrite,0.05 g,Standard,15.08.2019,31.12.9999,5000000027
+RF Matching Capacitor – ANT1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,MLCC,0.03 g,Standard,01.09.2019,31.12.9999,5000000028
+RF Matching Capacitor – ANT2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,MLCC,0.03 g,Standard,20.09.2019,31.12.9999,5000000029
+RF Matching Capacitor – BT,Electrical,1,Wi-Fi / Bluetooth Card Assembly,MLCC,0.03 g,Standard,01.10.2019,31.12.9999,5000000030
+RF Matching Inductor – ANT1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Ferrite,0.04 g,Standard,15.10.2019,31.12.9999,5000000031
+RF Matching Inductor – ANT2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Ferrite,0.04 g,Standard,01.11.2019,31.12.9999,5000000032
+Decoupling Capacitor – Core Rail 1,Electrical,1,Wi-Fi / Bluetooth Card Assembly,MLCC,0.03 g,Standard,15.11.2019,31.12.9999,5000000033
+Decoupling Capacitor – Core Rail 2,Electrical,1,Wi-Fi / Bluetooth Card Assembly,MLCC,0.03 g,Standard,01.12.2019,31.12.9999,5000000034
+Decoupling Capacitor – RF Rail,Electrical,1,Wi-Fi / Bluetooth Card Assembly,MLCC,0.03 g,Standard,15.12.2019,31.12.9999,5000000035
+Bulk Capacitor – Power Input,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Ceramic,0.1 g,Standard,01.01.2020,31.12.9999,5000000036
+Pull-Up Resistor – Enable Line,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Thick Film,0.02 g,Standard,15.01.2020,31.12.9999,5000000037
+Pull-Down Resistor – Reset Line,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Thick Film,0.02 g,Standard,01.02.2020,31.12.9999,5000000038
+Termination Resistor – PCIe,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Thick Film,0.02 g,Standard,20.02.2020,31.12.9999,5000000039
+M.2 Edge Connector (Gold Finger),Electrical,1,Wi-Fi / Bluetooth Card Assembly,Gold-Plated Copper,0.5 g,Standard,01.03.2020,31.12.9999,5000000040
+U.FL Antenna Connector – Main,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Copper Alloy,0.2 g,Standard,15.03.2020,31.12.9999,5000000041
+U.FL Antenna Connector – Aux,Electrical,1,Wi-Fi / Bluetooth Card Assembly,Copper Alloy,0.2 g,Standard,01.04.2020,31.12.9999,5000000042
+RF Shield Can – Top,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Stainless Steel,0.6 g,Standard,15.04.2020,31.12.9999,5000000043
+RF Shield Can – Bottom,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Stainless Steel,0.4 g,Standard,01.05.2020,31.12.9999,5000000044
+RF Shield Solder Frame,Mechanical,1,Wi-Fi / Bluetooth Card Assembly,Stainless Steel,0.3 g,Standard,20.05.2020,31.12.9999,5000000045
+Thermal Pad – RF IC,Material,1,Wi-Fi / Bluetooth Card Assembly,Silicone,0.2 g,Optional,01.06.2020,31.12.9999,5000000046
+Solder Mask Layer,Material,1,M.2 RF PCB,Epoxy,0 g,Standard,15.06.2020,31.12.9999,5000000047
+Copper RF Trace Layer,Material,1,M.2 RF PCB,Copper,0 g,Standard,01.07.2020,31.12.9999,5000000048
+PCB Silkscreen Ink,Material,1,M.2 RF PCB,Ink,0 g,Standard,20.07.2020,31.12.9999,5000000049
+RF IC Underfill,Material,1,Wi-Fi / Bluetooth Card Assembly,Epoxy Resin,0.15 g,Standard,01.08.2020,31.12.9999,5000000050
+SMT Placement Process,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,15.08.2020,31.12.9999,5000000051
+Reflow Soldering,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,01.09.2020,31.12.9999,5000000052
+RF Shield Soldering,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,20.09.2020,31.12.9999,5000000053
+AOI Inspection,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,01.10.2020,31.12.9999,5000000054
+X-Ray Inspection (BGA),Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Optional,15.10.2020,31.12.9999,5000000055
+Firmware Programming,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,01.11.2020,31.12.9999,5000000056
+RF Calibration – Wi-Fi,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,15.11.2020,31.12.9999,5000000057
+RF Calibration – Bluetooth,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,01.12.2020,31.12.9999,5000000058
+Functional Test – Wi-Fi,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,15.12.2020,31.12.9999,5000000059
+Functional Test – Bluetooth,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,01.01.2021,31.12.9999,5000000060
+Regulatory RF Compliance Test,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Optional,01.07.2020,31.12.9999,5000000048
+MAC Address Label,Material,1,Wi-Fi / Bluetooth Card Assembly,PET,0.1 g,Standard,20.07.2020,31.12.9999,5000000049
+Regulatory Label (FCC/CE),Material,1,Wi-Fi / Bluetooth Card Assembly,PET,0.1 g,Standard,01.08.2020,31.12.9999,5000000050
+Protective Film – Edge Connector,Material,1,Wi-Fi / Bluetooth Card Assembly,PET,0.2 g,Standard,15.08.2020,31.12.9999,5000000051
+Final Visual Inspection,Process,1,Wi-Fi / Bluetooth Card Assembly,N/A,0 g,Standard,01.09.2020,31.12.9999,5000000052
+,,,,,,,,,

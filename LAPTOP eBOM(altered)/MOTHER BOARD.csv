@@ -1,0 +1,58 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Motherboard Assembly,Sub-Assembly,1,Laptop Assembly,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+Main Logic PCB,Mechanical,1,Motherboard Assembly,FR4,120 g,Custom,15.01.2019,31.12.9999,5000000012
+CPU SoC (BGA),Electrical,1,Motherboard Assembly,Silicon,2 g,Standard,01.02.2019,31.12.9999,5000000013
+CPU Solder Ball Array,Material,1,CPU SoC (BGA),SAC Alloy,0.2 g,Standard,19.02.2019,31.12.9999,5000000014
+DDR4 RAM Slot,Electrical,1,Motherboard Assembly,Plastic / Copper,8 g,Standard,05.03.2019,31.12.9999,5000000015
+Chipset (PCH),Electrical,1,Motherboard Assembly,Silicon,1.5 g,Standard,20.03.2019,31.12.9999,5000000016
+BIOS Flash ROM,Electrical,1,Motherboard Assembly,Silicon,0.2 g,Standard,01.04.2019,31.12.9999,5000000017
+Embedded Controller (EC),Electrical,1,Motherboard Assembly,Silicon,0.3 g,Standard,15.04.2019,31.12.9999,5000000018
+Clock Generator IC,Electrical,1,Motherboard Assembly,Silicon,0.2 g,Standard,01.05.2019,31.12.9999,5000000019
+TPM IC (Optional),Electrical,1,Motherboard Assembly,Silicon,0.2 g,Optional,20.05.2019,31.12.9999,5000000020
+VRM Controller IC,Electrical,1,Motherboard Assembly,Silicon,0.3 g,Standard,01.06.2019,31.12.9999,5000000021
+Power MOSFET – CPU VRM 1,Electrical,1,Motherboard Assembly,Silicon,0.5 g,Standard,15.06.2019,31.12.9999,5000000022
+Power MOSFET – CPU VRM 2,Electrical,1,Motherboard Assembly,Silicon,0.5 g,Standard,01.07.2019,31.12.9999,5000000023
+Power MOSFET – CPU VRM 3,Electrical,1,Motherboard Assembly,Silicon,0.5 g,Standard,12.07.2019,31.12.9999,5000000024
+Inductor – CPU VRM 1,Electrical,1,Motherboard Assembly,Ferrite,2 g,Standard,25.07.2019,31.12.9999,5000000025
+Inductor – CPU VRM 2,Electrical,1,Motherboard Assembly,Ferrite,2 g,Standard,01.08.2019,31.12.9999,5000000026
+Inductor – CPU VRM 3,Electrical,1,Motherboard Assembly,Ferrite,2 g,Standard,15.08.2019,31.12.9999,5000000027
+Solid Capacitor – VRM 1,Electrical,1,Motherboard Assembly,Aluminum Polymer,1 g,Standard,01.09.2019,31.12.9999,5000000028
+Solid Capacitor – VRM 2,Electrical,1,Motherboard Assembly,Aluminum Polymer,1 g,Standard,20.09.2019,31.12.9999,5000000029
+Ceramic Capacitor – CPU Rail 1,Electrical,1,Motherboard Assembly,MLCC,0.1 g,Standard,01.10.2019,31.12.9999,5000000030
+Ceramic Capacitor – CPU Rail 2,Electrical,1,Motherboard Assembly,MLCC,0.1 g,Standard,15.10.2019,31.12.9999,5000000031
+USB Type-A Port,Electrical,1,Motherboard Assembly,Copper Alloy,6 g,Standard,01.11.2019,31.12.9999,5000000032
+USB Type-C Port,Electrical,1,Motherboard Assembly,Copper Alloy,6 g,Standard,15.11.2019,31.12.9999,5000000033
+HDMI Port,Electrical,1,Motherboard Assembly,Copper Alloy,7 g,Standard,01.12.2019,31.12.9999,5000000034
+Audio Combo Jack,Electrical,1,Motherboard Assembly,Copper Alloy,4 g,Standard,15.12.2019,31.12.9999,5000000035
+LAN Controller IC,Electrical,1,Motherboard Assembly,Silicon,0.5 g,Standard,01.01.2020,31.12.9999,5000000036
+LAN Magnetics Module,Electrical,1,Motherboard Assembly,Ferrite,2 g,Standard,15.01.2020,31.12.9999,5000000037
+Wi-Fi Card Slot (M.2),Electrical,1,Motherboard Assembly,Plastic / Copper,3 g,Standard,01.02.2020,31.12.9999,5000000038
+SSD Slot (M.2),Electrical,1,Motherboard Assembly,Plastic / Copper,4 g,Standard,20.02.2020,31.12.9999,5000000039
+SATA Controller IC,Electrical,1,Motherboard Assembly,Silicon,0.4 g,Standard,01.03.2020,31.12.9999,5000000040
+Audio Codec IC,Electrical,1,Motherboard Assembly,Silicon,0.3 g,Standard,15.03.2020,31.12.9999,5000000041
+Speaker Amplifier IC,Electrical,1,Motherboard Assembly,Silicon,0.3 g,Standard,01.04.2020,31.12.9999,5000000042
+Microphone Bias IC,Electrical,1,Motherboard Assembly,Silicon,0.2 g,Standard,15.04.2020,31.12.9999,5000000043
+RTC Crystal,Electrical,1,Motherboard Assembly,Quartz,0.1 g,Standard,01.05.2020,31.12.9999,5000000044
+CMOS Battery Connector,Electrical,1,Motherboard Assembly,Plastic / Copper,1 g,Standard,20.05.2020,31.12.9999,5000000045
+Fan Connector,Electrical,1,Motherboard Assembly,Plastic / Copper,1 g,Standard,01.06.2020,31.12.9999,5000000046
+Display eDP Connector,Electrical,1,Motherboard Assembly,Copper Alloy,2 g,Standard,15.06.2020,31.12.9999,5000000047
+Keyboard FFC Connector,Electrical,1,Motherboard Assembly,Plastic / Copper,1 g,Standard,01.07.2020,31.12.9999,5000000048
+Touchpad FFC Connector,Electrical,1,Motherboard Assembly,Plastic / Copper,1 g,Standard,20.07.2020,31.12.9999,5000000049
+Camera FFC Connector,Electrical,1,Motherboard Assembly,Plastic / Copper,1 g,Standard,01.08.2020,31.12.9999,5000000050
+Power Button Connector,Electrical,1,Motherboard Assembly,Plastic / Copper,0.8 g,Standard,15.08.2020,31.12.9999,5000000051
+DC-In Power Connector,Electrical,1,Motherboard Assembly,Copper Alloy,5 g,Standard,01.09.2020,31.12.9999,5000000052
+ESD Protection Diode – USB,Electrical,1,Motherboard Assembly,Silicon,0.1 g,Standard,20.09.2020,31.12.9999,5000000053
+ESD Protection Diode – HDMI,Electrical,1,Motherboard Assembly,Silicon,0.1 g,Standard,01.10.2020,31.12.9999,5000000054
+EMI Shield Can – CPU,Mechanical,1,Motherboard Assembly,Tin-Plated Steel,5 g,Standard,15.10.2020,31.12.9999,5000000055
+EMI Shield Can – VRM,Mechanical,1,Motherboard Assembly,Tin-Plated Steel,4 g,Standard,01.11.2020,31.12.9999,5000000056
+Thermal Pad – CPU Contact,Material,1,Motherboard Assembly,Silicone,1 g,Standard,15.11.2020,31.12.9999,5000000057
+Thermal Pad – VRM,Material,1,Motherboard Assembly,Silicone,1 g,Standard,01.12.2020,31.12.9999,5000000058
+Motherboard Mounting Screw – 1,Fastener,1,Motherboard Assembly,Steel,0.8 g,Standard,15.12.2020,31.12.9999,5000000059
+Motherboard Mounting Screw – 2,Fastener,1,Motherboard Assembly,Steel,0.8 g,Standard,01.01.2021,31.12.9999,5000000060
+Motherboard Mounting Screw – 3,Fastener,1,Motherboard Assembly,Steel,0.8 g,Standard,15.04.2020,31.12.9999,5000000043
+Motherboard Mounting Screw – 4,Fastener,1,Motherboard Assembly,Steel,0.8 g,Standard,01.05.2020,31.12.9999,5000000044
+Motherboard Mounting Screw – 5,Fastener,1,Motherboard Assembly,Steel,0.8 g,Standard,20.05.2020,31.12.9999,5000000045
+PCB Assembly Process,Process,1,Motherboard Assembly,N/A,0 g,Standard,01.06.2020,31.12.9999,5000000046
+AOI Inspection,Process,1,Motherboard Assembly,N/A,0 g,Standard,15.06.2020,31.12.9999,5000000047
+Functional Board Test,Process,1,Motherboard Assembly,N/A,0 g,Standard,01.07.2020,31.12.9999,5000000048
+BIOS Programming Process,Process,1,Motherboard Assembly,N/A,0 g,Standard,20.07.2020,31.12.9999,5000000049

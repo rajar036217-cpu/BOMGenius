@@ -1,0 +1,44 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+SSD / Storage Assembly,Sub-Assembly,1,Motherboard Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+M.2 SSD PCB,Mechanical,1,SSD / Storage Assembly,FR4,6 g,Custom,15.01.2019,31.12.9999,5000000012
+NAND Flash IC – Chip 1,Electrical,1,SSD / Storage Assembly,Silicon,0.6 g,Standard,01.02.2019,31.12.9999,5000000013
+NAND Flash IC – Chip 2,Electrical,1,SSD / Storage Assembly,Silicon,0.6 g,Standard,19.02.2019,31.12.9999,5000000014
+NAND Flash IC – Chip 3,Electrical,1,SSD / Storage Assembly,Silicon,0.6 g,Standard,05.03.2019,31.12.9999,5000000015
+NAND Flash IC – Chip 4,Electrical,1,SSD / Storage Assembly,Silicon,0.6 g,Standard,20.03.2019,31.12.9999,5000000016
+SSD Controller IC,Electrical,1,SSD / Storage Assembly,Silicon,0.8 g,Standard,01.04.2019,31.12.9999,5000000017
+DRAM Cache IC,Electrical,1,SSD / Storage Assembly,Silicon,0.4 g,Optional,15.04.2019,31.12.9999,5000000018
+Power Management IC (PMIC),Electrical,1,SSD / Storage Assembly,Silicon,0.3 g,Standard,01.05.2019,31.12.9999,5000000019
+PMIC Input Capacitor,Electrical,1,SSD / Storage Assembly,Ceramic (MLCC),0.1 g,Standard,20.05.2019,31.12.9999,5000000020
+PMIC Output Capacitor,Electrical,1,SSD / Storage Assembly,Ceramic (MLCC),0.1 g,Standard,01.06.2019,31.12.9999,5000000021
+Bulk Tantalum Capacitor,Electrical,1,SSD / Storage Assembly,Tantalum,0.3 g,Standard,15.06.2019,31.12.9999,5000000022
+Decoupling Capacitor – NAND 1,Electrical,1,SSD / Storage Assembly,MLCC,0.05 g,Standard,01.07.2019,31.12.9999,5000000023
+Decoupling Capacitor – NAND 2,Electrical,1,SSD / Storage Assembly,MLCC,0.05 g,Standard,12.07.2019,31.12.9999,5000000024
+Decoupling Capacitor – Controller,Electrical,1,SSD / Storage Assembly,MLCC,0.05 g,Standard,25.07.2019,31.12.9999,5000000025
+Pull-Up Resistor – Signal Line 1,Electrical,1,SSD / Storage Assembly,Thick Film,0.05 g,Standard,01.08.2019,31.12.9999,5000000026
+Pull-Up Resistor – Signal Line 2,Electrical,1,SSD / Storage Assembly,Thick Film,0.05 g,Standard,15.08.2019,31.12.9999,5000000027
+Termination Resistor – PCIe Line,Electrical,1,SSD / Storage Assembly,Thick Film,0.05 g,Standard,01.09.2019,31.12.9999,5000000028
+Clock Crystal Oscillator,Electrical,1,SSD / Storage Assembly,Quartz,0.1 g,Standard,20.09.2019,31.12.9999,5000000029
+M.2 Edge Connector (Gold Finger),Electrical,1,SSD / Storage Assembly,Gold-Plated Copper,0.8 g,Standard,01.10.2019,31.12.9999,5000000030
+EMI Shield Can – Controller,Mechanical,1,SSD / Storage Assembly,Stainless Steel,0.7 g,Optional,15.10.2019,31.12.9999,5000000031
+Thermal Pad – Controller,Material,1,SSD / Storage Assembly,Silicone,0.5 g,Optional,01.11.2019,31.12.9999,5000000032
+Thermal Pad – NAND,Material,1,SSD / Storage Assembly,Silicone,0.4 g,Optional,15.11.2019,31.12.9999,5000000033
+Solder Mask Layer,Material,1,M.2 SSD PCB,Epoxy,0 g,Standard,01.12.2019,31.12.9999,5000000034
+Copper Signal Layer,Material,1,M.2 SSD PCB,Copper,0 g,Standard,15.12.2019,31.12.9999,5000000035
+PCB Silkscreen Layer,Material,1,M.2 SSD PCB,Ink,0 g,Standard,01.01.2020,31.12.9999,5000000036
+NAND IC Underfill,Material,1,SSD / Storage Assembly,Epoxy Resin,0.2 g,Standard,15.01.2020,31.12.9999,5000000037
+Controller IC Underfill,Material,1,SSD / Storage Assembly,Epoxy Resin,0.2 g,Standard,01.02.2020,31.12.9999,5000000038
+Conformal Coating,Process,1,SSD / Storage Assembly,Acrylic,0 g,Optional,20.02.2020,31.12.9999,5000000039
+NAND IC Placement Process,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,01.03.2020,31.12.9999,5000000040
+Controller IC Placement Process,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,15.03.2020,31.12.9999,5000000041
+Reflow Soldering Process,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,01.04.2020,31.12.9999,5000000042
+AOI Inspection – SSD PCB,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,15.04.2020,31.12.9999,5000000043
+X-Ray Inspection – BGA,Process,1,SSD / Storage Assembly,N/A,0 g,Optional,01.05.2020,31.12.9999,5000000044
+Firmware Programming Process,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,20.05.2020,31.12.9999,5000000045
+Bad Block Mapping Process,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,01.06.2020,31.12.9999,5000000046
+Functional Read/Write Test,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,15.06.2020,31.12.9999,5000000047
+Performance Validation Test,Process,1,SSD / Storage Assembly,N/A,0 g,Optional,01.07.2020,31.12.9999,5000000048
+Burn-In Stress Test,Process,1,SSD / Storage Assembly,N/A,0 g,Optional,20.07.2020,31.12.9999,5000000049
+Label – Capacity & Model,Material,1,SSD / Storage Assembly,PET,0.2 g,Standard,01.08.2020,31.12.9999,5000000050
+Regulatory Label – CE/FCC,Material,1,SSD / Storage Assembly,PET,0.2 g,Standard,15.08.2020,31.12.9999,5000000051
+Protective Film – Gold Fingers,Material,1,SSD / Storage Assembly,PET,0.3 g,Standard,01.09.2020,31.12.9999,5000000052
+Final Visual Inspection,Process,1,SSD / Storage Assembly,N/A,0 g,Standard,20.09.2020,31.12.9999,5000000053

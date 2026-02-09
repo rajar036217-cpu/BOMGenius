@@ -1,0 +1,48 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Internal Cable Harness Assembly,Sub-Assembly,1,Laptop Main Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+Main Harness Trunk Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,12 g,Custom,15.01.2019,31.12.9999,5000000012
+Display eDP Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PET,8 g,Custom,01.02.2019,31.12.9999,5000000013
+Display eDP Connector – Motherboard Side,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.6 g,Standard,19.02.2019,31.12.9999,5000000014
+Display eDP Connector – Panel Side,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.6 g,Standard,05.03.2019,31.12.9999,5000000015
+Display Cable EMI Foil Wrap,Material,1,Internal Cable Harness Assembly,Aluminum Foil,1.2 g,Standard,20.03.2019,31.12.9999,5000000016
+Display Cable Ground Drain Wire,Electrical,1,Internal Cable Harness Assembly,Copper,0.4 g,Standard,01.04.2019,31.12.9999,5000000017
+Battery Power Cable – Red,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,1.2 g,Standard,15.04.2019,31.12.9999,5000000018
+Battery Power Cable – Black,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,1.2 g,Standard,01.05.2019,31.12.9999,5000000019
+Battery Connector – Motherboard Side,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.5 g,Standard,20.05.2019,31.12.9999,5000000020
+Speaker Cable – Left Channel,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,0.6 g,Standard,01.06.2019,31.12.9999,5000000021
+Speaker Cable – Right Channel,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,0.6 g,Standard,15.06.2019,31.12.9999,5000000022
+Speaker Connector – Motherboard Side,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.4 g,Standard,01.07.2019,31.12.9999,5000000023
+Keyboard FPC Cable,Electrical,1,Internal Cable Harness Assembly,Polyimide + Copper,1.5 g,Custom,12.07.2019,31.12.9999,5000000024
+Keyboard FPC Connector,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.3 g,Standard,25.07.2019,31.12.9999,5000000025
+Touchpad FPC Cable,Electrical,1,Internal Cable Harness Assembly,Polyimide + Copper,1.2 g,Custom,01.08.2019,31.12.9999,5000000026
+Touchpad FPC Connector,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.3 g,Standard,15.08.2019,31.12.9999,5000000027
+Power Button Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,0.5 g,Standard,01.09.2019,31.12.9999,5000000028
+Power Button Connector,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.2 g,Standard,20.09.2019,31.12.9999,5000000029
+I/O Daughter Board Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,1.8 g,Custom,01.10.2019,31.12.9999,5000000030
+I/O Board Connector – MB Side,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.4 g,Standard,15.10.2019,31.12.9999,5000000031
+Wi-Fi Antenna Cable – Main,Electrical,1,Internal Cable Harness Assembly,Coaxial Copper,0.8 g,Standard,01.11.2019,31.12.9999,5000000032
+Wi-Fi Antenna Cable – Aux,Electrical,1,Internal Cable Harness Assembly,Coaxial Copper,0.8 g,Standard,15.11.2019,31.12.9999,5000000033
+Antenna I-PEX Connector – Main,Electrical,1,Internal Cable Harness Assembly,Brass + Gold Plate,0.15 g,Standard,01.12.2019,31.12.9999,5000000034
+Antenna I-PEX Connector – Aux,Electrical,1,Internal Cable Harness Assembly,Brass + Gold Plate,0.15 g,Standard,15.12.2019,31.12.9999,5000000035
+Camera Module Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PET,1.0 g,Custom,01.01.2020,31.12.9999,5000000036
+Camera Connector – Motherboard,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.3 g,Standard,15.01.2020,31.12.9999,5000000037
+Microphone Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,0.4 g,Standard,01.02.2020,31.12.9999,5000000038
+Microphone Connector,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.2 g,Standard,20.02.2020,31.12.9999,5000000039
+DC-In Jack Cable,Electrical,1,Internal Cable Harness Assembly,Copper + PVC,2.0 g,Custom,01.03.2020,31.12.9999,5000000040
+DC-In Connector,Electrical,1,Internal Cable Harness Assembly,Nylon + Copper,0.6 g,Standard,15.03.2020,31.12.9999,5000000041
+Cable Sleeve – Main Harness,Material,1,Internal Cable Harness Assembly,PET Braided Sleeve,1.5 g,Standard,01.04.2020,31.12.9999,5000000042
+Heat-Shrink Tube – Harness Joint A,Material,1,Internal Cable Harness Assembly,Polyolefin,0.2 g,Standard,15.04.2020,31.12.9999,5000000043
+Heat-Shrink Tube – Harness Joint B,Material,1,Internal Cable Harness Assembly,Polyolefin,0.2 g,Standard,01.05.2020,31.12.9999,5000000044
+Kapton Tape – Harness Wrap A,Material,1,Internal Cable Harness Assembly,Polyimide,0.3 g,Standard,20.05.2020,31.12.9999,5000000045
+Kapton Tape – Harness Wrap B,Material,1,Internal Cable Harness Assembly,Polyimide,0.3 g,Standard,01.06.2020,31.12.9999,5000000046
+Harness Fixing Tape – Chassis Area,Material,1,Internal Cable Harness Assembly,Acrylic Tape,0.4 g,Standard,15.06.2020,31.12.9999,5000000047
+Harness Retention Clip – Left,Mechanical,1,Internal Cable Harness Assembly,Nylon Plastic,0.3 g,Standard,01.07.2020,31.12.9999,5000000048
+Harness Retention Clip – Right,Mechanical,1,Internal Cable Harness Assembly,Nylon Plastic,0.3 g,Standard,20.07.2020,31.12.9999,5000000049
+Ground Ring Terminal,Electrical,1,Internal Cable Harness Assembly,Copper,0.4 g,Standard,01.08.2020,31.12.9999,5000000050
+Ground Screw – Harness,Fastener,1,Internal Cable Harness Assembly,Steel,0.3 g,Standard,15.08.2020,31.12.9999,5000000051
+Harness Continuity Test,Process,1,Internal Cable Harness Assembly,N/A,0 g,Standard,01.09.2020,31.12.9999,5000000052
+Insulation Resistance Test,Process,1,Internal Cable Harness Assembly,N/A,0 g,Standard,20.09.2020,31.12.9999,5000000053
+EMI Leakage Test,Process,1,Internal Cable Harness Assembly,N/A,0 g,Standard,01.10.2020,31.12.9999,5000000054
+Connector Pull-Force Test,Process,1,Internal Cable Harness Assembly,N/A,0 g,Standard,15.10.2020,31.12.9999,5000000055
+Final Harness Visual Inspection,Process,1,Internal Cable Harness Assembly,N/A,0 g,Standard,01.11.2020,31.12.9999,5000000056
+Harness Identification Label,Material,1,Internal Cable Harness Assembly,PET,0.2 g,Standard,15.11.2020,31.12.9999,5000000057

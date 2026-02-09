@@ -1,0 +1,40 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+RAM Module Assembly,Sub-Assembly,1,Motherboard Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+SO-DIMM PCB,Mechanical,1,RAM Module Assembly,FR4,8 g,Custom,15.01.2019,31.12.9999,5000000012
+Memory IC – DDR4 DRAM Chip 1,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,01.02.2019,31.12.9999,5000000013
+Memory IC – DDR4 DRAM Chip 2,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,19.02.2019,31.12.9999,5000000014
+Memory IC – DDR4 DRAM Chip 3,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,05.03.2019,31.12.9999,5000000015
+Memory IC – DDR4 DRAM Chip 4,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,20.03.2019,31.12.9999,5000000016
+Memory IC – DDR4 DRAM Chip 5,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,01.04.2019,31.12.9999,5000000017
+Memory IC – DDR4 DRAM Chip 6,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,15.04.2019,31.12.9999,5000000018
+Memory IC – DDR4 DRAM Chip 7,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,01.05.2019,31.12.9999,5000000019
+Memory IC – DDR4 DRAM Chip 8,Electrical,1,RAM Module Assembly,Silicon,0.8 g,Standard,20.05.2019,31.12.9999,5000000020
+SPD EEPROM IC,Electrical,1,RAM Module Assembly,Silicon,0.2 g,Standard,01.06.2019,31.12.9999,5000000021
+Temperature Sensor IC,Electrical,1,RAM Module Assembly,Silicon,0.2 g,Optional,15.06.2019,31.12.9999,5000000022
+Power Management IC (PMIC),Electrical,1,RAM Module Assembly,Silicon,0.3 g,Standard,01.07.2019,31.12.9999,5000000023
+PMIC Input Capacitor,Electrical,1,RAM Module Assembly,Ceramic,0.1 g,Standard,12.07.2019,31.12.9999,5000000024
+PMIC Output Capacitor,Electrical,1,RAM Module Assembly,Ceramic,0.1 g,Standard,25.07.2019,31.12.9999,5000000025
+Decoupling Capacitor – DRAM 1,Electrical,1,RAM Module Assembly,MLCC,0.05 g,Standard,01.08.2019,31.12.9999,5000000026
+Decoupling Capacitor – DRAM 2,Electrical,1,RAM Module Assembly,MLCC,0.05 g,Standard,15.08.2019,31.12.9999,5000000027
+Decoupling Capacitor – DRAM 3,Electrical,1,RAM Module Assembly,MLCC,0.05 g,Standard,01.09.2019,31.12.9999,5000000028
+Decoupling Capacitor – DRAM 4,Electrical,1,RAM Module Assembly,MLCC,0.05 g,Standard,20.09.2019,31.12.9999,5000000029
+Termination Resistor – Data Line 1,Electrical,1,RAM Module Assembly,Thick Film,0.05 g,Standard,01.10.2019,31.12.9999,5000000030
+Termination Resistor – Data Line 2,Electrical,1,RAM Module Assembly,Thick Film,0.05 g,Standard,15.10.2019,31.12.9999,5000000031
+Termination Resistor – Address Line,Electrical,1,RAM Module Assembly,Thick Film,0.05 g,Standard,01.11.2019,31.12.9999,5000000032
+Clock Buffer Resistor,Electrical,1,RAM Module Assembly,Thick Film,0.05 g,Standard,15.11.2019,31.12.9999,5000000033
+Gold Finger Edge Connector,Electrical,1,RAM Module Assembly,Gold-Plated Copper,1 g,Standard,01.12.2019,31.12.9999,5000000034
+Solder Mask Layer,Material,1,SO-DIMM PCB,Epoxy,0 g,Standard,15.12.2019,31.12.9999,5000000035
+Copper Signal Layer,Material,1,SO-DIMM PCB,Copper,0 g,Standard,01.01.2020,31.12.9999,5000000036
+PCB Silkscreen Layer,Material,1,SO-DIMM PCB,Ink,0 g,Standard,15.01.2020,31.12.9999,5000000037
+DRAM IC Underfill,Material,1,RAM Module Assembly,Epoxy Resin,0.2 g,Standard,01.02.2020,31.12.9999,5000000038
+Conformal Coating,Process,1,RAM Module Assembly,Acrylic,0 g,Optional,20.02.2020,31.12.9999,5000000039
+SPD Programming Process,Process,1,RAM Module Assembly,N/A,0 g,Standard,01.03.2020,31.12.9999,5000000040
+DRAM IC Placement Process,Process,1,RAM Module Assembly,N/A,0 g,Standard,15.03.2020,31.12.9999,5000000041
+Reflow Soldering Process,Process,1,RAM Module Assembly,N/A,0 g,Standard,01.04.2020,31.12.9999,5000000042
+AOI Inspection – RAM PCB,Process,1,RAM Module Assembly,N/A,0 g,Standard,15.04.2020,31.12.9999,5000000043
+X-Ray Inspection – BGA,Process,1,RAM Module Assembly,N/A,0 g,Optional,01.05.2020,31.12.9999,5000000044
+Functional Memory Test,Process,1,RAM Module Assembly,N/A,0 g,Standard,20.05.2020,31.12.9999,5000000045
+Burn-In Stress Test,Process,1,RAM Module Assembly,N/A,0 g,Optional,01.06.2020,31.12.9999,5000000046
+Label – Capacity & Speed,Material,1,RAM Module Assembly,PET,0.2 g,Standard,15.06.2020,31.12.9999,5000000047
+Protective Film – Gold Fingers,Material,1,RAM Module Assembly,PET,0.3 g,Standard,01.07.2020,31.12.9999,5000000048
+Final Visual Inspection,Process,1,RAM Module Assembly,N/A,0 g,Standard,20.07.2020,31.12.9999,5000000049

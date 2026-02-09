@@ -1,0 +1,80 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Laptop Charger Assembly,Assembly,1,Laptop Accessory,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+AC-DC Power Adapter Sub-Assembly,Sub-Assembly,1,Laptop Charger Assembly,N/A,0 g,Custom,15.01.2019,31.12.9999,5000000012
+Adapter Housing – Top Shell,Mechanical,1,AC-DC Power Adapter Sub-Assembly,PC+ABS FR,85 g,Custom,01.02.2019,31.12.9999,5000000013
+Adapter Housing – Bottom Shell,Mechanical,1,AC-DC Power Adapter Sub-Assembly,PC+ABS FR,85 g,Custom,19.02.2019,31.12.9999,5000000014
+Housing Internal Rib Structure,Mechanical,1,Adapter Housing – Bottom Shell,PC+ABS FR,12 g,Custom,05.03.2019,31.12.9999,5000000015
+Housing Flame Retardant System,Material,1,Adapter Housing – Top Shell,Brominated FR,0 g,Standard,20.03.2019,31.12.9999,5000000016
+Housing Ultrasonic Weld Joint,Process,1,AC-DC Power Adapter Sub-Assembly,N/A,0 g,Custom,01.04.2019,31.12.9999,5000000017
+Power PCB Assembly,Sub-Assembly,1,AC-DC Power Adapter Sub-Assembly,N/A,0 g,Custom,15.04.2019,31.12.9999,5000000018
+Power PCB Bare Board,Component,1,Power PCB Assembly,FR-4,45 g,Custom,01.05.2019,31.12.9999,5000000019
+PCB Glass Epoxy Core,Material,1,Power PCB Bare Board,FR-4,22 g,Custom,20.05.2019,31.12.9999,5000000020
+PCB Copper Layer – Top,Material,1,Power PCB Bare Board,Copper,6 g,Custom,01.06.2019,31.12.9999,5000000021
+PCB Copper Layer – Inner 1,Material,1,Power PCB Bare Board,Copper,5 g,Custom,15.06.2019,31.12.9999,5000000022
+PCB Copper Layer – Inner 2,Material,1,Power PCB Bare Board,Copper,5 g,Custom,01.07.2019,31.12.9999,5000000023
+PCB Copper Layer – Bottom,Material,1,Power PCB Bare Board,Copper,6 g,Custom,12.07.2019,31.12.9999,5000000024
+PCB Prepreg Layer,Material,1,Power PCB Bare Board,Epoxy Glass,1.5 g,Custom,25.07.2019,31.12.9999,5000000025
+PCB Solder Mask – Top,Material,1,Power PCB Bare Board,Epoxy,0 g,Custom,01.08.2019,31.12.9999,5000000026
+PCB Solder Mask – Bottom,Material,1,Power PCB Bare Board,Epoxy,0 g,Custom,15.08.2019,31.12.9999,5000000027
+PCB Silkscreen Ink,Material,1,Power PCB Bare Board,Epoxy Ink,0 g,Custom,01.09.2019,31.12.9999,5000000028
+PCB ENIG Finish,Process,1,Power PCB Bare Board,ENIG,0 g,Custom,20.09.2019,31.12.9999,5000000029
+AC Input Fuse,Electrical,1,Power PCB Assembly,Ceramic,1.2 g,Standard,01.10.2019,31.12.9999,5000000030
+Fuse Heat Shrink Sleeve,Material,1,AC Input Fuse,Polyolefin,0.1 g,Standard,15.10.2019,31.12.9999,5000000031
+MOV Surge Suppressor,Electrical,1,Power PCB Assembly,Zinc Oxide,2.5 g,Standard,01.11.2019,31.12.9999,5000000032
+MOV Insulation Sleeve,Material,1,MOV Surge Suppressor,Silicone,0.2 g,Standard,15.11.2019,31.12.9999,5000000033
+NTC Inrush Current Limiter,Electrical,1,Power PCB Assembly,Ceramic,1.8 g,Standard,01.12.2019,31.12.9999,5000000034
+EMI Common Mode Choke,Electrical,1,Power PCB Assembly,Ferrite,6 g,Standard,15.12.2019,31.12.9999,5000000035
+EMI Differential Mode Inductor,Electrical,1,Power PCB Assembly,Ferrite,4 g,Standard,01.01.2020,31.12.9999,5000000036
+EMI X-Class Capacitor,Electrical,1,Power PCB Assembly,Polypropylene,2.2 g,Standard,15.01.2020,31.12.9999,5000000037
+EMI Y-Class Capacitor – Line to GND,Electrical,1,Power PCB Assembly,Ceramic,0.8 g,Standard,01.02.2020,31.12.9999,5000000038
+EMI Y-Class Capacitor – Neutral to GND,Electrical,1,Power PCB Assembly,Ceramic,0.8 g,Standard,20.02.2020,31.12.9999,5000000039
+Bridge Rectifier,Electrical,1,Power PCB Assembly,Silicon,3.5 g,Standard,01.03.2020,31.12.9999,5000000040
+Bridge Rectifier Heatslug,Mechanical,1,Bridge Rectifier,Copper,1.1 g,Standard,15.03.2020,31.12.9999,5000000041
+Primary Bulk Capacitor,Electrical,1,Power PCB Assembly,Aluminum Electrolytic,18 g,Standard,01.04.2020,31.12.9999,5000000042
+Bulk Capacitor PVC Sleeve,Material,1,Primary Bulk Capacitor,PVC,0.4 g,Standard,15.04.2020,31.12.9999,5000000043
+Active PFC Controller IC,Electrical,1,Power PCB Assembly,Silicon,0.3 g,Standard,01.05.2020,31.12.9999,5000000044
+PFC MOSFET,Electrical,1,Power PCB Assembly,Silicon,1.5 g,Standard,20.05.2020,31.12.9999,5000000045
+PFC Boost Diode,Electrical,1,Power PCB Assembly,Silicon,1.1 g,Standard,01.06.2020,31.12.9999,5000000046
+Main PWM Controller IC,Electrical,1,Power PCB Assembly,Silicon,0.25 g,Standard,15.06.2020,31.12.9999,5000000047
+Primary Switching MOSFET,Electrical,1,Power PCB Assembly,Silicon,1.6 g,Standard,01.07.2020,31.12.9999,5000000048
+Primary Transformer,Electrical,1,Power PCB Assembly,Copper / Ferrite,48 g,Custom,20.07.2020,31.12.9999,5000000049
+Transformer Bobbin,Mechanical,1,Primary Transformer,Nylon,4 g,Custom,01.08.2020,31.12.9999,5000000050
+Transformer Copper Windings,Electrical,1,Primary Transformer,Enamel Copper,18 g,Custom,15.08.2020,31.12.9999,5000000051
+Transformer Core – Ferrite,Electrical,1,Primary Transformer,Ferrite,22 g,Custom,01.09.2020,31.12.9999,5000000052
+Transformer Insulation Tape,Material,1,Primary Transformer,Polyimide,1.2 g,Custom,20.09.2020,31.12.9999,5000000053
+Transformer Potting Compound,Material,1,Primary Transformer,Epoxy,3 g,Custom,01.10.2020,31.12.9999,5000000054
+Secondary Rectifier Diode,Electrical,1,Power PCB Assembly,Silicon,1.1 g,Standard,15.10.2020,31.12.9999,5000000055
+Synchronous Rectifier MOSFET,Electrical,1,Power PCB Assembly,Silicon,1.4 g,Standard,01.11.2020,31.12.9999,5000000056
+Output Filter Inductor,Electrical,1,Power PCB Assembly,Ferrite,6.5 g,Standard,15.11.2020,31.12.9999,5000000057
+Output Electrolytic Capacitor,Electrical,1,Power PCB Assembly,Aluminum Electrolytic,12 g,Standard,01.12.2020,31.12.9999,5000000058
+Output MLCC Capacitor,Electrical,1,Power PCB Assembly,MLCC,0.2 g,Standard,15.12.2020,31.12.9999,5000000059
+Optocoupler Feedback Device,Electrical,1,Power PCB Assembly,Silicon,0.4 g,Standard,01.01.2021,31.12.9999,5000000060
+Secondary Regulation IC,Electrical,1,Power PCB Assembly,Silicon,0.2 g,Standard,01.06.2020,31.12.9999,5000000046
+Output OVP / UVP IC,Electrical,1,Power PCB Assembly,Silicon,0.15 g,Standard,01.01.2019,31.12.9999,5000000011
+Thermal Fuse,Electrical,1,Power PCB Assembly,Bimetal,0.8 g,Standard,15.01.2019,31.12.9999,5000000012
+Primary Aluminum Heatsink,Mechanical,1,Power PCB Assembly,Aluminum,22 g,Custom,01.02.2019,31.12.9999,5000000013
+Secondary Aluminum Heatsink,Mechanical,1,Power PCB Assembly,Aluminum,18 g,Custom,19.02.2019,31.12.9999,5000000014
+Heatsink Anodization,Process,1,Primary Aluminum Heatsink,N/A,0 g,Custom,05.03.2019,31.12.9999,5000000015
+Thermal Interface Pad – Primary,Material,1,Primary Aluminum Heatsink,Silicone,0.6 g,Custom,20.03.2019,31.12.9999,5000000016
+Thermal Interface Pad – Secondary,Material,1,Secondary Aluminum Heatsink,Silicone,0.6 g,Custom,01.04.2019,31.12.9999,5000000017
+Internal Electrical Insulation Sheet,Material,1,AC-DC Power Adapter Sub-Assembly,PET (Mylar),4 g,Standard,15.04.2019,31.12.9999,5000000018
+Internal Shielding Tape,Material,1,AC-DC Power Adapter Sub-Assembly,Copper Foil,2 g,Custom,01.05.2019,31.12.9999,5000000019
+AC Input Cable Assembly,Sub-Assembly,1,Laptop Charger Assembly,N/A,0 g,Standard,20.05.2019,31.12.9999,5000000020
+AC Input Cable,Component,1,AC Input Cable Assembly,Copper / PVC,120 g,Standard,01.06.2019,31.12.9999,5000000021
+AC Plug (Country Specific),Mechanical,1,AC Input Cable Assembly,Copper / PC,35 g,Standard,15.06.2019,31.12.9999,5000000022
+Strain Relief – AC Side,Mechanical,1,AC Input Cable Assembly,TPE,6 g,Standard,01.07.2019,31.12.9999,5000000023
+DC Output Cable Assembly,Sub-Assembly,1,Laptop Charger Assembly,N/A,0 g,Custom,12.07.2019,31.12.9999,5000000024
+DC Output Cable,Component,1,DC Output Cable Assembly,Copper / TPE,95 g,Custom,25.07.2019,31.12.9999,5000000025
+DC Cable Shield Braid,Material,1,DC Output Cable,Tinned Copper,6 g,Custom,01.08.2019,31.12.9999,5000000026
+DC Cable Ferrite Core,Electrical,1,DC Output Cable Assembly,Ferrite,6 g,Standard,15.08.2019,31.12.9999,5000000027
+DC Connector (USB-C / Barrel),Electrical,1,DC Output Cable Assembly,Copper Alloy,5 g,Custom,01.09.2019,31.12.9999,5000000028
+Connector Overmold,Mechanical,1,DC Output Cable Assembly,TPE,4 g,Custom,20.09.2019,31.12.9999,5000000029
+Adapter Rating & Safety Label,Material,1,Laptop Charger Assembly,PET,1.5 g,Standard,01.10.2019,31.12.9999,5000000030
+Laser Marking / Printing Process,Process,1,Adapter Rating & Safety Label,N/A,0 g,Standard,15.10.2019,31.12.9999,5000000031
+SMT Assembly Process,Process,1,Power PCB Assembly,N/A,0 g,Custom,01.11.2019,31.12.9999,5000000032
+Reflow Soldering Process,Process,1,Power PCB Assembly,N/A,0 g,Custom,15.11.2019,31.12.9999,5000000033
+Hi-Pot Safety Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom,01.12.2019,31.12.9999,5000000034
+Load Regulation Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom,15.12.2019,31.12.9999,5000000035
+Efficiency Measurement Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom,01.01.2020,31.12.9999,5000000036
+Thermal Soak Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom,15.01.2020,31.12.9999,5000000037
+Burn-In Reliability Test,Process,1,Laptop Charger Assembly,N/A,0 g,Custom,01.02.2020,31.12.9999,5000000038

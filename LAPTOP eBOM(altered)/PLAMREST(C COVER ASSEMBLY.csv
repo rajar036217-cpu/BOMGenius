@@ -1,0 +1,49 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Palmrest / C-Cover Assembly,Sub-Assembly,1,Laptop Main Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+Palmrest Upper Cosmetic Housing,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,120 g,Custom,15.01.2019,31.12.9999,5000000012
+Palmrest Inner Structural Frame,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,35 g,Custom,01.02.2019,31.12.9999,5000000013
+Molded Screw Boss – Front Left,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,1 g,Custom,19.02.2019,31.12.9999,5000000014
+Molded Screw Boss – Front Right,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,1 g,Custom,05.03.2019,31.12.9999,5000000015
+Molded Screw Boss – Rear Left,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,1 g,Custom,20.03.2019,31.12.9999,5000000016
+Molded Screw Boss – Rear Right,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,1 g,Custom,01.04.2019,31.12.9999,5000000017
+Keyboard Cut-out Reinforcement Plate,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,12 g,Custom,15.04.2019,31.12.9999,5000000018
+Touchpad Cut-out Reinforcement Plate,Mechanical,1,Palmrest / C-Cover Assembly,ABS Plastic,6 g,Custom,01.05.2019,31.12.9999,5000000019
+Palmrest UV Top-Coat Layer,Process,1,Palmrest / C-Cover Assembly,UV Coating,0 g,Custom,20.05.2019,31.12.9999,5000000020
+Palmrest Texture Etching,Process,1,Palmrest / C-Cover Assembly,N/A,0 g,Standard,01.06.2019,31.12.9999,5000000021
+EMI Shield Foil – Keyboard Zone,Material,1,Palmrest / C-Cover Assembly,Aluminum Foil,5 g,Standard,15.06.2019,31.12.9999,5000000022
+EMI Shield Foil – Touchpad Zone,Material,1,Palmrest / C-Cover Assembly,Aluminum Foil,3 g,Standard,01.07.2019,31.12.9999,5000000023
+EMI Shield Foil – Center Area,Material,1,Palmrest / C-Cover Assembly,Aluminum Foil,2 g,Standard,12.07.2019,31.12.9999,5000000024
+EMI Foil Grounding Tab,Material,1,Palmrest / C-Cover Assembly,Copper,0.3 g,Standard,25.07.2019,31.12.9999,5000000025
+Insulation Mylar – Keyboard Area,Material,1,Palmrest / C-Cover Assembly,PET,4 g,Standard,01.08.2019,31.12.9999,5000000026
+Insulation Mylar – Touchpad Area,Material,1,Palmrest / C-Cover Assembly,PET,2 g,Standard,15.08.2019,31.12.9999,5000000027
+Insulation Mylar – Palm Area,Material,1,Palmrest / C-Cover Assembly,PET,3 g,Standard,01.09.2019,31.12.9999,5000000028
+Foam Cushion – Left Palm Support,Material,1,Palmrest / C-Cover Assembly,PU Foam,3 g,Standard,20.09.2019,31.12.9999,5000000029
+Foam Cushion – Right Palm Support,Material,1,Palmrest / C-Cover Assembly,PU Foam,3 g,Standard,01.10.2019,31.12.9999,5000000030
+Foam Cushion – Center Palm Support,Material,1,Palmrest / C-Cover Assembly,PU Foam,2 g,Standard,15.10.2019,31.12.9999,5000000031
+Foam Cushion – Touchpad Rear,Material,1,Palmrest / C-Cover Assembly,PU Foam,1.5 g,Standard,01.11.2019,31.12.9999,5000000032
+Double-Side Tape – Keyboard Front,Material,1,Palmrest / C-Cover Assembly,Acrylic,0.5 g,Standard,15.11.2019,31.12.9999,5000000033
+Double-Side Tape – Keyboard Rear,Material,1,Palmrest / C-Cover Assembly,Acrylic,0.5 g,Standard,01.12.2019,31.12.9999,5000000034
+Double-Side Tape – Touchpad Perimeter,Material,1,Palmrest / C-Cover Assembly,Acrylic,0.8 g,Standard,15.12.2019,31.12.9999,5000000035
+Double-Side Tape – EMI Foil Fixing,Material,1,Palmrest / C-Cover Assembly,Acrylic,0.4 g,Standard,01.01.2020,31.12.9999,5000000036
+Touchpad Support Bracket,Mechanical,1,Palmrest / C-Cover Assembly,Steel,8 g,Custom,15.01.2020,31.12.9999,5000000037
+Touchpad Bracket Screw – A,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.3 g,Standard,01.02.2020,31.12.9999,5000000038
+Touchpad Bracket Screw – B,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.3 g,Standard,20.02.2020,31.12.9999,5000000039
+Keyboard Retention Bracket – Left,Mechanical,1,Palmrest / C-Cover Assembly,Steel,5 g,Custom,01.03.2020,31.12.9999,5000000040
+Keyboard Retention Bracket – Right,Mechanical,1,Palmrest / C-Cover Assembly,Steel,5 g,Custom,15.03.2020,31.12.9999,5000000041
+Keyboard Retention Screw – A,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.25 g,Standard,01.04.2020,31.12.9999,5000000042
+Keyboard Retention Screw – B,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.25 g,Standard,15.04.2020,31.12.9999,5000000043
+Keyboard Retention Screw – C,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.25 g,Standard,01.05.2020,31.12.9999,5000000044
+Keyboard Retention Screw – D,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.25 g,Standard,20.05.2020,31.12.9999,5000000045
+Palmrest-to-Bottom Screw – Front Left,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.35 g,Standard,01.06.2020,31.12.9999,5000000046
+Palmrest-to-Bottom Screw – Front Right,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.35 g,Standard,15.06.2020,31.12.9999,5000000047
+Palmrest-to-Bottom Screw – Rear Left,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.35 g,Standard,01.07.2020,31.12.9999,5000000048
+Palmrest-to-Bottom Screw – Rear Right,Fastener,1,Palmrest / C-Cover Assembly,Steel,0.35 g,Standard,20.07.2020,31.12.9999,5000000049
+Fingerprint Sensor Window,Mechanical,1,Palmrest / C-Cover Assembly,Polycarbonate,1 g,Optional,01.08.2020,31.12.9999,5000000050
+Fingerprint Sensor Adhesive Ring,Material,1,Palmrest / C-Cover Assembly,Acrylic,0.2 g,Optional,15.08.2020,31.12.9999,5000000051
+Palmrest Logo Badge,Mechanical,1,Palmrest / C-Cover Assembly,Aluminum,0.8 g,Custom,01.09.2020,31.12.9999,5000000052
+Palmrest Serial Number Label,Material,1,Palmrest / C-Cover Assembly,PET,0.2 g,Standard,20.09.2020,31.12.9999,5000000053
+Palmrest Regulatory Label,Material,1,Palmrest / C-Cover Assembly,PET,0.2 g,Standard,01.10.2020,31.12.9999,5000000054
+Palmrest Cosmetic Inspection,Process,1,Palmrest / C-Cover Assembly,N/A,0 g,Standard,15.10.2020,31.12.9999,5000000055
+Palmrest Flatness Check,Process,1,Palmrest / C-Cover Assembly,N/A,0 g,Standard,01.11.2020,31.12.9999,5000000056
+EMI Continuity Verification,Process,1,Palmrest / C-Cover Assembly,N/A,0 g,Standard,15.11.2020,31.12.9999,5000000057
+Final Assembly QA Inspection,Process,1,Palmrest / C-Cover Assembly,N/A,0 g,Standard,01.12.2020,31.12.9999,5000000058

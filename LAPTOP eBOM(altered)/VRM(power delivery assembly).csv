@@ -1,0 +1,43 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+VRM / Power Supply Assembly,Sub-Assembly,1,Motherboard Assembly,N/A,0 g,Custom,01.01.2019,31.12.9999,5000000011
+CPU VRM Section PCB Area,Mechanical,1,VRM / Power Supply Assembly,FR4,0 g,Custom,15.01.2019,31.12.9999,5000000012
+VRM Controller IC,Electrical,1,VRM / Power Supply Assembly,Silicon,0.3 g,Standard,01.02.2019,31.12.9999,5000000013
+High-Side MOSFET – Phase 1,Electrical,1,VRM / Power Supply Assembly,Silicon,0.5 g,Standard,19.02.2019,31.12.9999,5000000014
+Low-Side MOSFET – Phase 1,Electrical,1,VRM / Power Supply Assembly,Silicon,0.5 g,Standard,05.03.2019,31.12.9999,5000000015
+High-Side MOSFET – Phase 2,Electrical,1,VRM / Power Supply Assembly,Silicon,0.5 g,Standard,20.03.2019,31.12.9999,5000000016
+Low-Side MOSFET – Phase 2,Electrical,1,VRM / Power Supply Assembly,Silicon,0.5 g,Standard,01.04.2019,31.12.9999,5000000017
+High-Side MOSFET – Phase 3,Electrical,1,VRM / Power Supply Assembly,Silicon,0.5 g,Standard,15.04.2019,31.12.9999,5000000018
+Low-Side MOSFET – Phase 3,Electrical,1,VRM / Power Supply Assembly,Silicon,0.5 g,Standard,01.05.2019,31.12.9999,5000000019
+VRM Inductor – Phase 1,Electrical,1,VRM / Power Supply Assembly,Ferrite Core,2.5 g,Standard,20.05.2019,31.12.9999,5000000020
+VRM Inductor – Phase 2,Electrical,1,VRM / Power Supply Assembly,Ferrite Core,2.5 g,Standard,01.06.2019,31.12.9999,5000000021
+VRM Inductor – Phase 3,Electrical,1,VRM / Power Supply Assembly,Ferrite Core,2.5 g,Standard,15.06.2019,31.12.9999,5000000022
+Output Capacitor – Polymer 1,Electrical,1,VRM / Power Supply Assembly,Aluminum Polymer,1.0 g,Standard,01.07.2019,31.12.9999,5000000023
+Output Capacitor – Polymer 2,Electrical,1,VRM / Power Supply Assembly,Aluminum Polymer,1.0 g,Standard,12.07.2019,31.12.9999,5000000024
+Output Capacitor – Polymer 3,Electrical,1,VRM / Power Supply Assembly,Aluminum Polymer,1.0 g,Standard,25.07.2019,31.12.9999,5000000025
+Input Capacitor – Bulk 1,Electrical,1,VRM / Power Supply Assembly,Aluminum Electrolytic,1.2 g,Standard,01.08.2019,31.12.9999,5000000026
+Input Capacitor – Bulk 2,Electrical,1,VRM / Power Supply Assembly,Aluminum Electrolytic,1.2 g,Standard,15.08.2019,31.12.9999,5000000027
+Ceramic Capacitor – Decoupling 1,Electrical,1,VRM / Power Supply Assembly,MLCC,0.1 g,Standard,01.09.2019,31.12.9999,5000000028
+Ceramic Capacitor – Decoupling 2,Electrical,1,VRM / Power Supply Assembly,MLCC,0.1 g,Standard,20.09.2019,31.12.9999,5000000029
+Ceramic Capacitor – Decoupling 3,Electrical,1,VRM / Power Supply Assembly,MLCC,0.1 g,Standard,01.10.2019,31.12.9999,5000000030
+Current Sense Resistor – Phase 1,Electrical,1,VRM / Power Supply Assembly,Metal Film,0.1 g,Standard,15.10.2019,31.12.9999,5000000031
+Current Sense Resistor – Phase 2,Electrical,1,VRM / Power Supply Assembly,Metal Film,0.1 g,Standard,01.11.2019,31.12.9999,5000000032
+Current Sense Resistor – Phase 3,Electrical,1,VRM / Power Supply Assembly,Metal Film,0.1 g,Standard,15.11.2019,31.12.9999,5000000033
+Bootstrap Capacitor – Phase 1,Electrical,1,VRM / Power Supply Assembly,Ceramic,0.05 g,Standard,01.12.2019,31.12.9999,5000000034
+Bootstrap Capacitor – Phase 2,Electrical,1,VRM / Power Supply Assembly,Ceramic,0.05 g,Standard,15.12.2019,31.12.9999,5000000035
+Bootstrap Capacitor – Phase 3,Electrical,1,VRM / Power Supply Assembly,Ceramic,0.05 g,Standard,01.01.2020,31.12.9999,5000000036
+Gate Driver IC,Electrical,1,VRM / Power Supply Assembly,Silicon,0.3 g,Standard,15.01.2020,31.12.9999,5000000037
+Power Plane Copper Layer,Material,1,VRM / Power Supply Assembly,Copper,0 g,Custom,01.02.2020,31.12.9999,5000000038
+VRM Thermal Pad – MOSFET,Material,1,VRM / Power Supply Assembly,Silicone,1 g,Standard,20.02.2020,31.12.9999,5000000039
+VRM Thermal Pad – Inductor,Material,1,VRM / Power Supply Assembly,Silicone,1 g,Standard,01.03.2020,31.12.9999,5000000040
+VRM EMI Shield Can,Mechanical,1,VRM / Power Supply Assembly,Tin-Plated Steel,4 g,Standard,15.03.2020,31.12.9999,5000000041
+EMI Shield Ground Clip,Mechanical,1,VRM / Power Supply Assembly,Stainless Steel,0.5 g,Standard,01.04.2020,31.12.9999,5000000042
+Power Enable Logic Circuit,Electrical,1,VRM / Power Supply Assembly,Silicon,0.1 g,Standard,15.04.2020,31.12.9999,5000000043
+VRM Feedback Resistor Network,Electrical,1,VRM / Power Supply Assembly,Thick Film,0.1 g,Standard,01.05.2020,31.12.9999,5000000044
+Over-Current Protection Circuit,Electrical,1,VRM / Power Supply Assembly,Silicon,0.1 g,Standard,20.05.2020,31.12.9999,5000000045
+Over-Voltage Protection Circuit,Electrical,1,VRM / Power Supply Assembly,Silicon,0.1 g,Standard,01.06.2020,31.12.9999,5000000046
+VRM Power-Up Sequencing Logic,Electrical,1,VRM / Power Supply Assembly,Silicon,0.1 g,Standard,15.06.2020,31.12.9999,5000000047
+Solder Paste (VRM Area),Material,1,VRM / Power Supply Assembly,SAC Alloy,0.3 g,Standard,01.07.2020,31.12.9999,5000000048
+VRM Assembly Process,Process,1,VRM / Power Supply Assembly,N/A,0 g,Standard,20.07.2020,31.12.9999,5000000049
+AOI Inspection – VRM Area,Process,1,VRM / Power Supply Assembly,N/A,0 g,Standard,01.08.2020,31.12.9999,5000000050
+Power Rail Voltage Test,Process,1,VRM / Power Supply Assembly,N/A,0 g,Standard,15.08.2020,31.12.9999,5000000051
+Load Line Calibration Test,Process,1,VRM / Power Supply Assembly,N/A,0 g,Standard,01.09.2020,31.12.9999,5000000052

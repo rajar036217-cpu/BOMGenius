@@ -1,0 +1,64 @@
+Part Name,Part Type,Quantity,Parent Assembly,Material,Weight,Standard vs Custom,Valid From,Valid To,Change No.
+Battery Pack Assembly,Sub-Assembly,1,Laptop Main Assembly,N/A,0 g,Standard,01.01.2019,31.12.9999,5000000011
+Li-Ion Polymer Cell – Cell A,Electrical,1,Battery Pack Assembly,Li-Ion Polymer,45 g,Standard,15.01.2019,31.12.9999,5000000012
+Li-Ion Polymer Cell – Cell B,Electrical,1,Battery Pack Assembly,Li-Ion Polymer,45 g,Standard,01.02.2019,31.12.9999,5000000013
+Li-Ion Polymer Cell – Cell C,Electrical,1,Battery Pack Assembly,Li-Ion Polymer,45 g,Standard,19.02.2019,31.12.9999,5000000014
+Li-Ion Polymer Cell – Cell D,Electrical,1,Battery Pack Assembly,Li-Ion Polymer,45 g,Optional,05.03.2019,31.12.9999,5000000015
+Positive Nickel Tab – Cell A,Electrical,1,Battery Pack Assembly,Nickel,0.5 g,Standard,20.03.2019,31.12.9999,5000000016
+Negative Nickel Tab – Cell A,Electrical,1,Battery Pack Assembly,Nickel,0.5 g,Standard,01.04.2019,31.12.9999,5000000017
+Positive Nickel Tab – Cell B,Electrical,1,Battery Pack Assembly,Nickel,0.5 g,Standard,15.04.2019,31.12.9999,5000000018
+Negative Nickel Tab – Cell B,Electrical,1,Battery Pack Assembly,Nickel,0.5 g,Standard,01.05.2019,31.12.9999,5000000019
+Positive Nickel Tab – Cell C,Electrical,1,Battery Pack Assembly,Nickel,0.5 g,Standard,20.05.2019,31.12.9999,5000000020
+Negative Nickel Tab – Cell C,Electrical,1,Battery Pack Assembly,Nickel,0.5 g,Standard,01.06.2019,31.12.9999,5000000021
+Cell-to-Cell Series Weld – 1,Process,1,Battery Pack Assembly,N/A,0 g,Standard,15.06.2019,31.12.9999,5000000022
+Cell-to-Cell Series Weld – 2,Process,1,Battery Pack Assembly,N/A,0 g,Standard,01.07.2019,31.12.9999,5000000023
+Cell-to-Cell Series Weld – 3,Process,1,Battery Pack Assembly,N/A,0 g,Standard,12.07.2019,31.12.9999,5000000024
+Battery Management PCB (BMS PCB),Mechanical,1,Battery Pack Assembly,FR-4,6 g,Custom,25.07.2019,31.12.9999,5000000025
+Fuel Gauge IC,Electrical,1,Battery Pack Assembly,Silicon,0.3 g,Standard,01.08.2019,31.12.9999,5000000026
+Battery Protection IC,Electrical,1,Battery Pack Assembly,Silicon,0.3 g,Standard,15.08.2019,31.12.9999,5000000027
+Charge MOSFET,Electrical,1,Battery Pack Assembly,Silicon,0.4 g,Standard,01.09.2019,31.12.9999,5000000028
+Discharge MOSFET,Electrical,1,Battery Pack Assembly,Silicon,0.4 g,Standard,20.09.2019,31.12.9999,5000000029
+Current Sense Resistor,Electrical,1,Battery Pack Assembly,Metal Alloy,0.2 g,Standard,01.10.2019,31.12.9999,5000000030
+SMBus Pull-Up Resistor,Electrical,1,Battery Pack Assembly,Thick Film,0.02 g,Standard,15.10.2019,31.12.9999,5000000031
+Enable Pull-Down Resistor,Electrical,1,Battery Pack Assembly,Thick Film,0.02 g,Standard,01.11.2019,31.12.9999,5000000032
+Decoupling Capacitor – 1,Electrical,1,Battery Pack Assembly,MLCC,0.05 g,Standard,15.11.2019,31.12.9999,5000000033
+Decoupling Capacitor – 2,Electrical,1,Battery Pack Assembly,MLCC,0.05 g,Standard,01.12.2019,31.12.9999,5000000034
+EEPROM – Battery Data,Electrical,1,Battery Pack Assembly,Silicon,0.1 g,Standard,15.12.2019,31.12.9999,5000000035
+Primary Battery Fuse,Electrical,1,Battery Pack Assembly,Alloy,0.2 g,Standard,01.01.2020,31.12.9999,5000000036
+Secondary PTC Fuse,Electrical,1,Battery Pack Assembly,Polymer,0.2 g,Standard,15.01.2020,31.12.9999,5000000037
+NTC Temperature Sensor – Cell A,Electrical,1,Battery Pack Assembly,Ceramic,0.1 g,Standard,01.02.2020,31.12.9999,5000000038
+NTC Temperature Sensor – Cell B,Electrical,1,Battery Pack Assembly,Ceramic,0.1 g,Standard,20.02.2020,31.12.9999,5000000039
+NTC Temperature Sensor – Cell C,Electrical,1,Battery Pack Assembly,Ceramic,0.1 g,Standard,01.03.2020,31.12.9999,5000000040
+Battery Output Wire – Red,Electrical,1,Battery Pack Assembly,Copper + PVC,1 g,Standard,15.03.2020,31.12.9999,5000000041
+Battery Output Wire – Black,Electrical,1,Battery Pack Assembly,Copper + PVC,1 g,Standard,01.04.2020,31.12.9999,5000000042
+Battery Connector – Board Side,Electrical,1,Battery Pack Assembly,Nylon + Copper,0.5 g,Standard,15.04.2020,31.12.9999,5000000043
+Cell Insulation Sheet – Bottom,Material,1,Battery Pack Assembly,PET,0.5 g,Standard,01.05.2020,31.12.9999,5000000044
+Cell Insulation Sheet – Top,Material,1,Battery Pack Assembly,PET,0.5 g,Standard,20.05.2020,31.12.9999,5000000045
+PCB Insulation Sheet,Material,1,Battery Pack Assembly,Polyimide,0.3 g,Standard,01.06.2020,31.12.9999,5000000046
+Kapton Tape – Cell Wrap A,Material,1,Battery Pack Assembly,Polyimide,0.2 g,Standard,15.06.2020,31.12.9999,5000000047
+Kapton Tape – Cell Wrap B,Material,1,Battery Pack Assembly,Polyimide,0.2 g,Standard,01.07.2020,31.12.9999,5000000048
+Kapton Tape – Cell Wrap C,Material,1,Battery Pack Assembly,Polyimide,0.2 g,Standard,20.07.2020,31.12.9999,5000000049
+Double-Side Tape – Cell Fix 1,Material,1,Battery Pack Assembly,Acrylic,0.3 g,Standard,01.08.2020,31.12.9999,5000000050
+Double-Side Tape – Cell Fix 2,Material,1,Battery Pack Assembly,Acrylic,0.3 g,Standard,15.08.2020,31.12.9999,5000000051
+Foam Cushion – Side A,Material,1,Battery Pack Assembly,PU Foam,1 g,Standard,01.09.2020,31.12.9999,5000000052
+Foam Cushion – Side B,Material,1,Battery Pack Assembly,PU Foam,1 g,Standard,20.09.2020,31.12.9999,5000000053
+Foam Cushion – Bottom,Material,1,Battery Pack Assembly,PU Foam,1 g,Standard,01.10.2020,31.12.9999,5000000054
+EMI Shield Film – BMS,Material,1,Battery Pack Assembly,Aluminum,0.3 g,Optional,15.10.2020,31.12.9999,5000000055
+Battery Housing – Upper Case,Mechanical,1,Battery Pack Assembly,ABS,18 g,Custom,01.11.2020,31.12.9999,5000000056
+Battery Housing – Lower Case,Mechanical,1,Battery Pack Assembly,ABS,18 g,Custom,15.11.2020,31.12.9999,5000000057
+Housing Screw – 1,Fastener,1,Battery Pack Assembly,Steel,0.3 g,Standard,01.12.2020,31.12.9999,5000000058
+Housing Screw – 2,Fastener,1,Battery Pack Assembly,Steel,0.3 g,Standard,15.12.2020,31.12.9999,5000000059
+Housing Screw – 3,Fastener,1,Battery Pack Assembly,Steel,0.3 g,Standard,01.01.2021,31.12.9999,5000000060
+Housing Screw – 4,Fastener,1,Battery Pack Assembly,Steel,0.3 g,Standard,15.04.2020,31.12.9999,5000000043
+Housing Ultrasonic Weld – 1,Process,1,Battery Pack Assembly,N/A,0 g,Standard,01.05.2020,31.12.9999,5000000044
+Housing Ultrasonic Weld – 2,Process,1,Battery Pack Assembly,N/A,0 g,Standard,20.05.2020,31.12.9999,5000000045
+Battery Firmware Flashing,Process,1,Battery Pack Assembly,N/A,0 g,Standard,01.06.2020,31.12.9999,5000000046
+Battery Capacity Calibration,Process,1,Battery Pack Assembly,N/A,0 g,Standard,15.06.2020,31.12.9999,5000000047
+Over-Voltage Test,Process,1,Battery Pack Assembly,N/A,0 g,Standard,01.07.2020,31.12.9999,5000000048
+Over-Current Test,Process,1,Battery Pack Assembly,N/A,0 g,Standard,20.07.2020,31.12.9999,5000000049
+Short-Circuit Test,Process,1,Battery Pack Assembly,N/A,0 g,Standard,01.08.2020,31.12.9999,5000000050
+Thermal Abuse Test,Process,1,Battery Pack Assembly,N/A,0 g,Standard,15.08.2020,31.12.9999,5000000051
+Final Electrical Inspection,Process,1,Battery Pack Assembly,N/A,0 g,Standard,01.09.2020,31.12.9999,5000000052
+Battery Rating Label,Material,1,Battery Pack Assembly,PET,0.2 g,Standard,20.09.2020,31.12.9999,5000000053
+Regulatory Label – CE/BIS/UL,Material,1,Battery Pack Assembly,PET,0.2 g,Standard,01.07.2020,31.12.9999,5000000048
+Safety Warning Label,Material,1,Battery Pack Assembly,PET,0.2 g,Standard,20.07.2020,31.12.9999,5000000049

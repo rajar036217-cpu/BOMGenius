@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BOM History - BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  .nav-shadow {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
+
+<!-- ===== GLASS NAVBAR ===== -->
+<header class="flex justify-between items-center px-10 py-6
+               bg-white/30 backdrop-blur-xl
+               border-b border-white/40
+               nav-shadow sticky top-0 z-50">
+
+  <h1 class="text-3xl font-bold text-blue-900">
+    BOM Genius
+  </h1>
+
+  <nav class="flex space-x-10 text-lg font-medium">
+    <a href="home.html" class="hover:text-blue-700">Home</a>
+    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM Converter</a>
+    <a href="feedback.html" class="hover:text-blue-700">Feedback</a>
+    <a href="settings.html" class="hover:text-blue-700">Settings</a>
+    <a href="history.html"
+       class="text-blue-900 border-b-2 border-blue-900 pb-1">
+      History
+    </a>
+  </nav>
+
+  <!-- ===== COMPANY DROPDOWN ADDED ===== -->
+  <div class="relative">
+    <button onclick="toggleDropdown()"
+      class="font-medium text-blue-900 flex items-center space-x-2 focus:outline-none">
+      <span>Company:</span>
+      <span class="font-semibold">ABC Industries</span>
+      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    <div id="companyDropdown"
+         class="hidden absolute right-0 mt-3 w-40
+                bg-white rounded-xl shadow-lg
+                border border-gray-200 overflow-hidden z-50">
+
+      <button onclick="logout()"
+        class="w-full text-left px-5 py-3
+               text-red-600 hover:bg-red-50 font-medium">
+        Logout
+      </button>
+
+    </div>
+  </div>
+
+</header>
+
+<!-- ===== HISTORY SECTION ===== -->
+<section class="px-10 py-16">
+
+  <h2 class="text-4xl font-bold text-center text-blue-900 mb-12">
+    E-BOM Generation History
+  </h2>
+
+  <div class="max-w-6xl mx-auto bg-white/90 backdrop-blur-md
+              rounded-2xl dark-shadow overflow-hidden">
+
+    <table class="w-full text-left">
+
+      <thead class="bg-blue-900 text-white text-lg">
+        <tr>
+          <th class="p-4">Date</th>
+          <th class="p-4">Time</th>
+          <th class="p-4">E-BOM File Name</th>
+          <th class="p-4">Status</th>
+          <th class="p-4">Action</th>
+        </tr>
+      </thead>
+
+      <tbody class="text-gray-800">
+
+        <tr class="border-t hover:bg-blue-100 transition">
+          <td class="p-4">06-02-2026</td>
+          <td class="p-4">10:45 AM</td>
+          <td class="p-4">engine_assembly_v1.xlsx</td>
+          <td class="p-4 text-green-600 font-medium">Generated</td>
+          <td class="p-4">
+            <button class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">
+              View
+            </button>
+          </td>
+        </tr>
+
+        <tr class="border-t hover:bg-blue-100 transition">
+          <td class="p-4">05-02-2026</td>
+          <td class="p-4">04:20 PM</td>
+          <td class="p-4">motor_parts_v2.csv</td>
+          <td class="p-4 text-yellow-600 font-medium">Processing</td>
+          <td class="p-4">
+            <button class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">
+              View
+            </button>
+          </td>
+        </tr>
+
+        <tr class="border-t hover:bg-blue-100 transition">
+          <td class="p-4">04-02-2026</td>
+          <td class="p-4">01:15 PM</td>
+          <td class="p-4">gearbox_design_v3.xlsx</td>
+          <td class="p-4 text-green-600 font-medium">Generated</td>
+          <td class="p-4">
+            <button class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">
+              View
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="text-center py-6 text-gray-700 text-sm">
+  © 2026 BOM Genius. All rights reserved.
+</footer>
+
+<script>
+async function loadHistory() {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/mbom/history");
+    const data = await response.json();
+
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    if (!data.length) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" class="p-6 text-center text-gray-500">
+            No history available
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    data.forEach(item => {
+      const tr = document.createElement("tr");
+      tr.className = "border-t hover:bg-blue-100 transition";
+
+      tr.innerHTML = `
+        <td class="p-4">${item.date}</td>
+        <td class="p-4">${item.time}</td>
+        <td class="p-4">${item.rows} Rows Generated</td>
+        <td class="p-4 text-green-600 font-medium">Generated</td>
+        <td class="p-4">
+          <button onclick="viewMBOM('${item.timestamp}')"
+            class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">
+            View
+          </button>
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+  } catch (error) {
+    console.error("Failed to load history:", error);
+  }
+}
+
+function viewMBOM(timestamp) {
+  window.location.href =
+    "/frontend/view.html?ts=" + encodeURIComponent(timestamp);
+}
+
+document.addEventListener("DOMContentLoaded", loadHistory);
+</script>
+
+
+
+<!-- ===== DROPDOWN SCRIPT ===== -->
+<script>
+  function toggleDropdown() {
+    document.getElementById("companyDropdown")
+      .classList.toggle("hidden");
+  }
+
+  function logout() {
+    window.location.href = "role.html";
+  }
+
+  document.addEventListener("click", function (event) {
+    if (!event.target.closest(".relative")) {
+      document.getElementById("companyDropdown")
+        .classList.add("hidden");
+    }
+  });
+</script>
+
+</body>
+</html>

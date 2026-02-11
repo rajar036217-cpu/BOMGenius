@@ -14,7 +14,11 @@ frontend_path = os.path.join(BASE_DIR, "frontend")
 
 from federated.local_trainer import log_human_feedback, export_local_updates
 from core.engine import generate_mbom
+from core.ebom_loader import load_ebom  
 from repo.DB import init_db, save_mbom, fetch_mbom
+from ocr.ebom_from_image import ebom_from_image
+import tempfile
+
 
 #C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
 
@@ -52,16 +56,25 @@ async def generate_mbom_api(
     ebom: UploadFile = File(...),
     inventory: Optional[UploadFile] = File(None)
 ):
-    ebom_df = pd.read_csv(io.BytesIO(await ebom.read()))
+    ebom_bytes = await ebom.read()
+    ext = os.path.splitext(ebom.filename)[1].lower()
+
+    if ext in [".png", ".jpg", ".jpeg", ".pdf"]:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+            tmp.write(ebom_bytes)
+            tmp_path = tmp.name
+
+        ebom_df = ebom_from_image(tmp_path)
+    else:
+        ebom_df = load_ebom(ebom_bytes, ebom.filename)
 
     if inventory:
-        inv_df = pd.read_csv(io.BytesIO(await inventory.read()))
+        inv_bytes = await inventory.read()
+        inv_df = load_ebom(inv_bytes, inventory.filename)
     else:
-        inv_df = pd.DataFrame()  # empty inventory
+        inv_df = pd.DataFrame()
 
     df_final = generate_mbom(ebom_df, inv_df)
-    print(df_final)
-
     save_mbom(df_final)
 
     return {
@@ -69,6 +82,20 @@ async def generate_mbom_api(
         "rows": df_final.to_dict(orient="records")
     }
 
+@app.post("/ebom/ocr")
+async def ebom_from_image_api(file: UploadFile = File(...)):
+    suffix = os.path.splitext(file.filename)[1].lower()
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        tmp.write(await file.read())
+        tmp_path = tmp.name
+
+    df_ebom = ebom_from_image(tmp_path)
+
+    return {
+        "columns": list(df_ebom.columns),
+        "rows": df_ebom.to_dict(orient="records")
+    }
 
 @app.get("/mbom/history")
 def get_mbom_history():
@@ -134,40 +161,6 @@ def get_mbom_by_timestamp(ts: str):
         "columns": list(df.columns),
         "rows": df.to_dict(orient="records")
     }
-
-
-@app.get("/mbom/latest")
-def get_mbom():
-    data = fetch_mbom()  # this is a list of tuples
-
-    if not data:
-        return {"columns": [], "rows": []}
-
-    import pandas as pd
-
-    columns = [
-        "parent_part",
-        "child_part",
-        "description",
-        "qty",
-        "uom",
-        "level",
-        "lead_time",
-        "work_center",
-        "make_buy",
-        "phantom",
-        "scrap",
-        "plant",
-        "storage_location"
-    ]
-
-    df = pd.DataFrame(data, columns=columns)
-
-    return {
-        "columns": list(df.columns),
-        "rows": df.to_dict(orient="records")
-    }
-
 
 class Feedback(BaseModel):
     part_no: str

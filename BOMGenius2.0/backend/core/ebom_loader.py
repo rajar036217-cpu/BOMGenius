@@ -4,11 +4,15 @@ import io
 import os
 import pdfplumber
 
-def load_ebom(file_bytes, filename):
+def load_ebom(file_bytes: bytes, filename: str) -> pd.DataFrame:
     ext = os.path.splitext(filename)[1].lower()
 
     if ext == ".csv":
-        return pd.read_csv(io.BytesIO(file_bytes))
+        # Try utf-8 first, fallback to windows-1252
+        try:
+            return pd.read_csv(io.BytesIO(file_bytes), encoding="utf-8")
+        except UnicodeDecodeError:
+            return pd.read_csv(io.BytesIO(file_bytes), encoding="cp1252")
 
     elif ext in [".xls", ".xlsx"]:
         return pd.read_excel(io.BytesIO(file_bytes))
@@ -52,3 +56,4 @@ def normalize_ebom_columns(df):
             rename_map[col] = "Parent_Part_No"
 
     return df.rename(columns=rename_map)
+

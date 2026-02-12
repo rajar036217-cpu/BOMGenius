@@ -24,10 +24,15 @@ def load_ebom(file_bytes, filename):
     ext = os.path.splitext(filename)[1].lower()         
 
     if ext == ".csv":
-        df = pd.read_csv(io.BytesIO(file_bytes))
+        
+
+    if ext == ".csv":
+        detected = chardet.detect(file_bytes)
+        encoding = detected["encoding"] or "utf-8"
+        df = pd.read_csv(io.BytesIO(file_bytes), encoding=encoding)
         df = safe_normalize_columns(df)
         return df
-
+        
     elif ext in [".xls", ".xlsx"]:
         return pd.read_excel(io.BytesIO(file_bytes))
 
@@ -58,3 +63,4 @@ def normalize_ebom_columns(df):
             rename_map[col] = "Parent_Part_No"
 
     return df.rename(columns=rename_map)
+

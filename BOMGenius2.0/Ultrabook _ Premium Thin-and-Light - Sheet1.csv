@@ -1,0 +1,12 @@
+Level,Assembly / Sub-Assembly,Part Name,Part Number,Description,Qty,Material / Technology,Fabrication Process,Make / Buy,Rev,Notes
+0,UL-13-CARBON,Ultrabook,600-00-13,"13.3"" Premium Thin",1,Mixed,Final Assembly,Make,C.2,Total Weight < 1kg
+1,Top Cover Assembly,Unibody A-C,0600-11-01,Integrated Chassis,1,Toray Carbon Fiber,Compression Molded,Make,C.1,3K Twill Finish
+1,Display Assembly,OLED Panel,600-21-10,"13.3"" 2.8K OLED",1,Organic LED,OLED Deposition,Buy,B.2,Touch-integrated (OGS)
+2,.,Glass Cover,600-21-15,Gorilla Glass 7,1,Chem. Strengthened,Ion-Exchange,Buy,A.1,0.5mm Thickness
+1,Motherboard Assembly,Mainboard,600-31-00,UL-SLIM-A,1,HDI FR4 10-Layer,SMT (Stacked Via),Make,B.4,Ultra-compact PCB
+2,.,CPU,600-31-05,Core Ultra 7 (MTL),1,Silicon,Lithography,Buy,A.1,Type 4 HDI Packaging
+1,Memory & Storage,LPDDR5x,600-41-10,32GB 7500MT/s,1,DRAM,SMT,Buy,A.2,PoP (Package-on-Package)
+1,Thermal Assembly,Piezo Fan,600-51-10,Ultrasonic Solid State,2,Ceramic/Membrane,MEMS,Buy,A.0,Fanless-Equivalent dB
+1,Keyboard/Touchpad,Haptic Trackpad,600-61-20,Force-Sensing Pad,1,Glass / LRA,Assembly,Buy,B.1,Piezo-Electric Actuator
+1,Battery Assembly,HD Cells,600-71-00,65Wh High Density,1,Li-Cobalt (High V),Battery Assembly,Buy,A.2,750 Wh/L Density
+1,I/O & Connectivity,USB-C Bracket,600-81-10,Structural USB-C,2,SUS304 Steel,CNC Machined,Make,A.2,Laser Welded to Frame

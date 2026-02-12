@@ -1,0 +1,33 @@
+Inventory Category,Part Family,Part Name,Master Part Number,EBOM Reference Part Numbers,Used In Models,Quantity Range,Material / Technology,Manufacturing Process,Make / Buy,Rev,Interchangeability Code,Compliance & Standards,Notes
+Structural & Chassis,A-Shell,Premium Unibody Chassis,M-STR-1001,0600-11-01,Ultrabook,1,Carbon Fiber (3K Twill),Compression Molded,Make,C.1,Not Interchangeable,RoHS,Integrated A-C shell
+Structural & Chassis,A-Shell,Magnesium Top Cover,M-STR-1002,0800-11-01,Business,1,AZ91D Mg-Alloy,Die-Cast / CNC,Make,B.2,Not Interchangeable,MIL-STD-810H,Nano-coating finish
+Structural & Chassis,A-Shell,Polymer Top Cover,M-STR-1003,0700-11-01,Entry,1,PC + ABS,Injection Molded,Make,A.2,Not Interchangeable,RoHS,Matte finish
+Structural & Chassis,D-Shell,Aluminum Lower Cover,M-STR-2001,800-81-01,Business,1,5052 Al-Alloy,Stamped / CNC,Make,B.0,Not Interchangeable,RoHS,Service access hatch
+Display & Optics,Panel,"17.3"" QHD 240Hz",E-DIS-3001,900-51-10,Gaming,1,IPS / G-Sync,TFT-LCD Process,Buy,B.1,Not Interchangeable,DCI-P3,500 nits; 3ms
+Display & Optics,Panel,"15.6"" UHD IR",E-DIS-3002,800-21-10,Business,1,IPS / WLED,TFT-LCD Process,Buy,A.3,Not Interchangeable,100% sRGB,Hello IR Integrated
+Display & Optics,Panel,"14"" FHD eDP",E-DIS-3003,700-21-10,Entry,1,IPS / LED,TFT-LCD Process,Buy,B.0,Not Interchangeable,eDP 30-pin,250 nits
+Display & Optics,Panel,"13.3"" 2.8K OLED",E-DIS-3004,600-21-10,Ultrabook,1,Organic LED,OLED Deposition,Buy,B.2,Not Interchangeable,RoHS,Touch-integrated
+Display & Optics,Camera,720p HD Module,E-OPT-4001,700-21-30,Entry,1,CMOS / USB 2.0,SMT,Buy,A.1,Fully Interchangeable,RoHS,Standard 2.0 Interface
+Electronics (MB),CPU,Intel Core Ultra 7,E-IC-5001,600-31-05,Ultrabook,1,Silicon (MTL),Lithography,Buy,A.1,Not Interchangeable,Intel vPro,Type 4 HDI Packaging
+Electronics (MB),CPU,Intel Core i7 vPro,E-IC-5002,800-31-00,Business,1,Silicon (MTL),Lithography,Buy,C.1,Not Interchangeable,Intel vPro,Socketed/BGA variant
+Electronics (MB),CPU,Intel N100,E-IC-5003,700-31-05,Entry,1,Silicon,Lithography,Buy,A.0,Not Interchangeable,RoHS,BGA1264
+Electronics (MB),GPU,NVIDIA RTX 4080M,E-IC-5004,900-31-20,Gaming,1,Silicon / PCB,SMT,Buy,A.1,Not Interchangeable,PCIe Gen 5,Soldered BGA
+Memory / Storage,LPDDR5x,32GB 7500MT/s,E-MEM-6001,600-41-10,Ultrabook,1,DRAM (PoP),SMT,Buy,A.2,Not Interchangeable,JEDEC,Package-on-Package
+Memory / Storage,LPDDR5,8GB 4800MT/s,E-MEM-6002,700-41-10,Entry,1,Silicon,SMT,Buy,A.1,Not Interchangeable,JEDEC,On-board (Soldered)
+Memory / Storage,SO-DIMM,16GB DDR5-5200,E-MEM-6003,800-41-10,Business,0-2,DRAM,SMT,Buy,A.1,Fully Interchangeable,JEDEC,Modular slot-based
+Memory / Storage,GDDR6X,12GB VRAM,E-MEM-6004,900-31-22,Gaming,1,DRAM,SMT,Buy,A.0,Not Interchangeable,JEDEC,192-bit Bus
+Memory / Storage,M.2 SSD,256GB NVMe G3,E-STO-7001,700-41-20,Entry,1,NAND Flash,SMT,Buy,A.0,Fully Interchangeable,NVMe 1.3,2280 Form Factor
+Thermal,Fan,12V High-CFM,M-THM-8001,900-41-20,Gaming,2,LCP Plastic,Injection Molded,Buy,A.2,Conditionally,RoHS,0.1mm Thin Blades
+Thermal,Fan,Piezo MEMS Fan,M-THM-8002,600-51-10,Ultrabook,2,Ceramic,MEMS,Buy,A.0,Not Interchangeable,RoHS,Ultrasonic Solid State
+Thermal,Heat Sink,Vapor Chamber,M-THM-8003,900-41-10,Gaming,1,C1100 Copper,Diffusion Bonding,Make,B.0,Not Interchangeable,RoHS,Vacuum Sealed
+Thermal,Heat Sink,Active Cooler Pipe,M-THM-8004,700-51-10,Entry,1,C1100 Copper,Stamped / Brazed,Make,A.2,Not Interchangeable,RoHS,Single Heat Pipe
+Battery,Battery Pack,4-Cell 99Wh,E-PWR-9001,900-71-00,Gaming,1,Li-Polymer,Assembly,Buy,A.1,Not Interchangeable,UN38.3,Airline Legal Max
+Battery,Battery Pack,65Wh High Density,E-PWR-9002,600-71-00,Ultrabook,1,Li-Cobalt,Assembly,Buy,A.2,Not Interchangeable,UN38.3,750 Wh/L Density
+Battery,Battery Pack,3-Cell 42Wh,E-PWR-9003,700-61-00,Entry,1,Li-Polymer,Assembly,Buy,A.1,Not Interchangeable,UN38.3,Cost-optimized
+HMI Components,Keyboard,Mech-Switch RGB,E-HMI-1101,900-61-10,Gaming,1,Steel / Plastic,Assembly,Buy,A.1,Not Interchangeable,USB-IF,Per-Key RGB
+HMI Components,Keyboard,Chiclet US,E-HMI-1102,700-71-10,Entry,1,ABS / Membrane,Molded / Printed,Buy,A.1,Conditionally,RoHS,Non-backlit
+HMI Components,Trackpad,Haptic Force Pad,E-HMI-1103,600-61-20,Ultrabook,1,Glass / LRA,Assembly,Buy,B.1,Not Interchangeable,RoHS,Piezo-Electric
+I/O & RF,WLAN,Wi-Fi 6E / BT 5.3,E-RF-1201,800-51-20,"Business, Gaming",1,M.2 2230,SMT,Buy,B.0,Fully Interchangeable,IEEE 802.11ax,Intel AX211
+I/O & RF,Connector,Structural USB-C,M-CON-1202,600-81-10,"Ultrabook, Business",2,SUS304 Steel,CNC / Laser Weld,Make,A.2,Conditionally,USB 4.0 / TB4,High-stress bracket
+Fasteners,Screw Kit,M2.0/M2.5 Standard,M-FAS-1301,700-91-00,All,1-20,SCM435 Steel,Cold Heading,Buy,A.0,Fully Interchangeable,RoHS,Zinc Plated
+Fasteners,TIM,Graphite Pad,M-THM-1302,900-91-50,"Gaming, Ultrabook",1-4,Synthetic Graphite,Die-Cut,Buy,A.0,Fully Interchangeable,RoHS,EMI/Thermal Shield

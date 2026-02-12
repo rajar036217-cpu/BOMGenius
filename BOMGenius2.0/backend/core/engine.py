@@ -30,7 +30,22 @@ def load_global_rules():
         with open(GLOBAL_RULES_FILE, "r") as f:
             return json.load(f)
     return {}
-    
+
+def learn_ebom_schema(df):
+    col_map = {}
+    for col in df.columns:
+        col_emb = schema_model.encode(col.lower())
+        best_match, best_score = None, 0
+        for canon, emb_list in CANONICAL_EMBEDDINGS.items():
+            score = util.cos_sim(col_emb, emb_list).max().item()
+            if score > best_score:
+                best_score, best_match = score, canon
+        if best_score > 0.55:
+            col_map[col] = best_match
+        else:
+            col_map[col] = "unknown_" + col
+    return col_map
+
 def learn_inventory_schema(df):
     col_map = {}
     for col in df.columns:
@@ -51,6 +66,9 @@ def normalize_inventory(df, col_map):
     return norm
 
 def generate_mbom(ebom_df, inv_df):
+    ebom_schema = learn_ebom_schema(ebom_df)
+    normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
+
     learned_schema = learn_inventory_schema(inv_df)
     normalized_inv = normalize_inventory(inv_df, learned_schema)
 
@@ -58,7 +76,7 @@ def generate_mbom(ebom_df, inv_df):
     global_context = json.dumps(global_rules, indent=2)
     
     inv_context = normalized_inv.to_csv(index=False)
-    ebom_context = ebom_df.to_csv(index=False)
+    ebom_context = normalized_ebom.to_csv(index=False)
 
     prompt = f"""
 You are a Manufacturing Engineer AI. Your task: Transform eBOM to mBOM.
@@ -102,12 +120,20 @@ Do not use markdown blocks.
     raw = response["response"]
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
-    df_final = pd.read_csv(io.StringIO("\n".join(lines)), sep="|", engine="python")
-    df_final.columns = [
-        "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-        "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
-        "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
-    ]
+    EXPECTED_MBOM_COLS = 13
+
+    parsed = [l.split("|") for l in lines]
+    bad_rows = [r for r in parsed if len(r) != EXPECTED_MBOM_COLS]
+
+    if bad_rows:
+        raise ValueError(f"Invalid mBOM rows from LLM: {bad_rows[:2]}")
+
+    df_final = pd.DataFrame(parsed, columns=[
+    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
+    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
+    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
+])
+
 
 
     return df_final

@@ -4,15 +4,35 @@ import io
 import os
 import pdfplumber
 
-def load_ebom(file_bytes: bytes, filename: str) -> pd.DataFrame:
-    ext = os.path.splitext(filename)[1].lower()
+def safe_normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
+    df.columns = [str(c).strip().lower().replace(" ", "_") for c in df.columns]
+    return df
+
+def parse_pdf_ebom(file_bytes):
+    rows = []
+    with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
+        for page in pdf.pages:
+            table = page.extract_table()
+            if table:
+                headers = table[0]
+                for row in table[1:]:
+                    rows.append(dict(zip(headers, row)))
+
+    return safe_normalize_columns(pd.DataFrame(rows))
+
+def load_ebom(file_bytes, filename):
+    ext = os.path.splitext(filename)[1].lower()         
+
+    if ext == ".csv":
+        
 
     if ext == ".csv":
         detected = chardet.detect(file_bytes)
         encoding = detected["encoding"] or "utf-8"
-
-        return pd.read_csv(io.BytesIO(file_bytes), encoding=encoding)
-
+        df = pd.read_csv(io.BytesIO(file_bytes), encoding=encoding)
+        df = safe_normalize_columns(df)
+        return df
+        
     elif ext in [".xls", ".xlsx"]:
         return pd.read_excel(io.BytesIO(file_bytes))
 
@@ -25,18 +45,6 @@ def load_ebom(file_bytes: bytes, filename: str) -> pd.DataFrame:
 
     else:
         raise ValueError(f"Unsupported file type: {ext}")
-
-def parse_pdf_ebom(file_bytes):
-    rows = []
-    with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
-        for page in pdf.pages:
-            table = page.extract_table()
-            if table:
-                headers = table[0]
-                for row in table[1:]:
-                    rows.append(dict(zip(headers, row)))
-
-    return pd.DataFrame(rows)
 
 def normalize_ebom_columns(df):
     rename_map = {}
@@ -55,5 +63,3 @@ def normalize_ebom_columns(df):
             rename_map[col] = "Parent_Part_No"
 
     return df.rename(columns=rename_map)
-
-

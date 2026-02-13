@@ -48,14 +48,13 @@ def init_db():
 
 from datetime import datetime
 
+
 def save_mbom(df):
     df = df.copy()
     df["timestamp"] = datetime.now().isoformat()
 
     with sqlite3.connect(DB_NAME) as conn:
         df.to_sql("mbom", conn, if_exists="append", index=False)
-
-
 
 
 def fetch_mbom():

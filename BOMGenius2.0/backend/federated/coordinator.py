@@ -7,6 +7,7 @@ FACTORY_NODES = [
     "http://127.0.0.1:8001",  # Factory B (if you simulate)
 ]
 
+
 def aggregate():
     all_updates = []
 
@@ -23,14 +24,13 @@ def aggregate():
 
     global_rules = {}
     for pn, votes in make_buy_votes.items():
-        global_rules[pn] = {
-            "Make_Buy": Counter(votes).most_common(1)[0][0]
-        }
+        global_rules[pn] = {"Make_Buy": Counter(votes).most_common(1)[0][0]}
 
     print("Aggregated Rules:", global_rules)
 
     for node in FACTORY_NODES:
         requests.post(f"{node}/federated/import", json=global_rules)
+
 
 if __name__ == "__main__":
     aggregate()

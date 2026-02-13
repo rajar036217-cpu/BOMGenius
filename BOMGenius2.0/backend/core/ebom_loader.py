@@ -5,9 +5,11 @@ import os
 import pdfplumber
 import chardet
 
+
 def safe_normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = [str(c).strip().lower().replace(" ", "_") for c in df.columns]
     return df
+
 
 def parse_pdf_ebom(file_bytes):
     rows = []
@@ -21,15 +23,16 @@ def parse_pdf_ebom(file_bytes):
 
     return safe_normalize_columns(pd.DataFrame(rows))
 
+
 def load_ebom(file_bytes, filename):
-    ext = os.path.splitext(filename)[1].lower()         
+    ext = os.path.splitext(filename)[1].lower()
     if ext == ".csv":
         detected = chardet.detect(file_bytes)
         encoding = detected["encoding"] or "utf-8"
         df = pd.read_csv(io.BytesIO(file_bytes), encoding=encoding)
         df = safe_normalize_columns(df)
         return df
-        
+
     elif ext in [".xls", ".xlsx"]:
         return pd.read_excel(io.BytesIO(file_bytes))
 
@@ -42,6 +45,7 @@ def load_ebom(file_bytes, filename):
 
     else:
         raise ValueError(f"Unsupported file type: {ext}")
+
 
 def normalize_ebom_columns(df):
     rename_map = {}

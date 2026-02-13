@@ -3,6 +3,7 @@ import os
 
 LOCAL_UPDATES_FILE = "federated/local_updates.json"
 
+
 def log_human_feedback(feedback: dict):
     """
     feedback example:

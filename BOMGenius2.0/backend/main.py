@@ -1,26 +1,25 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, UploadFile, File
 import pandas as pd
-import io
+import os
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-import sys, os
+from federated.local_trainer import log_human_feedback, export_local_updates
+from core.engine import generate_mbom
+from core.ebom_loader import load_ebom
+from repo.DB import init_db, save_mbom
+from ocr.ebom_from_image import ebom_from_image
+import tempfile
+from typing import Optional
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
 
-from federated.local_trainer import log_human_feedback, export_local_updates
-from core.engine import generate_mbom
-from core.ebom_loader import load_ebom  
-from repo.DB import init_db, save_mbom, fetch_mbom
-from ocr.ebom_from_image import ebom_from_image
-import tempfile
 
-
-#C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
+# C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
 
 app = FastAPI(title="BOMGenius API")
 
@@ -33,6 +32,7 @@ app.add_middleware(
 
 app.mount("/frontend", StaticFiles(directory=frontend_path), name="frontend")
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -41,20 +41,22 @@ async def lifespan(app: FastAPI):
     # Shutdown (optional cleanup)
     print("API shutting down...")
 
+
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "BOMGenius API"}
+
 
 @app.get("/")
 def home():
     return FileResponse(os.path.join(frontend_path, "home.html"))
 
-from typing import Optional
+
+
 
 @app.post("/fullbomconverter")
 async def generate_mbom_api(
-    ebom: UploadFile = File(...),
-    inventory: Optional[UploadFile] = File(None)
+    ebom: UploadFile = File(...), inventory: Optional[UploadFile] = File(None)
 ):
     ebom_bytes = await ebom.read()
     ext = os.path.splitext(ebom.filename)[1].lower()
@@ -79,8 +81,9 @@ async def generate_mbom_api(
 
     return {
         "columns": list(df_final.columns),
-        "rows": df_final.to_dict(orient="records")
+        "rows": df_final.to_dict(orient="records"),
     }
+
 
 @app.post("/ebom/ocr")
 async def ebom_from_image_api(file: UploadFile = File(...)):
@@ -92,10 +95,8 @@ async def ebom_from_image_api(file: UploadFile = File(...)):
 
     df_ebom = ebom_from_image(tmp_path)
 
-    return {
-        "columns": list(df_ebom.columns),
-        "rows": df_ebom.to_dict(orient="records")
-    }
+    return {"columns": list(df_ebom.columns), "rows": df_ebom.to_dict(orient="records")}
+
 
 @app.get("/mbom/history")
 def get_mbom_history():
@@ -114,12 +115,14 @@ def get_mbom_history():
 
     for ts, count in rows:
         dt = datetime.fromisoformat(ts)
-        history.append({
-            "timestamp": ts,
-            "date": dt.strftime("%d-%m-%Y"),
-            "time": dt.strftime("%I:%M %p"),
-            "rows": count
-        })
+        history.append(
+            {
+                "timestamp": ts,
+                "date": dt.strftime("%d-%m-%Y"),
+                "time": dt.strftime("%I:%M %p"),
+                "rows": count,
+            }
+        )
 
     return history
 
@@ -130,10 +133,7 @@ def get_mbom_by_timestamp(ts: str):
     import pandas as pd
 
     with sqlite3.connect("bomgenius.db") as conn:
-        data = conn.execute(
-            "SELECT * FROM mbom WHERE timestamp = ?",
-            (ts,)
-        ).fetchall()
+        data = conn.execute("SELECT * FROM mbom WHERE timestamp = ?", (ts,)).fetchall()
 
     if not data:
         return {"columns": [], "rows": []}
@@ -152,15 +152,13 @@ def get_mbom_by_timestamp(ts: str):
         "scrap",
         "plant",
         "storage_location",
-        "timestamp"
+        "timestamp",
     ]
 
     df = pd.DataFrame(data, columns=columns)
 
-    return {
-        "columns": list(df.columns),
-        "rows": df.to_dict(orient="records")
-    }
+    return {"columns": list(df.columns), "rows": df.to_dict(orient="records")}
+
 
 class Feedback(BaseModel):
     part_no: str
@@ -168,18 +166,22 @@ class Feedback(BaseModel):
     correct_uom: str | None = None
     correct_work_center: str | None = None
 
+
 @app.post("/feedback")
 def submit_feedback(feedback: Feedback):
     log_human_feedback(feedback.dict())
     return {"status": "feedback recorded"}
 
+
 @app.get("/federated/export")
 def federated_export():
     return export_local_updates()
 
+
 @app.post("/federated/import")
 def federated_import(global_rules: dict):
     import json
+
     os.makedirs("federated", exist_ok=True)
     with open("federated/global_rules.json", "w") as f:
         json.dump(global_rules, f, indent=2)

@@ -1,5 +1,4 @@
 import pandas as pd
-import io
 import ollama
 import torch
 from sentence_transformers import SentenceTransformer, util
@@ -19,17 +18,17 @@ CANONICAL_FIELDS = {
 
 schema_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
 
-CANONICAL_EMBEDDINGS = {
-    k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()
-}
+CANONICAL_EMBEDDINGS = {k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()}
 
 GLOBAL_RULES_FILE = "federated/global_rules.json"
+
 
 def load_global_rules():
     if os.path.exists(GLOBAL_RULES_FILE):
         with open(GLOBAL_RULES_FILE, "r") as f:
             return json.load(f)
     return {}
+
 
 def learn_ebom_schema(df):
     col_map = {}
@@ -46,6 +45,7 @@ def learn_ebom_schema(df):
             col_map[col] = "unknown_" + col
     return col_map
 
+
 def learn_inventory_schema(df):
     col_map = {}
     for col in df.columns:
@@ -59,11 +59,13 @@ def learn_inventory_schema(df):
             col_map[col] = best_match
     return col_map
 
+
 def normalize_inventory(df, col_map):
     norm = pd.DataFrame()
     for raw_col, canon in col_map.items():
         norm[canon] = df[raw_col]
     return norm
+
 
 def generate_mbom(ebom_df, inv_df):
     ebom_schema = learn_ebom_schema(ebom_df)
@@ -74,7 +76,7 @@ def generate_mbom(ebom_df, inv_df):
 
     global_rules = load_global_rules()
     global_context = json.dumps(global_rules, indent=2)
-    
+
     inv_context = normalized_inv.to_csv(index=False)
     ebom_context = normalized_ebom.to_csv(index=False)
 
@@ -114,27 +116,38 @@ Do not use markdown blocks.
     response = ollama.generate(
         model=MODEL_NAME,
         prompt=prompt,
-        options={"temperature": 0.0, "num_ctx": 4096, "seed": 42}
+        options={"temperature": 0.0, "num_ctx": 4096, "seed": 42},
     )
 
     raw = response["response"]
-    lines = [l.strip() for l in raw.split("\n") if "|" in l]
+    lines = [line.strip() for line in raw.split("\n") if "|" in line]
 
     # TODO: No hardcoded values should be handled in dynamic way
     EXPECTED_MBOM_COLS = 13
 
-    parsed = [l.split("|") for l in lines]
+    parsed = [line.split("|") for line in lines]
     bad_rows = [r for r in parsed if len(r) != EXPECTED_MBOM_COLS]
 
     if bad_rows:
         raise ValueError(f"Invalid mBOM rows from LLM: {bad_rows[:2]}")
 
-    df_final = pd.DataFrame(parsed, columns=[
-    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
-    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
-])
-
-
+    df_final = pd.DataFrame(
+        parsed,
+        columns=[
+            "Parent_Part_No",
+            "Child_Part_No",
+            "Description",
+            "Qty_Per",
+            "UOM",
+            "BOM_Level",
+            "Op_Sequence",
+            "Work_Center",
+            "Make_Buy",
+            "Backflush_Ind",
+            "Scrap_Pct",
+            "Plant",
+            "Bin_Location",
+        ],
+    )
 
     return df_final

@@ -231,3 +231,26 @@ def delete_company(cid: int):
         )
 
     return {"status": "deleted"}
+
+@app.patch("/company/{cid}/status")
+def toggle_company_status(cid: int):
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        cur = conn.cursor()
+
+        cur.execute("SELECT is_active FROM companies WHERE id=?", (cid,))
+        row = cur.fetchone()
+
+        if not row:
+            return {"error": "company not found"}
+
+        current = row[0]
+        new_status = 0 if current == 1 else 1
+
+        cur.execute(
+            "UPDATE companies SET is_active=? WHERE id=?",
+            (new_status, cid)
+        )
+
+    return {"status": "changed", "is_active": new_status}

@@ -65,7 +65,60 @@ def normalize_inventory(df, col_map):
         norm[canon] = df[raw_col]
     return norm
 
-def generate_mbom(ebom_df, inv_df):
+def generate_mbom(ebom_df, inv_df=None):
+
+    if inv_df is not None and not inv_df.empty:
+        return generate_mbom_with_inventory(ebom_df, inv_df)
+    else:
+        return generate_mbom_without_inventory(ebom_df)
+
+def generate_mbom_without_inventory(ebom_df):
+
+    ebom_schema = learn_ebom_schema(ebom_df)
+    normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
+
+    global_rules = load_global_rules()
+    global_context = json.dumps(global_rules, indent=2)
+    
+    ebom_context = normalized_ebom.to_csv(index=False)
+
+    prompt = f"""
+SYSTEM ROLE:
+You are a senior Manufacturing BOM Engineer AI.
+
+OBJECTIVE:
+Transform the given Engineering BOM (eBOM) into a logical Manufacturing BOM (mBOM).
+
+EBOM:
+{ebom_context}
+
+IMPORTANT:
+No factory inventory data is provided.
+
+Use manufacturing reasoning only.
+
+MAKE/BUY LOGIC:
+- Standard fasteners (bolt, nut, rivet, washer) → BUY
+- Raw materials, fabricated parts → MAKE
+- Consumables (adhesive, grease, paint) → BUY
+- If unclear → infer intelligently
+
+WORK CENTER LOGIC:
+- Welding parts → Welding
+- Mechanical join → Assembly
+- Inspection parts → QC
+- Final stage → Packaging
+
+BIN_LOCATION:
+If no inventory, set NA.
+
+Other hierarchy rules remain same.
+
+Output strictly pipe-delimited CSV.
+No markdown.
+"""
+
+def generate_mbom_with_inventory(ebom_df, inv_df):
     ebom_schema = learn_ebom_schema(ebom_df)
     normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
 
@@ -137,3 +190,4 @@ Do not use markdown blocks.
 
 
     return df_final
+

@@ -184,3 +184,23 @@ def federated_import(global_rules: dict):
     with open("federated/global_rules.json", "w") as f:
         json.dump(global_rules, f, indent=2)
     return {"status": "global rules updated"}
+
+@app.get("/company")
+def get_companies():
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        rows = conn.execute(
+            "SELECT id, name, created_at, last_login, is_active FROM companies"
+        ).fetchall()
+
+    return [
+        {
+            "id": r[0],
+            "name": r[1],
+            "created_at": r[2],
+            "last_login": r[3],
+            "is_active": r[4]
+        }
+        for r in rows
+    ]

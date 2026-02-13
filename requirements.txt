@@ -1,0 +1,11 @@
+fastapi
+pandas
+ollama
+torch
+sentence_transformers
+pdfplumber
+python-multipart
+uvicorn
+federated
+tensorflow-federated
+chardet

@@ -120,6 +120,7 @@ Do not use markdown blocks.
     raw = response["response"]
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
+    # TODO: No hardcoded values should be handled in dynamic way
     EXPECTED_MBOM_COLS = 13
 
     parsed = [l.split("|") for l in lines]

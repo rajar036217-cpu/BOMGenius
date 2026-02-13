@@ -3,6 +3,7 @@ import json
 import io
 import os
 import pdfplumber
+import chardet
 
 def safe_normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = [str(c).strip().lower().replace(" ", "_") for c in df.columns]
@@ -22,10 +23,6 @@ def parse_pdf_ebom(file_bytes):
 
 def load_ebom(file_bytes, filename):
     ext = os.path.splitext(filename)[1].lower()         
-
-    if ext == ".csv":
-        
-
     if ext == ".csv":
         detected = chardet.detect(file_bytes)
         encoding = detected["encoding"] or "utf-8"

@@ -2,7 +2,7 @@ import json
 import pandas as pd
 from .vision_ollama import run_vision_inference
 
-VISION_MODEL = "llava"
+VISION_MODEL = "glm-ocr:q8_0"
 
 def ebom_from_image(image_path: str) -> pd.DataFrame:
     prompt = """
@@ -27,7 +27,7 @@ No markdown. No commentary. Only JSON.
     raw_text = run_vision_inference(VISION_MODEL, image_path, prompt)
 
     try:
-        data = json.loads(raw_text)
+        data = raw_text
         return pd.DataFrame(data)
     except Exception as e:
-        raise ValueError(f"OCR model did not return valid JSON:\n{raw_text}")
+        raise ValueError(f"OCR model did not return valid JSON:\n{raw_text}\nComplete error: {e}")

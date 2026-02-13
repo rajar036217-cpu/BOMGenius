@@ -8,19 +8,9 @@
 - In vs code install black python formatter
 
 ### To run
-Before running below command ensure you have sourced .venv. Steps can be found [here](#sourcing-venv)
-
 ```bash 
-uvicorn main:app --reload --port 8000
-```
-#### Sourcing .venv
-##### Linux
-```bash
-source .venv/bin/activate
-```
-##### Windows
-```powershell
-.\venv\Scripts\activate.bat
+cd BOMGenius/BOMGenius2.0/backend
+uv run uvicorn main:app --reload --port 8000
 ```
 
 ### TODO

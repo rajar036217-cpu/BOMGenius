@@ -219,3 +219,15 @@ def update_company(cid: int, data: CompanyUpdate):
         )
 
     return {"status": "updated"}
+
+@app.delete("/company/{cid}")
+def delete_company(cid: int):
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        conn.execute(
+            "DELETE FROM companies WHERE id=?",
+            (cid,)
+        )
+
+    return {"status": "deleted"}

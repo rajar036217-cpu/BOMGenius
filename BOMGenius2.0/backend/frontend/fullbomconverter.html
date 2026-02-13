@@ -141,32 +141,23 @@
 
   <div class="flex justify-center items-center gap-6 mt-16 relative">
 
-  <button onclick="generateMBOM()"
+  <button id="generateBtn" onclick="generateMBOM()"
     class="bg-blue-700 hover:bg-blue-800 px-12 py-5 rounded-2xl text-xl font-bold text-white shadow-2xl transform active:scale-95 transition-all">
     Generate M-BOM
   </button>
 
-  <!-- Download Dropdown -->
-  <div class="relative">
-    <button onclick="toggleDownloadDropdown()" disabled
-      class="bg-white border border-blue-700 text-blue-800 hover:bg-blue-50 px-10 py-5 rounded-2xl text-xl font-bold shadow-xl transition-all">
+  <!-- Download Dropdown (HIDDEN INITIALLY) -->
+  <div id="downloadWrapper" class="relative hidden">
+    <button id="downloadBtn" onclick="toggleDownloadDropdown()"
+      class="bg-white border border-blue-700 text-blue-800 px-10 py-5 rounded-2xl text-xl font-bold shadow-xl transition-all">
       Download ▼
     </button>
 
     <div id="downloadDropdown"
          class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border z-50">
-      <button onclick="downloadCSV()"
-        class="block w-full text-left px-5 py-3 hover:bg-blue-50">
-        CSV
-      </button>
-      <button onclick="downloadExcel()"
-        class="block w-full text-left px-5 py-3 hover:bg-blue-50">
-        Excel
-      </button>
-      <button onclick="downloadXML()"
-        class="block w-full text-left px-5 py-3 hover:bg-blue-50">
-        XML
-      </button>
+      <button onclick="downloadCSV()" class="block w-full text-left px-5 py-3 hover:bg-blue-50">CSV</button>
+      <button onclick="downloadExcel()" class="block w-full text-left px-5 py-3 hover:bg-blue-50">Excel</button>
+      <button onclick="downloadXML()" class="block w-full text-left px-5 py-3 hover:bg-blue-50">XML</button>
     </div>
   </div>
 
@@ -200,10 +191,6 @@
       
     </table>
   </div>
-
-</section>
-
-  
 
 </section>
 
@@ -305,7 +292,13 @@ async function generateMBOM() {
     });
 
     document.getElementById("resultSection").classList.remove("hidden");
+    document.getElementById("downloadWrapper").classList.remove("hidden");
 
+    const generateBtn = document.getElementById("generateBtn");
+    generateBtn.classList.add("ring-4", "ring-blue-400", "ring-opacity-70");
+    setTimeout(() => generateBtn.classList.remove("ring-4", "ring-blue-400", "ring-opacity-70"), 1500);
+
+    
   } catch (err) {
     console.error("MBOM Generation failed:", err);
     alert("Backend error. Check console + backend logs.");
@@ -329,7 +322,7 @@ function downloadCSV() {
   let csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
   let downloadLink = document.createElement("a");
 
-  downloadLink.download = "MBOM_Report.csv";
+  downloadLink.download = "mBOM.csv";
   downloadLink.href = window.URL.createObjectURL(csvFile);
   downloadLink.style.display = "none";
 
@@ -343,7 +336,7 @@ function downloadExcel() {
   let link = document.createElement("a");
 
   link.href = URL.createObjectURL(blob);
-  link.download = "MBOM_Report.xls";
+  link.download = "mBOM.xls";
   link.click();
 }
 
@@ -369,7 +362,7 @@ function downloadXML() {
   let link = document.createElement("a");
 
   link.href = URL.createObjectURL(blob);
-  link.download = "MBOM_Report.xml";
+  link.download = "mBOM.xml";
   link.click();
 }
 </script>
@@ -487,5 +480,6 @@ async function generateMBOM() {
 </body>
 
 </html>
+
 
 

@@ -31,6 +31,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+class LoginRequest(BaseModel):
+    company_name: str
+    company_id: str
+    password: str
+
+class RegisterRequest(BaseModel):
+    full_name:str
+    email: str
+    company_address: str
+    password: str
+    confirm_password: str
+    
+class FeedbackRequest(BaseModel):
+    message: str
+
+class SettingsRequest(BaseModel):
+    company: str
+    email: str
+
 app.mount("/frontend", StaticFiles(directory=frontend_path), name="frontend")
 
 @asynccontextmanager
@@ -50,6 +70,27 @@ def home():
     return FileResponse(os.path.join(frontend_path, "home.html"))
 
 from typing import Optional
+
+
+@app.post("/login")
+def login(data: LoginRequest):
+    return {"message": "Login successful"}
+
+@app.post("/register")
+def register(data: RegisterRequest):
+    return {"message": "User registered successfully"}
+
+@app.post("/forgot-password")
+def forgot_password(email: str):
+    return {"message": "Reset link sent"}
+
+@app.post("/feedback")
+def feedback(data: FeedbackRequest):
+    return {"message": "Feedback submitted"}
+
+@app.post("/settings")
+def save_settings(data: SettingsRequest):
+    return {"message": "Settings saved"}
 
 @app.post("/fullbomconverter")
 async def generate_mbom_api(
@@ -254,3 +295,4 @@ def toggle_company_status(cid: int):
         )
 
     return {"status": "changed", "is_active": new_status}
+

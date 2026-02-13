@@ -204,3 +204,18 @@ def get_companies():
         }
         for r in rows
     ]
+
+class CompanyUpdate(BaseModel):
+    name: str
+
+@app.put("/company/{cid}")
+def update_company(cid: int, data: CompanyUpdate):
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        conn.execute(
+            "UPDATE companies SET name=? WHERE id=?",
+            (data.name, cid)
+        )
+
+    return {"status": "updated"}

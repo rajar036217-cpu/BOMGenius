@@ -72,3 +72,20 @@ def fetch_mbom():
     with sqlite3.connect(DB_NAME) as conn:
 
         return conn.execute("SELECT * FROM mbom").fetchall()
+
+from pydantic import BaseModel
+import sqlite3, datetime
+
+class CompanyCreate(BaseModel):
+    name: str
+
+@app.post("/company")
+def create_company(data: CompanyCreate):
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        conn.execute(
+            "INSERT INTO companies (name, created_at) VALUES (?, ?)",
+            (data.name, datetime.datetime.now().isoformat())
+        )
+
+    return {"status": "company created"}

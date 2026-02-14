@@ -73,51 +73,60 @@ def generate_mbom(ebom_df, inv_df=None):
         return generate_mbom_without_inventory(ebom_df)
 
 def generate_mbom_without_inventory(ebom_df):
-
     ebom_schema = learn_ebom_schema(ebom_df)
     normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
 
     global_rules = load_global_rules()
     global_context = json.dumps(global_rules, indent=2)
-    
+
     ebom_context = normalized_ebom.to_csv(index=False)
 
     prompt = f"""
-SYSTEM ROLE:
 You are a senior Manufacturing BOM Engineer AI.
-
-OBJECTIVE:
-Transform the given Engineering BOM (eBOM) into a logical Manufacturing BOM (mBOM).
+Transform the given eBOM into mBOM.
 
 EBOM:
 {ebom_context}
 
-IMPORTANT:
-No factory inventory data is provided.
-
+No factory inventory is provided.
 Use manufacturing reasoning only.
 
-MAKE/BUY LOGIC:
-- Standard fasteners (bolt, nut, rivet, washer) → BUY
-- Raw materials, fabricated parts → MAKE
-- Consumables (adhesive, grease, paint) → BUY
-- If unclear → infer intelligently
+Rules:
+- Fasteners → BUY
+- Fabricated parts → MAKE
+- Consumables → BUY
+- If unclear → infer logically
+- If no inventory → Bin_Location = NA
 
-WORK CENTER LOGIC:
-- Welding parts → Welding
-- Mechanical join → Assembly
-- Inspection parts → QC
-- Final stage → Packaging
-
-BIN_LOCATION:
-If no inventory, set NA.
-
-Other hierarchy rules remain same.
-
-Output strictly pipe-delimited CSV.
+Output strictly PIPE-delimited CSV.
 No markdown.
 """
 
+    response = ollama.generate(
+        model=MODEL_NAME,
+        prompt=prompt,
+        options={"temperature": 0.0, "num_ctx": 4096, "seed": 42}
+    )
+
+    raw = response["response"]
+
+    lines = [l.strip() for l in raw.split("\n") if "|" in l]
+
+    EXPECTED_MBOM_COLS = 13
+    parsed = [l.split("|") for l in lines]
+
+    bad_rows = [r for r in parsed if len(r) != EXPECTED_MBOM_COLS]
+    if bad_rows:
+        raise ValueError(f"Invalid mBOM rows from LLM: {bad_rows[:2]}")
+
+    df_final = pd.DataFrame(parsed, columns=[
+        "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
+        "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
+        "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
+    ])
+
+    return df_final
+    
 def generate_mbom_with_inventory(ebom_df, inv_df):
     ebom_schema = learn_ebom_schema(ebom_df)
     normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
@@ -190,4 +199,5 @@ Do not use markdown blocks.
 
 
     return df_final
+
 

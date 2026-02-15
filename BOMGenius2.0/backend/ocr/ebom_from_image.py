@@ -1,10 +1,10 @@
 import pandas as pd
+import json
+import os
+from pdf2image import convert_from_path
 from .vision_ollama import run_vision_inference
 
 VISION_MODEL = "glm-ocr:q8_0"
-
-
-def ebom_from_image(image_path: str) -> pd.DataFrame:
     
     prompt = """
 You are an OCR + PLM structured data extraction agent.
@@ -55,12 +55,34 @@ Then return:
 Extract the complete Engineering BOM table now.
 """
 
-    raw_text = run_vision_inference(VISION_MODEL, image_path, prompt)
+   if file_path.lower().endswith(".pdf"):
 
-    try:
-        data = raw_text
-        return pd.DataFrame(data)
-    except Exception as e:
-        raise ValueError(
-            f"OCR model did not return valid JSON:\n{raw_text}\nComplete error: {e}"
-        )
+        images = convert_from_path(file_path)
+        all_rows = []
+
+        for i, img in enumerate(images):
+            temp_img = f"temp_page_{i}.png"
+            img.save(temp_img, "PNG")
+
+            raw = run_vision_inference(VISION_MODEL, temp_img, prompt)
+
+            try:
+                parsed = json.loads(raw)
+                all_rows.extend(parsed)
+            except Exception:
+                raise ValueError(f"Model did not return valid JSON:\n{raw}")
+
+        return pd.DataFrame(all_rows)
+       
+    elif file_path.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
+
+        raw_text = run_vision_inference(VISION_MODEL, file_path, prompt)
+
+        try:
+            data = json.loads(raw_text)
+            return pd.DataFrame(data)
+        except Exception:
+            raise ValueError(f"Model did not return valid JSON:\n{raw_text}")
+
+    else:
+        raise ValueError("Unsupported file format")

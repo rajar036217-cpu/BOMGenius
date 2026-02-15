@@ -18,122 +18,106 @@
 
 <body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
 
-<!-- ===== GLASS NAVBAR ===== -->
-<header class="sticky top-0 z-50
-               flex justify-between items-center
-               px-12 py-6
-               bg-white/30 backdrop-blur-xl
-               border-b border-white/40
-               nav-shadow">
-
-  <!-- Logo -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 bg-white/30 backdrop-blur-xl border-b border-white/40 nav-shadow">
   <h1 class="text-3xl font-bold text-blue-900 tracking-wide">
     BOM Genius
   </h1>
 
-  <!-- Navigation -->
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="home.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">
-      Home
-    </a>
-    <a href="/frontend/fullbomconverter.html" class="hover:text-blue-700 transition">BOM Converter</a>
-    <a href="/frontend/feedback.html" class="hover:text-blue-700 transition">Federated Learning</a>
-    <a href="/frontend/settings.html" class="hover:text-blue-700 transition">Settings</a>
-    <a href="/frontend/history.html" class="hover:text-blue-700 transition">History</a>
+    <a href="home.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Home</a>
+    <a href="fullbomconverter.html" class="hover:text-blue-700 transition">BOM Converter</a>
+    <a href="feedback.html" class="hover:text-blue-700 transition">Feedback</a>
+    <a href="settings.html" class="hover:text-blue-700 transition">Settings</a>
+    <a href="history.html" class="hover:text-blue-700 transition">History</a>
   </nav>
 
-  <!-- Company Dropdown -->
   <div class="relative">
-    <button onclick="toggleDropdown()" 
-      class="font-medium text-blue-900 focus:outline-none">
+    <button onclick="toggleDropdown()" class="font-medium text-blue-900">
       Company: <span class="font-semibold">ABC Industries ▼</span>
     </button>
 
-    <!-- Dropdown Menu -->
-    <div id="dropdownMenu" 
-         class="hidden absolute right-0 mt-3 w-40
-                bg-white/90 backdrop-blur-md
-                rounded-xl shadow-lg border border-gray-200">
-
+    <div id="dropdownMenu"
+         class="hidden absolute right-0 mt-3 w-40 bg-white/90 backdrop-blur-md rounded-xl shadow-lg border border-gray-200">
       <button onclick="logout()"
         class="block w-full text-left px-4 py-3 hover:bg-blue-100 rounded-xl text-blue-900 font-medium">
         Logout
       </button>
     </div>
   </div>
-
 </header>
 
-<!-- ===== HERO SECTION ===== -->
 <section class="py-16 text-center">
   <h2 class="text-4xl font-bold text-blue-900 mb-4">
     Dashboard Overview
   </h2>
   <p class="text-gray-700 max-w-2xl mx-auto">
-    Monitor your BOM conversion performance, efficiency, and accuracy insights in real time.
+    Monitor your BOM conversion performance in real time.
   </p>
 </section>
 
-<!-- ===== CARDS SECTION ===== -->
 <section class="px-12 pb-20">
   <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
         Accuracy Maintained
       </h2>
-      <p class="text-5xl font-bold">96.8%</p>
-      <p class="text-gray-600 mt-3">
-        Based on previous mBOM generations
-      </p>
+      <p id="accuracy" class="text-5xl font-bold">--%</p>
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
         BOMs Generated
       </h2>
-      <p class="text-5xl font-bold">128</p>
-      <p class="text-gray-600 mt-3">
-        Total successful conversions
-      </p>
+      <p id="count" class="text-5xl font-bold">--</p>
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
         Avg Time per BOM
       </h2>
-      <p class="text-5xl font-bold">4.2s</p>
-      <p class="text-gray-600 mt-3">
-        Faster than manual processing
-      </p>
+      <p id="time" class="text-5xl font-bold">--s</p>
     </div>
 
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer class="text-center py-8 text-gray-700 text-sm">
   © 2026 BOM Genius. All rights reserved.
 </footer>
 
-<!-- ===== SCRIPT ===== -->
 <script>
-  function toggleDropdown() {
-    document.getElementById("dropdownMenu").classList.toggle("hidden");
-  }
+function toggleDropdown() {
+  document.getElementById("dropdownMenu").classList.toggle("hidden");
+}
 
-  function logout() {
-    window.location.href = "index.html";
-  }
+function logout() {
+  window.location.href = "index.html";
+}
 
-  // Close dropdown if clicked outside
-  window.onclick = function(event) {
-    if (!event.target.closest('.relative')) {
-      document.getElementById("dropdownMenu").classList.add("hidden");
-    }
+window.onclick = function(event) {
+  if (!event.target.closest('.relative')) {
+    document.getElementById("dropdownMenu").classList.add("hidden");
   }
+}
+
+// 🔥 API CALL TO BACKEND
+async function loadDashboard() {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/dashboard");
+    const data = await response.json();
+
+    document.getElementById("accuracy").innerText = data.accuracy + "%";
+    document.getElementById("count").innerText = data.total_boms;
+    document.getElementById("time").innerText = data.avg_time + "s";
+
+  } catch (error) {
+    console.error("Error loading dashboard:", error);
+  }
+}
+
+loadDashboard();
 </script>
 
 </body>
-
 </html>

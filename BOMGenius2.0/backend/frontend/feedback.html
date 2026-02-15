@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Federated Learning - BOM Genius</title>
+<title>Feedback - BOM Genius</title>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
@@ -31,7 +31,7 @@
   <nav class="flex space-x-10 text-lg font-medium">
     <a href="home.html" class="hover:text-blue-700">Home</a>
     <a href="fullbomconverter.html" class="hover:text-blue-700">BOM Converter</a>
-    <a href="feedback.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Federated Learning</a>
+    <a href="feedback.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Feedback</a>
     <a href="settings.html" class="hover:text-blue-700">Settings</a>
     <a href="history.html" class="hover:text-blue-700">History</a>
   </nav>
@@ -70,7 +70,7 @@
 <section class="px-10 py-16 max-w-4xl mx-auto">
 
   <h2 class="text-4xl font-bold text-center text-blue-900 mb-12">
-    M-BOM Correction
+    M-BOM Feedback Correction
   </h2>
 
   <div class="space-y-8">
@@ -78,23 +78,23 @@
     <!-- E-BOM -->
     <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 dark-shadow">
       <label class="block text-lg mb-3 text-blue-900 font-semibold">
-        Upload E-BOM item
+        Generated E-BOM Output
       </label>
       <textarea id="ebom"
         class="w-full p-4 rounded-xl border border-gray-300"
         rows="3"
-        placeholder="Enter E-BOM details here..."></textarea>
+        placeholder="Enter generated E-BOM details..."></textarea>
     </div>
 
     <!-- Generated M-BOM -->
     <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 dark-shadow">
       <label class="block text-lg mb-3 text-blue-900 font-semibold">
-        Generated M-BOM item
+        Generated M-BOM Output
       </label>
       <textarea id="generated"
         class="w-full p-4 rounded-xl border border-gray-300"
         rows="3"
-        placeholder="Enter generated M-BOM details..."></textarea>
+        placeholder="Enter generated M-BOM..."></textarea>
     </div>
 
     <!-- Expected M-BOM -->
@@ -197,5 +197,4 @@ function resetForm() {
 </footer>
 
 </body>
-
 </html>

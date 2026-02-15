@@ -44,14 +44,14 @@
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="/" class="hover:text-blue-700">Home</a>
-    <a href="/frontend/fullbomconverter.html" 
+    <a href="home.html" class="hover:text-blue-700">Home</a>
+    <a href="fullbomconverter.html" 
        class="text-blue-900 border-b-2 border-blue-900 pb-1">
        BOM Converter
     </a>
-    <a href="/frontend/feedback.html" class="hover:text-blue-700">Federated Learning</a>
-    <a href="/frontend/settings.html" class="hover:text-blue-700">Settings</a>
-    <a href="/frontend/history.html" class="hover:text-blue-700">History</a> 
+    <a href="feedback.html" class="hover:text-blue-700">Feedback</a>
+    <a href="settings.html" class="hover:text-blue-700">Settings</a>
+    <a href="history.html" class="hover:text-blue-700">History</a> 
   </nav>
 
   <div class="relative">
@@ -139,41 +139,12 @@
 
   </div>
 
-  <div class="flex justify-center items-center gap-6 mt-16 relative">
-
-  <button id="generateBtn" onclick="generateMBOM()"
-    class="bg-blue-700 hover:bg-blue-800 px-12 py-5 rounded-2xl text-xl font-bold text-white shadow-2xl transform active:scale-95 transition-all">
-    Generate M-BOM
-  </button>
-
-  <!-- Download Dropdown (HIDDEN INITIALLY) -->
-  <div id="downloadWrapper" class="relative hidden">
-    <button id="downloadBtn" onclick="toggleDownloadDropdown()"
-      class="bg-white border border-blue-700 text-blue-800 px-10 py-5 rounded-2xl text-xl font-bold shadow-xl transition-all">
-      Download ▼
+  <div class="text-center mt-16">
+    <button onclick="generateMBOM()"
+      class="bg-blue-700 hover:bg-blue-800 px-16 py-5 rounded-2xl text-xl font-bold text-white shadow-2xl transform active:scale-95 transition-all">
+      Generate M-BOM
     </button>
-
-    <div id="downloadDropdown"
-         class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border z-50">
-      <button onclick="downloadCSV()" class="block w-full text-left px-5 py-3 hover:bg-blue-50">CSV</button>
-      <button onclick="downloadExcel()" class="block w-full text-left px-5 py-3 hover:bg-blue-50">Excel</button>
-      <button onclick="downloadXML()" class="block w-full text-left px-5 py-3 hover:bg-blue-50">XML</button>
-    </div>
   </div>
-
-</div>
-
-<!-- Loading Spinner -->
-<div id="loadingSpinner" class="hidden flex justify-center mt-8">
-  <div class="w-12 h-12 border-4 border-blue-300 border-t-blue-800 rounded-full animate-spin"></div>
-  <div id="progressText" class="text-blue-800 font-semibold text-lg">
-    Parsing BOM…
-  </div>
-</div>
-
-<!-- Toast Container -->
-<div id="toastContainer" class="fixed top-6 right-6 space-y-3 z-50"></div>
-
 
   <!-- Result Section (Initially Hidden) -->
 <section id="resultSection" class="hidden mt-6">
@@ -191,6 +162,10 @@
       
     </table>
   </div>
+
+</section>
+
+  
 
 </section>
 
@@ -230,24 +205,18 @@ function handleToggle() {
 handleToggle();
 
 async function generateMBOM() {
-
-  const spinner = document.getElementById("loadingSpinner");
-  spinner.classList.remove("hidden");
-  
   const useInventory = document.getElementById("inventoryToggle").checked;
   const ebomFile = document.getElementById("ebomInput").files[0];
   const inventoryFile = document.getElementById("inventoryInput").files[0];
 
   if(!ebomFile) {
-    spinner.classList.add("hidden");
-    alert("Please upload Engineering BOM first!");
-    return;
+      alert("Please upload Engineering BOM first!");
+      return;
   }
 
   if (useInventory && !inventoryFile) {
-    spinner.classList.add("hidden");
-    alert("Please upload Factory Inventory or switch to 'Without Inventory' mode.");
-    return;
+      alert("Please upload Factory Inventory or switch to 'Without Inventory' mode.");
+      return;
   }
 
   alert(useInventory ? "Generating M-BOM WITH Inventory..." : "Generating M-BOM WITHOUT Inventory...");
@@ -292,18 +261,11 @@ async function generateMBOM() {
     });
 
     document.getElementById("resultSection").classList.remove("hidden");
-    document.getElementById("downloadWrapper").classList.remove("hidden");
 
-    const generateBtn = document.getElementById("generateBtn");
-    generateBtn.classList.add("ring-4", "ring-blue-400", "ring-opacity-70");
-    setTimeout(() => generateBtn.classList.remove("ring-4", "ring-blue-400", "ring-opacity-70"), 1500);
-
-    
   } catch (err) {
     console.error("MBOM Generation failed:", err);
     alert("Backend error. Check console + backend logs.");
-  } finally {
-    spinner.classList.add("hidden");
+  }
 }
 
 function downloadCSV() {
@@ -322,157 +284,15 @@ function downloadCSV() {
   let csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
   let downloadLink = document.createElement("a");
 
-  downloadLink.download = "mBOM.csv";
+  downloadLink.download = "MBOM_Report.csv";
   downloadLink.href = window.URL.createObjectURL(csvFile);
   downloadLink.style.display = "none";
 
   document.body.appendChild(downloadLink);
   downloadLink.click();
 }
-
-function downloadExcel() {
-  let table = document.getElementById("mbomTable").outerHTML;
-  let blob = new Blob([table], { type: "application/vnd.ms-excel" });
-  let link = document.createElement("a");
-
-  link.href = URL.createObjectURL(blob);
-  link.download = "mBOM.xls";
-  link.click();
-}
-
-function downloadXML() {
-  const table = document.getElementById("mbomTable");
-  let rows = table.querySelectorAll("tr");
-  let xml = `<?xml version="1.0" encoding="UTF-8"?><MBOM>`;
-
-  const headers = Array.from(rows[0].querySelectorAll("th")).map(h => h.innerText);
-
-  rows.forEach((row, i) => {
-    if (i === 0) return;
-    xml += "<Row>";
-    row.querySelectorAll("td").forEach((cell, idx) => {
-      xml += `<${headers[idx]}>${cell.innerText}</${headers[idx]}>`;
-    });
-    xml += "</Row>";
-  });
-
-  xml += "</MBOM>";
-
-  let blob = new Blob([xml], { type: "application/xml" });
-  let link = document.createElement("a");
-
-  link.href = URL.createObjectURL(blob);
-  link.download = "mBOM.xml";
-  link.click();
-}
 </script>
 
-  <script>
-let mbomReady = false;
-
-function toggleDownloadDropdown() {
-  if (!mbomReady) return;
-  document.getElementById("downloadDropdown").classList.toggle("hidden");
-}
-
-document.addEventListener("click", function (event) {
-  if (!event.target.closest(".relative")) {
-    document.getElementById("downloadDropdown")?.classList.add("hidden");
-  }
-});
-
-function showToast(message, type = "info") {
-  const toast = document.createElement("div");
-  toast.className = `
-    px-5 py-3 rounded-xl shadow-xl text-white font-semibold transition-all
-    ${type === "success" ? "bg-green-600" : ""}
-    ${type === "error" ? "bg-red-600" : ""}
-    ${type === "info" ? "bg-blue-700" : ""}
-  `;
-  toast.innerText = message;
-
-  document.getElementById("toastContainer").appendChild(toast);
-
-  setTimeout(() => toast.remove(), 3500);
-}
-
-function setProgress(text) {
-  document.getElementById("progressText").innerText = text;
-}
-
-async function generateMBOM() {
-  const spinner = document.getElementById("loadingSpinner");
-  const downloadBtn = document.getElementById("downloadBtn");
-  const generateBtn = document.getElementById("generateBtn");
-
-  mbomReady = false;
-  downloadBtn.disabled = true;
-  downloadBtn.classList.add("opacity-40", "cursor-not-allowed");
-
-  spinner.classList.remove("hidden");
-  setProgress("Parsing eBOM…");
-
-  const useInventory = document.getElementById("inventoryToggle").checked;
-  const ebomFile = document.getElementById("ebomInput").files[0];
-  const inventoryFile = document.getElementById("inventoryInput").files[0];
-
-  if (!ebomFile) {
-    spinner.classList.add("hidden");
-    showToast("Please upload Engineering BOM first!", "error");
-    return;
-  }
-
-  try {
-    setTimeout(() => setProgress("Normalizing schema…"), 600);
-    setTimeout(() => setProgress("Applying factory rules…"), 1200);
-    setTimeout(() => setProgress("Generating Manufacturing BOM…"), 1800);
-
-    const formData = new FormData();
-    formData.append("ebom", ebomFile);
-    if (useInventory) formData.append("inventory", inventoryFile);
-
-    const response = await fetch("http://127.0.0.1:8000/fullbomconverter", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await response.json();
-
-    const thead = document.querySelector("#mbomTable thead");
-    thead.innerHTML = "<tr>" + data.columns.map(c => `<th class="p-3 text-left">${c}</th>`).join("") + "</tr>";
-
-    const tbody = document.querySelector("#mbomTable tbody");
-    tbody.innerHTML = "";
-
-    data.rows.forEach(row => {
-      const tr = document.createElement("tr");
-      tr.className = "border-b hover:bg-gray-50";
-      tr.innerHTML = data.columns.map(col => `<td class="p-3">${row[col] ?? ""}</td>`).join("");
-      tbody.appendChild(tr);
-    });
-
-    document.getElementById("resultSection").classList.remove("hidden");
-
-    // Enable Download
-    mbomReady = true;
-    downloadBtn.disabled = false;
-    downloadBtn.classList.remove("opacity-40", "cursor-not-allowed");
-
-    // Glow animation on Generate button
-    generateBtn.classList.add("ring-4", "ring-blue-400", "ring-opacity-70");
-    setTimeout(() => generateBtn.classList.remove("ring-4", "ring-blue-400", "ring-opacity-70"), 1500);
-
-    showToast("mBOM generated successfully!", "success");
-
-  } catch (err) {
-    console.error(err);
-    showToast("Backend error. Check logs.", "error");
-  } finally {
-    spinner.classList.add("hidden");
-  }
-}
-</script>
-  
 <footer class="text-center py-8 text-gray-700 text-sm">
   © 2026 BOM Genius. All rights reserved.
 </footer>
@@ -480,7 +300,3 @@ async function generateMBOM() {
 </body>
 
 </html>
-
-
-
-

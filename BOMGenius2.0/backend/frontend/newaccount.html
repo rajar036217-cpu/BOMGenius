@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Account - BOM Genius</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center
+             bg-gradient-to-r from-blue-900 via-white to-blue-900 font-sans">
+
+    <div class="bg-white/30 backdrop-blur-xl border border-white/40
+                rounded-2xl shadow-2xl p-10 w-full max-w-lg">
+
+        <h1 class="text-3xl font-bold text-center text-blue-900 mb-8">
+            Create New Account
+        </h1>
+
+        <form id="registerForm" class="space-y-5">
+
+            <div>
+                <label class="block text-blue-900 mb-2 font-medium">
+                    Full Name
+                </label>
+                <input type="text" id="fullname"
+                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div>
+                <label class="block text-blue-900 mb-2 font-medium">
+                    Email
+                </label>
+                <input type="email" id="email"
+                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div>
+                <label class="block text-blue-900 mb-2 font-medium">
+                    Company Address
+                </label>
+                <textarea id="address" rows="3"
+                          class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                          required></textarea>
+            </div>
+
+            <div>
+                <label class="block text-blue-900 mb-2 font-medium">
+                    Password
+                </label>
+                <input type="password" id="password"
+                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div>
+                <label class="block text-blue-900 mb-2 font-medium">
+                    Confirm Password
+                </label>
+                <input type="password" id="confirmPassword"
+                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 rounded-xl bg-blue-900 text-white font-semibold
+                           hover:bg-blue-800 transition shadow-lg">
+                Create Account
+            </button>
+
+        </form>
+    </div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const fullname = document.getElementById("fullname").value;
+    const email = document.getElementById("email").value;
+    const address = document.getElementById("address").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    const response = await fetch("http://127.0.0.1:8000/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fullname: fullname,
+            email: email,
+            address: address,
+            password: password
+        })
+    });
+
+    if (response.ok) {
+        alert("Account created successfully!");
+        window.location.href = "userlogin.html";
+    } else {
+        alert("Registration failed!");
+    }
+});
+</script>
+
+</body>
+</html>

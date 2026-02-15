@@ -6,6 +6,6 @@ sentence_transformers
 pdfplumber
 python-multipart
 uvicorn
-federated
+pdf2image pillow
 tensorflow-federated
 chardet

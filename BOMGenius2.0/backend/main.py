@@ -42,16 +42,49 @@ async def lifespan(app: FastAPI):
     # Shutdown (optional cleanup)
     print("API shutting down...")
 
+#basemodels for request bodies
+class LoginRequest(BaseModel):
+    company_name: str
+    company_id: str
+    password: str
 
-@app.get("/health")
-def health():
-    return {"status": "ok", "service": "BOMGenius API"}
+class RegisterRequest(BaseModel):
+    full_name:str
+    email: str
+    company_address: str
+    password: str
+    confirm_password: str
+    
+class FeedbackRequest(BaseModel):
+    message: str
 
+class SettingsRequest(BaseModel):
+    company: str
+    email: str
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(frontend_path, "home.html"))
+    return FileResponse(os.path.join(frontend_path, "index.html"))
 
+@app.post("/login")
+def login(data: LoginRequest):
+    return {"message": "Login successful"}
+
+@app.post("/register")
+def register(data: RegisterRequest):
+    return {"message": "User registered successfully"}
+
+@app.post("/forgot-password")
+def forgot_password(email: str):
+    return {"message": "Reset link sent"}
+
+@app.post("/feedback")
+def feedback(data: FeedbackRequest):
+    return {"message": "Feedback submitted"}
+
+@app.post("/settings")
+def save_settings(data: SettingsRequest):
+    return {"message": "Settings saved"}
 
 @app.post("/fullbomconverter")
 async def generate_mbom_api(
@@ -75,7 +108,11 @@ async def generate_mbom_api(
     else:
         inv_df = pd.DataFrame()
 
-    df_final = generate_mbom(ebom_df, inv_df)
+    if inventory:
+        df_final = generate_mbom(ebom_df, inv_df)
+    else:
+        df_final = generate_mbom(ebom_df, pd.DataFrame())
+
     save_mbom(df_final)
 
     return {
@@ -188,3 +225,87 @@ def federated_import(global_rules: dict):
     with open("federated/global_rules.json", "w") as f:
         json.dump(global_rules, f, indent=2)
     return {"status": "global rules updated"}
+
+class CompanyCreate(BaseModel):
+    name: str
+
+@app.post("/company")
+def create_company(data: CompanyCreate):
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        conn.execute(
+            "INSERT INTO companies (name, created_at) VALUES (?, ?)",
+            (data.name, datetime.datetime.now().isoformat())
+        )
+
+    return {"status": "company created"}
+
+@app.get("/company")
+def get_companies():
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        rows = conn.execute(
+            "SELECT id, name, created_at, last_login, is_active FROM companies"
+        ).fetchall()
+
+    return [
+        {
+            "id": r[0],
+            "name": r[1],
+            "created_at": r[2],
+            "last_login": r[3],
+            "is_active": r[4]
+        }
+        for r in rows
+    ]
+
+class CompanyUpdate(BaseModel):
+    name: str
+
+@app.put("/company/{cid}")
+def update_company(cid: int, data: CompanyUpdate):
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        conn.execute(
+            "UPDATE companies SET name=? WHERE id=?",
+            (data.name, cid)
+        )
+
+    return {"status": "updated"}
+
+@app.delete("/company/{cid}")
+def delete_company(cid: int):
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        conn.execute(
+            "DELETE FROM companies WHERE id=?",
+            (cid,)
+        )
+
+    return {"status": "deleted"}
+
+@app.patch("/company/{cid}/status")
+def toggle_company_status(cid: int):
+    import sqlite3
+
+    with sqlite3.connect("bomgenius.db") as conn:
+        cur = conn.cursor()
+
+        cur.execute("SELECT is_active FROM companies WHERE id=?", (cid,))
+        row = cur.fetchone()
+
+        if not row:
+            return {"error": "company not found"}
+
+        current = row[0]
+        new_status = 0 if current == 1 else 1
+
+        cur.execute(
+            "UPDATE companies SET is_active=? WHERE id=?",
+            (new_status, cid)
+        )
+
+    return {"status": "changed", "is_active": new_status}

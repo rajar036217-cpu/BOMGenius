@@ -32,6 +32,16 @@ def init_db():
         )
     """)
 
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            created_at TEXT,
+            last_login TEXT,
+            is_active INTEGER DEFAULT 1
+        )
+        """)
+    
     # Check if timestamp column exists
     cursor.execute("PRAGMA table_info(mbom)")
     columns = [col[1] for col in cursor.fetchall()]
@@ -48,7 +58,6 @@ def init_db():
 
 from datetime import datetime
 
-
 def save_mbom(df):
     df = df.copy()
     df["timestamp"] = datetime.now().isoformat()
@@ -56,7 +65,7 @@ def save_mbom(df):
     with sqlite3.connect(DB_NAME) as conn:
         df.to_sql("mbom", conn, if_exists="append", index=False)
 
-
 def fetch_mbom():
     with sqlite3.connect(DB_NAME) as conn:
+
         return conn.execute("SELECT * FROM mbom").fetchall()

@@ -10,22 +10,17 @@
 
     <!-- ================= NAVBAR ================= -->
     <header class="flex justify-between items-center px-10 py-6 bg-white/80 backdrop-blur-md shadow-md">
-        
-        <!-- Left: Logo + Title -->
+      
         <div class="flex items-center space-x-4">
-            
-            <!-- Logo Placeholder -->
             <div class="w-12 h-12 bg-blue-900 text-white rounded-2xl flex items-center justify-center shadow-lg">
                 <span class="text-xl font-bold">BG</span>
             </div>
 
-            <!-- Title -->
             <h1 class="text-3xl font-bold tracking-wide text-blue-900">
                 BOM Genius
             </h1>
         </div>
 
-        <!-- Right: Profile (Now Clickable) -->
         <div>
             <a href="role.html">
                 <img src="https://via.placeholder.com/40"
@@ -37,7 +32,7 @@
 
     <!-- ================= HERO SECTION ================= -->
     <section class="text-center py-24 px-6">
-        <h2 class="text-5xl font-bold mb-6 text-blue-1000">
+        <h2 class="text-5xl font-bold mb-6 text-blue-900">
             Intelligent E-BOM to M-BOM Conversion
         </h2>
 
@@ -96,6 +91,22 @@
     <footer class="text-center py-6 text-gray-700 text-sm border-t border-blue-200 bg-white">
         © 2026 BOM Genius. All rights reserved.
     </footer>
+
+    <!-- ================= API CALL ================= -->
+    <script>
+        async function checkBackend() {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/");
+                const data = await response.json();
+                console.log("Backend Connected:", data);
+            } catch (error) {
+                console.error("Backend Not Running ❌", error);
+            }
+        }
+
+        // Call when page loads
+        window.onload = checkBackend;
+    </script>
 
 </body>
 </html>

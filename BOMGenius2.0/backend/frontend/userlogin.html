@@ -22,7 +22,7 @@
         </h1>
 
         <!-- FORM -->
-        <form action="home.html" method="get" class="space-y-6">
+        <form id="loginForm" class="space-y-6">
 
             <!-- Company Name -->
             <div>
@@ -30,6 +30,7 @@
                     Company Name
                 </label>
                 <input type="text"
+                    id="companyName"
                     placeholder="Enter Company Name"
                     required
                     class="w-full p-3 rounded-lg border border-blue-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
@@ -41,6 +42,7 @@
                     Company ID
                 </label>
                 <input type="text"
+                    id="companyId"
                     placeholder="Enter Company ID"
                     required
                     class="w-full p-3 rounded-lg border border-blue-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
@@ -52,6 +54,7 @@
                     Password
                 </label>
                 <input type="password"
+                    id="password"
                     placeholder="Enter Password"
                     required
                     class="w-full p-3 rounded-lg border border-blue-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
@@ -74,6 +77,43 @@
         </form>
 
     </div>
+
+    <!-- ================= API SCRIPT ================= -->
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const companyName = document.getElementById("companyName").value;
+            const companyId = document.getElementById("companyId").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/userlogin", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        company_name: companyName,
+                        company_id: companyId,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("Login Successful ✅");
+                    window.location.href = "home.html";
+                } else {
+                    alert(data.message || "Login Failed ❌");
+                }
+
+            } catch (error) {
+                alert("Server Error ⚠️ Make sure backend is running.");
+            }
+        });
+    </script>
 
 </body>
 </html>

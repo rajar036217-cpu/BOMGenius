@@ -26,7 +26,7 @@
   <nav class="flex space-x-10 text-lg font-medium">
     <a href="home.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Home</a>
     <a href="fullbomconverter.html" class="hover:text-blue-700 transition">BOM Converter</a>
-    <a href="feedback.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Federated Learning</a>
+    <a href="feedback.html" class="hover:text-blue-700 transition">Federated Learning</a>
     <a href="settings.html" class="hover:text-blue-700 transition">Settings</a>
     <a href="history.html" class="hover:text-blue-700 transition">History</a>
   </nav>
@@ -86,6 +86,96 @@
   © 2026 BOM Genius. All rights reserved.
 </footer>
 
+<!-- ===== ADVANCED ANALYTICS PANEL ===== -->
+<section class="px-12 pb-24">
+
+<div class="max-w-7xl mx-auto space-y-10">
+
+  <!-- ROW -->
+  <div class="grid md:grid-cols-2 gap-10">
+
+    <!-- PIE CHART -->
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+        mBOM Composition
+      </h2>
+      <canvas id="pieChart"></canvas>
+    </div>
+
+    <!-- BAR GRAPH -->
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+        Match Reliability
+      </h2>
+      <canvas id="barChart"></canvas>
+    </div>
+
+  </div>
+
+
+  <!-- REVIEW + QUICK ACTIONS -->
+  <div class="grid md:grid-cols-2 gap-10">
+
+    <!-- REVIEW QUEUE -->
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+        Review Queue
+      </h2>
+
+      <div class="space-y-4">
+
+        <div class="flex justify-between border-b pb-2">
+          <span>Weld Nut M8</span>
+          <span class="text-red-500 font-semibold">40%</span>
+        </div>
+
+        <div class="flex justify-between border-b pb-2">
+          <span>Structural Adhesive</span>
+          <span class="text-yellow-500 font-semibold">56%</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>Floor Pan</span>
+          <span class="text-green-600 font-semibold">64%</span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+        Recent Activity
+      </h2>
+
+      <div class="space-y-4 text-sm">
+
+        <div class="flex justify-between">
+          <span>XB6535-78</span>
+          <span class="text-blue-600 font-medium">Converted</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>X128556-46</span>
+          <span class="text-green-600 font-medium">Secured</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>X66385-4S</span>
+          <span class="text-orange-500 font-medium">Review Needed</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 function toggleDropdown() {
   document.getElementById("dropdownMenu").classList.toggle("hidden");
@@ -117,6 +207,31 @@ async function loadDashboard() {
 }
 
 loadDashboard();
+
+// PIE CHART
+new Chart(document.getElementById("pieChart"), {
+  type: "pie",
+  data: {
+    labels: ["Fasteners","Phantom Kits","Artheels","Consumables"],
+    datasets: [{
+      data: [36,22,16,25]
+    }]
+  }
+});
+
+
+// BAR GRAPH
+new Chart(document.getElementById("barChart"), {
+  type: "bar",
+  data: {
+    labels: ["High >90%","High","Medium","Low"],
+    datasets: [{
+      label:"Items",
+      data:[55,82,40,18]
+    }]
+  }
+});
+
 </script>
 
 </body>

@@ -3,6 +3,8 @@ import tempfile
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
+import sqlite3
+from datetime import datetime
 
 import pandas as pd
 from core.ebom_loader import load_ebom
@@ -65,6 +67,14 @@ class SettingsRequest(BaseModel):
 @app.get("/")
 def home():
     return FileResponse(os.path.join(frontend_path, "index.html"))
+
+@app.get("/dashboard")
+def get_dashboard_data():
+    return {
+        "accuracy": 96.8,
+        "total_boms": 128,
+        "avg_time": 4.2
+    }
 
 @app.post("/login")
 def login(data: LoginRequest):
@@ -136,8 +146,6 @@ async def ebom_from_image_api(file: UploadFile = File(...)):
 
 @app.get("/mbom/history")
 def get_mbom_history():
-    import sqlite3
-    from datetime import datetime
 
     with sqlite3.connect("bomgenius.db") as conn:
         rows = conn.execute(
@@ -198,6 +206,53 @@ def get_mbom_by_timestamp(ts: str):
 
     return {"columns": list(df.columns), "rows": df.to_dict(orient="records")}
 
+@app.get("/dashboard")
+def get_dashboard():
+
+    conn = sqlite3.connect("bomgenius.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Total BOMs
+    cursor.execute("""
+        SELECT COUNT(DISTINCT Parent_Part_No) AS total_boms
+        FROM mbom
+    """)
+    total_boms = cursor.fetchone()["total_boms"]
+
+    # Total Components
+    cursor.execute("""
+        SELECT COUNT(*) AS total_components
+        FROM mbom
+    """)
+    total_components = cursor.fetchone()["total_components"]
+
+    # Latest Upload
+    cursor.execute("""
+        SELECT MAX(timestamp) AS last_uploaded
+        FROM mbom
+    """)
+    last_uploaded = cursor.fetchone()["last_uploaded"]
+
+    # Avg Components per BOM
+    cursor.execute("""
+        SELECT ROUND(AVG(component_count), 2) AS avg_components
+        FROM (
+            SELECT COUNT(*) AS component_count
+            FROM mbom
+            GROUP BY Parent_Part_No
+        )
+    """)
+    avg_components = cursor.fetchone()["avg_components"]
+
+    conn.close()
+
+    return {
+        "total_boms": total_boms or 0,
+        "total_components": total_components or 0,
+        "last_uploaded": last_uploaded,
+        "avg_components": avg_components or 0
+    }
 
 class Feedback(BaseModel):
     part_no: str

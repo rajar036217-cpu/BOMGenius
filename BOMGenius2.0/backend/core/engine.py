@@ -193,10 +193,10 @@ Return only pipe-delimited CSV rows.
 
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
-    EXPECTED_COLUMNS = [ 
-    "Part_Number","Part_Name","Quantity","UOM",
-    "BOM_Level","Assembly_or_Subassembly","Assembly_Sequence","Revision",
-    "Processing_Steps"]
+    EXPECTED_COLUMNS = [
+    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
+    "BOM_Level","Op_Sequence","Work_Center","Revision","Make_Buy",
+    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"]
     cleaned_rows = []
     for row in lines:
         row = list(row.split("|"))
@@ -217,7 +217,7 @@ Return only pipe-delimited CSV rows.
 
 
     return df_final
-    
+
 def generate_mbom_with_inventory(ebom_df, inv_df):
     ebom_schema = learn_ebom_schema(ebom_df)
     normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
@@ -227,7 +227,7 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
 
     global_rules = load_global_rules()
     global_context = json.dumps(global_rules, indent=2)
-    
+
     inv_context = normalized_inv.to_csv(index=False)
     ebom_context = normalized_ebom.to_csv(index=False)
 
@@ -338,9 +338,9 @@ No markdown. No explanations before the table.
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
     EXPECTED_COLUMNS = [
-    "Part_Number","Part_Name","Quantity","UOM",
-    "BOM_Level","Assembly_or_Subassembly","Assembly_Sequence","Revision",
-    "Processing_Steps", "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
+    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
+    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
+    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
 ]
 
     cleaned_rows = []
@@ -361,6 +361,5 @@ No markdown. No explanations before the table.
     df_final = pd.DataFrame(cleaned_rows, columns=EXPECTED_COLUMNS)
 
     df_final = attach_type_and_confidence(df_final, used_inventory=True)
-
 
     return df_final

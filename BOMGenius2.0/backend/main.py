@@ -66,15 +66,7 @@ class SettingsRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(frontend_path, "index.html"))
-
-@app.get("/dashboard")
-def get_dashboard_data():
-    return {
-        "accuracy": 96.8,
-        "total_boms": 128,
-        "avg_time": 4.2
-    }
+    return FileResponse(os.path.join(frontend_path, "home.html"))
 
 @app.post("/login")
 def login(data: LoginRequest):
@@ -129,6 +121,42 @@ async def generate_mbom_api(
         "columns": list(df_final.columns),
         "rows": df_final.to_dict(orient="records"),
     }
+
+@app.get("/dashboard/analytics")
+def dashboard_analytics():
+    conn = sqlite3.connect("bomgenius.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    cur.execute("SELECT MAX(timestamp) AS ts FROM mbom")
+    ts = cur.fetchone()["ts"]
+
+    if not ts:
+        return {"composition": [], "confidence": {"high": 0, "medium": 0, "low": 0}, "timestamp": None}
+
+    # Pie: Item type composition
+    cur.execute("""
+        SELECT COALESCE(Item_Type, 'Standard Parts') AS item_type, COUNT(*) AS cnt
+        FROM mbom
+        WHERE timestamp = ?
+        GROUP BY COALESCE(Item_Type, 'Standard Parts')
+        ORDER BY cnt DESC
+    """, (ts,))
+    composition = [dict(r) for r in cur.fetchall()]
+
+    # Bar: confidence buckets
+    cur.execute("""
+        SELECT
+          SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
+          SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
+          SUM(CASE WHEN Confidence_Score < 0.70 THEN 1 ELSE 0 END) AS low
+        FROM mbom
+        WHERE timestamp = ?
+    """, (ts,))
+    conf = dict(cur.fetchone())
+
+    conn.close()
+    return {"composition": composition, "confidence": conf, "timestamp": ts}
 
 
 @app.post("/ebom/ocr")

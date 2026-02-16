@@ -5,6 +5,7 @@ import torch
 from sentence_transformers import SentenceTransformer, util
 import json
 import os
+import re
 
 torch.set_num_threads(1)
 
@@ -17,6 +18,59 @@ CANONICAL_FIELDS = {
     "work_center": ["wc", "workcenter", "work center", "dept", "shop", "line"],
 }
 
+FASTENER_KWS = ["bolt", "nut", "washer", "screw", "rivet", "clip", "pin", "stud"]
+CONSUMABLE_KWS = ["grease", "oil", "paint", "sealant", "adhesive", "glue", "coolant", "primer", "flux"]
+PHANTOM_KWS = ["kit", "phantom", "set", "bundle"]
+
+def classify_item_type(desc: str) -> str:
+    d = (desc or "").lower()
+    if any(k in d for k in FASTENER_KWS):
+        return "Fasteners"
+    if any(k in d for k in CONSUMABLE_KWS):
+        return "Consumables"
+    if any(k in d for k in PHANTOM_KWS):
+        return "Phantom/Kits"
+    return "Standard Parts"
+
+def compute_confidence(desc: str, make_buy: str, work_center: str, used_inventory: bool) -> float:
+    # Base by type
+    t = classify_item_type(desc)
+    base = {
+        "Fasteners": 0.95,
+        "Consumables": 0.85,
+        "Phantom/Kits": 0.80,
+        "Standard Parts": 0.75
+    }[t]
+
+    # If key fields missing → reduce
+    if not desc or str(desc).strip() in ["NA", "None", ""]:
+        base -= 0.20
+    if not make_buy or str(make_buy).strip() in ["NA", "None", ""]:
+        base -= 0.10
+    if not work_center or str(work_center).strip() in ["NA", "None", ""]:
+        base -= 0.10
+
+    # Inventory helps confidence
+    if used_inventory:
+        base += 0.05
+
+    # clamp 0..0.99
+    base = max(0.05, min(0.99, base))
+    return round(base, 2)
+
+def attach_type_and_confidence(df, used_inventory: bool):
+    df = df.copy()
+    df["Item_Type"] = df["Description"].apply(classify_item_type)
+    df["Confidence_Score"] = df.apply(
+        lambda r: compute_confidence(
+            r.get("Description"),
+            r.get("Make_Buy"),
+            r.get("Work_Center"),
+            used_inventory
+        ),
+        axis=1
+    )
+    return df
 schema_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
 
 CANONICAL_EMBEDDINGS = {
@@ -80,8 +134,7 @@ def generate_mbom_without_inventory(ebom_df):
     global_context = json.dumps(global_rules, indent=2)
 
     ebom_context = normalized_ebom.to_csv(index=False)
-
-   prompt = f"""
+    prompt = f"""
 You are a Senior Manufacturing BOM Engineer AI.
 
 Your task:
@@ -140,18 +193,28 @@ Return only pipe-delimited CSV rows.
 
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
-    EXPECTED_MBOM_COLS = 9
-    parsed = [l.split("|") for l in lines]
+    EXPECTED_COLUMNS = [
+    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
+    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
+    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"]
+    cleaned_rows = []
+    for row in lines:
+        row = list(row.split("|"))
 
-    bad_rows = [r for r in parsed if len(r) != EXPECTED_MBOM_COLS]
-    if bad_rows:
-        raise ValueError(f"Invalid mBOM rows from LLM: {bad_rows[:2]}")
+        # If row has fewer columns → pad with None
+        if len(row) < len(EXPECTED_COLUMNS):
+            row += [None] * (len(EXPECTED_COLUMNS) - len(row))
 
-    df_final = pd.DataFrame(parsed, columns=[
-        "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-        "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
-        "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
-    ])
+        # If row has more columns → trim extra
+        if len(row) > len(EXPECTED_COLUMNS):
+            row = row[:len(EXPECTED_COLUMNS)]
+
+        cleaned_rows.append(row)
+
+    df_final = pd.DataFrame(cleaned_rows, columns=EXPECTED_COLUMNS)
+
+    df_final = attach_type_and_confidence(df_final, used_inventory=False)
+
 
     return df_final
     
@@ -168,7 +231,7 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     inv_context = normalized_inv.to_csv(index=False)
     ebom_context = normalized_ebom.to_csv(index=False)
 
-   prompt = f"""
+    prompt = f"""
 You are a Manufacturing Engineer AI embedded in a PLM → MES → ERP pipeline.
 
 TASK:
@@ -274,18 +337,29 @@ No markdown. No explanations before the table.
     raw = response["response"]
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
-    EXPECTED_MBOM_COLS = 17
-
-    parsed = [l.split("|") for l in lines]
-    bad_rows = [r for r in parsed if len(r) != EXPECTED_MBOM_COLS]
-
-    if bad_rows:
-        raise ValueError(f"Invalid mBOM rows from LLM: {bad_rows[:2]}")
-
-    df_final = pd.DataFrame(parsed, columns=[
+    EXPECTED_COLUMNS = [
     "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
     "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
     "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
-])
+]
+
+    cleaned_rows = []
+
+    for row in lines:
+        row = list(row.split("|"))
+
+        # If row has fewer columns → pad with None
+        if len(row) < len(EXPECTED_COLUMNS):
+            row += [None] * (len(EXPECTED_COLUMNS) - len(row))
+
+        # If row has more columns → trim extra
+        if len(row) > len(EXPECTED_COLUMNS):
+            row = row[:len(EXPECTED_COLUMNS)]
+
+        cleaned_rows.append(row)
+
+    df_final = pd.DataFrame(cleaned_rows, columns=EXPECTED_COLUMNS)
+
+    df_final = attach_type_and_confidence(df_final, used_inventory=True)
 
     return df_final

@@ -24,11 +24,11 @@
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="home.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Home</a>
-    <a href="fullbomconverter.html" class="hover:text-blue-700 transition">BOM Converter</a>
-    <a href="feedback.html" class="hover:text-blue-700 transition">Federated Learning</a>
-    <a href="settings.html" class="hover:text-blue-700 transition">Settings</a>
-    <a href="history.html" class="hover:text-blue-700 transition">History</a>
+    <a href="/frontend/home.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Home</a>
+    <a href="/frontend/fullbomconverter.html" class="hover:text-blue-700 transition">BOM Converter</a>
+    <a href="/frontend/feedback.html" class="hover:text-blue-700 transition">Federated Learning</a>
+    <a href="/frontend/settings.html" class="hover:text-blue-700 transition">Settings</a>
+    <a href="/frontend/history.html" class="hover:text-blue-700 transition">History</a>
   </nav>
 
   <div class="relative">
@@ -189,9 +189,11 @@ window.onclick = function(event) {
   if (!event.target.closest('.relative')) {
     document.getElementById("dropdownMenu").classList.add("hidden");
   }
-}
+};
 
-// 🔥 API CALL TO BACKEND
+// ----------------------------
+// KPI API CALL
+// ----------------------------
 async function loadDashboard() {
   try {
     const response = await fetch("http://127.0.0.1:8000/dashboard");
@@ -200,39 +202,74 @@ async function loadDashboard() {
     document.getElementById("accuracy").innerText = data.accuracy + "%";
     document.getElementById("count").innerText = data.total_boms;
     document.getElementById("time").innerText = data.avg_time + "s";
-
   } catch (error) {
     console.error("Error loading dashboard:", error);
   }
 }
 
-loadDashboard();
+// ----------------------------
+// CHARTS INIT
+// ----------------------------
+let pieChartInstance = null;
+let barChartInstance = null;
 
-// PIE CHART
-new Chart(document.getElementById("pieChart"), {
-  type: "pie",
-  data: {
-    labels: ["Fasteners","Phantom Kits","Artheels","Consumables"],
-    datasets: [{
-      data: [36,22,16,25]
-    }]
+function initCharts() {
+  // PIE
+  const pieCtx = document.getElementById("pieChart");
+  pieChartInstance = new Chart(pieCtx, {
+    type: "pie",
+    data: {
+      labels: ["Loading..."],
+      datasets: [{ data: [1] }]
+    }
+  });
+
+  // BAR
+  const barCtx = document.getElementById("barChart");
+  barChartInstance = new Chart(barCtx, {
+    type: "bar",
+    data: {
+      labels: ["High (>=90%)", "Medium (70-90%)", "Low (<70%)"],
+      datasets: [{ label: "Items", data: [0, 0, 0] }]
+    }
+  });
+}
+
+// ----------------------------
+// ANALYTICS API CALL
+// ----------------------------
+async function loadAnalytics() {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/dashboard/analytics");
+    const data = await res.json();
+
+    // PIE
+    const labels = data.composition.map(x => x.item_type);
+    const values = data.composition.map(x => x.cnt);
+
+    pieChartInstance.data.labels = labels;
+    pieChartInstance.data.datasets[0].data = values;
+    pieChartInstance.update();
+
+    // BAR
+    barChartInstance.data.datasets[0].data = [
+      data.confidence.high,
+      data.confidence.medium,
+      data.confidence.low
+    ];
+    barChartInstance.update();
+
+  } catch (err) {
+    console.error("Error loading analytics:", err);
   }
+}
+
+// ----------------------------
+// RUN EVERYTHING AFTER PAGE LOADS
+// ----------------------------
+window.addEventListener("DOMContentLoaded", () => {
+  initCharts();
+  loadDashboard();
+  loadAnalytics();
 });
-
-
-// BAR GRAPH
-new Chart(document.getElementById("barChart"), {
-  type: "bar",
-  data: {
-    labels: ["High >90%","High","Medium","Low"],
-    datasets: [{
-      label:"Items",
-      data:[55,82,40,18]
-    }]
-  }
-});
-
 </script>
-
-</body>
-</html>

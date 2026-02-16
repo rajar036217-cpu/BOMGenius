@@ -193,10 +193,10 @@ Return only pipe-delimited CSV rows.
 
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
-    EXPECTED_COLUMNS = [
-    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
-    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"]
+    EXPECTED_COLUMNS = [ 
+    "Part_Number","Part_Name","Quantity","UOM",
+    "BOM_Level","Assembly_or_Subassembly","Assembly_Sequence","Revision",
+    "Processing_Steps"]
     cleaned_rows = []
     for row in lines:
         row = list(row.split("|"))
@@ -338,9 +338,9 @@ No markdown. No explanations before the table.
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
     EXPECTED_COLUMNS = [
-    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
-    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
+    "Part_Number","Part_Name","Quantity","UOM",
+    "BOM_Level","Assembly_or_Subassembly","Assembly_Sequence","Revision",
+    "Processing_Steps", "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
 ]
 
     cleaned_rows = []
@@ -361,5 +361,6 @@ No markdown. No explanations before the table.
     df_final = pd.DataFrame(cleaned_rows, columns=EXPECTED_COLUMNS)
 
     df_final = attach_type_and_confidence(df_final, used_inventory=True)
+
 
     return df_final

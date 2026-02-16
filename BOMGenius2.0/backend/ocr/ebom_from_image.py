@@ -1,7 +1,6 @@
 import pandas as pd
 import json
 import os
-from pdf2image import convert_from_path
 from .vision_ollama import run_vision_inference
 
 VISION_MODEL = "glm-ocr:q8_0"

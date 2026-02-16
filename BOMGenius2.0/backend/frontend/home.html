@@ -58,33 +58,36 @@
 <section class="px-12 pb-20">
   <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
-        Accuracy Maintained
+        Total BOMs
       </h2>
-      <p id="accuracy" class="text-5xl font-bold">--%</p>
+      <p id="total_boms" class="text-5xl font-bold">--</p>
+      <p class="text-gray-600 mt-3">
+        Unique Parent BOMs generated
+      </p>
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
-        BOMs Generated
+        Total Components
       </h2>
-      <p id="count" class="text-5xl font-bold">--</p>
+      <p id="total_components" class="text-5xl font-bold">--</p>
+      <p class="text-gray-600 mt-3">
+        Total rows in mBOM table
+      </p>
     </div>
-
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+  <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
-        Avg Time per BOM
+        Avg Components per BOM
       </h2>
-      <p id="time" class="text-5xl font-bold">--s</p>
+      <p id="avg_components" class="text-5xl font-bold">--</p>
+      <p class="text-gray-600 mt-3">
+        Average structure size
+      </p>
     </div>
-
   </div>
 </section>
-
-<footer class="text-center py-8 text-gray-700 text-sm">
-  © 2026 BOM Genius. All rights reserved.
-</footer>
 
 <!-- ===== ADVANCED ANALYTICS PANEL ===== -->
 <section class="px-12 pb-24">
@@ -199,13 +202,16 @@ async function loadDashboard() {
     const response = await fetch("http://127.0.0.1:8000/dashboard");
     const data = await response.json();
 
-    document.getElementById("accuracy").innerText = data.accuracy + "%";
-    document.getElementById("count").innerText = data.total_boms;
-    document.getElementById("time").innerText = data.avg_time + "s";
+    // ✅ These IDs exist in your HTML
+    document.getElementById("total_boms").innerText = data.total_boms ?? "--";
+    document.getElementById("total_components").innerText = data.total_components ?? "--";
+    document.getElementById("avg_components").innerText = data.avg_components ?? "--";
+
   } catch (error) {
     console.error("Error loading dashboard:", error);
   }
 }
+
 
 // ----------------------------
 // CHARTS INIT
@@ -273,6 +279,10 @@ window.addEventListener("DOMContentLoaded", () => {
   loadAnalytics();
 });
 </script>
+
+<footer class="text-center py-8 text-gray-700 text-sm">
+  © 2026 BOM Genius. All rights reserved.
+</footer>
 
 </body>
 </html>

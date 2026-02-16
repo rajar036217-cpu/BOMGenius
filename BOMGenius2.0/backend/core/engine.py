@@ -125,6 +125,31 @@ def generate_mbom(ebom_df, inv_df=None):
         return generate_mbom_with_inventory(ebom_df, inv_df)
     else:
         return generate_mbom_without_inventory(ebom_df)
+#Part_Number | Part_Name | Quantity | UOM | BOM_Level | Assembly_or_Subassembly | Assembly_Sequence | Revision | Processing_Steps
+from pydantic import BaseModel, Field
+
+
+class MBOMItem(BaseModel):
+    Parent_Part_No: str = Field(default=None)
+    Child_Part_No: str = Field(default=None)
+    Description: str = Field(default=None)
+    Qty_Per: float = Field(default=None)
+    UOM: str = Field(default=None)      
+    BOM_Level: int = Field(default=None)
+    Op_Sequence: int = Field(default=None)
+    Work_Center: str = Field(default=None)
+    Make_Buy: str = Field(default=None)
+    Scrap_Pct: float = Field(default=None)
+    Plant: str = Field(default=None)
+    Bin_Location: str = Field(default=None)
+    Consumables: str = Field(default=None)
+    Packing_Details: str = Field(default=None)
+    Item_Alternatives: str = Field(default=None)
+    Effectivity_Date: str = Field(default=None)
+
+class MBOMItems(BaseModel):
+    items: list[MBOMItem] = Field(default_factory=list)
+schema = MBOMItems.model_json_schema()
 
 def generate_mbom_without_inventory(ebom_df):
     ebom_schema = learn_ebom_schema(ebom_df)
@@ -186,16 +211,17 @@ Return only pipe-delimited CSV rows.
     response = ollama.generate(
         model=MODEL_NAME,
         prompt=prompt,
+        format=schema,
         options={"temperature": 0.0,"top_p": 0.9}
     )
 
-    raw = response["response"]
+    raw = response["response"]["items"]
 
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
     EXPECTED_COLUMNS = [
     "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
+    "BOM_Level","Op_Sequence","Work_Center","Revision","Make_Buy",
     "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"]
     cleaned_rows = []
     for row in lines:
@@ -217,7 +243,7 @@ Return only pipe-delimited CSV rows.
 
 
     return df_final
-    
+
 def generate_mbom_with_inventory(ebom_df, inv_df):
     ebom_schema = learn_ebom_schema(ebom_df)
     normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
@@ -227,7 +253,7 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
 
     global_rules = load_global_rules()
     global_context = json.dumps(global_rules, indent=2)
-    
+
     inv_context = normalized_inv.to_csv(index=False)
     ebom_context = normalized_ebom.to_csv(index=False)
 
@@ -331,10 +357,11 @@ No markdown. No explanations before the table.
     response = ollama.generate(
         model=MODEL_NAME,
         prompt=prompt,
+        format=schema,
         options={"temperature": 0.0,"top_p": 0.9}
     )
 
-    raw = response["response"]
+    raw = response["response"]["items"]
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
     EXPECTED_COLUMNS = [

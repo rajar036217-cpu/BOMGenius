@@ -95,7 +95,7 @@ async def generate_mbom_api(
     ebom_bytes = await ebom.read()
     ext = Path(ebom.filename).suffix.lower() if ebom.filename else ""
 
-    if ext in [".png", ".jpg", ".jpeg", ".pdf"]:
+    if ext in [".png", ".jpg", ".jpeg"]:
         with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
             tmp.write(ebom_bytes)
             tmp_path = tmp.name

@@ -58,33 +58,36 @@
 <section class="px-12 pb-20">
   <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
-        Accuracy Maintained
+        Total BOMs
       </h2>
-      <p id="accuracy" class="text-5xl font-bold">--%</p>
+      <p id="total_boms" class="text-5xl font-bold">--</p>
+      <p class="text-gray-600 mt-3">
+        Unique Parent BOMs generated
+      </p>
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
-        BOMs Generated
+        Total Components
       </h2>
-      <p id="count" class="text-5xl font-bold">--</p>
+      <p id="total_components" class="text-5xl font-bold">--</p>
+      <p class="text-gray-600 mt-3">
+        Total rows in mBOM table
+      </p>
     </div>
-
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow">
+  <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
       <h2 class="text-xl font-semibold text-blue-900 mb-4">
-        Avg Time per BOM
+        Avg Components per BOM
       </h2>
-      <p id="time" class="text-5xl font-bold">--s</p>
+      <p id="avg_components" class="text-5xl font-bold">--</p>
+      <p class="text-gray-600 mt-3">
+        Average structure size
+      </p>
     </div>
-
   </div>
 </section>
-
-<footer class="text-center py-8 text-gray-700 text-sm">
-  © 2026 BOM Genius. All rights reserved.
-</footer>
 
 <!-- ===== ADVANCED ANALYTICS PANEL ===== -->
 <section class="px-12 pb-24">
@@ -275,4 +278,9 @@ window.addEventListener("DOMContentLoaded", () => {
 </script>
 
 </body>
+
+<footer class="text-center py-8 text-gray-700 text-sm">
+  © 2026 BOM Genius. All rights reserved.
+</footer>
+
 </html>

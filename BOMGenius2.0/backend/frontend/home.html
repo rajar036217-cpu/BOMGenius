@@ -9,37 +9,36 @@
   .dark-shadow {
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
   }
-
   .nav-shadow {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
 </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
 
-<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 bg-white/30 backdrop-blur-xl border-b border-white/40 nav-shadow">
-  <h1 class="text-3xl font-bold text-blue-900 tracking-wide">
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
+  <h1 class="text-3xl font-bold text-[#5A4E7C] tracking-wide">
     BOM Genius
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="/frontend/home.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Home</a>
-    <a href="/frontend/fullbomconverter.html" class="hover:text-blue-700 transition">BOM Converter</a>
-    <a href="/frontend/feedback.html" class="hover:text-blue-700 transition">Federated Learning</a>
-    <a href="/frontend/settings.html" class="hover:text-blue-700 transition">Settings</a>
-    <a href="/frontend/history.html" class="hover:text-blue-700 transition">History</a>
+    <a href="home.html" class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">Home</a>
+    <a href="fullbomconverter.html" class="hover:text-[#C8A2C8] transition">BOM Converter</a>
+    <a href="feedback.html" class="hover:text-[#C8A2C8] transition">Federated Learning</a>
+    <a href="settings.html" class="hover:text-[#C8A2C8] transition">Settings</a>
+    <a href="history.html" class="hover:text-[#C8A2C8] transition">History</a>
   </nav>
 
   <div class="relative">
-    <button onclick="toggleDropdown()" class="font-medium text-blue-900">
+    <button onclick="toggleDropdown()" class="font-medium text-[#5A4E7C]">
       Company: <span class="font-semibold">ABC Industries ▼</span>
     </button>
 
     <div id="dropdownMenu"
-         class="hidden absolute right-0 mt-3 w-40 bg-white/90 backdrop-blur-md rounded-xl shadow-lg border border-gray-200">
+         class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border border-[#E0E0E0]">
       <button onclick="logout()"
-        class="block w-full text-left px-4 py-3 hover:bg-blue-100 rounded-xl text-blue-900 font-medium">
+        class="block w-full text-left px-4 py-3 hover:bg-[#F1F3F6] rounded-xl text-[#5A4E7C] font-medium">
         Logout
       </button>
     </div>
@@ -47,10 +46,10 @@
 </header>
 
 <section class="py-16 text-center">
-  <h2 class="text-4xl font-bold text-blue-900 mb-4">
+  <h2 class="text-4xl font-bold text-[#5A4E7C] mb-4">
     Dashboard Overview
   </h2>
-  <p class="text-gray-700 max-w-2xl mx-auto">
+  <p class="text-[#6E6E8A] max-w-2xl mx-auto">
     Monitor your BOM conversion performance in real time.
   </p>
 </section>
@@ -58,56 +57,53 @@
 <section class="px-12 pb-20">
   <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
-      <h2 class="text-xl font-semibold text-blue-900 mb-4">
+    <div class="bg-[#F1F3F6] rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-4">
         Total BOMs
       </h2>
       <p id="total_boms" class="text-5xl font-bold">--</p>
-      <p class="text-gray-600 mt-3">
+      <p class="text-[#6E6E8A] mt-3">
         Unique Parent BOMs generated
       </p>
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
-      <h2 class="text-xl font-semibold text-blue-900 mb-4">
+    <div class="bg-[#F1F3F6] rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-4">
         Total Components
       </h2>
       <p id="total_components" class="text-5xl font-bold">--</p>
-      <p class="text-gray-600 mt-3">
+      <p class="text-[#6E6E8A] mt-3">
         Total rows in mBOM table
       </p>
     </div>
-  <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
-      <h2 class="text-xl font-semibold text-blue-900 mb-4">
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-4">
         Avg Components per BOM
       </h2>
       <p id="avg_components" class="text-5xl font-bold">--</p>
-      <p class="text-gray-600 mt-3">
+      <p class="text-[#6E6E8A] mt-3">
         Average structure size
       </p>
     </div>
+
   </div>
 </section>
 
-<!-- ===== ADVANCED ANALYTICS PANEL ===== -->
 <section class="px-12 pb-24">
-
 <div class="max-w-7xl mx-auto space-y-10">
 
-  <!-- ROW -->
   <div class="grid md:grid-cols-2 gap-10">
 
-    <!-- PIE CHART -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
         mBOM Composition
       </h2>
       <canvas id="pieChart"></canvas>
     </div>
 
-    <!-- BAR GRAPH -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
         Match Reliability
       </h2>
       <canvas id="barChart"></canvas>
@@ -115,24 +111,21 @@
 
   </div>
 
-
-  <!-- REVIEW + QUICK ACTIONS -->
   <div class="grid md:grid-cols-2 gap-10">
 
-    <!-- REVIEW QUEUE -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
         Review Queue
       </h2>
 
       <div class="space-y-4">
 
-        <div class="flex justify-between border-b pb-2">
+        <div class="flex justify-between border-b pb-2 border-gray-300">
           <span>Weld Nut M8</span>
           <span class="text-red-500 font-semibold">40%</span>
         </div>
 
-        <div class="flex justify-between border-b pb-2">
+        <div class="flex justify-between border-b pb-2 border-gray-300">
           <span>Structural Adhesive</span>
           <span class="text-yellow-500 font-semibold">56%</span>
         </div>
@@ -145,10 +138,8 @@
       </div>
     </div>
 
-
-    <!-- QUICK ACTIONS -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-blue-900 mb-6">
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
+      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
         Recent Activity
       </h2>
 
@@ -156,7 +147,7 @@
 
         <div class="flex justify-between">
           <span>XB6535-78</span>
-          <span class="text-blue-600 font-medium">Converted</span>
+          <span class="text-[#C8A2C8] font-medium">Converted</span>
         </div>
 
         <div class="flex justify-between">
@@ -194,15 +185,11 @@ window.onclick = function(event) {
   }
 };
 
-// ----------------------------
-// KPI API CALL
-// ----------------------------
 async function loadDashboard() {
   try {
     const response = await fetch("http://127.0.0.1:8000/dashboard");
     const data = await response.json();
 
-    // ✅ These IDs exist in your HTML
     document.getElementById("total_boms").innerText = data.total_boms ?? "--";
     document.getElementById("total_components").innerText = data.total_components ?? "--";
     document.getElementById("avg_components").innerText = data.avg_components ?? "--";
@@ -212,15 +199,10 @@ async function loadDashboard() {
   }
 }
 
-
-// ----------------------------
-// CHARTS INIT
-// ----------------------------
 let pieChartInstance = null;
 let barChartInstance = null;
 
 function initCharts() {
-  // PIE
   const pieCtx = document.getElementById("pieChart");
   pieChartInstance = new Chart(pieCtx, {
     type: "pie",
@@ -230,7 +212,6 @@ function initCharts() {
     }
   });
 
-  // BAR
   const barCtx = document.getElementById("barChart");
   barChartInstance = new Chart(barCtx, {
     type: "bar",
@@ -241,15 +222,11 @@ function initCharts() {
   });
 }
 
-// ----------------------------
-// ANALYTICS API CALL
-// ----------------------------
 async function loadAnalytics() {
   try {
     const res = await fetch("http://127.0.0.1:8000/dashboard/analytics");
     const data = await res.json();
 
-    // PIE
     const labels = data.composition.map(x => x.item_type);
     const values = data.composition.map(x => x.cnt);
 
@@ -257,7 +234,6 @@ async function loadAnalytics() {
     pieChartInstance.data.datasets[0].data = values;
     pieChartInstance.update();
 
-    // BAR
     barChartInstance.data.datasets[0].data = [
       data.confidence.high,
       data.confidence.medium,
@@ -270,9 +246,6 @@ async function loadAnalytics() {
   }
 }
 
-// ----------------------------
-// RUN EVERYTHING AFTER PAGE LOADS
-// ----------------------------
 window.addEventListener("DOMContentLoaded", () => {
   initCharts();
   loadDashboard();
@@ -280,7 +253,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<footer class="text-center py-8 text-gray-700 text-sm">
+<footer class="text-center py-8 text-[#6E6E8A] text-sm">
   © 2026 BOM Genius. All rights reserved.
 </footer>
 

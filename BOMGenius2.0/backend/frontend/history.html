@@ -16,43 +16,49 @@
 </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
 
-<!-- ===== NAVBAR ===== -->
-<header class="flex justify-between items-center px-10 py-6
-               bg-white/30 backdrop-blur-xl
-               border-b border-white/40
-               nav-shadow sticky top-0 z-50">
-
-  <h1 class="text-3xl font-bold text-blue-900">
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
+  <h1 class="text-3xl font-bold text-[#5A4E7C] tracking-wide">
     BOM Genius
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="home.html" class="hover:text-blue-700">Home</a>
-    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM Converter</a>
-    <a href="feedback.html" class="hover:text-blue-700">Federated Learning</a>
-    <a href="settings.html" class="hover:text-blue-700">Settings</a>
-    <a href="history.html"
-       class="text-blue-900 border-b-2 border-blue-900 pb-1">
-      History
-    </a>
+    <a href="home.html" class="hover:text-[#C8A2C8] transition">Home</a>
+    <a href="fullbomconverter.html" class="hover:text-[#C8A2C8] transition">BOM Converter</a>
+    <a href="feedback.html" class="hover:text-[#C8A2C8] transition">Federated Learning</a>
+    <a href="settings.html" class="hover:text-[#C8A2C8] transition">Settings</a>
+    <a href="history.html" class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">History</a>
   </nav>
+
+  <div class="relative">
+    <button onclick="toggleDropdown()" class="font-medium text-[#5A4E7C]">
+      Company: <span class="font-semibold">ABC Industries ▼</span>
+    </button>
+
+    <div id="dropdownMenu"
+         class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border border-[#E0E0E0]">
+      <button onclick="logout()"
+        class="block w-full text-left px-4 py-3 hover:bg-[#F1F3F6] rounded-xl text-[#5A4E7C] font-medium">
+        Logout
+      </button>
+    </div>
+  </div>
 </header>
 
 <!-- ===== HISTORY SECTION ===== -->
 <section class="px-10 py-16">
 
-  <h2 class="text-4xl font-bold text-center text-blue-900 mb-12">
+  <h2 class="text-4xl font-bold text-center text-[#5A4E7C] mb-12">
     E-BOM Generation History
   </h2>
 
   <div class="max-w-6xl mx-auto bg-white/90 backdrop-blur-md
-              rounded-2xl dark-shadow overflow-hidden">
+              rounded-2xl dark-shadow overflow-hidden border border-[#C8A2C8]">
 
     <table class="w-full text-left">
 
-      <thead class="bg-blue-900 text-white text-lg">
+      <thead class="bg-[#5A4E7C] text-white text-lg">
         <tr>
           <th class="p-4">Date</th>
           <th class="p-4">Time</th>
@@ -62,7 +68,7 @@
         </tr>
       </thead>
 
-      <tbody id="historyTable" class="text-gray-800">
+      <tbody id="historyTable" class="text-[#444]">
         <!-- API DATA WILL LOAD HERE -->
       </tbody>
 
@@ -72,7 +78,7 @@
 
 </section>
 
-<footer class="text-center py-6 text-gray-700 text-sm">
+<footer class="text-center py-6 text-[#6E6E8A] text-sm">
   © 2026 BOM Genius. All rights reserved.
 </footer>
 
@@ -108,7 +114,7 @@ async function loadHistory() {
     data.forEach(item => {
 
       const row = document.createElement("tr");
-      row.className = "border-t hover:bg-blue-100 transition";
+      row.className = "border-t hover:bg-[#F1F3F6] transition";
 
       row.innerHTML = `
         <td class="p-4">${item.date}</td>
@@ -117,7 +123,7 @@ async function loadHistory() {
         <td class="p-4 text-green-600 font-medium">Generated</td>
         <td class="p-4">
           <button onclick="viewMBOM('${item.timestamp}')"
-            class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">
+            class="bg-[#5A4E7C] hover:bg-[#4a4068] text-white px-4 py-2 rounded-lg text-sm">
             View
           </button>
         </td>

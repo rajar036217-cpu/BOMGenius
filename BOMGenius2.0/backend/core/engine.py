@@ -58,19 +58,39 @@ def compute_confidence(desc: str, make_buy: str, work_center: str, used_inventor
     base = max(0.05, min(0.99, base))
     return round(base, 2)
 
+def _scalar(x, default="NA"):
+    # if x is Series/list/tuple -> take first element
+    try:
+        if isinstance(x, pd.Series):
+            return x.iloc[0] if len(x) else default
+        if isinstance(x, (list, tuple)):
+            return x[0] if len(x) else default
+    except:
+        pass
+    return default if x is None else x
+
 def attach_type_and_confidence(df, used_inventory: bool):
     df = df.copy()
-    df["Item_Type"] = df["Description"].apply(classify_item_type)
-    df["Confidence_Score"] = df.apply(
-        lambda r: compute_confidence(
-            r.get("Description"),
-            r.get("Make_Buy"),
-            r.get("Work_Center"),
-            used_inventory
-        ),
-        axis=1
-    )
+
+    # make sure columns exist
+    for col in ["Description", "Make_Buy", "Work_Center"]:
+        if col not in df.columns:
+            df[col] = "NA"
+
+    # item type
+    df["Item_Type"] = df["Description"].apply(lambda v: classify_item_type(str(_scalar(v))))
+
+    # confidence (NO apply-return surprises)
+    scores = []
+    for _, r in df.iterrows():
+        desc = str(_scalar(r.get("Description", "NA")))
+        mb   = str(_scalar(r.get("Make_Buy", "NA")))
+        wc   = str(_scalar(r.get("Work_Center", "NA")))
+        scores.append(float(compute_confidence(desc, mb, wc, used_inventory)))
+
+    df["Confidence_Score"] = scores
     return df
+
 schema_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
 
 CANONICAL_EMBEDDINGS = {
@@ -130,25 +150,25 @@ from pydantic import BaseModel, Field
 
 
 class MBOMItem(BaseModel):
-    Parent_Part_No: str = Field(default=None)
-    Child_Part_No: str = Field(default=None)
-    Description: str = Field(default=None)
-    Qty_Per: float = Field(default=None)
-    UOM: str = Field(default=None)      
-    BOM_Level: int = Field(default=None)
-    Op_Sequence: int = Field(default=None)
-    Work_Center: str = Field(default=None)
-    Make_Buy: str = Field(default=None)
-    Scrap_Pct: float = Field(default=None)
-    Plant: str = Field(default=None)
-    Bin_Location: str = Field(default=None)
-    Consumables: str = Field(default=None)
-    Packing_Details: str = Field(default=None)
-    Item_Alternatives: str = Field(default=None)
-    Effectivity_Date: str = Field(default=None)
+    Parent_Part_No: str = Field(default=None, description="Part number of the parent assembly. For top-level items, use the final product's part number.")
+    Child_Part_No: str = Field(default=None, description="Part number of the child item. For subassemblies, use synthetic IDs like SUBASM-001.")
+    Description: str = Field(default=None, description="Name of the part or assembly.")
+    Qty_Per: float = Field(default=None, description="Quantity of the child part required per parent assembly.")
+    UOM: str = Field(default=None, description="Unit of Measure. Use EA for discrete parts, L/ML/KG for fluids and metals.")      
+    BOM_Level: int = Field(default=None, description="BOM level indicating hierarchy. 0 for top-level product, 1 for subassemblies, 2+ for parts under subassemblies.")
+    Op_Sequence: int = Field(default=None, description="Numeric sequence for operations within the same assembly level, e.g., 10, 20, 30...")
+    Work_Center: str = Field(default=None, description="Assigned work center for the operation, chosen from Welding, Assembly, QC, Packaging.")
+    Make_Buy: str = Field(default=None, description="Indicates if the item is Made in-house or Bought out. Use inventory data if available, else infer based on rules.")
+    Plant: str = Field(default=None, description="Manufacturing plant where the item is produced or sourced. Default to PLANT-01 if not specified in inventory.")
+    Bin_Location: str = Field(default=None, description="Storage location for the item in the factory, derived from inventory if available.")
+    Consumables: str = Field(default=None, description="List any consumables like glue, adhesive, sealant, coolant, grease required for the operation. If none required, write NA.")
+    Packing_Details: str = Field(default=None, description="Details about packing requirements, e.g., box, pallet, shrink-wrap, foam insert.")
+    Item_Alternatives: str = Field(default=None, description="If inventory shows substitutes/alternates, list part numbers separated by commas. Else NA.")
+    Effectivity_Date: str = Field(default=None, description="Use inventory effectivity date if present, else default to 2025-01-01.")
 
 class MBOMItems(BaseModel):
     items: list[MBOMItem] = Field(default_factory=list)
+
 schema = MBOMItems.model_json_schema()
 
 def generate_mbom_without_inventory(ebom_df):
@@ -210,12 +230,14 @@ Return only pipe-delimited CSV rows.
 
     response = ollama.generate(
         model=MODEL_NAME,
-        prompt=prompt,
         format=schema,
+        prompt=prompt,
         options={"temperature": 0.0,"top_p": 0.9}
     )
 
-    raw = response["response"]["items"]
+    response_dict = json.loads(response)  # Convert string to dictionary
+    raw = response_dict["response"]["items"]
+    print("LLM Raw Response:", raw)
 
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
@@ -274,11 +296,7 @@ GLOBAL RULES:
 {global_context}
 
 ### STRUCTURE & LOGIC RULES
-1. Structure:
-   - BOM_Level 0 = FG (final product)
-   - BOM_Level 1 = SUBASM (sub-assemblies)
-   - BOM_Level 2+ = Parts / Consumables / Packaging
-2. Synthetic IDs:
+1. Synthetic IDs:
    - If sub-assemblies do not exist in eBOM, create SUBASM-001, SUBASM-002, etc.
 3. Inventory precedence:
    - If part exists in INVENTORY, use its Bin_Location, Work_Center, Make_Buy, and availability logic.
@@ -319,49 +337,22 @@ Do NOT add headers.
 Do NOT use markdown.
 Do NOT output null or None (use NA).
 
-Column Order (STRICT):
-Parent_Part_No |
-Child_Part_No |
-Description |
-Qty_Per |
-UOM |
-BOM_Level |
-Op_Sequence |
-Work_Center |
-Make_Buy |
-Backflush_Ind |
-Scrap_Pct |
-Plant |
-Bin_Location |
-Consumables |
-Packing_Details |
-Item_Alternatives |
-Effectivity_Date
-
-### OUTPUT EXAMPLE (FORMAT ONLY – DO NOT COPY CONTENT)
-PARENT-001|SUBASM-001|WELDED FRAME|1|EA|1|10|Welding|MAKE|No|2|PLANT-01|A1-10|welding flux|pallet|ALT-001,ALT-002|2025-01-01
-SUBASM-001|PART-99|STEEL PLATE|2|KG|2|10|Welding|BUY|Yes|0|PLANT-01|B2-05|NA|box|NA|2025-01-01
-
 ### TASK
 Generate the mBOM for the provided input.
-
-After the table, add:
----
-ASSUMPTIONS:
-- short bullets
-MAPPING_NOTES:
-- short bullets
 
 No markdown. No explanations before the table.
 """
     response = ollama.generate(
         model=MODEL_NAME,
-        prompt=prompt,
         format=schema,
+        prompt=prompt,
         options={"temperature": 0.0,"top_p": 0.9}
     )
 
-    raw = response["response"]["items"]
+    response_dict = json.loads(response)  # Convert string to dictionary
+    raw = response_dict["response"]["items"]
+    print("LLM Raw Response:", raw)
+
     lines = [l.strip() for l in raw.split("\n") if "|" in l]
 
     EXPECTED_COLUMNS = [

@@ -1,5 +1,6 @@
 import os
 import tempfile
+import io  # ADD THIS LINE
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
@@ -9,7 +10,7 @@ from datetime import datetime
 import pandas as pd
 from core.ebom_loader import load_ebom
 from core.engine import generate_mbom
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -21,10 +22,15 @@ from repo.DB import init_db, save_mbom
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    init_db()
+    yield
+    # Shutdown (optional cleanup)
+    print("API shutting down...")
 
-# C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
-
-app = FastAPI(title="BOMGenius API")
+app = FastAPI(title="BOMGenius API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,14 +41,10 @@ app.add_middleware(
 
 app.mount("/frontend", StaticFiles(directory=frontend_path), name="frontend")
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(os.path.join(frontend_path, "favicon.ico"))
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    init_db()
-    yield
-    # Shutdown (optional cleanup)
-    print("API shutting down...")
 
 #basemodels for request bodies
 class LoginRequest(BaseModel):
@@ -56,9 +58,6 @@ class RegisterRequest(BaseModel):
     company_address: str
     password: str
     confirm_password: str
-    
-class FeedbackRequest(BaseModel):
-    message: str
 
 class SettingsRequest(BaseModel):
     company: str
@@ -80,47 +79,53 @@ def register(data: RegisterRequest):
 def forgot_password(email: str):
     return {"message": "Reset link sent"}
 
-@app.post("/feedback")
-def feedback(data: FeedbackRequest):
-    return {"message": "Feedback submitted"}
-
 @app.post("/settings")
 def save_settings(data: SettingsRequest):
     return {"message": "Settings saved"}
 
 @app.post("/fullbomconverter")
-async def generate_mbom_api(
-    ebom: UploadFile = File(...), inventory: Optional[UploadFile] = File(None)
-):
-    ebom_bytes = await ebom.read()
-    ext = Path(ebom.filename).suffix.lower() if ebom.filename else ""
+async def generate_mbom_api(file: UploadFile = File(...)):
+    try:
+        # Read the file contents
+        contents = await file.read()
+        
+        # If it's an Excel file, convert to DataFrame
+        import pandas as pd
+        df = pd.read_excel(io.BytesIO(contents))
+        
+        # If it's an image file, use ebom_from_image
+        if file.filename.endswith((".png", ".jpg", ".jpeg")):
+            with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename.split(".")[-1]) as tmp:
+                tmp.write(contents)
+                tmp_path = tmp.name
 
-    if ext in [".png", ".jpg", ".jpeg"]:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
-            tmp.write(ebom_bytes)
-            tmp_path = tmp.name
+            ebom_df = ebom_from_image(tmp_path)
+        else:
+            ebom_df = load_ebom(contents, file.filename)
 
-        ebom_df = ebom_from_image(tmp_path)
-    else:
-        ebom_df = load_ebom(ebom_bytes, ebom.filename)
+        # If inventory file is provided, load it
+        inventory: Optional[UploadFile] = File(None)
 
-    if inventory:
-        inv_bytes = await inventory.read()
-        inv_df = load_ebom(inv_bytes, inventory.filename)
-    else:
-        inv_df = pd.DataFrame()
+        if inventory:
+            inv_bytes = await inventory.read()
+            inv_df = load_ebom(inv_bytes, inventory.filename)
+        else:
+            inv_df = pd.DataFrame()
 
-    if inventory:
-        df_final = generate_mbom(ebom_df, inv_df)
-    else:
-        df_final = generate_mbom(ebom_df, pd.DataFrame())
+        if inventory:
+            df_final = generate_mbom(ebom_df, inv_df)
+        else:
+            df_final = generate_mbom(ebom_df, pd.DataFrame())
 
-    save_mbom(df_final)
+        save_mbom(df_final)
 
-    return {
-        "columns": list(df_final.columns),
-        "rows": df_final.to_dict(orient="records"),
-    }
+        return {
+            "columns": list(df_final.columns),
+            "rows": df_final.to_dict(orient="records"),
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
 
 @app.get("/dashboard/analytics")
 def dashboard_analytics():
@@ -318,7 +323,7 @@ def create_company(data: CompanyCreate):
     with sqlite3.connect("bomgenius.db") as conn:
         conn.execute(
             "INSERT INTO companies (name, created_at) VALUES (?, ?)",
-            (data.name, datetime.datetime.now().isoformat())
+            (data.name, datetime.now().isoformat())
         )
 
     return {"status": "company created"}
@@ -392,3 +397,7 @@ def toggle_company_status(cid: int):
         )
 
     return {"status": "changed", "is_active": new_status}
+
+class GenerateResponse(BaseModel):
+    status: str
+    data: dict

@@ -7,39 +7,38 @@
 
 <style>
   .dark-shadow {
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
   }
-
   .nav-shadow {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   }
 </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
 
-<!-- ===== GLASS NAVBAR ===== -->
+<!-- NAVBAR -->
 <header class="flex justify-between items-center px-10 py-6
-               bg-white/30 backdrop-blur-xl
-               border-b border-white/40
+               bg-[#87CEFA]/40 backdrop-blur-xl
+               border-b border-[#C8A2C8]
                nav-shadow sticky top-0 z-50">
 
-  <h1 class="text-3xl font-bold text-blue-900">
+  <h1 class="text-3xl font-bold text-[#5A4E7C]">
     BOM Genius
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="home.html" class="hover:text-blue-700">Home</a>
-    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM Converter</a>
-    <a href="feedback.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Federated Learning</a>
-    <a href="settings.html" class="hover:text-blue-700">Settings</a>
-    <a href="history.html" class="hover:text-blue-700">History</a>
+    <a href="home.html" class="hover:text-[#C8A2C8]">Home</a>
+    <a href="fullbomconverter.html" class="hover:text-[#C8A2C8]">BOM Converter</a>
+    <a href="feedback.html" class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">Federated Learning</a>
+    <a href="settings.html" class="hover:text-[#C8A2C8]">Settings</a>
+    <a href="history.html" class="hover:text-[#C8A2C8]">History</a>
   </nav>
 
-  <!-- ===== COMPANY DROPDOWN ===== -->
-  <div class="relative font-medium text-blue-900">
+  <!-- COMPANY DROPDOWN -->
+  <div class="relative font-medium text-[#5A4E7C]">
 
-    <button onclick="toggleDropdown()" 
+    <button onclick="toggleDropdown()"
             class="flex items-center gap-2 focus:outline-none">
       Company:
       <span class="font-semibold">ABC Industries</span>
@@ -50,14 +49,13 @@
       </svg>
     </button>
 
-    <!-- Dropdown -->
     <div id="companyDropdown"
          class="hidden absolute right-0 mt-3 w-36
-                bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+                bg-white rounded-xl shadow-lg border border-[#E0E0E0] z-50">
 
       <button onclick="logout()"
               class="w-full text-left px-5 py-3 text-red-600
-                     hover:bg-red-50 font-medium rounded-xl">
+                     hover:bg-[#F1F3F6] font-medium rounded-xl">
         Logout
       </button>
 
@@ -66,18 +64,17 @@
 
 </header>
 
-<!-- ===== FEEDBACK FORM ===== -->
+<!-- FORM -->
 <section class="px-10 py-16 max-w-4xl mx-auto">
 
-  <h2 class="text-4xl font-bold text-center text-blue-900 mb-12">
+  <h2 class="text-4xl font-bold text-center text-[#5A4E7C] mb-12">
     M-BOM Correction
   </h2>
 
   <div class="space-y-8">
 
-    <!-- E-BOM -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 dark-shadow">
-      <label class="block text-lg mb-3 text-blue-900 font-semibold">
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
         Upload E-BOM item
       </label>
       <textarea id="ebom"
@@ -86,9 +83,8 @@
         placeholder="Enter E-BOM details here..."></textarea>
     </div>
 
-    <!-- Generated M-BOM -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 dark-shadow">
-      <label class="block text-lg mb-3 text-blue-900 font-semibold">
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
         Generated M-BOM item
       </label>
       <textarea id="generated"
@@ -97,9 +93,8 @@
         placeholder="Enter generated M-BOM details..."></textarea>
     </div>
 
-    <!-- Expected M-BOM -->
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 dark-shadow">
-      <label class="block text-lg mb-3 text-blue-900 font-semibold">
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
         Expected / Actual M-BOM
       </label>
       <textarea id="expected"
@@ -111,12 +106,12 @@
     <!-- Buttons -->
     <div class="flex space-x-6 mt-6">
       <button onclick="submitFeedback()"
-        class="bg-blue-900 text-white hover:bg-blue-800 px-8 py-3 rounded-lg font-semibold dark-shadow">
+        class="bg-[#C8A2C8] text-white hover:bg-[#B58FB5] px-8 py-3 rounded-lg font-semibold dark-shadow">
         Submit
       </button>
 
       <button onclick="resetForm()"
-        class="bg-gray-700 text-white hover:bg-gray-800 px-8 py-3 rounded-lg font-semibold dark-shadow">
+        class="bg-[#5A4E7C] text-white hover:bg-[#4B4067] px-8 py-3 rounded-lg font-semibold dark-shadow">
         Reset
       </button>
     </div>
@@ -124,22 +119,20 @@
   </div>
 </section>
 
-<!-- ===== RESULT SECTION ===== -->
+<!-- RESULT -->
 <section class="px-10 py-16">
 
-  <h2 class="text-2xl text-center text-blue-900 mb-8 font-bold">
+  <h2 class="text-2xl text-center text-[#5A4E7C] mb-8 font-bold">
     Updated M-BOM Output
   </h2>
 
-  <!-- Old BOM -->
   <div id="oldBom"
-    class="max-w-3xl mx-auto bg-white/90 backdrop-blur-md rounded-xl p-6 mb-6 dark-shadow">
-    <p class="text-gray-700">
+    class="max-w-3xl mx-auto bg-[#F1F3F6] rounded-xl p-6 mb-6 dark-shadow">
+    <p class="text-[#6E6E8A]">
       Old Generated M-BOM will appear here...
     </p>
   </div>
 
-  <!-- Updated BOM -->
   <div id="newBom"
     class="hidden max-w-3xl mx-auto bg-green-100 rounded-xl p-6 dark-shadow">
     <p id="updatedText" class="text-green-800 font-medium whitespace-pre-line"></p>
@@ -147,55 +140,50 @@
 
 </section>
 
-<!-- ===== SCRIPT ===== -->
+<!-- SCRIPT -->
 <script>
-
-function toggleDropdown() {
+function toggleDropdown(){
   document.getElementById("companyDropdown").classList.toggle("hidden");
 }
 
-function logout() {
-  window.location.href = "role.html";
+function logout(){
+  window.location.href="role.html";
 }
 
-// Close dropdown when clicking outside
-document.addEventListener("click", function (e) {
-  const dropdown = document.getElementById("companyDropdown");
-  if (!e.target.closest(".relative")) {
+document.addEventListener("click",function(e){
+  const dropdown=document.getElementById("companyDropdown");
+  if(!e.target.closest(".relative")){
     dropdown.classList.add("hidden");
   }
 });
 
-function submitFeedback() {
-  const expected = document.getElementById("expected").value;
+function submitFeedback(){
+  const expected=document.getElementById("expected").value;
 
-  if(expected.trim() === "") {
+  if(expected.trim()===""){
     alert("Please enter Expected M-BOM.");
     return;
   }
 
   document.getElementById("oldBom").classList.add("hidden");
   document.getElementById("newBom").classList.remove("hidden");
-  document.getElementById("updatedText").innerText =
-    "Updated M-BOM:\n\n" + expected;
+  document.getElementById("updatedText").innerText=
+    "Updated M-BOM:\n\n"+expected;
 }
 
-function resetForm() {
-  document.getElementById("ebom").value = "";
-  document.getElementById("generated").value = "";
-  document.getElementById("expected").value = "";
+function resetForm(){
+  document.getElementById("ebom").value="";
+  document.getElementById("generated").value="";
+  document.getElementById("expected").value="";
 
   document.getElementById("newBom").classList.add("hidden");
   document.getElementById("oldBom").classList.remove("hidden");
 }
-
 </script>
 
-<!-- ===== FOOTER ===== -->
-<footer class="text-center py-6 text-gray-700 text-sm">
+<footer class="text-center py-6 text-[#6E6E8A] text-sm">
   © 2026 BOM Genius. All rights reserved.
 </footer>
 
 </body>
-
 </html>

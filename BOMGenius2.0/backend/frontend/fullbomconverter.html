@@ -6,57 +6,50 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-  .dark-shadow {
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
-  }
+  .dark-shadow{box-shadow:0 30px 70px rgba(0,0,0,0.5);}
 
-  .nav-shadow {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  .disabled-box {
-    opacity: 0.3;
-    pointer-events: none;
-    filter: grayscale(1);
-    transition: all 0.4s ease;
-  }
-
-  .active-text {
-    color: #1e3a8a; /* blue-900 */
-    font-weight: 700;
-    transition: all 0.3s ease;
-  }
-
-  .inactive-text {
-    color: #9ca3af; /* gray-400 */
-    transition: all 0.3s ease;
-  }
+  .nav-shadow{box-shadow:0 10px 40px rgba(0,0,0,0.3);}
+  
+  .disabled-box{opacity:.3;pointer-events:none;filter:grayscale(1);transition:.4s;}
+  
+  .active-text{color:#5A4E7C;font-weight:700;}
+  
+  .inactive-text{color:#9ca3af;}
 </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-r from-blue-900 via-white to-blue-900 text-black font-sans">
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
 
 <header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6
-               bg-white/30 backdrop-blur-xl border-b border-white/40 nav-shadow">
+               bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
 
-  <h1 class="text-3xl font-bold text-blue-900">
+  <h1 class="text-3xl font-bold text-[#5A4E7C]>
     BOM Genius
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="/" class="hover:text-blue-700">Home</a>
+    <a href="/" class="hover:text-[#C8A2C8]">Home</a>
     <a href="/frontend/fullbomconverter.html" 
-       class="text-blue-900 border-b-2 border-blue-900 pb-1">
+       class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">
        BOM Converter
     </a>
-    <a href="/frontend/feedback.html" class="hover:text-blue-700">Federated Learning</a>
-    <a href="/frontend/settings.html" class="hover:text-blue-700">Settings</a>
-    <a href="/frontend/history.html" class="hover:text-blue-700">History</a> 
+    <a href="/frontend/feedback.html" 
+    class="hover:text-[#C8A2C8]">
+    Federated Learning
+  </a>
+    <a href="/frontend/settings.html"
+    class="hover:text-[#C8A2C8]">
+    Settings
+  </a>
+    <a href="/frontend/history.html"
+    class="hover:text-[#C8A2C8]">
+    History
+  </a> 
   </nav>
 
   <div class="relative">
     <button onclick="toggleDropdown()"
-      class="font-medium text-blue-900 flex items-center space-x-2">
+      class="font-medium text-[#5A4E7C] flex items-center space-x-2">
       <span>Company:</span>
       <span class="font-semibold">ABC Industries</span>
       <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" stroke-width="2"
@@ -77,17 +70,17 @@
 </header>
 
 <section class="pt-16 pb-8 text-center">
-  <h2 class="text-4xl font-bold text-blue-900 mb-4">
+  <h2 class="text-4xl font-bold text-[#5A4E7C] mb-4">
     BOM Converter
   </h2>
-  <p class="text-gray-700">
+  <p class="text-[#6E6E8A]">
     Upload Engineering BOM and Factory Inventory to generate Manufacturing BOM
   </p>
 </section>
 
 <section class="px-12 pb-20">
 
-  <div class="max-w-md mx-auto mb-12 bg-white/50 backdrop-blur-md p-2 rounded-2xl border border-white/60 shadow-lg">
+  <div class="max-w-md mx-auto mb-12 bg-white/50 backdrop-blur-md p-2 rounded-2xl border border-[#C8A2C8] shadow-lg">
     <div class="flex justify-between items-center px-6 py-2">
       <span id="labelWithout" class="text-sm font-semibold uppercase tracking-wider transition-colors">Without Inventory</span>
 
@@ -95,7 +88,7 @@
         <input type="checkbox" id="inventoryToggle"
                class="sr-only peer"
                onchange="handleToggle()">
-        <div class="w-16 h-8 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 
+        <div class="w-16 h-8 bg-gray-400 rounded-full peer peer-checked:bg-[#C8A2C8]
                     after:content-[''] after:absolute after:top-1 after:left-1 
                     after:bg-white after:w-6 after:h-6 after:rounded-full 
                     after:transition-all peer-checked:after:translate-x-8 shadow-inner">
@@ -108,16 +101,16 @@
 
   <div class="grid md:grid-cols-2 gap-14 max-w-6xl mx-auto">
 
-    <div class="bg-white/90 backdrop-blur-md rounded-3xl p-10 dark-shadow border border-white/50 transform transition hover:scale-[1.02]">
+    <div class="bg-white/90 backdrop-blur-md rounded-3xl p-10 dark-shadow border border-[#C8A2C8] transform transition hover:scale-[1.02]">
       <div class="flex items-center space-x-4 mb-6">
-        <div class="bg-blue-100 p-3 rounded-xl text-blue-900">
+        <div class="bg-blue-100 p-3 rounded-xl text-[#5A4E7C]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
         </div>
-        <h3 class="text-2xl font-bold text-blue-900">Engineering BOM</h3>
+        <h3 class="text-2xl font-bold text-[#5A4E7C]">Engineering BOM</h3>
       </div>
-      <p class="text-gray-500 mb-6 text-sm">Upload the initial eBOM file (CSV, Excel, JSON, PDF).</p>
+      <p class="text-gray-500 mb-6 text-sm">Upload the initial eBOM file (CSV, Excel, JSON, PDF, Image).</p>
       <input type="file" id="ebomInput" accept=".csv,.xlsx,.xls,.json,.pdf, .png, .jpg, .jpeg"
         class="w-full p-4 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/30 text-blue-900 cursor-pointer hover:bg-blue-50 transition">
     </div>
@@ -125,12 +118,12 @@
     <div id="inventoryBox"
       class="bg-white/90 backdrop-blur-md rounded-3xl p-10 dark-shadow border border-white/50 transform transition hover:scale-[1.02]">
       <div class="flex items-center space-x-4 mb-6">
-        <div class="bg-blue-100 p-3 rounded-xl text-blue-900">
+        <div class="bg-blue-100 p-3 rounded-xl text-[#5A4E7C]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
             </svg>
         </div>
-        <h3 class="text-2xl font-bold text-blue-900">Factory Inventory</h3>
+        <h3 class="text-2xl font-bold text-[#5A4E7C]">Factory Inventory</h3>
       </div>
       <p class="text-gray-500 mb-6 text-sm">Upload stock availability file (CSV format).</p>
       <input type="file" id="inventoryInput"
@@ -283,29 +276,47 @@ async function generateMBOM() {
     }
 
     const data = await response.json();
-    console.log(data)
+    console.log(data);
 
-    // Build table header dynamically
+// ✅ Use LLM first row as header, remove it from rows
     const thead = document.querySelector("#mbomTable thead");
-    thead.innerHTML = "<tr>" + data.columns.map(c => `<th class="p-3 text-left">${c}</th>`).join("") + "</tr>";
-
-    // Build table body dynamically
     const tbody = document.querySelector("#mbomTable tbody");
+
+    thead.innerHTML = "";
     tbody.innerHTML = "";
 
-    data.rows.forEach(row => {
+    if (!data.rows || data.rows.length === 0) {
+      showToast("No rows returned from backend!", "error");
+    return;
+  }
+
+// 1) First row becomes header (LLM header)
+    const headerObj = data.rows[0];
+    const headers = Object.values(headerObj).map(v => (v ?? "").toString());
+
+// 2) Remaining rows are actual data
+    const actualRows = data.rows.slice(1);
+
+// Build THEAD
+    thead.innerHTML =
+      "<tr>" +
+      headers.map(h => `<th class="p-3 text-left">${h}</th>`).join("") +
+    "</tr>";
+
+// Build TBODY (based on object values order)
+    actualRows.forEach(obj => {
       const tr = document.createElement("tr");
       tr.className = "border-b hover:bg-gray-50";
 
-      tr.innerHTML = data.columns.map(col => 
-        `<td class="p-3">${row[col] ?? ""}</td>`
-      ).join("");
+      tr.innerHTML = Object.values(obj)
+        .map(v => `<td class="p-3">${v ?? ""}</td>`)
+        .join("");
 
       tbody.appendChild(tr);
     });
 
     document.getElementById("resultSection").classList.remove("hidden");
-    document.getElementById("downloadWrapper").classList.remove("hidden");
+  document.getElementById("downloadWrapper").classList.remove("hidden");
 
      // Enable Download
     mbomReady = true;

@@ -107,5 +107,4 @@ def normalize_ebom_columns(df):
             rename_map[col] = "UOM"
         elif "parent" in c or "assembly" in c:
             rename_map[col] = "Parent_Part_No"
-
-    return df.rename(columns=rename_map)
+    return df.rename(columns=rename_map)            

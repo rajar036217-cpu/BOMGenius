@@ -179,6 +179,8 @@ def generate_mbom_without_inventory(ebom_df):
     global_context = json.dumps(global_rules, indent=2)
 
     ebom_context = normalized_ebom.to_csv(index=False)
+    
+    # UPDATED PROMPT: Asks for JSON, not Pipes
     prompt = f"""
 You are a Senior Manufacturing BOM Engineer AI.
 
@@ -188,81 +190,73 @@ Convert the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) WITHOUT
 EBOM INPUT:
 {ebom_context}
 
-You must output ONLY the following columns in this exact order:
-Part_Number | Part_Name | Quantity | UOM | BOM_Level | Assembly_or_Subassembly | Assembly_Sequence | Revision | Processing_Steps
+GLOBAL RULES:
+{global_context}
 
-STRICT RULES:
-1. Output strictly PIPE (|) delimited rows.
-2. No markdown, no explanations, no headings.
-3. Each row = one mBOM item.
-4. Do NOT output null, None, or empty values. If unknown, infer logically.
-5. Preserve hierarchy:
-   - Top-level product = BOM_Level 0, Assembly_or_Subassembly = Assembly
-   - Subassemblies = BOM_Level 1+, Assembly_or_Subassembly = Subassembly
-   - Parts under subassemblies = BOM_Level 2+
-6. UOM rules:
+### OUTPUT FORMAT (STRICT)
+Return strictly valid JSON matching the provided schema.
+No markdown.
+Do NOT add headers.
+
+### LOGIC RULES:
+1. Preserve hierarchy:
+   - Top-level product = BOM_Level 0
+   - Subassemblies = BOM_Level 1+
+2. UOM rules:
    - Discrete parts → EA
-   - Fluids, chemicals → L, ML, KG (infer from description)
+   - Fluids, chemicals → L, ML, KG
    - Metals by weight → KG
-7. Assembly_Sequence:
-   - Assign numeric sequence (10, 20, 30...) within each assembly/subassembly
-8. Revision:
+3. Assembly_Sequence:
+   - Assign numeric sequence (10, 20, 30...)
+4. Revision:
    - Default = R1 unless eBOM specifies otherwise
-9. Processing_Steps:
-   - Infer realistic steps like:
-     - welding
-     - bolting
-     - riveting
-     - painting
-     - coating
-     - machining
-     - assembly
-     - inspection
-   - Subassemblies should include multi-step processes.
-10. Logical manufacturing rules:
-    - Fasteners → bolting
-    - Sheet metal parts → stamping + welding + painting
-    - Plastic parts → molding + trimming
-    - Bought-out parts → inspection + assembly
+5. Processing_Steps (Op_Sequence logic):
+   - Fasteners → bolting
+   - Sheet metal → stamping + welding + painting
+   - Plastic → molding + trimming
 
-Return only pipe-delimited CSV rows.
+Generate the mBOM items now.
 """
 
     response = ollama.generate(
         model=MODEL_NAME,
         format=schema,
         prompt=prompt,
-        options={"temperature": 0.0,"top_p": 0.9}
+        options={"temperature": 0.0, "top_p": 0.9}
     )
 
-    response_dict = json.loads(response)  # Convert string to dictionary
-    raw = response_dict["response"]["items"]
-    print("LLM Raw Response:", raw)
+    # FIXED PARSING LOGIC: Handle JSON response instead of Pipes
+    llm_text = response["response"]
+    
+    structured = None
+    try:
+        structured = json.loads(llm_text)
+    except json.JSONDecodeError:
+        # Fallback: try to find JSON if wrapped in other text
+        import re
+        json_match = re.search(r'\{[\s\S]*\}', llm_text)
+        if json_match:
+            try:
+                structured = json.loads(json_match.group())
+            except:
+                pass
 
-    lines = [l.strip() for l in raw.split("\n") if "|" in l]
+    if structured is None:
+        print(f"LLM Raw Response (Failed Parse): {llm_text}") 
+        # Return empty DF to avoid crash, or raise error
+        return pd.DataFrame(columns=["Description", "Make_Buy", "Work_Center"])
 
-    EXPECTED_COLUMNS = [
-    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-    "BOM_Level","Op_Sequence","Work_Center","Revision","Make_Buy",
-    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"]
-    cleaned_rows = []
-    for row in lines:
-        row = list(row.split("|"))
+    items = structured.get("items", [])
+    
+    # Ensure items is a list
+    if not isinstance(items, list):
+        items = []
 
-        # If row has fewer columns → pad with None
-        if len(row) < len(EXPECTED_COLUMNS):
-            row += [None] * (len(EXPECTED_COLUMNS) - len(row))
+    # Convert to DataFrame
+    df_final = pd.DataFrame(items)
 
-        # If row has more columns → trim extra
-        if len(row) > len(EXPECTED_COLUMNS):
-            row = row[:len(EXPECTED_COLUMNS)]
-
-        cleaned_rows.append(row)
-
-    df_final = pd.DataFrame(cleaned_rows, columns=EXPECTED_COLUMNS)
-
+    # Attach confidence scores
     df_final = attach_type_and_confidence(df_final, used_inventory=False)
-
 
     return df_final
 

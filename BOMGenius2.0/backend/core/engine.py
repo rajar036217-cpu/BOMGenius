@@ -1,377 +1,189 @@
 import pandas as pd
-import io
 import ollama
-import torch
 from sentence_transformers import SentenceTransformer, util
 import json
 import os
-import re
+from pydantic import BaseModel, Field
+from typing import Optional, List, Union
 
-torch.set_num_threads(1)
-
+# --- CONFIGURATION ---
 MODEL_NAME = "llama3.2:3b"
+CHUNK_SIZE = 3  # Reduced to 3 for instant CPU processing
 
+# --- PYDANTIC SCHEMA ---
+class MBOMItem(BaseModel):
+    Parent_Part_No: Optional[str] = Field(default="NA")
+    Child_Part_No: Optional[str] = Field(default="NA")
+    Description: Optional[str] = Field(default="NA")
+    Qty_Per: Union[str, float, int, None] = Field(default=1)
+    UOM: Optional[str] = Field(default="EA")      
+    BOM_Level: Union[str, int, None] = Field(default=1)
+    Op_Sequence: Union[str, int, None] = Field(default=10)
+    Work_Center: Optional[str] = Field(default="Assembly")
+    Make_Buy: Optional[str] = Field(default="Make")
+    Plant: Optional[str] = Field(default="PLANT-01")
+    Bin_Location: Optional[str] = Field(default="NA")
+    Consumables: Optional[str] = Field(default="NA")
+
+class MBOMItems(BaseModel):
+    items: List[MBOMItem] = Field(default_factory=list)
+
+schema = MBOMItems.model_json_schema()
+
+# --- HELPER FUNCTIONS ---
 CANONICAL_FIELDS = {
     "part_name": ["name", "desc", "description", "item", "part name"],
-    "part_no": ["part", "number", "pn", "id", "code"],
+    "part_no": ["part", "number", "pn", "id", "code", "part_id"], 
     "bin_location": ["bin", "location", "loc", "warehouse", "stock", "store", "depot"],
     "work_center": ["wc", "workcenter", "work center", "dept", "shop", "line"],
 }
 
-FASTENER_KWS = ["bolt", "nut", "washer", "screw", "rivet", "clip", "pin", "stud"]
-CONSUMABLE_KWS = ["grease", "oil", "paint", "sealant", "adhesive", "glue", "coolant", "primer", "flux"]
-PHANTOM_KWS = ["kit", "phantom", "set", "bundle"]
-
-def classify_item_type(desc: str) -> str:
-    d = (desc or "").lower()
-    if any(k in d for k in FASTENER_KWS):
-        return "Fasteners"
-    if any(k in d for k in CONSUMABLE_KWS):
-        return "Consumables"
-    if any(k in d for k in PHANTOM_KWS):
-        return "Phantom/Kits"
-    return "Standard Parts"
-
-def compute_confidence(desc: str, make_buy: str, work_center: str, used_inventory: bool) -> float:
-    # Base by type
-    t = classify_item_type(desc)
-    base = {
-        "Fasteners": 0.95,
-        "Consumables": 0.85,
-        "Phantom/Kits": 0.80,
-        "Standard Parts": 0.75
-    }[t]
-
-    # If key fields missing → reduce
-    if not desc or str(desc).strip() in ["NA", "None", ""]:
-        base -= 0.20
-    if not make_buy or str(make_buy).strip() in ["NA", "None", ""]:
-        base -= 0.10
-    if not work_center or str(work_center).strip() in ["NA", "None", ""]:
-        base -= 0.10
-
-    # Inventory helps confidence
-    if used_inventory:
-        base += 0.05
-
-    # clamp 0..0.99
-    base = max(0.05, min(0.99, base))
-    return round(base, 2)
-
-def _scalar(x, default="NA"):
-    # if x is Series/list/tuple -> take first element
-    try:
-        if isinstance(x, pd.Series):
-            return x.iloc[0] if len(x) else default
-        if isinstance(x, (list, tuple)):
-            return x[0] if len(x) else default
-    except:
-        pass
-    return default if x is None else x
-
-def attach_type_and_confidence(df, used_inventory: bool):
-    df = df.copy()
-
-    # make sure columns exist
-    for col in ["Description", "Make_Buy", "Work_Center"]:
-        if col not in df.columns:
-            df[col] = "NA"
-
-    # item type
-    df["Item_Type"] = df["Description"].apply(lambda v: classify_item_type(str(_scalar(v))))
-
-    # confidence (NO apply-return surprises)
-    scores = []
-    for _, r in df.iterrows():
-        desc = str(_scalar(r.get("Description", "NA")))
-        mb   = str(_scalar(r.get("Make_Buy", "NA")))
-        wc   = str(_scalar(r.get("Work_Center", "NA")))
-        scores.append(float(compute_confidence(desc, mb, wc, used_inventory)))
-
-    df["Confidence_Score"] = scores
-    return df
-
 schema_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
-
-CANONICAL_EMBEDDINGS = {
-    k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()
-}
-
+CANONICAL_EMBEDDINGS = {k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()}
 GLOBAL_RULES_FILE = "federated/global_rules.json"
 
 def load_global_rules():
     if os.path.exists(GLOBAL_RULES_FILE):
-        with open(GLOBAL_RULES_FILE, "r") as f:
-            return json.load(f)
+        with open(GLOBAL_RULES_FILE, "r") as f: return json.load(f)
     return {}
 
-def learn_ebom_schema(df):
+def learn_schema(df):
     col_map = {}
     for col in df.columns:
         col_emb = schema_model.encode(col.lower())
         best_match, best_score = None, 0
         for canon, emb_list in CANONICAL_EMBEDDINGS.items():
             score = util.cos_sim(col_emb, emb_list).max().item()
-            if score > best_score:
-                best_score, best_match = score, canon
-        if best_score > 0.55:
-            col_map[col] = best_match
-        else:
-            col_map[col] = "unknown_" + col
-    return col_map
-
-def learn_inventory_schema(df):
-    col_map = {}
-    for col in df.columns:
-        col_emb = schema_model.encode(col.lower())
-        best_match, best_score = None, 0
-        for canon, emb_list in CANONICAL_EMBEDDINGS.items():
-            score = util.cos_sim(col_emb, emb_list).max().item()
-            if score > best_score:
-                best_score, best_match = score, canon
-        if best_score > 0.55:
-            col_map[col] = best_match
+            if score > best_score: best_score, best_match = score, canon
+        col_map[col] = best_match if best_score > 0.55 else "unknown_" + col
     return col_map
 
 def normalize_inventory(df, col_map):
     norm = pd.DataFrame()
-    for raw_col, canon in col_map.items():
-        norm[canon] = df[raw_col]
+    for raw_col, canon in col_map.items(): norm[canon] = df[raw_col]
     return norm
 
-def generate_mbom(ebom_df, inv_df=None):
+def classify_item_type(desc: str) -> str:
+    d = (desc or "").lower()
+    if any(k in d for k in ["bolt", "nut", "washer", "screw"]): return "Fasteners"
+    if any(k in d for k in ["grease", "oil", "paint"]): return "Consumables"
+    return "Standard Parts"
 
-    if inv_df is not None and not inv_df.empty:
-        return generate_mbom_with_inventory(ebom_df, inv_df)
-    else:
-        return generate_mbom_without_inventory(ebom_df)
-#Part_Number | Part_Name | Quantity | UOM | BOM_Level | Assembly_or_Subassembly | Assembly_Sequence | Revision | Processing_Steps
-from pydantic import BaseModel, Field
+def attach_type_and_confidence(df, used_inventory: bool):
+    if df.empty: return pd.DataFrame(columns=["Description", "Make_Buy", "Work_Center", "Item_Type", "Confidence_Score"])
+    for col in ["Description", "Make_Buy", "Work_Center"]:
+        if col not in df.columns: df[col] = "NA"
+    df["Confidence_Score"] = 0.85 if used_inventory else 0.75
+    df["Item_Type"] = df["Description"].apply(lambda x: classify_item_type(str(x)))
+    return df
 
+def normalize_llm_keys(item_dict):
+    # Simplified Normalizer
+    KEY_MAP = {
+        "parent": "Parent_Part_No", "part_no": "Parent_Part_No", "pn": "Parent_Part_No",
+        "child": "Child_Part_No", "child_pn": "Child_Part_No", "component": "Child_Part_No",
+        "desc": "Description", "name": "Description", "qty": "Qty_Per", "uom": "UOM",
+        "level": "BOM_Level", "op": "Op_Sequence", "wc": "Work_Center", "make": "Make_Buy",
+        "bin": "Bin_Location", "cons": "Consumables"
+    }
+    new_item = {}
+    for k, v in item_dict.items():
+        k_lower = k.lower().replace(" ", "_").strip()
+        found = False
+        for correct_key in MBOMItem.__annotations__.keys():
+            if k_lower == correct_key.lower():
+                new_item[correct_key] = v
+                found = True
+                break
+        if not found:
+            for keyword, target in KEY_MAP.items():
+                if keyword in k_lower:
+                    new_item[target] = v
+                    found = True
+                    break
+        if not found: new_item[k] = v
+    return new_item
 
-class MBOMItem(BaseModel):
-    Parent_Part_No: str = Field(default=None, description="Part number of the parent assembly. For top-level items, use the final product's part number.")
-    Child_Part_No: str = Field(default=None, description="Part number of the child item. For subassemblies, use synthetic IDs like SUBASM-001.")
-    Description: str = Field(default=None, description="Name of the part or assembly.")
-    Qty_Per: float = Field(default=None, description="Quantity of the child part required per parent assembly.")
-    UOM: str = Field(default=None, description="Unit of Measure. Use EA for discrete parts, L/ML/KG for fluids and metals.")      
-    BOM_Level: int = Field(default=None, description="BOM level indicating hierarchy. 0 for top-level product, 1 for subassemblies, 2+ for parts under subassemblies.")
-    Op_Sequence: int = Field(default=None, description="Numeric sequence for operations within the same assembly level, e.g., 10, 20, 30...")
-    Work_Center: str = Field(default=None, description="Assigned work center for the operation, chosen from Welding, Assembly, QC, Packaging.")
-    Make_Buy: str = Field(default=None, description="Indicates if the item is Made in-house or Bought out. Use inventory data if available, else infer based on rules.")
-    Plant: str = Field(default=None, description="Manufacturing plant where the item is produced or sourced. Default to PLANT-01 if not specified in inventory.")
-    Bin_Location: str = Field(default=None, description="Storage location for the item in the factory, derived from inventory if available.")
-    Consumables: str = Field(default=None, description="List any consumables like glue, adhesive, sealant, coolant, grease required for the operation. If none required, write NA.")
-    Packing_Details: str = Field(default=None, description="Details about packing requirements, e.g., box, pallet, shrink-wrap, foam insert.")
-    Item_Alternatives: str = Field(default=None, description="If inventory shows substitutes/alternates, list part numbers separated by commas. Else NA.")
-    Effectivity_Date: str = Field(default=None, description="Use inventory effectivity date if present, else default to 2025-01-01.")
+# --- TURBO CHUNKING LOGIC ---
 
-class MBOMItems(BaseModel):
-    items: list[MBOMItem] = Field(default_factory=list)
-
-schema = MBOMItems.model_json_schema()
-
-def generate_mbom_without_inventory(ebom_df):
-    ebom_schema = learn_ebom_schema(ebom_df)
-    normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
-
-    global_rules = load_global_rules()
-    global_context = json.dumps(global_rules, indent=2)
-
-    ebom_context = normalized_ebom.to_csv(index=False)
+def generate_chunk(ebom_chunk_df, inv_context_str):
+    ebom_csv = ebom_chunk_df.to_csv(index=False)
     
-    # UPDATED PROMPT: Asks for JSON, not Pipes
+    # TURBO PROMPT: Short & Direct
     prompt = f"""
-You are a Senior Manufacturing BOM Engineer AI.
+Convert eBOM to mBOM JSON.
 
-Your task:
-Convert the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) WITHOUT using factory inventory.
+INPUT:
+{ebom_csv}
 
-EBOM INPUT:
-{ebom_context}
+INVENTORY:
+{inv_context_str}
 
-GLOBAL RULES:
-{global_context}
+RULES:
+1. Parent_Part_No = 'Parent Assembly' column.
+2. Child_Part_No = 'Part_ID' column.
+3. Description = 'Part Name' column.
+4. Output JSON list.
 
-### OUTPUT FORMAT (STRICT)
-Return strictly valid JSON matching the provided schema.
-No markdown.
-Do NOT add headers.
-
-### LOGIC RULES:
-1. Preserve hierarchy:
-   - Top-level product = BOM_Level 0
-   - Subassemblies = BOM_Level 1+
-2. UOM rules:
-   - Discrete parts → EA
-   - Fluids, chemicals → L, ML, KG
-   - Metals by weight → KG
-3. Assembly_Sequence:
-   - Assign numeric sequence (10, 20, 30...)
-4. Revision:
-   - Default = R1 unless eBOM specifies otherwise
-5. Processing_Steps (Op_Sequence logic):
-   - Fasteners → bolting
-   - Sheet metal → stamping + welding + painting
-   - Plastic → molding + trimming
-
-Generate the mBOM items now.
+JSON Example:
+[{{ "Parent_Part_No": "A1", "Child_Part_No": "B2", "Description": "Bolt", "Qty_Per": 1, "Make_Buy": "Buy" }}]
 """
-
-    response = ollama.generate(
-        model=MODEL_NAME,
-        format=schema,
-        prompt=prompt,
-        options={"temperature": 0.0, "top_p": 0.9}
-    )
-
-    # FIXED PARSING LOGIC: Handle JSON response instead of Pipes
-    llm_text = response["response"]
-    
-    structured = None
     try:
-        structured = json.loads(llm_text)
-    except json.JSONDecodeError:
-        # Fallback: try to find JSON if wrapped in other text
-        import re
-        json_match = re.search(r'\{[\s\S]*\}', llm_text)
-        if json_match:
-            try:
-                structured = json.loads(json_match.group())
-            except:
-                pass
-
-    if structured is None:
-        print(f"LLM Raw Response (Failed Parse): {llm_text}") 
-        # Return empty DF to avoid crash, or raise error
-        return pd.DataFrame(columns=["Description", "Make_Buy", "Work_Center"])
-
-    items = structured.get("items", [])
-    
-    # Ensure items is a list
-    if not isinstance(items, list):
-        items = []
-
-    # Convert to DataFrame
-    df_final = pd.DataFrame(items)
-
-    # Attach confidence scores
-    df_final = attach_type_and_confidence(df_final, used_inventory=False)
-
-    return df_final
+        response = ollama.generate(
+            model=MODEL_NAME,
+            format=schema, 
+            prompt=prompt,
+            # TURBO SETTINGS: Stop generation early to prevent hanging
+            options={"temperature": 0.0, "num_predict": 256, "top_p": 0.9} 
+        )
+        response_json = json.loads(response['response'])
+        raw_items = response_json.get('items', [])
+        return [normalize_llm_keys(item) for item in raw_items]
+        
+    except Exception as e:
+        print(f"Chunk Error: {e}")
+        return []
 
 def generate_mbom_with_inventory(ebom_df, inv_df):
-    ebom_schema = learn_ebom_schema(ebom_df)
-    normalized_ebom = normalize_inventory(ebom_df, ebom_schema)
+    # PRE-PROCESSING: Force 'Part_ID' creation
+    ebom_map = learn_schema(ebom_df)
+    part_name_col = next((col for col, canon in ebom_map.items() if canon == "part_name"), None)
+    
+    if part_name_col:
+        print(f"Auto-Creating 'Part_ID' from '{part_name_col}'...")
+        ebom_df["Part_ID"] = ebom_df[part_name_col]
+    
+    # Context
+    ebom_map = learn_schema(ebom_df)
+    inv_map = learn_schema(inv_df)
+    ebom_norm = normalize_inventory(ebom_df, ebom_map)
+    inv_norm = normalize_inventory(inv_df, inv_map)
+    
+    inv_context_str = inv_norm.head(20).to_csv(index=False) # Tiny context for speed
 
-    learned_schema = learn_inventory_schema(inv_df)
-    normalized_inv = normalize_inventory(inv_df, learned_schema)
+    all_items = []
+    print(f"Starting Turbo Processing (Chunk size: {CHUNK_SIZE})...")
+    
+    for i in range(0, len(ebom_norm), CHUNK_SIZE):
+        chunk = ebom_norm.iloc[i : i + CHUNK_SIZE]
+        print(f"Processing chunk {i}...")
+        items = generate_chunk(chunk, inv_context_str)
+        print(f"--- Chunk {i} Done ({len(items)} items) ---") # Progress Log
+        all_items.extend(items)
+        
+    df_final = pd.DataFrame(all_items)
+    
+    expected_cols = [
+        "Parent_Part_No", "Child_Part_No", "Description", "Qty_Per", "UOM",
+        "BOM_Level", "Op_Sequence", "Work_Center", "Make_Buy", "Plant",
+        "Bin_Location", "Consumables"
+    ]
+    
+    for col in expected_cols:
+        if col not in df_final.columns: df_final[col] = "NA"
 
-    global_rules = load_global_rules()
-    global_context = json.dumps(global_rules, indent=2)
+    return attach_type_and_confidence(df_final[expected_cols], used_inventory=True)
 
-    inv_context = normalized_inv.to_csv(index=False)
-    ebom_context = normalized_ebom.to_csv(index=False)
-
-    prompt = f"""
-You are a Manufacturing Engineer AI embedded in a PLM → MES → ERP pipeline.
-
-TASK:
-Transform the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) using FACTORY INVENTORY first, then manufacturing reasoning.
-
-### INPUT DATA
-EBOM (CSV):
-{ebom_context}
-
-INVENTORY (CSV):
-{inv_context}
-
-GLOBAL RULES:
-{global_context}
-
-### STRUCTURE & LOGIC RULES
-1. Synthetic IDs:
-   - If sub-assemblies do not exist in eBOM, create SUBASM-001, SUBASM-002, etc.
-3. Inventory precedence:
-   - If part exists in INVENTORY, use its Bin_Location, Work_Center, Make_Buy, and availability logic.
-4. Make/Buy:
-   - Use inventory Make/Buy if present.
-   - Else: Fasteners=BUY, Fabricated=MAKE, Consumables=BUY.
-5. UOM:
-   - Fasteners=EA
-   - Fluids/adhesives/chemicals=L or ML
-   - Sheets/metals=KG
-6. Work_Center:
-   - Choose only from: Welding, Assembly, QC, Packaging.
-7. Backflush:
-   - Yes for fasteners & consumables.
-   - No for high-value parts.
-8. Scrap_Pct:
-   - Default 2 for fabricated parts, 0 for bought-out items.
-9. Plant:
-   - Default PLANT-01 if not present in inventory.
-
-### ADDITIONAL MANUFACTURING COLUMNS (MUST BE INCLUDED)
-- Consumables: 
-  - List any glue, adhesive, sealant, coolant, grease required for the operation.
-  - If none required, write NA.
-- Packing_Details:
-  - Examples: box, pallet, shrink-wrap, foam insert.
-- Item_Alternatives:
-  - If inventory shows substitutes/alternates, list part numbers separated by commas.
-  - Else NA.
-- Effectivity_Date:
-  - Use inventory effectivity date if present.
-  - Else default = 2025-01-01.
-
-### OUTPUT FORMAT (STRICT)
-Return ONLY rows separated by NEWLINES.
-Each row MUST use PIPE | as delimiter.
-Do NOT add headers.
-Do NOT use markdown.
-Do NOT output null or None (use NA).
-
-### TASK
-Generate the mBOM for the provided input.
-
-No markdown. No explanations before the table.
-"""
-    response = ollama.generate(
-        model=MODEL_NAME,
-        format=schema,
-        prompt=prompt,
-        options={"temperature": 0.0,"top_p": 0.9}
-    )
-
-    response_dict = json.loads(response)  # Convert string to dictionary
-    raw = response_dict["response"]["items"]
-    print("LLM Raw Response:", raw)
-
-    lines = [l.strip() for l in raw.split("\n") if "|" in l]
-
-    EXPECTED_COLUMNS = [
-    "Parent_Part_No","Child_Part_No","Description","Qty_Per","UOM",
-    "BOM_Level","Op_Sequence","Work_Center","Make_Buy",
-    "Backflush_Ind","Scrap_Pct","Plant","Bin_Location"
-]
-
-    cleaned_rows = []
-
-    for row in lines:
-        row = list(row.split("|"))
-
-        # If row has fewer columns → pad with None
-        if len(row) < len(EXPECTED_COLUMNS):
-            row += [None] * (len(EXPECTED_COLUMNS) - len(row))
-
-        # If row has more columns → trim extra
-        if len(row) > len(EXPECTED_COLUMNS):
-            row = row[:len(EXPECTED_COLUMNS)]
-
-        cleaned_rows.append(row)
-
-    df_final = pd.DataFrame(cleaned_rows, columns=EXPECTED_COLUMNS)
-
-    df_final = attach_type_and_confidence(df_final, used_inventory=True)
-
-    return df_final
+def generate_mbom(ebom_df, inv_df=None):
+    if inv_df is None: inv_df = pd.DataFrame()
+    return generate_mbom_with_inventory(ebom_df, inv_df)

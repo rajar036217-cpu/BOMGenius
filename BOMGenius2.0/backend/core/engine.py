@@ -1,188 +1,145 @@
 import pandas as pd
 import ollama
-from sentence_transformers import SentenceTransformer, util
 import json
-import os
+import re
 from pydantic import BaseModel, Field
 from typing import Optional, List, Union
 
-# --- CONFIGURATION ---
+print("--- Engine.py Loaded: AGGRESSIVE MERGE MODE (Verified) ---")
+
 MODEL_NAME = "llama3.2:3b"
-CHUNK_SIZE = 3  # Reduced to 3 for instant CPU processing
 
-# --- PYDANTIC SCHEMA ---
-class MBOMItem(BaseModel):
-    Parent_Part_No: Optional[str] = Field(default="NA")
-    Child_Part_No: Optional[str] = Field(default="NA")
-    Description: Optional[str] = Field(default="NA")
-    Qty_Per: Union[str, float, int, None] = Field(default=1)
-    UOM: Optional[str] = Field(default="EA")      
-    BOM_Level: Union[str, int, None] = Field(default=1)
-    Op_Sequence: Union[str, int, None] = Field(default=10)
-    Work_Center: Optional[str] = Field(default="Assembly")
-    Make_Buy: Optional[str] = Field(default="Make")
-    Plant: Optional[str] = Field(default="PLANT-01")
-    Bin_Location: Optional[str] = Field(default="NA")
-    Consumables: Optional[str] = Field(default="NA")
-
-class MBOMItems(BaseModel):
-    items: List[MBOMItem] = Field(default_factory=list)
-
-schema = MBOMItems.model_json_schema()
-
-# --- HELPER FUNCTIONS ---
-CANONICAL_FIELDS = {
-    "part_name": ["name", "desc", "description", "item", "part name"],
-    "part_no": ["part", "number", "pn", "id", "code", "part_id"], 
-    "bin_location": ["bin", "location", "loc", "warehouse", "stock", "store", "depot"],
-    "work_center": ["wc", "workcenter", "work center", "dept", "shop", "line"],
-}
-
-schema_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
-CANONICAL_EMBEDDINGS = {k: schema_model.encode(v) for k, v in CANONICAL_FIELDS.items()}
-GLOBAL_RULES_FILE = "federated/global_rules.json"
-
-def load_global_rules():
-    if os.path.exists(GLOBAL_RULES_FILE):
-        with open(GLOBAL_RULES_FILE, "r") as f: return json.load(f)
-    return {}
-
-def learn_schema(df):
-    col_map = {}
-    for col in df.columns:
-        col_emb = schema_model.encode(col.lower())
-        best_match, best_score = None, 0
-        for canon, emb_list in CANONICAL_EMBEDDINGS.items():
-            score = util.cos_sim(col_emb, emb_list).max().item()
-            if score > best_score: best_score, best_match = score, canon
-        col_map[col] = best_match if best_score > 0.55 else "unknown_" + col
-    return col_map
-
-def normalize_inventory(df, col_map):
-    norm = pd.DataFrame()
-    for raw_col, canon in col_map.items(): norm[canon] = df[raw_col]
-    return norm
-
-def classify_item_type(desc: str) -> str:
-    d = (desc or "").lower()
-    if any(k in d for k in ["bolt", "nut", "washer", "screw"]): return "Fasteners"
-    if any(k in d for k in ["grease", "oil", "paint"]): return "Consumables"
-    return "Standard Parts"
-
-def attach_type_and_confidence(df, used_inventory: bool):
-    if df.empty: return pd.DataFrame(columns=["Description", "Make_Buy", "Work_Center", "Item_Type", "Confidence_Score"])
-    for col in ["Description", "Make_Buy", "Work_Center"]:
-        if col not in df.columns: df[col] = "NA"
-    df["Confidence_Score"] = 0.85 if used_inventory else 0.75
-    df["Item_Type"] = df["Description"].apply(lambda x: classify_item_type(str(x)))
-    return df
-
-def normalize_llm_keys(item_dict):
-    # Simplified Normalizer
-    KEY_MAP = {
-        "parent": "Parent_Part_No", "part_no": "Parent_Part_No", "pn": "Parent_Part_No",
-        "child": "Child_Part_No", "child_pn": "Child_Part_No", "component": "Child_Part_No",
-        "desc": "Description", "name": "Description", "qty": "Qty_Per", "uom": "UOM",
-        "level": "BOM_Level", "op": "Op_Sequence", "wc": "Work_Center", "make": "Make_Buy",
-        "bin": "Bin_Location", "cons": "Consumables"
-    }
-    new_item = {}
-    for k, v in item_dict.items():
-        k_lower = k.lower().replace(" ", "_").strip()
-        found = False
-        for correct_key in MBOMItem.__annotations__.keys():
-            if k_lower == correct_key.lower():
-                new_item[correct_key] = v
-                found = True
-                break
-        if not found:
-            for keyword, target in KEY_MAP.items():
-                if keyword in k_lower:
-                    new_item[target] = v
-                    found = True
-                    break
-        if not found: new_item[k] = v
-    return new_item
-
-# --- TURBO CHUNKING LOGIC ---
-
-def generate_chunk(ebom_chunk_df, inv_context_str):
-    ebom_csv = ebom_chunk_df.to_csv(index=False)
-    
-    # TURBO PROMPT: Short & Direct
-    prompt = f"""
-Convert eBOM to mBOM JSON.
-
-INPUT:
-{ebom_csv}
-
-INVENTORY:
-{inv_context_str}
-
-RULES:
-1. Parent_Part_No = 'Parent Assembly' column.
-2. Child_Part_No = 'Part_ID' column.
-3. Description = 'Part Name' column.
-4. Output JSON list.
-
-JSON Example:
-[{{ "Parent_Part_No": "A1", "Child_Part_No": "B2", "Description": "Bolt", "Qty_Per": 1, "Make_Buy": "Buy" }}]
-"""
+def get_ai_consumable(description, material):
+    prompt = f'''
+    Act as a Manufacturing Engineer.
+    Item: {description}
+    Material: {material}
+    Question: What implies consumable is needed for assembly? (e.g., Glue, Grease, Solder, Cable Tie).
+    Answer in 1 word only. If none, say NA.
+    '''
     try:
         response = ollama.generate(
             model=MODEL_NAME,
-            format=schema, 
             prompt=prompt,
-            # TURBO SETTINGS: Stop generation early to prevent hanging
-            options={"temperature": 0.0, "num_predict": 256, "top_p": 0.9} 
+            options={"temperature": 0.0, "num_predict": 10}
         )
-        response_json = json.loads(response['response'])
-        raw_items = response_json.get('items', [])
-        return [normalize_llm_keys(item) for item in raw_items]
-        
-    except Exception as e:
-        print(f"Chunk Error: {e}")
-        return []
+        return response['response'].strip().replace(".", "")
+    except:
+        return "NA"
+
+def heuristic_fill_consumables(row):
+    desc = str(row.get("Description", "")).lower()
+    mat = str(row.get("Material", "")).lower()
+    
+    if "plastic" in mat or "housing" in desc or "shell" in desc: return "Adhesive"
+    if "metal" in mat or "screw" in desc or "bolt" in desc: return "Lubricant"
+    if "pcb" in desc or "board" in desc: return "Solder"
+    if "cable" in desc or "wire" in desc: return "Cable Tie"
+    return "NA"
+
+def smart_find_column(df, candidates):
+    df_cols_lower = [c.lower().strip() for c in df.columns]
+    for candidate in candidates:
+        if candidate in df_cols_lower:
+            return df.columns[df_cols_lower.index(candidate)]
+    return None
+
+def normalize_columns_strictly(df):
+    df = df.fillna("NA") 
+    new_df = pd.DataFrame()
+
+    print(f"DEBUG: Found CSV Columns: {list(df.columns)}")
+
+    parent_col = smart_find_column(df, ['parent assembly', 'parent', 'parent part', 'parent_part_no'])
+    if parent_col:
+        new_df['Parent_Part_No'] = df[parent_col]
+    else:
+        print("WARNING: Could not find 'Parent Assembly' column. Defaulting to 'Top Level'.")
+        new_df['Parent_Part_No'] = "Top Level"
+
+    desc_col = smart_find_column(df, ['part name', 'description', 'desc', 'item name'])
+    if desc_col:
+        new_df['Description'] = df[desc_col]
+    else:
+        new_df['Description'] = "Unknown Part"
+
+    id_col = smart_find_column(df, ['part number', 'part_number', 'part no', 'child_part_no', 'child'])
+    if id_col:
+        new_df['Child_Part_No'] = df[id_col]
+    else:
+        new_df['Child_Part_No'] = "NA"
+
+    qty_col = smart_find_column(df, ['quantity', 'qty', 'qty_per', 'amount'])
+    if qty_col:
+        new_df['Qty_Per'] = pd.to_numeric(df[qty_col], errors='coerce').fillna(1)
+    else:
+        new_df['Qty_Per'] = 1
+
+    mb_col = smart_find_column(df, ['standard vs custom', 'make_buy', 'source'])
+    if mb_col:
+         new_df['Make_Buy'] = df[mb_col].apply(lambda x: "Make" if "Custom" in str(x) else "Buy")
+    else:
+         new_df['Make_Buy'] = "Buy"
+
+    mat_col = smart_find_column(df, ['material', 'raw material'])
+    if mat_col:
+        new_df['Material'] = df[mat_col]
+    else:
+        new_df['Material'] = ""
+
+    return new_df
 
 def generate_mbom_with_inventory(ebom_df, inv_df):
-    # PRE-PROCESSING: Force 'Part_ID' creation
-    ebom_map = learn_schema(ebom_df)
-    part_name_col = next((col for col, canon in ebom_map.items() if canon == "part_name"), None)
+    print(f"Step 1: Input Rows: {len(ebom_df)}")
     
-    if part_name_col:
-        print(f"Auto-Creating 'Part_ID' from '{part_name_col}'...")
-        ebom_df["Part_ID"] = ebom_df[part_name_col]
+    clean_df = normalize_columns_strictly(ebom_df)
+    clean_df = clean_df.fillna("NA")
     
-    # Context
-    ebom_map = learn_schema(ebom_df)
-    inv_map = learn_schema(inv_df)
-    ebom_norm = normalize_inventory(ebom_df, ebom_map)
-    inv_norm = normalize_inventory(inv_df, inv_map)
+    print("Step 2: Aggregating by NAME (Ignoring Unique IDs)...")
     
-    inv_context_str = inv_norm.head(20).to_csv(index=False) # Tiny context for speed
-
-    all_items = []
-    print(f"Starting Turbo Processing (Chunk size: {CHUNK_SIZE})...")
+    aggregated_df = clean_df.groupby(
+        ['Parent_Part_No', 'Description', 'Make_Buy', 'Material'], 
+        as_index=False
+    ).agg({
+        'Qty_Per': 'sum',
+        'Child_Part_No': 'first'
+    })
     
-    for i in range(0, len(ebom_norm), CHUNK_SIZE):
-        chunk = ebom_norm.iloc[i : i + CHUNK_SIZE]
-        print(f"Processing chunk {i}...")
-        items = generate_chunk(chunk, inv_context_str)
-        print(f"--- Chunk {i} Done ({len(items)} items) ---") # Progress Log
-        all_items.extend(items)
+    print(f"Step 3: Aggregated Rows: {len(aggregated_df)}")
+    
+    final_rows = []
+    for index, row in aggregated_df.iterrows():
+        item = row.to_dict()
         
-    df_final = pd.DataFrame(all_items)
+        cons = heuristic_fill_consumables(item)
+        item['Consumables'] = cons
+        
+        if item['Make_Buy'] == 'Make':
+            item['Work_Center'] = "Assembly Line"
+        else:
+            item['Work_Center'] = "Store"
+            
+        final_rows.append(item)
+
+    final_df = pd.DataFrame(final_rows)
     
     expected_cols = [
         "Parent_Part_No", "Child_Part_No", "Description", "Qty_Per", "UOM",
-        "BOM_Level", "Op_Sequence", "Work_Center", "Make_Buy", "Plant",
-        "Bin_Location", "Consumables"
+        "Make_Buy", "Work_Center", "Consumables"
     ]
     
-    for col in expected_cols:
-        if col not in df_final.columns: df_final[col] = "NA"
-
-    return attach_type_and_confidence(df_final[expected_cols], used_inventory=True)
+    if final_df.empty:
+        final_df = pd.DataFrame(columns=expected_cols)
+    else:
+        final_df['UOM'] = "EA"
+        for col in expected_cols:
+            if col not in final_df.columns:
+                final_df[col] = "NA"
+    
+    final_df = final_df.fillna("NA")
+    
+    print(f"Success! Returning {len(final_df)} rows.")
+    return final_df[expected_cols]
 
 def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None: inv_df = pd.DataFrame()

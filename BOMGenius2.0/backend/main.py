@@ -172,6 +172,8 @@ async def ebom_from_image_api(file: UploadFile = File(...)):
     return {"columns": list(df_ebom.columns), "rows": df_ebom.to_dict(orient="records")}
 
 
+
+
 @app.get("/mbom/history")
 def get_mbom_history():
 
@@ -182,16 +184,32 @@ def get_mbom_history():
             FROM mbom
             GROUP BY timestamp
             ORDER BY timestamp DESC
-        """
+            """
         ).fetchall()
 
     history = []
 
     for ts, count in rows:
-        dt = datetime.fromisoformat(ts)
+
+        if ts is None:
+            continue
+
+        # Convert safely to datetime
+        try:
+            if isinstance(ts, datetime):
+                dt = ts
+            else:
+                dt = datetime.fromisoformat(str(ts))
+        except Exception:
+            try:
+                dt = datetime.strptime(str(ts), "%Y-%m-%d %H:%M:%S")
+            except Exception:
+                # If completely invalid format, skip row
+                continue
+
         history.append(
             {
-                "timestamp": ts,
+                "timestamp": str(ts),
                 "date": dt.strftime("%d-%m-%Y"),
                 "time": dt.strftime("%I:%M %p"),
                 "rows": count,
@@ -199,6 +217,38 @@ def get_mbom_history():
         )
 
     return history
+
+
+
+# @app.get("/mbom/history")
+# def get_mbom_history():
+
+#     with sqlite3.connect("bomgenius.db") as conn:
+#         rows = conn.execute(
+#             """
+#             SELECT timestamp, COUNT(*) as total_rows
+#             FROM mbom
+#             GROUP BY timestamp
+#             ORDER BY timestamp DESC
+#         """
+#         ).fetchall()
+
+#     history = []
+
+#     for ts, count in rows:
+#         dt = datetime.fromisoformat(ts)
+#         history.append(
+#             {
+#                 "timestamp": ts,
+#                 "date": dt.strftime("%d-%m-%Y"),
+#                 "time": dt.strftime("%I:%M %p"),
+#                 "rows": count,
+#             }
+#         )
+
+    
+
+#     return history
 
 
 @app.get("/mbom/by-timestamp/{ts}")
@@ -231,6 +281,9 @@ def get_mbom_by_timestamp(ts: str):
     ]
 
     df = pd.DataFrame(data, columns=columns)
+    print(columns)
+
+    print(df)
 
     return {"columns": list(df.columns), "rows": df.to_dict(orient="records")}
 

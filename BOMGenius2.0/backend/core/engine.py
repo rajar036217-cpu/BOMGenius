@@ -7,7 +7,7 @@ from typing import Optional, List, Union
 
 print("--- Engine.py Loaded: AGGRESSIVE MERGE MODE (Verified) ---")
 
-MODEL_NAME = "llama3.2:3b"
+MODEL_NAME = "llama3.2:1b"
 
 def get_ai_consumable(description, material):
     prompt = f'''
@@ -50,32 +50,32 @@ def normalize_columns_strictly(df):
 
     print(f"DEBUG: Found CSV Columns: {list(df.columns)}")
 
-    parent_col = smart_find_column(df, ['parent assembly', 'parent', 'parent part', 'parent_part_no'])
+    parent_col = smart_find_column(df, ['parent assembly', 'parent', 'parent part', 'parent_part_no', 'part_number'])
     if parent_col:
         new_df['Parent_Part_No'] = df[parent_col]
     else:
         print("WARNING: Could not find 'Parent Assembly' column. Defaulting to 'Top Level'.")
         new_df['Parent_Part_No'] = "Top Level"
 
-    desc_col = smart_find_column(df, ['part name', 'description', 'desc', 'item name'])
+    desc_col = smart_find_column(df, ['part_name', 'description', 'desc', 'item name'])
     if desc_col:
         new_df['Description'] = df[desc_col]
     else:
         new_df['Description'] = "Unknown Part"
 
-    id_col = smart_find_column(df, ['part number', 'part_number', 'part no', 'child_part_no', 'child'])
+    id_col = smart_find_column(df, ['revision','Revision'])
     if id_col:
-        new_df['Child_Part_No'] = df[id_col]
+        new_df['Revision'] = df[id_col]
     else:
-        new_df['Child_Part_No'] = "NA"
+        new_df['Revision'] = "NA"
 
-    qty_col = smart_find_column(df, ['quantity', 'qty', 'qty_per', 'amount'])
+    qty_col = smart_find_column(df, ['quantity', 'qty', 'qty_per', 'amount','weight'])
     if qty_col:
         new_df['Qty_Per'] = pd.to_numeric(df[qty_col], errors='coerce').fillna(1)
     else:
         new_df['Qty_Per'] = 1
 
-    mb_col = smart_find_column(df, ['standard vs custom', 'make_buy', 'source'])
+    mb_col = smart_find_column(df, ['standard_vs_custom', 'make_buy', 'source'])
     if mb_col:
          new_df['Make_Buy'] = df[mb_col].apply(lambda x: "Make" if "Custom" in str(x) else "Buy")
     else:
@@ -102,11 +102,62 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
         as_index=False
     ).agg({
         'Qty_Per': 'sum',
-        'Child_Part_No': 'first'
+        'Revision':'first'
     })
     
     print(f"Step 3: Aggregated Rows: {len(aggregated_df)}")
-    
+
+    # -------------------------------
+    # 🔥 INSERT PROMPT SECTION HERE
+    # -------------------------------
+
+    ebom_context = aggregated_df.to_csv(index=False)
+    inv_context = inv_df.fillna("NA").to_csv(index=False)
+
+    prompt = f"""
+You are a Manufacturing Engineer AI embedded in a PLM → MES → ERP pipeline.
+
+TASK:
+Transform the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) using FACTORY INVENTORY first, then manufacturing reasoning.
+
+### INPUT DATA
+EBOM (CSV):
+{ebom_context}
+
+INVENTORY (CSV):
+{inv_context}
+
+### STRUCTURE RULES
+- Prefer inventory Make/Buy
+- Fasteners=BUY
+- Fabricated=MAKE
+- Fasteners UOM=EA
+- Choose Work_Center from Welding, Assembly, QC, Packaging
+- Default Plant=PLANT-01
+- No markdown
+- No explanation
+- Pipe | separated rows only
+
+Generate mBOM rows.
+"""
+
+    try:
+        response = ollama.generate(
+            model=MODEL_NAME,
+            prompt=prompt,
+            options={"temperature": 0.0}
+        )
+
+        print("AI Manufacturing Reasoning Output:")
+        print(response["response"])
+
+    except Exception as e:
+        print("AI call failed:", e)
+
+    # --------------------------------
+    # CONTINUE YOUR ORIGINAL LOGIC
+    # --------------------------------
+
     final_rows = []
     for index, row in aggregated_df.iterrows():
         item = row.to_dict()
@@ -124,7 +175,7 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     final_df = pd.DataFrame(final_rows)
     
     expected_cols = [
-        "Parent_Part_No", "Child_Part_No", "Description", "Qty_Per", "UOM",
+        "Parent_Part_No", "Revision", "Description", "Qty_Per", "UOM",
         "Make_Buy", "Work_Center", "Consumables"
     ]
     
@@ -139,7 +190,9 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     final_df = final_df.fillna("NA")
     
     print(f"Success! Returning {len(final_df)} rows.")
+    print(final_df.columns)
     return final_df[expected_cols]
+
 
 def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None: inv_df = pd.DataFrame()

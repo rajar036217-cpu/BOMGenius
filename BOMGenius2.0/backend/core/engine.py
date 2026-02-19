@@ -7,7 +7,7 @@ from typing import Optional, List, Union
 
 print("--- Engine.py Loaded: AGGRESSIVE MERGE MODE (Verified) ---")
 
-MODEL_NAME = "llama3.2:1b"
+MODEL_NAME = "llama3.2:3b"
 
 def get_ai_consumable(description, material):
     prompt = f'''
@@ -115,32 +115,154 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     inv_context = inv_df.fillna("NA").to_csv(index=False)
 
     prompt = f"""
-You are a Manufacturing Engineer AI embedded in a PLM → MES → ERP pipeline.
+You are a Senior Manufacturing Engineer working in an SAP/ERP environment.
 
-TASK:
-Transform the given Engineering BOM (eBOM) into a Manufacturing BOM (mBOM) using FACTORY INVENTORY first, then manufacturing reasoning.
+Convert the provided eBOM into a manufacturing-ready mBOM WITH inventory awareness.
 
-### INPUT DATA
-EBOM (CSV):
-{ebom_context}
+You are given:
+1. eBOM data
+2. Inventory Master data (Part Number, In_Inventory, Stock_Qty, Store_Location, Approved_Supplier, Lead_Time_Days)
 
-INVENTORY (CSV):
-{inv_context}
+Follow these rules strictly.
 
-### STRUCTURE RULES
-- Prefer inventory Make/Buy
-- Fasteners=BUY
-- Fabricated=MAKE
-- Fasteners UOM=EA
-- Choose Work_Center from Welding, Assembly, QC, Packaging
-- Default Plant=PLANT-01
-- No markdown
-- No explanation
-- Pipe | separated rows only
+-------------------------------------------------------
+STEP 1: BUILD MULTI-LEVEL HIERARCHY
+-------------------------------------------------------
 
-Generate mBOM rows.
+1. Use Parent Assembly column to map parent-child relationship.
+2. If Parent Assembly matches a Part Name, map to its Part Number.
+3. Level Rules:
+   - Level 0 = Final Product (no parent)
+   - Level 1 = Direct children of Level 0
+   - Level 2 = Children of Level 1
+   - Continue recursively
+4. Never skip levels.
+5. Maintain Hierarchy Path for sorting.
+
+-------------------------------------------------------
+STEP 2: CLASSIFY NODE TYPE
+-------------------------------------------------------
+
+- If Part Type = Assembly → Node Type = Assembly
+- If Part Type contains "Sub" → Node Type = Sub-Assembly
+- Else → Component
+
+-------------------------------------------------------
+STEP 3: DETERMINE MAKE / BUY
+-------------------------------------------------------
+
+Rules:
+
+- Assemblies → Make
+- Custom Mechanical parts → Make
+- Standard parts → Buy
+- Electronic components (PCB, capacitor, resistor, IC, connector, cable, fuse, transformer, etc.) → Buy
+
+-------------------------------------------------------
+STEP 4: INVENTORY VALIDATION LOGIC
+-------------------------------------------------------
+
+Use Inventory Master:
+
+If Make item:
+   Inventory Status = "N/A (Manufactured Item)"
+
+If Buy item:
+   If In_Inventory = Yes AND Stock_Qty > 0:
+        Inventory Status = "Available in Stock"
+        Procurement Action = "Issue from Stores"
+   Else:
+        Inventory Status = "Not Available"
+        Procurement Action = "Trigger Purchase Requisition"
+        Use Approved_Supplier and Lead_Time_Days
+
+-------------------------------------------------------
+STEP 5: ASSIGN WORK CENTER
+-------------------------------------------------------
+
+If Make:
+   Assembly → Final Assembly Line
+   Mechanical → Injection Molding / Mechanical Assembly
+   PCB (Make) → SMT Line
+   Other → Manufacturing Cell
+
+If Buy:
+   Electronics → Incoming Inspection (Electronics)
+   Other → Incoming Inspection (General)
+
+-------------------------------------------------------
+STEP 6: GENERATE PROCUREMENT STEPS
+-------------------------------------------------------
+
+If Buy AND Not Available:
+   "Vendor Selection -> PR -> PO -> GRN -> Incoming QC -> Putaway -> Issue to Line"
+
+If Buy AND Available:
+   "Material Issue from Stores -> Line Supply"
+
+If Make:
+   "Issue Components -> Manufacture/Assemble -> In-process QC -> Final Test -> FG Receipt"
+
+-------------------------------------------------------
+STEP 7: GENERATE ROUTING OPERATIONS
+-------------------------------------------------------
+
+If Buy:
+   10: PR/PO (if required)
+   20: Incoming Inspection
+   30: Putaway or Issue
+
+If Make Assembly:
+   10: Kitting/Issue
+   20: Assembly
+   30: Functional Test
+   40: Packing
+
+If Make Component:
+   10: Material Issue
+   20: Primary Process
+   30: Finishing
+   40: In-Process Inspection
+
+-------------------------------------------------------
+STEP 8: OUTPUT FORMAT
+-------------------------------------------------------
+
+Return a SINGLE CONSOLIDATED TABLE with columns:
+
+Level
+Parent Part Number
+Parent Description
+Child Part Number
+Child Description
+Qty
+UOM
+Revision
+Node Type
+Make/Buy
+Inventory Status
+Stock_Qty
+Store_Location
+Procurement Action
+Approved_Supplier
+Lead_Time_Days
+Work Center
+Effective Date
+Procurement Steps
+Operations (Routing Embedded)
+Hierarchy Path
+
+-------------------------------------------------------
+STRICT RULES
+-------------------------------------------------------
+
+- Do NOT invent parent-child relationships.
+- Use only given data.
+- Do NOT hallucinate inventory if not provided.
+- Keep structure deterministic.
+- Output clean CSV-style table.
 """
-
+    
     try:
         response = ollama.generate(
             model=MODEL_NAME,
@@ -196,4 +318,5 @@ Generate mBOM rows.
 
 def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None: inv_df = pd.DataFrame()
+
     return generate_mbom_with_inventory(ebom_df, inv_df)

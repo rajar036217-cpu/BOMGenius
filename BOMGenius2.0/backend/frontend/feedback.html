@@ -142,6 +142,12 @@
 
 <!-- SCRIPT -->
 <script>
+const API_BASE = "http://127.0.0.1:8000";
+
+/* ================================
+   UI Helpers
+================================ */
+
 function toggleDropdown(){
   document.getElementById("companyDropdown").classList.toggle("hidden");
 }
@@ -157,19 +163,142 @@ document.addEventListener("click",function(e){
   }
 });
 
-function submitFeedback(){
-  const expected=document.getElementById("expected").value;
 
-  if(expected.trim()===""){
+/* ================================
+   Submit Human Feedback (FL Local Training)
+   Matches: POST /feedback
+================================ */
+
+async function submitFeedback(){
+
+  const ebom = document.getElementById("ebom").value.trim();
+  const generated = document.getElementById("generated").value.trim();
+  const expected = document.getElementById("expected").value.trim();
+
+  if(expected === ""){
     alert("Please enter Expected M-BOM.");
     return;
   }
 
+  try {
+
+    // Extract part number from EBOM text (simple demo parsing)
+    // You can improve this if needed
+    let partNo = ebom.split("\n")[0] || "UNKNOWN-PART";
+
+    const payload = {
+      part_no: partNo,
+      correct_make_buy: expected.includes("BUY") ? "BUY" : "MAKE",
+      correct_uom: null,
+      correct_work_center: null
+    };
+
+    const response = await fetch(`${API_BASE}/feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if(response.ok){
+      showSuccess("Feedback submitted successfully ✔ Federated node updated locally.");
+    } else {
+      showError("Failed to submit feedback.");
+    }
+
+  } catch(err){
+    console.error(err);
+    showError("Server connection failed.");
+  }
+}
+
+
+/* ================================
+   Export Local Updates
+   Matches: GET /federated/export
+================================ */
+
+async function exportLocalUpdates(){
+
+  try{
+    const res = await fetch(`${API_BASE}/federated/export`);
+    const data = await res.json();
+
+    console.log("Local Updates:", data);
+
+    showSuccess(`Exported ${data.length} local updates.`);
+
+  } catch(err){
+    console.error(err);
+    showError("Export failed.");
+  }
+}
+
+
+/* ================================
+   Import Global Rules
+   Matches: POST /federated/import
+   (Used if coordinator pushes rules)
+================================ */
+
+async function importGlobalRules(globalRules){
+
+  try{
+    const res = await fetch(`${API_BASE}/federated/import`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(globalRules)
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+      showSuccess("Global federated rules imported ✔");
+    } else {
+      showError("Import failed.");
+    }
+
+  } catch(err){
+    console.error(err);
+    showError("Import connection error.");
+  }
+}
+
+
+/* ================================
+   UI Rendering
+================================ */
+
+function showSuccess(message){
   document.getElementById("oldBom").classList.add("hidden");
   document.getElementById("newBom").classList.remove("hidden");
-  document.getElementById("updatedText").innerText=
-    "Updated M-BOM:\n\n"+expected;
+
+  document.getElementById("newBom").classList.remove("bg-green-100");
+  document.getElementById("newBom").classList.remove("bg-red-100");
+  document.getElementById("newBom").classList.add("bg-green-100");
+
+  document.getElementById("updatedText").innerText = message;
 }
+
+function showError(message){
+  document.getElementById("oldBom").classList.add("hidden");
+  document.getElementById("newBom").classList.remove("hidden");
+
+  document.getElementById("newBom").classList.remove("bg-green-100");
+  document.getElementById("newBom").classList.add("bg-red-100");
+
+  document.getElementById("updatedText").innerText = message;
+}
+
+
+/* ================================
+   Optional: Reset Form
+================================ */
 
 function resetForm(){
   document.getElementById("ebom").value="";
@@ -179,6 +308,7 @@ function resetForm(){
   document.getElementById("newBom").classList.add("hidden");
   document.getElementById("oldBom").classList.remove("hidden");
 }
+
 </script>
 
 <footer class="text-center py-6 text-[#6E6E8A] text-sm">
@@ -187,3 +317,4 @@ function resetForm(){
 
 </body>
 </html>
+

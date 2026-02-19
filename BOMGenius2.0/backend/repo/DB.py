@@ -67,7 +67,6 @@ def init_db():
 from datetime import datetime
 
 def save_mbom(df):
-    import sqlite3
 
     conn = sqlite3.connect(DB_NAME)
 
@@ -85,6 +84,7 @@ def save_mbom(df):
 
     # 🔹 Reorder to match DB exactly
     df = df[db_columns]
+    print(df)
 
     # 🔹 Insert safely
     df.to_sql("mbom", conn, if_exists="append", index=False)

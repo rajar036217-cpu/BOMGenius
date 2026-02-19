@@ -56,9 +56,6 @@ class RegisterRequest(BaseModel):
     company_address: str
     password: str
     confirm_password: str
-    
-class FeedbackRequest(BaseModel):
-    message: str
 
 class SettingsRequest(BaseModel):
     company: str
@@ -66,7 +63,7 @@ class SettingsRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(frontend_path, "index.html"))
+    return FileResponse(os.path.join(frontend_path, "home.html"))
 
 @app.post("/login")
 def login(data: LoginRequest):
@@ -79,10 +76,6 @@ def register(data: RegisterRequest):
 @app.post("/forgot-password")
 def forgot_password(email: str):
     return {"message": "Reset link sent"}
-
-@app.post("/feedback")
-def feedback(data: FeedbackRequest):
-    return {"message": "Feedback submitted"}
 
 @app.post("/settings")
 def save_settings(data: SettingsRequest):
@@ -339,15 +332,17 @@ from pydantic import BaseModel
 from typing import Optional
 
 class Feedback(BaseModel):
-    part_no: str
-    correct_make_buy: str
-    correct_uom: Optional[str] = None
-    correct_work_center: Optional[str] = None
+    ebom_part: str
+    ai_matched_part: str
+    correct_part: str
 
 
 @app.post("/feedback")
 def submit_feedback(feedback: Feedback):
-    log_human_feedback(feedback.dict())
+    log_human_feedback({
+    "ebom_part": feedback.ebom_part,
+    "correct_part": feedback.correct_part
+})
     return {"status": "feedback recorded"}
 
 

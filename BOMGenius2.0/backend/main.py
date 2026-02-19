@@ -80,10 +80,6 @@ def register(data: RegisterRequest):
 def forgot_password(email: str):
     return {"message": "Reset link sent"}
 
-@app.post("/feedback")
-def feedback(data: FeedbackRequest):
-    return {"message": "Feedback submitted"}
-
 @app.post("/settings")
 def save_settings(data: SettingsRequest):
     return {"message": "Settings saved"}
@@ -337,10 +333,9 @@ def get_dashboard():
 
 class Feedback(BaseModel):
     part_no: str
-    correct_make_buy: str | None = None
-    correct_uom: str | None = None
-    correct_work_center: str | None = None
-
+    correct_make_buy: Optional[str] = None
+    correct_uom: Optional[str] = None
+    correct_work_center: Optional[str] = None
 
 @app.post("/feedback")
 def submit_feedback(feedback: Feedback):

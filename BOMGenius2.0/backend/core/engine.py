@@ -17,7 +17,7 @@ def load_global_rules():
 
 print("--- Engine.py Loaded: AGGRESSIVE MERGE MODE (Verified) ---")
 
-MODEL_NAME = "llama3.2:1b"
+MODEL_NAME = "llama3.2:3b"
 
 def get_ai_consumable(description, material):
     prompt = f'''
@@ -316,4 +316,5 @@ STRICT RULES
 
 def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None: inv_df = pd.DataFrame()
+
     return generate_mbom_with_inventory(ebom_df, inv_df)

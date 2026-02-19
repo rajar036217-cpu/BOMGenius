@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Federated Learning - BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  .nav-shadow {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
+
+<!-- NAVBAR -->
+<header class="flex justify-between items-center px-10 py-6
+               bg-[#87CEFA]/40 backdrop-blur-xl
+               border-b border-[#C8A2C8]
+               nav-shadow sticky top-0 z-50">
+
+  <h1 class="text-3xl font-bold text-[#5A4E7C]">
+    BOM Genius
+  </h1>
+
+  <nav class="flex space-x-10 text-lg font-medium">
+    <a href="home.html" class="hover:text-[#C8A2C8]">Home</a>
+    <a href="fullbomconverter.html" class="hover:text-[#C8A2C8]">BOM Converter</a>
+    <a href="feedback.html" class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">Federated Learning</a>
+    <a href="settings.html" class="hover:text-[#C8A2C8]">Settings</a>
+    <a href="history.html" class="hover:text-[#C8A2C8]">History</a>
+  </nav>
+
+  <!-- COMPANY DROPDOWN -->
+  <div class="relative font-medium text-[#5A4E7C]">
+
+    <button onclick="toggleDropdown()"
+            class="flex items-center gap-2 focus:outline-none">
+      Company:
+      <span class="font-semibold">ABC Industries</span>
+      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor"
+           stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div id="companyDropdown"
+         class="hidden absolute right-0 mt-3 w-36
+                bg-white rounded-xl shadow-lg border border-[#E0E0E0] z-50">
+
+      <button onclick="logout()"
+              class="w-full text-left px-5 py-3 text-red-600
+                     hover:bg-[#F1F3F6] font-medium rounded-xl">
+        Logout
+      </button>
+
+    </div>
+  </div>
+
+</header>
+
+<!-- FORM -->
+<section class="px-10 py-16 max-w-4xl mx-auto">
+
+  <h2 class="text-4xl font-bold text-center text-[#5A4E7C] mb-12">
+    M-BOM Correction
+  </h2>
+
+  <div class="space-y-8">
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
+        Upload E-BOM item
+      </label>
+      <textarea id="ebom"
+        class="w-full p-4 rounded-xl border border-gray-300"
+        rows="3"
+        placeholder="Enter E-BOM details here..."></textarea>
+    </div>
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
+        Generated M-BOM item
+      </label>
+      <textarea id="generated"
+        class="w-full p-4 rounded-xl border border-gray-300"
+        rows="3"
+        placeholder="Enter generated M-BOM details..."></textarea>
+    </div>
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
+        Expected / Actual M-BOM
+      </label>
+      <textarea id="expected"
+        class="w-full p-4 rounded-xl border border-gray-300"
+        rows="3"
+        placeholder="Enter correct M-BOM output..."></textarea>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex space-x-6 mt-6">
+      <button onclick="submitFeedback()"
+        class="bg-[#C8A2C8] text-white hover:bg-[#B58FB5] px-8 py-3 rounded-lg font-semibold dark-shadow">
+        Submit
+      </button>
+
+      <button onclick="resetForm()"
+        class="bg-[#5A4E7C] text-white hover:bg-[#4B4067] px-8 py-3 rounded-lg font-semibold dark-shadow">
+        Reset
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESULT -->
+<section class="px-10 py-16">
+
+  <h2 class="text-2xl text-center text-[#5A4E7C] mb-8 font-bold">
+    Updated M-BOM Output
+  </h2>
+
+  <div id="oldBom"
+    class="max-w-3xl mx-auto bg-[#F1F3F6] rounded-xl p-6 mb-6 dark-shadow">
+    <p class="text-[#6E6E8A]">
+      Old Generated M-BOM will appear here...
+    </p>
+  </div>
+
+  <div id="newBom"
+    class="hidden max-w-3xl mx-auto bg-green-100 rounded-xl p-6 dark-shadow">
+    <p id="updatedText" class="text-green-800 font-medium whitespace-pre-line"></p>
+  </div>
+
+</section>
+
+<!-- SCRIPT -->
+<script>
+const API_BASE = "http://127.0.0.1:8000";
+
+/* ================================
+   UI Helpers
+================================ */
+
+function toggleDropdown(){
+  document.getElementById("companyDropdown").classList.toggle("hidden");
+}
+
+function logout(){
+  window.location.href="role.html";
+}
+
+document.addEventListener("click",function(e){
+  const dropdown=document.getElementById("companyDropdown");
+  if(!e.target.closest(".relative")){
+    dropdown.classList.add("hidden");
+  }
+});
+
+
+/* ================================
+   Submit Human Feedback (FL Local Training)
+   Matches: POST /feedback
+================================ */
+
+async function submitFeedback(){
+
+  const ebom = document.getElementById("ebom").value.trim();
+  const generated = document.getElementById("generated").value.trim();
+  const expected = document.getElementById("expected").value.trim();
+
+  if(expected === ""){
+    alert("Please enter Expected M-BOM.");
+    return;
+  }
+
+  try {
+
+    // Extract part number from EBOM text (simple demo parsing)
+    // You can improve this if needed
+    let partNo = ebom.split("\n")[0] || "UNKNOWN-PART";
+
+    const payload = {
+      part_no: partNo,
+      correct_make_buy: expected.includes("BUY") ? "BUY" : "MAKE",
+      correct_uom: null,
+      correct_work_center: null
+    };
+
+    const response = await fetch(`${API_BASE}/feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if(response.ok){
+      showSuccess("Feedback submitted successfully ✔ Federated node updated locally.");
+    } else {
+      showError("Failed to submit feedback.");
+    }
+
+  } catch(err){
+    console.error(err);
+    showError("Server connection failed.");
+  }
+}
+
+
+/* ================================
+   Export Local Updates
+   Matches: GET /federated/export
+================================ */
+
+async function exportLocalUpdates(){
+
+  try{
+    const res = await fetch(`${API_BASE}/federated/export`);
+    const data = await res.json();
+
+    console.log("Local Updates:", data);
+
+    showSuccess(`Exported ${data.length} local updates.`);
+
+  } catch(err){
+    console.error(err);
+    showError("Export failed.");
+  }
+}
+
+
+/* ================================
+   Import Global Rules
+   Matches: POST /federated/import
+   (Used if coordinator pushes rules)
+================================ */
+
+async function importGlobalRules(globalRules){
+
+  try{
+    const res = await fetch(`${API_BASE}/federated/import`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(globalRules)
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+      showSuccess("Global federated rules imported ✔");
+    } else {
+      showError("Import failed.");
+    }
+
+  } catch(err){
+    console.error(err);
+    showError("Import connection error.");
+  }
+}
+
+
+/* ================================
+   UI Rendering
+================================ */
+
+function showSuccess(message){
+  document.getElementById("oldBom").classList.add("hidden");
+  document.getElementById("newBom").classList.remove("hidden");
+
+  document.getElementById("newBom").classList.remove("bg-green-100");
+  document.getElementById("newBom").classList.remove("bg-red-100");
+  document.getElementById("newBom").classList.add("bg-green-100");
+
+  document.getElementById("updatedText").innerText = message;
+}
+
+function showError(message){
+  document.getElementById("oldBom").classList.add("hidden");
+  document.getElementById("newBom").classList.remove("hidden");
+
+  document.getElementById("newBom").classList.remove("bg-green-100");
+  document.getElementById("newBom").classList.add("bg-red-100");
+
+  document.getElementById("updatedText").innerText = message;
+}
+
+
+/* ================================
+   Optional: Reset Form
+================================ */
+
+function resetForm(){
+  document.getElementById("ebom").value="";
+  document.getElementById("generated").value="";
+  document.getElementById("expected").value="";
+
+  document.getElementById("newBom").classList.add("hidden");
+  document.getElementById("oldBom").classList.remove("hidden");
+}
+
+</script>
+
+<footer class="text-center py-6 text-[#6E6E8A] text-sm">
+  © 2026 BOM Genius. All rights reserved.
+</footer>
+
+</body>
+</html>

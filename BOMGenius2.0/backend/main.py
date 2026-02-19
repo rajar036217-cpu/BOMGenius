@@ -66,7 +66,7 @@ class SettingsRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(frontend_path, "home.html"))
+    return FileResponse(os.path.join(frontend_path, "index.html"))
 
 @app.post("/login")
 def login(data: LoginRequest):
@@ -79,6 +79,10 @@ def register(data: RegisterRequest):
 @app.post("/forgot-password")
 def forgot_password(email: str):
     return {"message": "Reset link sent"}
+
+@app.post("/feedback")
+def feedback(data: FeedbackRequest):
+    return {"message": "Feedback submitted"}
 
 @app.post("/settings")
 def save_settings(data: SettingsRequest):
@@ -168,120 +172,120 @@ async def ebom_from_image_api(file: UploadFile = File(...)):
     return {"columns": list(df_ebom.columns), "rows": df_ebom.to_dict(orient="records")}
 
 
+from fastapi import FastAPI, HTTPException
+import sqlite3
+from datetime import datetime
+from typing import List, Dict
+
+DATABASE = "bomgenius.db"
 
 
-@app.get("/mbom/history")
+@app.get("/mbom/history", response_model=List[Dict])
 def get_mbom_history():
+    """
+    Returns MBOM history grouped by timestamp.
+    Includes formatted date, time, and row count.
+    """
 
-    with sqlite3.connect("bomgenius.db") as conn:
-        rows = conn.execute(
-            """
-            SELECT timestamp, COUNT(*) as total_rows
-            FROM mbom
-            GROUP BY timestamp
-            ORDER BY timestamp DESC
-            """
-        ).fetchall()
+    try:
+        # Connect to SQLite database
+        with sqlite3.connect(DATABASE) as conn:
 
-    history = []
+            # Optional: return rows as dict-like objects
+            conn.row_factory = sqlite3.Row
 
-    for ts, count in rows:
+            cursor = conn.cursor()
 
-        if ts is None:
-            continue
+            cursor.execute(
+                """
+                SELECT timestamp, COUNT(*) as total_rows
+                FROM mbom
+                GROUP BY timestamp
+                ORDER BY timestamp DESC
+                """
+            )
 
-        # Convert safely to datetime
-        try:
-            if isinstance(ts, datetime):
-                dt = ts
-            else:
-                dt = datetime.fromisoformat(str(ts))
-        except Exception:
-            try:
-                dt = datetime.strptime(str(ts), "%Y-%m-%d %H:%M:%S")
-            except Exception:
-                # If completely invalid format, skip row
+            rows = cursor.fetchall()
+
+        history = []
+
+        for row in rows:
+
+            ts = row["timestamp"]
+            count = row["total_rows"]
+
+            # Skip invalid timestamps
+            if ts is None:
                 continue
 
-        history.append(
-            {
-                "timestamp": str(ts),
-                "date": dt.strftime("%d-%m-%Y"),
-                "time": dt.strftime("%I:%M %p"),
-                "rows": count,
-            }
+            # Convert timestamp safely
+            try:
+                if isinstance(ts, str):
+                    dt = datetime.fromisoformat(ts)
+                else:
+                    dt = datetime.fromisoformat(str(ts))
+            except Exception:
+                # fallback if format is different
+                dt = datetime.strptime(str(ts), "%Y-%m-%d %H:%M:%S")
+
+            history.append(
+                {
+                    "timestamp": str(ts),
+                    "date": dt.strftime("%d-%m-%Y"),
+                    "time": dt.strftime("%I:%M %p"),
+                    "rows": count,
+                }
+            )
+
+        return history
+
+    except sqlite3.Error as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Database error: {str(e)}"
         )
 
-    return history
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unexpected error: {str(e)}"
+        )
 
-
-
-# @app.get("/mbom/history")
-# def get_mbom_history():
-
-#     with sqlite3.connect("bomgenius.db") as conn:
-#         rows = conn.execute(
-#             """
-#             SELECT timestamp, COUNT(*) as total_rows
-#             FROM mbom
-#             GROUP BY timestamp
-#             ORDER BY timestamp DESC
-#         """
-#         ).fetchall()
-
-#     history = []
-
-#     for ts, count in rows:
-#         dt = datetime.fromisoformat(ts)
-#         history.append(
-#             {
-#                 "timestamp": ts,
-#                 "date": dt.strftime("%d-%m-%Y"),
-#                 "time": dt.strftime("%I:%M %p"),
-#                 "rows": count,
-#             }
-#         )
-
-    
-
-#     return history
 
 
 @app.get("/mbom/by-timestamp/{ts}")
 def get_mbom_by_timestamp(ts: str):
-    import sqlite3
 
+    import sqlite3
     import pandas as pd
 
     with sqlite3.connect("bomgenius.db") as conn:
-        data = conn.execute("SELECT * FROM mbom WHERE timestamp = ?", (ts,)).fetchall()
 
-    if not data:
-        return {"columns": [], "rows": []}
+        conn.row_factory = sqlite3.Row
 
-    columns = [
-        "parent_part",
-        "child_part",
-        "description",
-        "qty",
-        "uom",
-        "level",
-        "lead_time",
-        "work_center",
-        "make_buy",
-        "phantom",
-        "scrap",
-        "plant",
-        "storage_location",
-        "timestamp",
-    ]
+        cursor = conn.cursor()
 
-    df = pd.DataFrame(data, columns=columns)
-    print(columns)
+        cursor.execute(
+            "SELECT * FROM mbom WHERE timestamp = ?",
+            (ts,)
+        )
 
-    print(df)
+        rows = cursor.fetchall()
 
-    return {"columns": list(df.columns), "rows": df.to_dict(orient="records")}
+        if not rows:
+            return {"columns": [], "rows": []}
+
+        # Automatically get column names
+        columns = [col[0] for col in cursor.description]
+
+        # Convert to DataFrame safely
+        df = pd.DataFrame(rows, columns=columns)
+
+    return {
+        "columns": columns,
+        "rows": df.to_dict(orient="records")
+    }
+
 
 @app.get("/dashboard")
 def get_dashboard():
@@ -331,16 +335,21 @@ def get_dashboard():
         "avg_components": avg_components or 0
     }
 
+from pydantic import BaseModel
+from typing import Optional
+
 class Feedback(BaseModel):
     part_no: str
-    correct_make_buy: Optional[str] = None
+    correct_make_buy: str
     correct_uom: Optional[str] = None
     correct_work_center: Optional[str] = None
+
 
 @app.post("/feedback")
 def submit_feedback(feedback: Feedback):
     log_human_feedback(feedback.dict())
     return {"status": "feedback recorded"}
+
 
 
 @app.get("/federated/export")

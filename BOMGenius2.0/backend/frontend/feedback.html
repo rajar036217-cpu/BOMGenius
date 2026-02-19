@@ -175,43 +175,40 @@ async function submitFeedback(){
   const generated = document.getElementById("generated").value.trim();
   const expected = document.getElementById("expected").value.trim();
 
-  if(expected === ""){
-    alert("Please enter Expected M-BOM.");
-    return;
+  if(!ebom || !generated || !expected){
+      alert("Please fill all fields.");
+      return;
   }
 
+  const payload = {
+      ebom_part: ebom,
+      ai_matched_part: generated,
+      correct_part: expected
+  };
+
+  console.log("Sending FL correction:", payload);
+
   try {
+      const response = await fetch("http://127.0.0.1:8000/feedback", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+      });
 
-    // Extract part number from EBOM text (simple demo parsing)
-    // You can improve this if needed
-    let partNo = ebom.split("\n")[0] || "UNKNOWN-PART";
+      const data = await response.json();
 
-    const payload = {
-      part_no: partNo,
-      correct_make_buy: expected.includes("BUY") ? "BUY" : "MAKE",
-      correct_uom: null,
-      correct_work_center: null
-    };
+      if(response.ok){
+          alert("Correction stored successfully ✔");
+      } else {
+          alert("Submission failed.");
+          console.log(data);
+      }
 
-    const response = await fetch(`${API_BASE}/feedback`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await response.json();
-
-    if(response.ok){
-      showSuccess("Feedback submitted successfully ✔ Federated node updated locally.");
-    } else {
-      showError("Failed to submit feedback.");
-    }
-
-  } catch(err){
-    console.error(err);
-    showError("Server connection failed.");
+  } catch(error){
+      console.error(error);
+      alert("Server connection failed.");
   }
 }
 

@@ -14,40 +14,41 @@ def safe_normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 def parse_pdf_ebom(file_bytes):
 
-    extracted_data = []
+    import pdfplumber
+    import pandas as pd
+    import io
 
     with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
 
+        all_tables = []
+
         for page in pdf.pages:
-            table = page.extract_table()
+            tables = page.extract_tables()
+            for table in tables:
+                df = pd.DataFrame(table)
+                all_tables.append(df)
 
-            if table and len(table) > 1:
-
-                df_page = pd.DataFrame(table[1:], columns=table[0])
-
-                # Clean headers
-                df_page.columns = [
-                    str(col).strip() if col else f"Column_{i}"
-                    for i, col in enumerate(df_page.columns)
-                ]
-
-                # Remove duplicate columns safely
-                df_page = df_page.loc[:, ~df_page.columns.duplicated()]
-
-                extracted_data.append(df_page)
-
-    if not extracted_data:
+    if not all_tables:
         return pd.DataFrame()
 
-    # Align columns safely before concat
-    all_columns = list(set().union(*[df.columns for df in extracted_data]))
+    df = pd.concat(all_tables, ignore_index=True)
 
-    aligned_dfs = [
-        df.reindex(columns=all_columns)
-        for df in extracted_data
-    ]
+    # -------------------------
+    # AUTO HEADER DETECTION
+    # -------------------------
+    for i in range(min(10, len(df))):
+        row = df.iloc[i].astype(str).str.lower().tolist()
 
-    return pd.concat(aligned_dfs, ignore_index=True)
+        if any("part" in cell for cell in row):
+            df.columns = df.iloc[i]
+            df = df[i+1:]
+            df = df.reset_index(drop=True)
+            return df
+
+    # fallback
+    df.columns = df.iloc[0]
+    df = df[1:]
+    return df.reset_index(drop=True)
 
 
 
@@ -70,21 +71,43 @@ def extract_from_dxf(dxf_file):
 
 
 def load_ebom(file_bytes, filename):
+
     ext = os.path.splitext(filename)[1].lower()
+
+    # ---------------- CSV ----------------
     if ext == ".csv":
         detected = chardet.detect(file_bytes)
         encoding = detected["encoding"] or "utf-8"
         df = pd.read_csv(io.BytesIO(file_bytes), encoding=encoding)
-        df = safe_normalize_columns(df)
-        return df
+        return safe_normalize_columns(df)
 
+    # ---------------- EXCEL ----------------
     elif ext in [".xls", ".xlsx"]:
         return pd.read_excel(io.BytesIO(file_bytes))
 
+    # ---------------- JSON ----------------
     elif ext == ".json":
         data = json.loads(file_bytes.decode("utf-8"))
-        return pd.DataFrame(data)
 
+        # CASE 1 → Already list of dicts
+        if isinstance(data, list):
+            if all(isinstance(row, dict) for row in data):
+                return pd.DataFrame(data)
+            elif all(isinstance(row, list) for row in data):
+                return pd.DataFrame(
+                    [{str(i): v for i, v in enumerate(r)} for r in data]
+                )
+
+        # CASE 2 → dict containing list
+        if isinstance(data, dict):
+            for key in ["rows", "data", "body", "table"]:
+                if key in data and isinstance(data[key], list):
+                    return pd.DataFrame(data[key])
+
+        # fallback
+        return pd.json_normalize(data)
+
+    # ---------------- PDF ----------------
     elif ext == ".pdf":
         return parse_pdf_ebom(file_bytes)
 

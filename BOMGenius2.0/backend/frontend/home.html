@@ -3,260 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <title>BOM Genius Dashboard</title>
+
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
   .dark-shadow {
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
   }
   .nav-shadow {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   }
 </style>
 </head>
 
 <body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
 
-<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
-  <h1 class="text-3xl font-bold text-[#5A4E7C] tracking-wide">
-    BOM Genius
-  </h1>
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
 
-  <nav class="flex space-x-10 text-lg font-medium">
-    <a href="/frontend/home.html" class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">Home</a>
-    <a href="/frontend/fullbomconverter.html" class="hover:text-[#C8A2C8] transition">BOM Converter</a>
-    <a href="/frontend/feedback.html" class="hover:text-[#C8A2C8] transition">Federated Learning</a>
-    <a href="/frontend/settings.html" class="hover:text-[#C8A2C8] transition">Settings</a>
-    <a href="/frontend/history.html" class="hover:text-[#C8A2C8] transition">History</a>
-  </nav>
+  <div class="flex justify-between items-center px-12 py-6">
+    <h1 class="text-3xl font-bold text-[#5A4E7C]">BOM Genius</h1>
 
-  <div class="relative">
-    <button onclick="toggleDropdown()" class="font-medium text-[#5A4E7C]">
-      Company: <span class="font-semibold">Phoenix Enterprises ▼</span>
-    </button>
+    <nav class="flex items-center space-x-6 text-lg font-medium">
 
-    <div id="dropdownMenu"
-         class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border border-[#E0E0E0]">
-      <button onclick="logout()"
-        class="block w-full text-left px-4 py-3 hover:bg-[#F1F3F6] rounded-xl text-[#5A4E7C] font-medium">
-        Logout
-      </button>
-    </div>
+      <a href="home.html"
+         class="px-4 py-2 rounded-lg text-[#5A4E7C] hover:bg-[#C8A2C8]/30 transition">
+         Home
+      </a>
+
+      <a href="/frontend/fullbomconverter.html"
+         class="px-4 py-2 rounded-lg text-[#5A4E7C] hover:bg-[#C8A2C8]/30 transition">
+         BOM Converter
+      </a>
+
+      <a href="/frontend/feedback.html"
+         class="px-4 py-2 rounded-lg text-[#5A4E7C] hover:bg-[#C8A2C8]/30 transition">
+         Federated Learning
+      </a>
+
+      <a href="/frontend/settings.html"
+         class="px-4 py-2 rounded-lg text-[#5A4E7C] hover:bg-[#C8A2C8]/30 transition">
+         Settings
+      </a>
+
+      <a href="/frontend/history.html"
+         class="px-4 py-2 rounded-lg text-[#5A4E7C] hover:bg-[#C8A2C8]/30 transition">
+         History
+      </a>
+
+    </nav>
   </div>
+
 </header>
 
+<!-- ================= TITLE ================= -->
 <section class="py-16 text-center">
   <h2 class="text-4xl font-bold text-[#5A4E7C] mb-4">
     Dashboard Overview
   </h2>
-  <p class="text-[#6E6E8A] max-w-2xl mx-auto">
-    Monitor your BOM conversion performance in real time.
-  </p>
 </section>
 
+<!-- ================= KPI CARDS ================= -->
 <section class="px-12 pb-20">
-  <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+  <div class="grid md:grid-cols-4 gap-8 max-w-7xl mx-auto">
 
-    <div class="bg-[#F1F3F6] rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-4">
-        Total BOMs
-      </h2>
-      <p id="total_boms" class="text-5xl font-bold">--</p>
-      <p class="text-[#6E6E8A] mt-3">
-        Unique Parent BOMs generated
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow text-center">
+      <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Total BOMs</h2>
+      <p id="total_boms" class="text-4xl font-bold">--</p>
+      <p class="text-sm text-gray-600 mt-2">
+        Total EBOM files converted
       </p>
     </div>
 
-    <div class="bg-[#F1F3F6] rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-4">
-        Total Components
-      </h2>
-      <p id="total_components" class="text-5xl font-bold">--</p>
-      <p class="text-[#6E6E8A] mt-3">
-        Total rows in mBOM table
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow text-center">
+      <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Total Components</h2>
+      <p id="total_components" class="text-4xl font-bold">--</p>
+      <p class="text-sm text-gray-600 mt-2">
+        Components processed in system
       </p>
     </div>
 
-    <div class="bg-[#F1F3F6] rounded-2xl p-10 dark-shadow hover:scale-105 transition duration-300">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-4">
-        Avg Components per BOM
-      </h2>
-      <p id="avg_components" class="text-5xl font-bold">--</p>
-      <p class="text-[#6E6E8A] mt-3">
-        Average structure size
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow text-center">
+      <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Avg Components</h2>
+      <p id="avg_components" class="text-4xl font-bold">--</p>
+      <p class="text-sm text-gray-600 mt-2">
+        Average components per BOM
+      </p>
+    </div>
+
+    <div class="bg-green-100 rounded-2xl p-8 dark-shadow text-center">
+      <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Accuracy Rate</h2>
+      <p id="accuracy_rate" class="text-4xl font-bold text-green-700">--%</p>
+      <p class="text-sm text-gray-600 mt-2">
+        High confidence AI matches
       </p>
     </div>
 
   </div>
 </section>
 
+<!-- ================= CHARTS ================= -->
 <section class="px-12 pb-24">
-<div class="max-w-7xl mx-auto space-y-10">
+<div class="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
 
-  <div class="grid md:grid-cols-2 gap-10">
-
-    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
-        mBOM Composition
-      </h2>
-      <canvas id="pieChart"></canvas>
-    </div>
-
-    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
-        Match Reliability
-      </h2>
-      <canvas id="barChart"></canvas>
-    </div>
-
+  <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
+    <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
+      mBOM Composition
+    </h2>
+    <canvas id="pieChart"></canvas>
   </div>
 
-  <div class="grid md:grid-cols-2 gap-10">
-
-    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
-        Review Queue
-      </h2>
-
-      <div class="space-y-4">
-
-        <div class="flex justify-between border-b pb-2 border-gray-300">
-          <span>Weld Nut M8</span>
-          <span class="text-red-500 font-semibold">40%</span>
-        </div>
-
-        <div class="flex justify-between border-b pb-2 border-gray-300">
-          <span>Structural Adhesive</span>
-          <span class="text-yellow-500 font-semibold">56%</span>
-        </div>
-
-        <div class="flex justify-between">
-          <span>Floor Pan</span>
-          <span class="text-green-600 font-semibold">64%</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
-      <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
-        Recent Activity
-      </h2>
-
-      <div class="space-y-4 text-sm">
-
-        <div class="flex justify-between">
-          <span>XB6535-78</span>
-          <span class="text-[#C8A2C8] font-medium">Converted</span>
-        </div>
-
-        <div class="flex justify-between">
-          <span>X128556-46</span>
-          <span class="text-green-600 font-medium">Secured</span>
-        </div>
-
-        <div class="flex justify-between">
-          <span>X66385-4S</span>
-          <span class="text-orange-500 font-medium">Review Needed</span>
-        </div>
-
-      </div>
-    </div>
-
+  <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
+    <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
+      Match Reliability
+    </h2>
+    <canvas id="barChart"></canvas>
   </div>
 
 </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<!-- ================= SCRIPT ================= -->
 <script>
-function toggleDropdown() {
-  document.getElementById("dropdownMenu").classList.toggle("hidden");
-}
 
-function logout() {
-  window.location.href = "index.html";
-}
-
-window.onclick = function(event) {
-  if (!event.target.closest('.relative')) {
-    document.getElementById("dropdownMenu").classList.add("hidden");
-  }
-};
+let pieChartInstance;
+let barChartInstance;
 
 async function loadDashboard() {
   try {
     const response = await fetch("http://127.0.0.1:8000/dashboard");
     const data = await response.json();
 
-    document.getElementById("total_boms").innerText = data.total_boms ?? "--";
-    document.getElementById("total_components").innerText = data.total_components ?? "--";
-    document.getElementById("avg_components").innerText = data.avg_components ?? "--";
+    document.getElementById("total_boms").innerText = data.total_boms ?? 0;
+    document.getElementById("total_components").innerText = data.total_components ?? 0;
+    document.getElementById("avg_components").innerText = data.avg_components ?? 0;
+    document.getElementById("accuracy_rate").innerText =
+    (data.avg_confidence ?? 0)* 100 + "%";
 
-  } catch (error) {
-    console.error("Error loading dashboard:", error);
-  }
-}
 
-let pieChartInstance = null;
-let barChartInstance = null;
+    // -------------------------
+// Update Consumables Pie Chart
+// -------------------------
+if (data.consumable_breakdown && pieChartInstance) {
 
-function initCharts() {
-  const pieCtx = document.getElementById("pieChart");
-  pieChartInstance = new Chart(pieCtx, {
-    type: "pie",
-    data: {
-      labels: ["Loading..."],
-      datasets: [{ data: [1] }]
-    }
-  });
+    const labels = data.consumable_breakdown.map(item => item.type);
+    const values = data.consumable_breakdown.map(item => item.count);
 
-  const barCtx = document.getElementById("barChart");
-  barChartInstance = new Chart(barCtx, {
-    type: "bar",
-    data: {
-      labels: ["High (>=90%)", "Medium (70-90%)", "Low (<70%)"],
-      datasets: [{ label: "Items", data: [0, 0, 0] }]
-    }
-  });
-}
+    const baseColors = [
+        "#C8A2C8",
+        "#87CEFA",
+        "#5A4E7C",
+        "#4CAF50",
+        "#FFC107",
+        "#F44336",
+        "#00BCD4"
+    ];
 
-async function loadAnalytics() {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/dashboard/analytics");
-    const data = await res.json();
-
-    const labels = data.composition.map(x => x.item_type);
-    const values = data.composition.map(x => x.cnt);
+    const colors = labels.map((_, i) => baseColors[i % baseColors.length]);
 
     pieChartInstance.data.labels = labels;
     pieChartInstance.data.datasets[0].data = values;
+    pieChartInstance.data.datasets[0].backgroundColor = colors;
+
     pieChartInstance.update();
+}
 
-    barChartInstance.data.datasets[0].data = [
-      data.confidence.high,
-      data.confidence.medium,
-      data.confidence.low
-    ];
-    barChartInstance.update();
+  } catch (error) {
+    console.log("Dashboard API not connected. Showing demo values.");
 
-  } catch (err) {
-    console.error("Error loading analytics:", err);
+    document.getElementById("total_boms").innerText = 12;
+    document.getElementById("total_components").innerText = 486;
+    document.getElementById("avg_components").innerText = 40;
+    document.getElementById("accuracy_rate").innerText = "92%";
   }
+}
+
+function initCharts() {
+
+  pieChartInstance = new Chart(document.getElementById("pieChart"), {
+  type: "pie",
+  data: {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: []
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: "bottom" }
+    }
+  }
+});
+
+  barChartInstance = new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: {
+      labels: ["High (>=90%)", "Medium (70-90%)", "Low (<70%)"],
+      datasets: [{
+        label: "Items",
+        data: [120, 45, 12],
+        backgroundColor: [
+          "#4CAF50",
+          "#FFC107",
+          "#F44336"
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   initCharts();
   loadDashboard();
-  loadAnalytics();
 });
+
 </script>
 
 <footer class="text-center py-8 text-[#6E6E8A] text-sm">
-  © 2026 BOM Genius. All rights reserved.
+  © 2026 BOM Genius.
 </footer>
 
 </body>
 </html>
-

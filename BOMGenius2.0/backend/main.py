@@ -56,9 +56,6 @@ class RegisterRequest(BaseModel):
     company_address: str
     password: str
     confirm_password: str
-    
-class FeedbackRequest(BaseModel):
-    message: str
 
 class SettingsRequest(BaseModel):
     company: str
@@ -79,10 +76,6 @@ def register(data: RegisterRequest):
 @app.post("/forgot-password")
 def forgot_password(email: str):
     return {"message": "Reset link sent"}
-
-@app.post("/feedback")
-def feedback(data: FeedbackRequest):
-    return {"message": "Feedback submitted"}
 
 @app.post("/settings")
 def save_settings(data: SettingsRequest):
@@ -114,6 +107,16 @@ async def generate_mbom_api(
         df_final = generate_mbom(ebom_df, inv_df)
     else:
         df_final = generate_mbom(ebom_df, pd.DataFrame())
+
+    df_final["Mode"] = "WITH_INVENTORY" if (inventory and not inv_df.empty) else "WITHOUT_INVENTORY"
+    
+    df_final = df_final.fillna("")
+    for c in ["Parent Part Number", "Parent Description"]:
+        if c in df_final.columns:
+            df_final[c] = df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
+    
+    if "timestamp" in df_final.columns:
+        df_final = df_final.drop(columns=["timestamp"])
 
     save_mbom(df_final)
 
@@ -172,67 +175,120 @@ async def ebom_from_image_api(file: UploadFile = File(...)):
     return {"columns": list(df_ebom.columns), "rows": df_ebom.to_dict(orient="records")}
 
 
-@app.get("/mbom/history")
+from fastapi import FastAPI, HTTPException
+import sqlite3
+from datetime import datetime
+from typing import List, Dict
+
+DATABASE = "bomgenius.db"
+
+
+@app.get("/mbom/history", response_model=List[Dict])
 def get_mbom_history():
+    """
+    Returns MBOM history grouped by timestamp.
+    Includes formatted date, time, and row count.
+    """
 
-    with sqlite3.connect("bomgenius.db") as conn:
-        rows = conn.execute(
-            """
-            SELECT timestamp, COUNT(*) as total_rows
-            FROM mbom
-            GROUP BY timestamp
-            ORDER BY timestamp DESC
-        """
-        ).fetchall()
+    try:
+        # Connect to SQLite database
+        with sqlite3.connect(DATABASE) as conn:
 
-    history = []
+            # Optional: return rows as dict-like objects
+            conn.row_factory = sqlite3.Row
 
-    for ts, count in rows:
-        dt = datetime.fromisoformat(ts)
-        history.append(
-            {
-                "timestamp": ts,
-                "date": dt.strftime("%d-%m-%Y"),
-                "time": dt.strftime("%I:%M %p"),
-                "rows": count,
-            }
+            cursor = conn.cursor()
+
+            cursor.execute(
+                """
+                SELECT timestamp, COUNT(*) as total_rows
+                FROM mbom
+                GROUP BY timestamp
+                ORDER BY timestamp DESC
+                """
+            )
+
+            rows = cursor.fetchall()
+
+        history = []
+
+        for row in rows:
+
+            ts = row["timestamp"]
+            count = row["total_rows"]
+
+            # Skip invalid timestamps
+            if ts is None:
+                continue
+
+            # Convert timestamp safely
+            try:
+                if isinstance(ts, str):
+                    dt = datetime.fromisoformat(ts)
+                else:
+                    dt = datetime.fromisoformat(str(ts))
+            except Exception:
+                # fallback if format is different
+                dt = datetime.strptime(str(ts), "%Y-%m-%d %H:%M:%S")
+
+            history.append(
+                {
+                    "timestamp": str(ts),
+                    "date": dt.strftime("%d-%m-%Y"),
+                    "time": dt.strftime("%I:%M %p"),
+                    "rows": count,
+                }
+            )
+
+        return history
+
+    except sqlite3.Error as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Database error: {str(e)}"
         )
 
-    return history
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unexpected error: {str(e)}"
+        )
+
 
 
 @app.get("/mbom/by-timestamp/{ts}")
 def get_mbom_by_timestamp(ts: str):
-    import sqlite3
 
+    import sqlite3
     import pandas as pd
 
     with sqlite3.connect("bomgenius.db") as conn:
-        data = conn.execute("SELECT * FROM mbom WHERE timestamp = ?", (ts,)).fetchall()
 
-    if not data:
-        return {"columns": [], "rows": []}
+        conn.row_factory = sqlite3.Row
 
-    columns = [
-        "parent_part",
-        "child_part",
-        "description",
-        "qty",
-        "uom",
-        "level",
-        "lead_time",
-        "work_center",
-        "make_buy",
-        "phantom",
-        "scrap",
-        "plant",
-        "storage_location",
-        "timestamp",
-    ]
+        cursor = conn.cursor()
 
-    df = pd.DataFrame(data, columns=columns)
+        cursor.execute(
+            "SELECT * FROM mbom WHERE timestamp = ?",
+            (ts,)
+        )
 
-    return {"columns": list(df.columns), "rows": df.to_dict(orient="records")}
+        rows = cursor.fetchall()
+
+        if not rows:
+            return {"columns": [], "rows": []}
+
+        # Automatically get column names
+        columns = [col[0] for col in cursor.description]
+
+        # Convert to DataFrame safely
+        df = pd.DataFrame(rows, columns=columns)
+
+    return {
+        "columns": columns,
+        "rows": df.to_dict(orient="records")
+    }
+
 
 @app.get("/dashboard")
 def get_dashboard():
@@ -282,17 +338,23 @@ def get_dashboard():
         "avg_components": avg_components or 0
     }
 
+from pydantic import BaseModel
+from typing import Optional
+
 class Feedback(BaseModel):
-    part_no: str
-    correct_make_buy: str | None = None
-    correct_uom: str | None = None
-    correct_work_center: str | None = None
+    ebom_part: str
+    ai_matched_part: str
+    correct_part: str
 
 
 @app.post("/feedback")
 def submit_feedback(feedback: Feedback):
-    log_human_feedback(feedback.dict())
+    log_human_feedback({
+    "ebom_part": feedback.ebom_part,
+    "correct_part": feedback.correct_part
+})
     return {"status": "feedback recorded"}
+
 
 
 @app.get("/federated/export")

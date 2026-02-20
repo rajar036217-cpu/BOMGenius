@@ -2,8 +2,9 @@ import pandas as pd
 import ollama
 import json
 import re
+from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Dict, Tuple
 
 import os
 
@@ -18,6 +19,152 @@ def load_global_rules():
 print("--- Engine.py Loaded: AGGRESSIVE MERGE MODE (Verified) ---")
 
 MODEL_NAME = "llama3.2:3b"
+
+def _col(df: pd.DataFrame, candidates: List[str]) -> Optional[str]:
+    cols = {c.strip().lower(): c for c in df.columns}
+    for cand in candidates:
+        key = cand.strip().lower()
+        if key in cols:
+            return cols[key]
+    return None
+
+
+def _parse_date(value) -> str:
+    if pd.isna(value):
+        return ""
+    s = str(value).strip()
+    for fmt in ("%d.%m.%Y", "%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            return str(datetime.strptime(s, fmt).date())
+        except Exception:
+            pass
+    return s
+
+def normalize_ebom(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df.columns = [c.strip() for c in df.columns]
+
+    part_no = _col(df, ["part number", "part_number", "part_no", "partno"])
+    part_name = _col(df, ["part name", "part_name", "description", "desc", "item name"])
+    parent_asm = _col(df, ["parent assembly", "parent_assembly", "parent", "parent name", "parent_description"])
+    qty = _col(df, ["quantity", "qty", "qty_per", "qty per"])
+    rev = _col(df, ["revision", "rev"])
+    part_type = _col(df, ["part type", "part_type", "type"])
+    std_custom = _col(df, ["standard vs custom", "standard_vs_custom", "std_custom"])
+    valid_from = _col(df, ["valid from", "valid_from", "effective date", "start date"])
+
+    if not part_no or not part_name:
+        raise ValueError("eBOM requires Part Number and Part Name")
+
+    out = pd.DataFrame()
+    out["Part Number"] = df[part_no].astype(str).str.strip()
+    out["Part Name"] = df[part_name].astype(str).str.strip()
+    out["Parent Assembly"] = df[parent_asm].astype(str).str.strip() if parent_asm else ""
+    out["Quantity"] = pd.to_numeric(df[qty], errors="coerce").fillna(1).astype(int) if qty else 1
+    out["Revision"] = df[rev].astype(str).str.strip() if rev else "NA"
+    out["Part Type"] = df[part_type].astype(str).str.strip() if part_type else ""
+    out["Standard vs Custom"] = df[std_custom].astype(str).str.strip() if std_custom else ""
+    out["Valid From"] = df[valid_from].apply(_parse_date) if valid_from else ""
+
+    return out.replace({"nan": "", "NaN": ""})
+
+def normalize_inventory(df: pd.DataFrame) -> pd.DataFrame:
+    if df is None or df.empty:
+        return pd.DataFrame(columns=[
+            "Part Number", "Part Name", "In_Inventory", "Stock_Qty",
+            "Store_Location", "Approved_Supplier", "Lead_Time_Days"
+        ])
+
+    df = df.copy()
+    df.columns = [c.strip() for c in df.columns]
+
+    pn = _col(df, ["part number", "material", "item code"])
+    pname = _col(df, ["part name", "description", "item name"])
+    qty = _col(df, ["stock_qty", "quantity", "on hand"])
+    loc = _col(df, ["store location", "location", "bin"])
+    inv_flag = _col(df, ["in inventory", "available"])
+    sup = _col(df, ["approved supplier", "supplier"])
+    lead = _col(df, ["lead time", "lead_time_days"])
+
+    out = pd.DataFrame()
+    out["Part Number"] = df[pn].astype(str).str.strip() if pn else ""
+    out["Part Name"] = df[pname].astype(str).str.strip() if pname else ""
+    out["Stock_Qty"] = pd.to_numeric(df[qty], errors="coerce").fillna(0).astype(int) if qty else 0
+    out["Store_Location"] = df[loc].astype(str).str.strip() if loc else ""
+    out["Approved_Supplier"] = df[sup].astype(str).str.strip() if sup else ""
+    out["Lead_Time_Days"] = pd.to_numeric(df[lead], errors="coerce").fillna(0).astype(int) if lead else 0
+
+    if inv_flag:
+        out["In_Inventory"] = df[inv_flag].astype(str).str.strip()
+    else:
+        out["In_Inventory"] = out["Stock_Qty"].apply(lambda x: "Yes" if x > 0 else "No")
+
+    return out.replace({"nan": "", "NaN": ""})
+
+ELECTRONICS_KW = [
+    "pcb", "board", "ic", "capacitor", "resistor", "diode",
+    "mosfet", "controller", "transformer", "connector", "cable", "wire", "fuse"
+]
+
+def node_type_from_part_type(part_type: str) -> str:
+    pt = (part_type or "").lower()
+    if pt == "assembly":
+        return "Assembly"
+    if "sub" in pt:
+        return "Sub-Assembly"
+    return "Component"
+
+def makebuy_rule(part_type: str, std_custom: str, part_name: str) -> str:
+    pt = (part_type or "").lower()
+    sc = (std_custom or "").lower()
+    nm = (part_name or "").lower()
+
+    if "assembly" in pt:
+        return "Make"
+    if "mechanical" in pt and sc == "custom":
+        return "Make"
+    if sc == "standard":
+        return "Buy"
+    if any(k in nm for k in ELECTRONICS_KW):
+        return "Buy"
+    return "Make" if "mechanical" in pt else "Buy"
+
+def build_parent_child(ebom: pd.DataFrame) -> pd.DataFrame:
+    name_to_pn = dict(zip(ebom["Part Name"], ebom["Part Number"]))
+
+    def resolve_parent(parent_name: str):
+        if not parent_name:
+            return ""
+        return name_to_pn.get(parent_name.strip(), "")
+
+    ebom["Parent Part Number"] = ebom["Parent Assembly"].apply(resolve_parent)
+    return ebom
+
+
+def compute_levels(ebom: pd.DataFrame):
+    children = {}
+    for _, r in ebom.iterrows():
+        p = r["Parent Part Number"]
+        c = r["Part Number"]
+        if p:
+            children.setdefault(p, []).append(c)
+
+    roots = ebom.loc[ebom["Parent Part Number"] == "", "Part Number"].tolist()
+
+    level = {}
+    path = {}
+
+    def dfs(node, lvl, stack):
+        new_stack = stack + [node]
+        level[node] = lvl
+        path[node] = " > ".join(new_stack)
+        for ch in children.get(node, []):
+            dfs(ch, lvl + 1, new_stack)
+
+    for r in roots:
+        dfs(r, 0, [])
+
+    return level, path, roots
 
 def get_ai_consumable(description, material):
     prompt = f'''
@@ -117,6 +264,13 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     
     print(f"Step 3: Aggregated Rows: {len(aggregated_df)}")
 
+    if inv_df is not None and not inv_df.empty:
+        inv_preview = inv_df.fillna("").to_csv(index=False)
+    else:
+        inv_preview = "NO INVENTORY DATA PROVIDED"
+
+    ebom_preview = aggregated_df.fillna("").to_csv(index=False)
+
     global_rules = load_global_rules()
 
     prompt=f"""
@@ -125,70 +279,66 @@ You are a Senior Manufacturing Engineer working in an SAP/ERP environment.
 Convert the provided eBOM into a manufacturing-ready mBOM WITH inventory awareness.
 
 You are given:
-1. eBOM data
-2. Inventory Master data (Part Number, In_Inventory, Stock_Qty, Store_Location, Approved_Supplier, Lead_Time_Days)
+1. Aggregated eBOM data
+2. Inventory Master data
+
+-------------------------------------------------------
+eBOM DATA (CSV)
+-------------------------------------------------------
+{ebom_preview}
+
+-------------------------------------------------------
+INVENTORY MASTER (CSV)
+-------------------------------------------------------
+{inv_preview}
 
 Follow these rules strictly.
 
 -------------------------------------------------------
 STEP 1: BUILD MULTI-LEVEL HIERARCHY
 -------------------------------------------------------
-
-1. Use Parent Assembly column to map parent-child relationship.
-2. If Parent Assembly matches a Part Name, map to its Part Number.
-3. Level Rules:
-   - Level 0 = Final Product (no parent)
-   - Level 1 = Direct children of Level 0
-   - Level 2 = Children of Level 1
-   - Continue recursively
+1. Use Parent_Part_No to map parent-child relationships.
+2. Level 0 = items with no parent
+3. Recursively assign levels and maintain Hierarchy Path
 4. Never skip levels.
-5. Maintain Hierarchy Path for sorting.
 
 -------------------------------------------------------
 STEP 2: CLASSIFY NODE TYPE
 -------------------------------------------------------
-
-- If Part Type = Assembly → Node Type = Assembly
-- If Part Type contains "Sub" → Node Type = Sub-Assembly
+- Assembly keywords → Assembly
+- Sub keywords → Sub-Assembly
 - Else → Component
 
 -------------------------------------------------------
 STEP 3: DETERMINE MAKE / BUY
 -------------------------------------------------------
-
 Rules:
-
 - Assemblies → Make
 - Custom Mechanical parts → Make
 - Standard parts → Buy
-- Electronic components (PCB, capacitor, resistor, IC, connector, cable, fuse, transformer, etc.) → Buy
+- Electronics (PCB, capacitor, resistor, IC, connector, cable, fuse, transformer) → Buy
 
 -------------------------------------------------------
-STEP 4: INVENTORY VALIDATION LOGIC
+STEP 4: INVENTORY VALIDATION
 -------------------------------------------------------
-
-Use Inventory Master:
-
 If Make item:
    Inventory Status = "N/A (Manufactured Item)"
 
 If Buy item:
-   If In_Inventory = Yes AND Stock_Qty > 0:
+   If Stock_Qty > 0:
         Inventory Status = "Available in Stock"
         Procurement Action = "Issue from Stores"
    Else:
         Inventory Status = "Not Available"
         Procurement Action = "Trigger Purchase Requisition"
-        Use Approved_Supplier and Lead_Time_Days
 
 -------------------------------------------------------
 STEP 5: ASSIGN WORK CENTER
 -------------------------------------------------------
-
 If Make:
    Assembly → Final Assembly Line
    Mechanical → Injection Molding / Mechanical Assembly
-   PCB (Make) → SMT Line
+   PCB → SMT Line
    Other → Manufacturing Cell
 
 If Buy:
@@ -196,77 +346,34 @@ If Buy:
    Other → Incoming Inspection (General)
 
 -------------------------------------------------------
-STEP 6: GENERATE PROCUREMENT STEPS
+STEP 6: PROCUREMENT STEPS
 -------------------------------------------------------
+If Buy & Available:
+   Material Issue from Stores -> Line Supply
 
-If Buy AND Not Available:
-   "Vendor Selection -> PR -> PO -> GRN -> Incoming QC -> Putaway -> Issue to Line"
-
-If Buy AND Available:
-   "Material Issue from Stores -> Line Supply"
+If Buy & Not Available:
+   Vendor Selection -> PR -> PO -> GRN -> Incoming QC -> Putaway -> Issue to Line
 
 If Make:
-   "Issue Components -> Manufacture/Assemble -> In-process QC -> Final Test -> FG Receipt"
+   Issue Components -> Manufacture/Assemble -> In-process QC -> Final Test -> FG Receipt
 
 -------------------------------------------------------
-STEP 7: GENERATE ROUTING OPERATIONS
+STEP 7: ROUTING OPERATIONS
 -------------------------------------------------------
-
 If Buy:
-   10: PR/PO (if required)
-   20: Incoming Inspection
-   30: Putaway or Issue
+   10: PR/PO | 20: Incoming Inspection | 30: Putaway/Issue
 
 If Make Assembly:
-   10: Kitting/Issue
-   20: Assembly
-   30: Functional Test
-   40: Packing
+   10: Kitting/Issue | 20: Assembly | 30: Functional Test | 40: Packing
 
 If Make Component:
-   10: Material Issue
-   20: Primary Process
-   30: Finishing
-   40: In-Process Inspection
+   10: Material Issue | 20: Primary Process | 30: Finishing | 40: In-Process Inspection
 
 -------------------------------------------------------
-STEP 8: OUTPUT FORMAT
+STEP 8: OUTPUT FORMAT (CSV TABLE)
 -------------------------------------------------------
-
-Return a SINGLE CONSOLIDATED TABLE with columns:
-
-Level
-Parent Part Number
-Parent Description
-Child Part Number
-Child Description
-Qty
-UOM
-Revision
-Node Type
-Make/Buy
-Inventory Status
-Stock_Qty
-Store_Location
-Procurement Action
-Approved_Supplier
-Lead_Time_Days
-Work Center
-Effective Date
-Procurement Steps
-Operations (Routing Embedded)
-Hierarchy Path
-
--------------------------------------------------------
-STRICT RULES
--------------------------------------------------------
-
-- Do NOT invent parent-child relationships.
-- Use only given data.
-- Do NOT hallucinate inventory if not provided.
-- Keep structure deterministic.
-- Output clean CSV-style table."""
-
+Level,Parent Part Number,Parent Description,Child Part Number,Child Description,Qty,UOM,Revision,Node Type,Make/Buy,Inventory Status,Stock_Qty,Store_Location,Procurement Action,Approved_Supplier,Lead_Time_Days,Work Center,Effective Date,Procurement Steps,Operations (Routing Embedded),Hierarchy Path
+"""
     try:
         response = ollama.generate(
             model=MODEL_NAME,
@@ -318,3 +425,4 @@ def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None: inv_df = pd.DataFrame()
 
     return generate_mbom_with_inventory(ebom_df, inv_df)
+

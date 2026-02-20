@@ -12,6 +12,28 @@
   .nav-shadow {
     box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   }
+
+  /* Success Popup */
+  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    z-index: 9999;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 </style>
 </head>
 
@@ -41,7 +63,7 @@
     <button onclick="toggleDropdown()"
             class="flex items-center gap-2 focus:outline-none">
       Company:
-      <span class="font-semibold">Phoenix Enterprises</span>
+      <span class="font-semibold">ABC Industries</span>
       <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor"
            stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -103,7 +125,6 @@
         placeholder="Enter correct M-BOM output..."></textarea>
     </div>
 
-    <!-- Buttons -->
     <div class="flex space-x-6 mt-6">
       <button onclick="submitFeedback()"
         class="bg-[#C8A2C8] text-white hover:bg-[#B58FB5] px-8 py-3 rounded-lg font-semibold dark-shadow">
@@ -119,35 +140,12 @@
   </div>
 </section>
 
-<!-- RESULT -->
-<section class="px-10 py-16">
+<!-- SUCCESS TOAST -->
+<div id="successToast" class="toast">
+  mBOM generated successfully ✔
+</div>
 
-  <h2 class="text-2xl text-center text-[#5A4E7C] mb-8 font-bold">
-    Updated M-BOM Output
-  </h2>
-
-  <div id="oldBom"
-    class="max-w-3xl mx-auto bg-[#F1F3F6] rounded-xl p-6 mb-6 dark-shadow">
-    <p class="text-[#6E6E8A]">
-      Old Generated M-BOM will appear here...
-    </p>
-  </div>
-
-  <div id="newBom"
-    class="hidden max-w-3xl mx-auto bg-green-100 rounded-xl p-6 dark-shadow">
-    <p id="updatedText" class="text-green-800 font-medium whitespace-pre-line"></p>
-  </div>
-
-</section>
-
-<!-- SCRIPT -->
 <script>
-const API_BASE = "http://127.0.0.1:8000";
-
-/* ================================
-   UI Helpers
-================================ */
-
 function toggleDropdown(){
   document.getElementById("companyDropdown").classList.toggle("hidden");
 }
@@ -163,147 +161,24 @@ document.addEventListener("click",function(e){
   }
 });
 
+function submitFeedback(){
+  const expected=document.getElementById("expected").value;
 
-/* ================================
-   Submit Human Feedback (FL Local Training)
-   Matches: POST /feedback
-================================ */
-
-async function submitFeedback(){
-
-  const ebom = document.getElementById("ebom").value.trim();
-  const generated = document.getElementById("generated").value.trim();
-  const expected = document.getElementById("expected").value.trim();
-
-  if(!ebom || !generated || !expected){
-      alert("Please fill all fields.");
-      return;
+  if(expected.trim()===""){
+    alert("Please enter Expected M-BOM.");
+    return;
   }
 
-  const payload = {
-      ebom_part: ebom,
-      ai_matched_part: generated,
-      correct_part: expected
-  };
-
-  console.log("Sending FL correction:", payload);
-
-  try {
-      const response = await fetch("http://127.0.0.1:8000/feedback", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-      });
-
-      const data = await response.json();
-
-      if(response.ok){
-          alert("Correction stored successfully ✔");
-      } else {
-          alert("Submission failed.");
-          console.log(data);
-      }
-
-  } catch(error){
-      console.error(error);
-      alert("Server connection failed.");
-  }
-}
-
-
-/* ================================
-   Export Local Updates
-   Matches: GET /federated/export
-================================ */
-
-async function exportLocalUpdates(){
-
-  try{
-    const res = await fetch(`${API_BASE}/federated/export`);
-    const data = await res.json();
-
-    console.log("Local Updates:", data);
-
-    showSuccess(`Exported ${data.length} local updates.`);
-
-  } catch(err){
-    console.error(err);
-    showError("Export failed.");
-  }
-}
-
-
-/* ================================
-   Import Global Rules
-   Matches: POST /federated/import
-   (Used if coordinator pushes rules)
-================================ */
-
-async function importGlobalRules(globalRules){
-
-  try{
-    const res = await fetch(`${API_BASE}/federated/import`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(globalRules)
-    });
-
-    const data = await res.json();
-
-    if(res.ok){
-      showSuccess("Global federated rules imported ✔");
-    } else {
-      showError("Import failed.");
-    }
-
-  } catch(err){
-    console.error(err);
-    showError("Import connection error.");
-  }
-}
-
-
-/* ================================
-   UI Rendering
-================================ */
-
-function showSuccess(message){
   document.getElementById("oldBom").classList.add("hidden");
   document.getElementById("newBom").classList.remove("hidden");
-
-  document.getElementById("newBom").classList.remove("bg-green-100");
-  document.getElementById("newBom").classList.remove("bg-red-100");
-  document.getElementById("newBom").classList.add("bg-green-100");
-
-  document.getElementById("updatedText").innerText = message;
+  document.getElementById("updatedText").innerText=
+    "Updated M-BOM:\n\n"+expected;
 }
-
-function showError(message){
-  document.getElementById("oldBom").classList.add("hidden");
-  document.getElementById("newBom").classList.remove("hidden");
-
-  document.getElementById("newBom").classList.remove("bg-green-100");
-  document.getElementById("newBom").classList.add("bg-red-100");
-
-  document.getElementById("updatedText").innerText = message;
-}
-
-
-/* ================================
-   Optional: Reset Form
-================================ */
 
 function resetForm(){
   document.getElementById("ebom").value="";
   document.getElementById("generated").value="";
   document.getElementById("expected").value="";
-
-  document.getElementById("newBom").classList.add("hidden");
-  document.getElementById("oldBom").classList.remove("hidden");
 }
 
 </script>

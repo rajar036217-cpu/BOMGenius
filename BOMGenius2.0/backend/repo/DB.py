@@ -12,24 +12,39 @@ def init_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
+    # ---- Companies Table (LOGIN TABLE) ----
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            company_name TEXT,
+            email TEXT UNIQUE,
+            password TEXT,
+            created_at TEXT
+        )
+    """)
+
+    # ---- MBOM Table ----
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS mbom (
-            Parent_Part_No   TEXT,
-            Child_Part_No    TEXT,
-            Description      TEXT,
-            Qty_Per          REAL,
-            UOM              TEXT,
-            BOM_Level        INTEGER,
-            Op_Sequence      INTEGER,
-            Work_Center      TEXT,
-            Make_Buy         TEXT,
-            Backflush_Ind    TEXT,
-            Scrap_Pct        REAL,
-            Plant            TEXT,
-            Bin_Location     TEXT,
-            Item_Type        TEXT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            company_id INTEGER,
+            Parent_Part_No TEXT,
+            Child_Part_No TEXT,
+            Description TEXT,
+            Qty_Per REAL,
+            UOM TEXT,
+            BOM_Level INTEGER,
+            Op_Sequence INTEGER,
+            Work_Center TEXT,
+            Make_Buy TEXT,
+            Backflush_Ind TEXT,
+            Scrap_Pct REAL,
+            Plant TEXT,
+            Bin_Location TEXT,
+            Item_Type TEXT,
             Confidence_Score REAL,
-            timestamp        TEXT
+            timestamp TEXT,
+            FOREIGN KEY (company_id) REFERENCES companies(id)
         )
     """)
 
@@ -48,11 +63,8 @@ def ensure_columns(conn, df):
     existing_columns = [col[1] for col in cursor.fetchall()]
 
     for column in df.columns:
-
         if column not in existing_columns:
-
             print(f"Adding missing column: {column}")
-
             cursor.execute(
                 f'ALTER TABLE mbom ADD COLUMN "{column}" TEXT'
             )
@@ -63,18 +75,21 @@ def ensure_columns(conn, df):
 # -------------------------
 # Save MBOM safely
 # -------------------------
-def save_mbom(df):
+def save_mbom(df, company_id):
 
     conn = sqlite3.connect(DATABASE)
 
-    # Add timestamp column
+    # Add timestamp
     timestamp = datetime.now().isoformat()
     df["timestamp"] = timestamp
 
-    # Ensure all columns exist
+    # Add company id
+    df["company_id"] = company_id
+
+    # Ensure columns exist
     ensure_columns(conn, df)
 
-    # Save to DB
+    # Save
     df.to_sql(
         "mbom",
         conn,
@@ -85,4 +100,4 @@ def save_mbom(df):
     conn.commit()
     conn.close()
 
-    print("MBOM saved successfully with timestamp:", timestamp)
+    print("MBOM saved for company:", company_id)

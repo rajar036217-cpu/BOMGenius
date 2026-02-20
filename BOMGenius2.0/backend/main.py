@@ -108,6 +108,16 @@ async def generate_mbom_api(
     else:
         df_final = generate_mbom(ebom_df, pd.DataFrame())
 
+    df_final["Mode"] = "WITH_INVENTORY" if (inventory and not inv_df.empty) else "WITHOUT_INVENTORY"
+    
+    df_final = df_final.fillna("")
+    for c in ["Parent Part Number", "Parent Description"]:
+        if c in df_final.columns:
+            df_final[c] = df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
+    
+    if "timestamp" in df_final.columns:
+        df_final = df_final.drop(columns=["timestamp"])
+
     save_mbom(df_final)
 
     return {

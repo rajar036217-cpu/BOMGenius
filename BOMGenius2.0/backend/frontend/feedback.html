@@ -12,6 +12,28 @@
   .nav-shadow {
     box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   }
+
+  /* Success Popup */
+  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    z-index: 9999;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 </style>
 </head>
 
@@ -34,33 +56,6 @@
     <a href="settings.html" class="hover:text-[#C8A2C8]">Settings</a>
     <a href="history.html" class="hover:text-[#C8A2C8]">History</a>
   </nav>
-
-  <!-- COMPANY DROPDOWN -->
-  <div class="relative font-medium text-[#5A4E7C]">
-
-    <button onclick="toggleDropdown()"
-            class="flex items-center gap-2 focus:outline-none">
-      Company:
-      <span class="font-semibold">Phoenix Enterprises</span>
-      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor"
-           stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round"
-              d="M19 9l-7 7-7-7"/>
-      </svg>
-    </button>
-
-    <div id="companyDropdown"
-         class="hidden absolute right-0 mt-3 w-36
-                bg-white rounded-xl shadow-lg border border-[#E0E0E0] z-50">
-
-      <button onclick="logout()"
-              class="w-full text-left px-5 py-3 text-red-600
-                     hover:bg-[#F1F3F6] font-medium rounded-xl">
-        Logout
-      </button>
-
-    </div>
-  </div>
 
 </header>
 
@@ -103,7 +98,6 @@
         placeholder="Enter correct M-BOM output..."></textarea>
     </div>
 
-    <!-- Buttons -->
     <div class="flex space-x-6 mt-6">
       <button onclick="submitFeedback()"
         class="bg-[#C8A2C8] text-white hover:bg-[#B58FB5] px-8 py-3 rounded-lg font-semibold dark-shadow">
@@ -119,56 +113,15 @@
   </div>
 </section>
 
-<!-- RESULT -->
-<section class="px-10 py-16">
+<!-- SUCCESS TOAST -->
+<div id="successToast" class="toast">
+  mBOM generated successfully ✔
+</div>
 
-  <h2 class="text-2xl text-center text-[#5A4E7C] mb-8 font-bold">
-    Updated M-BOM Output
-  </h2>
-
-  <div id="oldBom"
-    class="max-w-3xl mx-auto bg-[#F1F3F6] rounded-xl p-6 mb-6 dark-shadow">
-    <p class="text-[#6E6E8A]">
-      Old Generated M-BOM will appear here...
-    </p>
-  </div>
-
-  <div id="newBom"
-    class="hidden max-w-3xl mx-auto bg-green-100 rounded-xl p-6 dark-shadow">
-    <p id="updatedText" class="text-green-800 font-medium whitespace-pre-line"></p>
-  </div>
-
-</section>
-
-<!-- SCRIPT -->
 <script>
 const API_BASE = "http://127.0.0.1:8000";
 
-/* ================================
-   UI Helpers
-================================ */
-
-function toggleDropdown(){
-  document.getElementById("companyDropdown").classList.toggle("hidden");
-}
-
-function logout(){
-  window.location.href="role.html";
-}
-
-document.addEventListener("click",function(e){
-  const dropdown=document.getElementById("companyDropdown");
-  if(!e.target.closest(".relative")){
-    dropdown.classList.add("hidden");
-  }
-});
-
-
-/* ================================
-   Submit Human Feedback (FL Local Training)
-   Matches: POST /feedback
-================================ */
-
+/* Submit Feedback */
 async function submitFeedback(){
 
   const ebom = document.getElementById("ebom").value.trim();
@@ -186,10 +139,8 @@ async function submitFeedback(){
       correct_part: expected
   };
 
-  console.log("Sending FL correction:", payload);
-
   try {
-      const response = await fetch("http://127.0.0.1:8000/feedback", {
+      const response = await fetch(`${API_BASE}/feedback`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -197,115 +148,33 @@ async function submitFeedback(){
           body: JSON.stringify(payload)
       });
 
-      const data = await response.json();
-
       if(response.ok){
-          alert("Correction stored successfully ✔");
+          showToast();   // ✅ POPUP TRIGGER
       } else {
           alert("Submission failed.");
-          console.log(data);
       }
 
   } catch(error){
-      console.error(error);
       alert("Server connection failed.");
   }
 }
 
+/* Success Popup Function */
+function showToast(){
+  const toast = document.getElementById("successToast");
+  toast.classList.add("show");
 
-/* ================================
-   Export Local Updates
-   Matches: GET /federated/export
-================================ */
-
-async function exportLocalUpdates(){
-
-  try{
-    const res = await fetch(`${API_BASE}/federated/export`);
-    const data = await res.json();
-
-    console.log("Local Updates:", data);
-
-    showSuccess(`Exported ${data.length} local updates.`);
-
-  } catch(err){
-    console.error(err);
-    showError("Export failed.");
-  }
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
 }
 
-
-/* ================================
-   Import Global Rules
-   Matches: POST /federated/import
-   (Used if coordinator pushes rules)
-================================ */
-
-async function importGlobalRules(globalRules){
-
-  try{
-    const res = await fetch(`${API_BASE}/federated/import`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(globalRules)
-    });
-
-    const data = await res.json();
-
-    if(res.ok){
-      showSuccess("Global federated rules imported ✔");
-    } else {
-      showError("Import failed.");
-    }
-
-  } catch(err){
-    console.error(err);
-    showError("Import connection error.");
-  }
-}
-
-
-/* ================================
-   UI Rendering
-================================ */
-
-function showSuccess(message){
-  document.getElementById("oldBom").classList.add("hidden");
-  document.getElementById("newBom").classList.remove("hidden");
-
-  document.getElementById("newBom").classList.remove("bg-green-100");
-  document.getElementById("newBom").classList.remove("bg-red-100");
-  document.getElementById("newBom").classList.add("bg-green-100");
-
-  document.getElementById("updatedText").innerText = message;
-}
-
-function showError(message){
-  document.getElementById("oldBom").classList.add("hidden");
-  document.getElementById("newBom").classList.remove("hidden");
-
-  document.getElementById("newBom").classList.remove("bg-green-100");
-  document.getElementById("newBom").classList.add("bg-red-100");
-
-  document.getElementById("updatedText").innerText = message;
-}
-
-
-/* ================================
-   Optional: Reset Form
-================================ */
-
+/* Reset */
 function resetForm(){
   document.getElementById("ebom").value="";
   document.getElementById("generated").value="";
   document.getElementById("expected").value="";
-
-  document.getElementById("newBom").classList.add("hidden");
-  document.getElementById("oldBom").classList.remove("hidden");
 }
-
 </script>
 
 <footer class="text-center py-6 text-[#6E6E8A] text-sm">
@@ -313,5 +182,4 @@ function resetForm(){
 </footer>
 
 </body>
-
 </html>

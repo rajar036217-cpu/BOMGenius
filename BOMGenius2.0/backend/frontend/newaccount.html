@@ -1,72 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>New Account - BOM Genius</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<title>New Account - BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+  .nav-shadow {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+</style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center
-             bg-gradient-to-r from-blue-900 via-white to-blue-900 font-sans">
+             bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] font-sans">
 
-    <div class="bg-white/30 backdrop-blur-xl border border-white/40
-                rounded-2xl shadow-2xl p-10 w-full max-w-lg">
+<!-- ================= FORM CARD ================= -->
+<div class="bg-[#F1F3F6] dark-shadow
+            rounded-3xl p-12 w-full max-w-xl">
 
-        <h1 class="text-3xl font-bold text-center text-blue-900 mb-8">
-            Create New Account
-        </h1>
+    <h1 class="text-3xl font-bold text-center text-[#5A4E7C] mb-10">
+        Create New Account
+    </h1>
 
-        <form id="registerForm" class="space-y-5">
+    <form id="registerForm" class="space-y-6">
 
-            <div>
-                <label class="block text-blue-900 mb-2 font-medium">
-                    Full Name
-                </label>
-                <input type="text" id="fullname"
-                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
-            </div>
+        <!-- FULL NAME -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Full Name
+            </label>
+            <input type="text" id="fullname"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
 
-            <div>
-                <label class="block text-blue-900 mb-2 font-medium">
-                    Email
-                </label>
-                <input type="email" id="email"
-                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
-            </div>
+        <!-- EMAIL -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Email
+            </label>
+            <input type="email" id="email"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
 
-            <div>
-                <label class="block text-blue-900 mb-2 font-medium">
-                    Company Address
-                </label>
-                <textarea id="address" rows="3"
-                          class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
-                          required></textarea>
-            </div>
+        <!-- ADDRESS -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Company Address
+            </label>
+            <textarea id="address" rows="3"
+                      class="w-full p-3 rounded-xl border border-gray-300 
+                             focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                             transition" required></textarea>
+        </div>
 
-            <div>
-                <label class="block text-blue-900 mb-2 font-medium">
-                    Password
-                </label>
-                <input type="password" id="password"
-                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
-            </div>
+        <!-- PASSWORD -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Password
+            </label>
+            <input type="password" id="password"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
 
-            <div>
-                <label class="block text-blue-900 mb-2 font-medium">
-                    Confirm Password
-                </label>
-                <input type="password" id="confirmPassword"
-                       class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
-            </div>
+        <!-- CONFIRM PASSWORD -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Confirm Password
+            </label>
+            <input type="password" id="confirmPassword"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
 
-            <button type="submit"
-                    class="w-full py-3 rounded-xl bg-blue-900 text-white font-semibold
-                           hover:bg-blue-800 transition shadow-lg">
-                Create Account
-            </button>
+        <!-- BUTTON -->
+        <button type="submit"
+                class="w-full py-3 rounded-xl bg-[#5A4E7C] text-white 
+                       font-semibold shadow-lg
+                       hover:bg-[#C8A2C8] hover:text-black 
+                       transition duration-300">
+            Create Account
+        </button>
 
-        </form>
-    </div>
+    </form>
+</div>
 
 <script>
 document.getElementById("registerForm").addEventListener("submit", async function(e) {

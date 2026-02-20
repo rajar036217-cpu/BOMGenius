@@ -294,13 +294,13 @@ INVENTORY MASTER (CSV)
 
 Follow these rules strictly.
 
--------------------------------------------------------
 STEP 1: BUILD MULTI-LEVEL HIERARCHY
--------------------------------------------------------
-1. Use Parent_Part_No to map parent-child relationships.
-2. Level 0 = items with no parent
-3. Recursively assign levels and maintain Hierarchy Path
-4. Never skip levels.
+- Use Parent Assembly column to map parent-child relationship.
+- If Parent Assembly matches a Part Name, map to its Part Number.
+- Level 0 = Final Product (no parent)
+- Level 1 = Direct children
+- Continue recursively
+- Maintain Hierarchy Path for sorting
 
 -------------------------------------------------------
 STEP 2: CLASSIFY NODE TYPE
@@ -378,7 +378,7 @@ Level,Parent Part Number,Parent Description,Child Part Number,Child Description,
         response = ollama.generate(
             model=MODEL_NAME,
             prompt=prompt,
-            options={"temperature": 0.0}
+            options={"temperature": 0.2}
         )
 
         print("AI Manufacturing Reasoning Output:")
@@ -425,4 +425,3 @@ def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None: inv_df = pd.DataFrame()
 
     return generate_mbom_with_inventory(ebom_df, inv_df)
-

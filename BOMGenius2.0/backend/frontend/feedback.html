@@ -59,7 +59,6 @@
 
   <!-- COMPANY DROPDOWN -->
   <div class="relative font-medium text-[#5A4E7C]">
-
     <button onclick="toggleDropdown()"
             class="flex items-center gap-2 focus:outline-none">
       Company:
@@ -74,16 +73,13 @@
     <div id="companyDropdown"
          class="hidden absolute right-0 mt-3 w-36
                 bg-white rounded-xl shadow-lg border border-[#E0E0E0] z-50">
-
       <button onclick="logout()"
               class="w-full text-left px-5 py-3 text-red-600
                      hover:bg-[#F1F3F6] font-medium rounded-xl">
         Logout
       </button>
-
     </div>
   </div>
-
 </header>
 
 <!-- FORM -->
@@ -142,7 +138,7 @@
 
 <!-- SUCCESS TOAST -->
 <div id="successToast" class="toast">
-  mBOM generated successfully ✔
+  Submited sucessfully
 </div>
 
 <script>
@@ -161,18 +157,42 @@ document.addEventListener("click",function(e){
   }
 });
 
-function submitFeedback(){
-  const expected=document.getElementById("expected").value;
+async function submitFeedback(){
+
+  const ebom = document.getElementById("ebom").value;
+  const generated = document.getElementById("generated").value;
+  const expected = document.getElementById("expected").value;
 
   if(expected.trim()===""){
     alert("Please enter Expected M-BOM.");
     return;
   }
 
-  document.getElementById("oldBom").classList.add("hidden");
-  document.getElementById("newBom").classList.remove("hidden");
-  document.getElementById("updatedText").innerText=
-    "Updated M-BOM:\n\n"+expected;
+  try{
+    const response = await fetch("/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ebom_part: ebom,
+        ai_matched_part: generated,
+        correct_part: expected
+      })
+    });
+
+    const result = await response.json();
+
+    if(result.status === "feedback recorded"){
+      showToast("Submitted successfully ✔");
+      resetForm();
+    } else {
+      showToast("Something went wrong ", true);
+    }
+
+  }catch(error){
+    showToast("Server error ", true);
+  }
 }
 
 function resetForm(){
@@ -181,6 +201,23 @@ function resetForm(){
   document.getElementById("expected").value="";
 }
 
+function showToast(message, isError=false){
+
+  const toast = document.getElementById("successToast");
+  toast.innerText = message;
+
+  if(isError){
+    toast.style.background = "#ef4444";
+  }else{
+    toast.style.background = "#22c55e";
+  }
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },3000);
+}
 </script>
 
 <footer class="text-center py-6 text-[#6E6E8A] text-sm">
@@ -188,5 +225,4 @@ function resetForm(){
 </footer>
 
 </body>
-
 </html>

@@ -1,10 +1,22 @@
 import os
 import re
+import json
 import pandas as pd
 from datetime import datetime
 from typing import Optional, Dict, List, Tuple
 
 print("--- core/engine.py Loaded: SAP-style mBOM (WITH/WITHOUT inventory) + Consumables + Safe Aggregation ---")
+
+
+GLOBAL_RULES_PATH = "federated/global_rules.json"
+
+def load_global_rules():
+    if os.path.exists(GLOBAL_RULES_PATH):
+        with open(GLOBAL_RULES_PATH, "r") as f:
+            return json.load(f)
+    return {}
+
+GLOBAL_RULES = load_global_rules()
 
 
 # =========================================================
@@ -440,6 +452,7 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
 
         lvl = level_map.get(rt, 0)
         name = pn_to_name.get(rt, "")
+        name = GLOBAL_RULES.get(name, name)
         mb = makebuy_rule(part_type, stdc, name)
         nt = node_type_from_part_type(part_type)
         wc = work_center_rule(mb, part_type, name)
@@ -476,6 +489,7 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
 
         lvl = level_map.get(child, 0)
         child_name = _clean_str(r.get("Part Name"))
+        child_name = GLOBAL_RULES.get(child_name, child_name)
         part_type = _clean_str(r.get("Part Type"))
         stdc = _clean_str(r.get("Standard vs Custom"))
         rev = _clean_str(r.get("Revision")) or "NA"

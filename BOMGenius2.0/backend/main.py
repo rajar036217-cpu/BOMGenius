@@ -64,7 +64,7 @@ class SettingsRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(frontend_path, "home.html"))
+    return FileResponse(os.path.join(frontend_path, "index.html"))
 
 @app.post("/login")
 def login(data: LoginRequest):

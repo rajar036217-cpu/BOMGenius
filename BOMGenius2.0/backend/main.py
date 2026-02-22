@@ -404,6 +404,22 @@ def get_dashboard():
     avg_components = cursor.fetchone()["avg_components"]
 
     # -------------------------
+# Accuracy Calculation
+# -------------------------
+cursor.execute("""
+    SELECT COUNT(*) as total,
+           SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) as high
+    FROM mbom
+    WHERE Confidence_Score IS NOT NULL
+""")
+
+row = cursor.fetchone()
+total = row["total"] or 0
+high = row["high"] or 0
+
+accuracy = round((high / total) * 100, 2) if total > 0 else 0
+
+    # -------------------------
     # Consumable Breakdown
     # -------------------------
     cursor.execute("""
@@ -437,15 +453,16 @@ def get_dashboard():
     avg_confidence = cursor.fetchone()["avg_confidence"]
 
     conn.close()
-
     return {
     "total_boms": total_boms or 0,
     "total_components": total_components or 0,
     "last_uploaded": last_uploaded,
     "avg_components": avg_components or 0,
     "avg_confidence": avg_confidence or 0,
+    "accuracy": accuracy,   # 👈 IMPORTANT
     "consumable_breakdown": consumable_breakdown
 }
+    
 
 from pydantic import BaseModel
 from typing import Optional
@@ -561,5 +578,6 @@ def toggle_company_status(cid: int):
             "UPDATE companies SET is_active=? WHERE id=?",
             (new_status, cid)
         )
+
 
     return {"status": "changed", "is_active": new_status}

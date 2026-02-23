@@ -3,14 +3,15 @@ import re
 import json
 import pandas as pd
 import ollama
-from datetime import datetime
+from datetime import datetime, time
+import time
+from io import StringIO
 from typing import Optional, Dict, List, Tuple
 
 print("=== HYBRID mBOM ENGINE LOADED (AI + Deterministic Validation) ===")
 
 MODEL_NAME = "llama3.2:3b"
 GLOBAL_RULES_PATH = "federated/global_rules.json"
-
 
 # =========================================================
 # Utilities
@@ -24,7 +25,6 @@ def load_global_rules():
 
 GLOBAL_RULES = load_global_rules()
 
-
 def _clean_str(x):
     if x is None or pd.isna(x):
         return ""
@@ -32,7 +32,6 @@ def _clean_str(x):
     if s.lower() in ["nan", "none", "null"]:
         return ""
     return s
-
 
 def smart_find_column(df, candidates):
     norm = {}
@@ -51,7 +50,6 @@ def smart_find_column(df, candidates):
             if key in k:
                 return real
     return None
-
 
 # =========================================================
 # Normalization
@@ -82,7 +80,6 @@ def normalize_ebom(df):
 
     return out.fillna("")
 
-
 # =========================================================
 # Hierarchy
 # =========================================================
@@ -95,7 +92,6 @@ def build_parent_child(ebom):
 
     ebom["Parent Part Number"] = ebom["Parent Assembly"].apply(resolve_parent)
     return ebom
-
 
 def compute_levels(ebom):
     children = {}
@@ -121,7 +117,6 @@ def compute_levels(ebom):
 
     return level, path
 
-
 # =========================================================
 # Deterministic Rules
 # =========================================================
@@ -131,7 +126,6 @@ def node_type(part_type):
     if "assembly" in pt:
         return "Assembly"
     return "Component"
-
 
 def makebuy(part_type, std_custom):
     pt = part_type.lower()
@@ -143,145 +137,163 @@ def makebuy(part_type, std_custom):
         return "Make"
     return "Buy"
 
-
 def work_center(make_buy, node_type):
     if make_buy == "Make":
         return "Final Assembly Line"
     return "Incoming Inspection (General)"
-
 
 def procurement_steps(make_buy):
     if make_buy == "Make":
         return "Issue Components -> Assemble -> In-process QC -> Final Test -> FG Receipt"
     return "Vendor Selection -> PR -> PO -> GRN -> Incoming QC -> Putaway -> Issue to Line"
 
-
 def routing(make_buy):
     if make_buy == "Make":
         return "10: Kitting | 20: Assembly | 30: Functional Test | 40: Packing"
     return "10: PR/PO | 20: Incoming Inspection | 30: Putaway"
 
-
 # =========================================================
 # AI Draft Generator
 # =========================================================
 
-def generate_ai_draft(ebom_df):
+def ai_enrich(ebom_df, inv_df):
     prompt = f"""
-You are a Manufacturing Engineer.
+SYSTEM:
+You are a strict ERP/SAP Manufacturing Engineer assistant.
+You ONLY output valid JSON. No markdown. No commentary.
 
-Convert this eBOM into structured mBOM table.
-Return CSV only.
+TASK:
+We already ran a deterministic RULE ENGINE to create base rows (ground truth).
+You must enrich each row with ONLY the required AI fields.
+
+HARD RULES:
+1) Output MUST be a JSON array of length = {len(ebom_df)}.
+2) Preserve row order exactly. 1st output object enriches 1st input row, etc.
+3) Do NOT change or add base fields. Only output the enrichment fields listed below.
+4) If unknown, use "NA" (string), 0 for numbers, [] for arrays.
+5) Never include extra keys. Never include explanations.
+
+ENRICHMENT FIELDS (output keys exactly as below):
+- "Node Type" : one of ["Assembly","Sub-Assembly","Component","Material","Process","Packaging"]
+- "Make/Buy" : one of ["Make","Buy"]
+- "Inventory Status" : one of ["In Stock","Low Stock","Out of Stock","Unknown"]
+- "Stock_Qty" : number
+- "Store_Location" : string
+- "Procurement Action" : one of ["Issue from Stock","Purchase","Manufacture","Expedite","NA"]
+- "Approved_Supplier" : string
+- "Lead_Time_Days" : number
+- "Work Center" : one of ["SMT_LINE","REFLOW_OVEN","AOI_STATION","PCB_TEST","MECH_LINE","QA_STATION","BURN_IN_RACK","PACK_LINE","NA"]
+- "Procurement Steps" : array of short strings (max 6 items)
+- "Operations (Routing Embedded)" : array of objects with keys:
+    - "Op_Seq" (number)
+    - "Operation" (string)
+    - "Work_Center" (same enum list as above)
+
+CLASSIFICATION HEURISTICS:
+- If Child Description contains words like ["process","test","inspection","burn-in","hipot","reflow","smt","aoi"] -> Node Type = "Process"
+- If contains ["label","box","packing","carton","manual","sticker"] -> Node Type = "Packaging"
+- If contains ["pcb","board","ic","resistor","capacitor","diode","mosfet","transformer","fuse"] -> likely "Component"
+- If contains ["assembly","sub assembly","adapter","housing","case"] -> "Assembly" or "Sub-Assembly"
+- Cables and housings are usually "Buy" unless explicitly stated otherwise in base row.
+
+INVENTORY MATCHING:
+Use inventory_json (if provided) to find matching item by:
+1) exact match on Child Part Number if present in inventory
+2) else fuzzy match using Child Description keywords
+If no match -> Inventory Status = "Unknown", Stock_Qty = 0, Store_Location="NA".
+
+INPUT:
+BOM_ROWS (ground truth):
+{json.dumps(ebom_df, ensure_ascii=False)}
+
+INVENTORY_JSON:
+{inv_df if inv_df is not None else "[]"}
+
+OUTPUT:
+Return ONLY the JSON array.
 """
 
     response = ollama.generate(
         model=MODEL_NAME,
         prompt=prompt,
-        options={"temperature": 0.0}
+        options={
+            "temperature": 0.0,
+            "num_predict": 1500
+        }
     )
 
-    from io import StringIO
+    text = response["response"]
+
     try:
-        return pd.read_csv(StringIO(response["response"]))
+        start = text.index("[")
+        end = text.rindex("]") + 1
+        return json.loads(text[start:end])
     except:
-        return pd.DataFrame()
+        raise ValueError("AI did not return valid JSON.")
 
+def validate_mbom_output(base_rows, ai_rows, required_columns):
 
-# =========================================================
-# Validation Layer
-# =========================================================
+    if not isinstance(ai_rows, list):
+        raise ValueError("AI output is not a list.")
 
-def validate_and_correct(ai_df, ebom_df):
+    if len(base_rows) != len(ai_rows):
+        raise ValueError("AI row count mismatch.")
 
-    ebom = normalize_ebom(ebom_df)
-    ebom = build_parent_child(ebom)
-    level_map, path_map = compute_levels(ebom)
+    for idx, row in enumerate(ai_rows):
 
-    pn_to_name = dict(zip(ebom["Part Number"], ebom["Part Name"]))
+        if not isinstance(row, dict):
+            raise ValueError(f"Row {idx} is not a dictionary.")
 
-    rows = []
+        for col in required_columns:
+            if col not in row:
+                raise ValueError(f"Missing column '{col}' in row {idx}.")
 
-    for _, r in ebom.iterrows():
+    return True
 
-        child = r["Part Number"]
-        parent = r["Parent Part Number"]
-        name = pn_to_name.get(child, "")
+# ---------------------------------------------------
+# MAIN ENGINE
+# ---------------------------------------------------
 
-        lvl = level_map.get(child, 0)
-        nt = node_type(r["Part Type"])
-        mb = makebuy(r["Part Type"], r["Standard vs Custom"])
-        wc = work_center(mb, nt)
+def generate_mbom_with_inventory(ebom_df, inv_df):
 
-        rows.append({
-            "Level": lvl,
-            "Parent Part Number": parent,
-            "Parent Description": pn_to_name.get(parent, ""),
-            "Child Description": name,
-            "UOM": "EA",
-            "Node Type": nt,
-            "Make/Buy": mb,
-            "Work Center": wc,
-            "Procurement Steps": procurement_steps(mb),
-            "Operations (Routing Embedded)": routing(mb),
-            "Consumables": "NA",
-            "Qty": r["Quantity"],
-            "Child Part Number": child,
-            "Hierarchy Path": path_map.get(child, child),
-            "Revision": r["Revision"],
-            "Effective Date": r["Valid From"]
-        })
+    start_total = time.perf_counter()
 
-    df = pd.DataFrame(rows)
+    start_pre = time.perf_counter()
+    clean_df = normalize_ebom(ebom_df)
+    #clean_df = build_hierarchy(clean_df)
+    end_pre = time.perf_counter()
 
-    return df
+    inventory_json = inv_df.to_json(orient="records")
+    base_rows = clean_df.to_dict(orient="records")
 
+    start_ai = time.perf_counter()
+    ai_data = ai_enrich(base_rows, inventory_json)
+    end_ai = time.perf_counter()
 
-# =========================================================
-# Final Formatter (Exact UI Match)
-# =========================================================
+    if len(ai_data) != len(base_rows):
+        raise ValueError("AI row count mismatch.")
 
-def format_output(df):
+    start_post = time.perf_counter()
+    final_rows = []
+    for base, ai in zip(base_rows, ai_data):
+        merged = {**base, **ai}
+        final_rows.append(merged)
 
-    cols = [
-        "Level",
-        "Parent Part Number",
-        "Parent Description",
-        "Child Description",
-        "UOM",
-        "Node Type",
-        "Make/Buy",
-        "Work Center",
-        "Procurement Steps",
-        "Operations (Routing Embedded)",
-        "Consumables",
-        "Qty",
-        "Child Part Number",
-        "Hierarchy Path",
-        "Revision",
-        "Effective Date"
-    ]
+    final_df = pd.DataFrame(final_rows)
+    end_post = time.perf_counter()
 
-    for c in cols:
-        if c not in df.columns:
-            df[c] = ""
+    end_total = time.perf_counter()
 
-    df = df[cols]
-    df = df.sort_values(["Hierarchy Path", "Level"]).reset_index(drop=True)
+    print("\n--- PERFORMANCE METRICS ---")
+    print(f"Preprocessing Time   : {end_pre - start_pre:.4f} sec")
+    print(f"AI Generation Time   : {end_ai - start_ai:.4f} sec")
+    print(f"Post-processing Time : {end_post - start_post:.4f} sec")
+    print(f"Total MBOM Time      : {end_total - start_total:.4f} sec\n")
 
-    return df.fillna("")
+    return final_df
 
-
-# =========================================================
-# PUBLIC ENTRY
-# =========================================================
 
 def generate_mbom(ebom_df, inv_df=None):
-
-    # AI draft (optional influence)
-    _ = generate_ai_draft(ebom_df)
-
-    # Deterministic validation output
-    validated = validate_and_correct(_, ebom_df)
-
-    # Strict UI formatting
-    return format_output(validated)
+    if inv_df is None:
+        inv_df = pd.DataFrame()
+    return generate_mbom_with_inventory(ebom_df, inv_df)

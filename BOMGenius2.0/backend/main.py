@@ -406,18 +406,18 @@ def get_dashboard():
     # -------------------------
 # Accuracy Calculation
 # -------------------------
-cursor.execute("""
+    cursor.execute("""
     SELECT COUNT(*) as total,
            SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) as high
     FROM mbom
     WHERE Confidence_Score IS NOT NULL
 """)
 
-row = cursor.fetchone()
-total = row["total"] or 0
-high = row["high"] or 0
+    row = cursor.fetchone()
+    total = row["total"] or 0
+    high = row["high"] or 0
 
-accuracy = round((high / total) * 100, 2) if total > 0 else 0
+    accuracy = round((high / total) * 100, 2) if total > 0 else 0
 
     # -------------------------
     # Consumable Breakdown
@@ -578,6 +578,5 @@ def toggle_company_status(cid: int):
             "UPDATE companies SET is_active=? WHERE id=?",
             (new_status, cid)
         )
-
 
     return {"status": "changed", "is_active": new_status}

@@ -268,12 +268,9 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     print(f"Post-processing Time : {end_post - start_post:.4f} sec")
     print(f"Total MBOM Time      : {end_total - start_total:.4f} sec\n")
 
-    return final_df
+    return final_df.to_dict(orient="records")
 
 def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None:
         inv_df = pd.DataFrame()
     return generate_mbom_with_inventory(ebom_df, inv_df)
-
-mbom_df = generate_mbom(ebom_df, inv_df)
-return mbom_df.to_dict(orient="records")

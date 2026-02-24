@@ -270,9 +270,10 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
 
     return final_df
 
-
 def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None:
         inv_df = pd.DataFrame()
     return generate_mbom_with_inventory(ebom_df, inv_df)
 
+mbom_df = generate_mbom(ebom_df, inv_df)
+return mbom_df.to_dict(orient="records")

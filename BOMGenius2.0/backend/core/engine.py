@@ -231,25 +231,6 @@ Return ONLY the JSON array.
     except:
         raise ValueError("AI did not return valid JSON.")
 
-def validate_mbom_output(base_rows, ai_rows, required_columns):
-
-    if not isinstance(ai_rows, list):
-        raise ValueError("AI output is not a list.")
-
-    #if len(base_rows) != len(ai_rows):
-     #   raise ValueError("AI row count mismatch.")
-
-    for idx, row in enumerate(ai_rows):
-
-        if not isinstance(row, dict):
-            raise ValueError(f"Row {idx} is not a dictionary.")
-
-        for col in required_columns:
-            if col not in row:
-                raise ValueError(f"Missing column '{col}' in row {idx}.")
-
-    return True
-
 # ---------------------------------------------------
 # MAIN ENGINE
 # ---------------------------------------------------
@@ -269,9 +250,6 @@ def generate_mbom_with_inventory(ebom_df, inv_df):
     start_ai = time.perf_counter()
     ai_data = ai_enrich(base_rows, inventory_json)
     end_ai = time.perf_counter()
-
-    if len(ai_data) != len(base_rows):
-        raise ValueError("AI row count mismatch.")
 
     start_post = time.perf_counter()
     final_rows = []
@@ -297,3 +275,4 @@ def generate_mbom(ebom_df, inv_df=None):
     if inv_df is None:
         inv_df = pd.DataFrame()
     return generate_mbom_with_inventory(ebom_df, inv_df)
+

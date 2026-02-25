@@ -124,7 +124,8 @@ def compute_levels(ebom):
             children.setdefault(parent, []).append(child)
 
     roots = ebom.loc[ebom["Parent Part Number"] == "", "Part Number"].tolist()
-
+    if not roots:
+        roots = ebom["Part Number"].tolist()[:1]  # fallback to first row as root
     level = {}
     path = {}
 
@@ -271,16 +272,31 @@ def routing_rule(node_type: str, part_name: str, make_buy: str) -> List[Dict]:
 # =========================================================
 
 def _json_between_tags(text: str) -> str:
-    m = re.search(r"<JSON>\s*(\[.*\])\s*</JSON>", text, flags=re.S)
+    m = re.search(r"<JSON>\s*(.*?)\s*</JSON>", text, flags=re.S)
     if m:
-        return m.group(1)
-    # fallback: try bracket slice
+        return m.group(1).strip()
+
     start = text.find("[")
     end = text.rfind("]") + 1
-    if start != -1 and end != -1:
-        return text[start:end]
+    if start != -1 and end != -1 and end > start:
+        return text[start:end].strip()
     raise ValueError("No JSON array found in model output.")
 
+def _safe_json_loads(s: str):
+    s = s.strip()
+
+    # normalize smart quotes
+    s = s.replace("“", '"').replace("”", '"').replace("’", "'").replace("‘", "'")
+
+    # remove trailing commas before ] or }
+    s = re.sub(r",\s*([\]}])", r"\1", s)
+
+    # strip code fences if any
+    s = re.sub(r"^```(?:json)?\s*", "", s)
+    s = re.sub(r"\s*```$", "", s)
+
+    return json.loads(s)
+    
 def ai_enrich(base_rows: List[Dict], inventory_json: str = "[]", chunk_size: int = 15) -> List[Dict]:
     """
     Returns list[dict] same length as base_rows.
@@ -317,6 +333,7 @@ OUTPUT KEYS (exact):
 - "Approved_Supplier" : string
 - "Lead_Time_Days" : number
 - "Procurement Steps" : array of short strings (max 6)
+- "index" : integer (0..{len(chunk)-1})
 
 INVENTORY MATCHING:
 Use INVENTORY_JSON (may be empty).
@@ -341,7 +358,26 @@ Return JSON ONLY between tags:
             options={"temperature": 0.0, "num_predict": 900, "top_p": 0.9, "repeat_penalty": 1.15},
         )
 
-        arr = json.loads(_json_between_tags(response["response"]))
+        raw = _json_between_tags(response["response"])
+        try:
+            arr = _safe_json_loads(raw)
+        except json.JSONDecodeError:
+            repair_prompt = f"""
+        SYSTEM: You are a JSON repair tool. Output ONLY valid JSON.
+
+        Fix this into a valid JSON array (only syntax fixes: commas/quotes/brackets).
+        BROKEN_JSON:
+        {raw}
+
+        Return ONLY the repaired JSON array.
+        """
+            fixed = ollama.generate(
+                model=MODEL_NAME,
+                prompt=repair_prompt,
+                options={"temperature": 0.0, "num_predict": 900}
+            )
+            fixed_raw = _json_between_tags(fixed["response"]) if "<JSON>" in fixed["response"] else fixed["response"]
+            arr = _safe_json_loads(fixed_raw)
 
         # Expect list of objects with "index"
         if not isinstance(arr, list):
@@ -464,3 +500,4 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
             df[c] = "NA"
 
     return df[final_cols].fillna("NA")
+

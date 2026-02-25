@@ -205,6 +205,8 @@ def node_type_rule(part_type: str, part_name: str) -> str:
         return "Packaging"
     if "assembly" in pt or any(k in nm for k in ["assembly", "sub-assembly", "adapter assembly", "pcb assembly", "cable assembly"]):
         return "Assembly"
+    if "sub" in nm and "assembly" in nm:
+        return "Sub-Assembly"
     if pt in ["material"] or "material" in pt:
         return "Material"
     return "Component"
@@ -239,6 +241,10 @@ def work_center_rule(node_type: str, part_name: str, make_buy: str) -> str:
         if "pcb" in nm:
             return "SMT_LINE"
         return "MECH_LINE"
+
+        # Buy components should still go through incoming inspection
+    if make_buy == "Buy":
+        return "INCOMING_QC"
 
     return "NA"
 
@@ -457,6 +463,12 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
         r["Stock_Qty"] = ai.get("Stock_Qty", r["Stock_Qty"])
         r["Store_Location"] = ai.get("Store_Location", r["Store_Location"])
         r["Procurement Action"] = ai.get("Procurement Action", r["Procurement Action"])
+        steps = r.get("Procurement Steps", [])
+        if not steps or steps == "NA":
+            if r.get("Make/Buy") == "Buy":
+                r["Procurement Steps"] = ["PR", "PO", "GRN", "Incoming QC", "Putaway", "Issue"]
+            else:
+                r["Procurement Steps"] = ["Kitting", "Assembly", "In-process QC", "Final Test", "Packing", "FG Receipt"]
         r["Approved_Supplier"] = ai.get("Approved_Supplier", r["Approved_Supplier"])
         r["Lead_Time_Days"] = ai.get("Lead_Time_Days", r["Lead_Time_Days"])
         r["Procurement Steps"] = ai.get("Procurement Steps", r["Procurement Steps"])
@@ -500,4 +512,5 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
             df[c] = "NA"
 
     return df[final_cols].fillna("NA")
+
 

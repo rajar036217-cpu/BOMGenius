@@ -28,21 +28,30 @@
     <a href="fullbomconverter.html" class="hover:text-[#C8A2C8] transition">BOM Converter</a>
     <a href="feedback.html" class="hover:text-[#C8A2C8] transition">Federated Learning</a>
     <a href="settings.html" class="hover:text-[#C8A2C8] transition">Settings</a>
-    <a href="history.html" class="text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">History</a>
+    <a href="history.html" class="hover:text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">History</a>
   </nav>
 
   <div class="relative">
-    <button onclick="toggleDropdown()" class="font-medium text-[#5A4E7C]">
-      Company: <span class="font-semibold">Phoenix Enterprises ▼</span>
+    <button onclick="toggleDropdown()"
+      class="font-medium text-blue-900 flex items-center space-x-2">
+      <span>Company:</span>
+      <span class="font-semibold" id="cname"></span>
+      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 9l-7 7-7-7" />
+      </svg>
     </button>
 
-    <div id="dropdownMenu"
-         class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border border-[#E0E0E0]">
-      <button onclick="logout()"
-        class="block w-full text-left px-4 py-3 hover:bg-[#F1F3F6] rounded-xl text-[#5A4E7C] font-medium">
-        Logout
-      </button>
-    </div>
+    <div id="companyDropdown"
+class="hidden absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border">
+
+<button onclick="logout()"
+class="w-full text-left px-5 py-3 text-red-600 hover:bg-red-50 font-medium">
+Logout
+</button>
+
+</div>
   </div>
 </header>
 
@@ -84,6 +93,17 @@
 
 <!-- ===== API SCRIPT ===== -->
 <script>
+
+    let cname=document.getElementById("cname")
+  cname.innerText=localStorage.getItem("companyname")
+
+function logout() {
+  window.location.href = "/frontend/role.html";
+}
+
+function toggleDropdown() {
+  document.getElementById("companyDropdown").classList.toggle("hidden");
+}
 
 async function loadHistory() {
   try {

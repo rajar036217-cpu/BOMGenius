@@ -342,15 +342,11 @@ function downloadCSV() {
   document.body.appendChild(downloadLink);
   downloadLink.click();
 }
-
+src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"
 function downloadExcel() {
-  let table = document.getElementById("mbomTable").outerHTML;
-  let blob = new Blob([table], { type: "application/vnd.ms-excel" });
-  let link = document.createElement("a");
-
-  link.href = URL.createObjectURL(blob);
-  link.download = "mBOM.xls";
-  link.click();
+    let table = document.getElementById("mbomTable");
+    let workbook = XLSX.utils.table_to_book(table, { sheet: "MBOM" });   
+    XLSX.writeFile(workbook, "mBOM.xlsx");
 }
 
 function downloadXML() {
@@ -420,4 +416,5 @@ function setProgress(text) {
 
 </body>
 </html>
+
 

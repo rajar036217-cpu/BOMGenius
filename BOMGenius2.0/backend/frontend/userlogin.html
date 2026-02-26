@@ -43,11 +43,11 @@
         <!-- Company ID -->
         <div>
             <label class="block mb-2 font-medium text-[#5A4E7C]">
-                Company ID
+                Company Email ID
             </label>
-            <input type="text"
+            <input type="email"
                 id="companyId"
-                placeholder="Enter Company ID"
+                placeholder="Enter Company Email ID"
                 required
                 class="w-full p-3 rounded-xl border border-gray-300
                        focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]
@@ -114,10 +114,10 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         const data = await response.json();
 
         if (response.ok) {
-            alert("Login Successful ✅");
             window.location.href = "home.html";
+            localStorage.setItem("companyname",companyName)
         } else {
-            alert(data.message || "Login Failed ❌");
+            alert(data.message || "Login Failed ");
         }
 
     } catch (error) {

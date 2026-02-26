@@ -91,6 +91,8 @@ def login(data: LoginRequest):
         "company_name": user[1]
     }
 
+
+
 @app.post("/register")
 def register(data: RegisterRequest):
 
@@ -106,12 +108,12 @@ def register(data: RegisterRequest):
             raise HTTPException(status_code=400, detail="Email already registered")
 
         cursor.execute("""
-            INSERT INTO companies (full_name, email, company_address, password)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO companies (company_name, email, password)
+            VALUES (?, ?, ?)
         """, (
             data.full_name,
             data.email,
-            data.company_address,
+            data.password,
             ))
 
         conn.commit()
@@ -601,4 +603,3 @@ def toggle_company_status(cid: int):
         )
 
     return {"status": "changed", "is_active": new_status}
-

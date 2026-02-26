@@ -62,10 +62,67 @@ class RegisterRequest(BaseModel):
 class SettingsRequest(BaseModel):
     company: str
     email: str
+    
+    
+class SettingsData(BaseModel):
+    company_name: str
+    company_email: str
+    password: str | None = None
 
 @app.get("/")
 def home():
     return FileResponse(os.path.join(frontend_path, "index.html"))
+
+
+# ================= GET SETTINGS =================
+@app.get("/get-settings")
+def get_settings():
+
+    with sqlite3.connect(DATABASE) as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT company_name, email
+            FROM companies
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+
+        row = cursor.fetchone()
+
+        if not row:
+            return {"company_name": "", "company_email": ""}
+
+        return {
+            "company_name": row["company_name"],
+            "company_email": row["email"]
+        }
+
+
+# ================= SAVE SETTINGS =================
+@app.post("/save-settings")
+def save_settings(data: SettingsData):
+
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+
+        if data.password:
+            cursor.execute("""
+                UPDATE companies
+                SET company_name=?, email=?, password=?
+                WHERE id = (SELECT id FROM companies ORDER BY id DESC LIMIT 1)
+            """, (data.company_name, data.company_email, data.password))
+        else:
+            cursor.execute("""
+                UPDATE companies
+                SET company_name=?, email=?
+                WHERE id = (SELECT id FROM companies ORDER BY id DESC LIMIT 1)
+            """, (data.company_name, data.company_email))
+
+        conn.commit()
+
+    return {"message": "Settings updated successfully"}
 
 @app.post("/userlogin")
 def login(data: LoginRequest):

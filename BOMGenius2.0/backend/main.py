@@ -18,6 +18,7 @@ from federated.local_trainer import export_local_updates, log_human_feedback
 from ocr.ebom_from_image import ebom_from_image
 from pydantic import BaseModel
 from repo.DB import init_db, save_mbom
+from fastapi import HTTPException
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
@@ -66,9 +67,29 @@ class SettingsRequest(BaseModel):
 def home():
     return FileResponse(os.path.join(frontend_path, "index.html"))
 
-@app.post("/login")
+@app.post("/userlogin")
 def login(data: LoginRequest):
-    return {"message": "Login successful"}
+
+    conn = sqlite3.connect("bomgenius.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, company_name
+        FROM companies
+        WHERE email=? AND company_name=? AND password=?
+    """, (data.company_id, data.company_name, data.password))
+
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    return {
+        "message": "Login successful",
+        "company_id": user[0],
+        "company_name": user[1]
+    }
 
 @app.post("/register")
 def register(data: RegisterRequest):
@@ -580,3 +601,4 @@ def toggle_company_status(cid: int):
         )
 
     return {"status": "changed", "is_active": new_status}
+

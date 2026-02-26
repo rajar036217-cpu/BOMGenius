@@ -23,6 +23,8 @@ from fastapi import HTTPException
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
 
+c_id=-1
+
 
 # C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
 
@@ -129,6 +131,7 @@ def login(data: LoginRequest):
 
     conn = sqlite3.connect("bomgenius.db")
     cursor = conn.cursor()
+    
 
     cursor.execute("""
         SELECT id, company_name
@@ -141,6 +144,8 @@ def login(data: LoginRequest):
 
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    c_id=user[0]
 
     return {
         "message": "Login successful",
@@ -224,11 +229,13 @@ async def fullbomconverter(
 
     if "timestamp" in df_final.columns:
         df_final = df_final.drop(columns=["timestamp"])
+        
+    print(c_id)
 
     # -------------------------
     # SAVE TO DB
     # -------------------------
-    save_mbom(df_final)
+    save_mbom(df_final,c_id)
 
     return {
         "columns": list(df_final.columns),

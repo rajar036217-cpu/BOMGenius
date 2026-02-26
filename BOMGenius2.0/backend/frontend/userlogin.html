@@ -116,6 +116,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         if (response.ok) {
             window.location.href = "home.html";
             localStorage.setItem("companyname",companyName)
+            localStorage.setItem("companyid",data.company_id)
         } else {
             alert(data.message || "Login Failed ");
         }

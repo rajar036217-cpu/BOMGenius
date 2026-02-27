@@ -136,12 +136,15 @@
   </div>
 </section>
 
-<!-- SUCCESS TOAST -->
+
 <div id="successToast" class="toast">
-  Submited sucessfully
+  Submitted successfully
 </div>
 
 <script>
+let cname=document.getElementById("cname")
+cname.innerText=localStorage.getItem("companyname")
+
 function toggleDropdown(){
   document.getElementById("companyDropdown").classList.toggle("hidden");
 }

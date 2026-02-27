@@ -18,9 +18,12 @@ from federated.local_trainer import export_local_updates, log_human_feedback
 from ocr.ebom_from_image import ebom_from_image
 from pydantic import BaseModel
 from repo.DB import init_db, save_mbom
+from fastapi import HTTPException
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
+
+c_id=-1
 
 
 # C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
@@ -61,14 +64,96 @@ class RegisterRequest(BaseModel):
 class SettingsRequest(BaseModel):
     company: str
     email: str
+    
+    
+class SettingsData(BaseModel):
+    company_name: str
+    company_email: str
+    password: str | None = None
 
 @app.get("/")
 def home():
     return FileResponse(os.path.join(frontend_path, "index.html"))
 
-@app.post("/login")
+
+# ================= GET SETTINGS =================
+@app.get("/get-settings")
+def get_settings():
+
+    with sqlite3.connect(DATABASE) as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT company_name, email
+            FROM companies
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+
+        row = cursor.fetchone()
+
+        if not row:
+            return {"company_name": "", "company_email": ""}
+
+        return {
+            "company_name": row["company_name"],
+            "company_email": row["email"]
+        }
+
+
+# ================= SAVE SETTINGS =================
+@app.post("/save-settings")
+def save_settings(data: SettingsData):
+
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+
+        if data.password:
+            cursor.execute("""
+                UPDATE companies
+                SET company_name=?, email=?, password=?
+                WHERE id = (SELECT id FROM companies ORDER BY id DESC LIMIT 1)
+            """, (data.company_name, data.company_email, data.password))
+        else:
+            cursor.execute("""
+                UPDATE companies
+                SET company_name=?, email=?
+                WHERE id = (SELECT id FROM companies ORDER BY id DESC LIMIT 1)
+            """, (data.company_name, data.company_email))
+
+        conn.commit()
+
+    return {"message": "Settings updated successfully"}
+
+@app.post("/userlogin")
 def login(data: LoginRequest):
-    return {"message": "Login successful"}
+
+    conn = sqlite3.connect("bomgenius.db")
+    cursor = conn.cursor()
+    
+
+    cursor.execute("""
+        SELECT id, company_name
+        FROM companies
+        WHERE email=? AND company_name=? AND password=?
+    """, (data.company_id, data.company_name, data.password))
+
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    c_id=user[0]
+
+    return {
+        "message": "Login successful",
+        "company_id": user[0],
+        "company_name": user[1]
+    }
+
+
 
 @app.post("/register")
 def register(data: RegisterRequest):
@@ -85,12 +170,12 @@ def register(data: RegisterRequest):
             raise HTTPException(status_code=400, detail="Email already registered")
 
         cursor.execute("""
-            INSERT INTO companies (full_name, email, company_address, password)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO companies (company_name, email, password)
+            VALUES (?, ?, ?)
         """, (
             data.full_name,
             data.email,
-            data.company_address,
+            data.password,
             ))
 
         conn.commit()
@@ -144,11 +229,13 @@ async def fullbomconverter(
 
     if "timestamp" in df_final.columns:
         df_final = df_final.drop(columns=["timestamp"])
+        
+    print(c_id)
 
     # -------------------------
     # SAVE TO DB
     # -------------------------
-    save_mbom(df_final)
+    save_mbom(df_final,c_id)
 
     return {
         "columns": list(df_final.columns),
@@ -404,6 +491,22 @@ def get_dashboard():
     avg_components = cursor.fetchone()["avg_components"]
 
     # -------------------------
+# Accuracy Calculation
+# -------------------------
+    cursor.execute("""
+    SELECT COUNT(*) as total,
+           SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) as high
+    FROM mbom
+    WHERE Confidence_Score IS NOT NULL
+""")
+
+    row = cursor.fetchone()
+    total = row["total"] or 0
+    high = row["high"] or 0
+
+    accuracy = round((high / total) * 100, 2) if total > 0 else 0
+
+    # -------------------------
     # Consumable Breakdown
     # -------------------------
     cursor.execute("""
@@ -437,15 +540,16 @@ def get_dashboard():
     avg_confidence = cursor.fetchone()["avg_confidence"]
 
     conn.close()
-
     return {
     "total_boms": total_boms or 0,
     "total_components": total_components or 0,
     "last_uploaded": last_uploaded,
     "avg_components": avg_components or 0,
     "avg_confidence": avg_confidence or 0,
+    "accuracy": accuracy,   # 👈 IMPORTANT
     "consumable_breakdown": consumable_breakdown
 }
+    
 
 from pydantic import BaseModel
 from typing import Optional
@@ -491,7 +595,6 @@ def create_company(data: CompanyCreate):
             "INSERT INTO companies (name, created_at) VALUES (?, ?)",
             (data.name, datetime.datetime.now().isoformat())
         )
-
     return {"status": "company created"}
 
 @app.get("/company")

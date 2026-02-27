@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>BOM Converter | BOM Genius</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
   .dark-shadow {
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
@@ -44,7 +44,7 @@
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="/" class="hover:text-blue-700">Home</a>
+    <a href="home.html" class="hover:text-blue-700">Home</a>
     <a href="fullbomconverter.html" 
        class="text-blue-900 border-b-2 border-blue-900 pb-1">
        BOM Converter
@@ -58,7 +58,7 @@
     <button onclick="toggleDropdown()"
       class="font-medium text-blue-900 flex items-center space-x-2">
       <span>Company:</span>
-      <span class="font-semibold">Phoenix Enterprises</span>
+      <span class="font-semibold" id="cname"></span>
       <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" stroke-width="2"
            viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -188,6 +188,9 @@ Parsing BOM…
 </section>
 
 <script>
+
+    let cname=document.getElementById("cname")
+  cname.innerText=localStorage.getItem("companyname")
 function toggleDropdown() {
   document.getElementById("companyDropdown").classList.toggle("hidden");
 }
@@ -344,13 +347,9 @@ function downloadCSV() {
 }
 
 function downloadExcel() {
-  let table = document.getElementById("mbomTable").outerHTML;
-  let blob = new Blob([table], { type: "application/vnd.ms-excel" });
-  let link = document.createElement("a");
-
-  link.href = URL.createObjectURL(blob);
-  link.download = "mBOM.xls";
-  link.click();
+    let table = document.getElementById("mbomTable");
+    let workbook = XLSX.utils.table_to_book(table, { sheet: "MBOM" });   
+    XLSX.writeFile(workbook, "mBOM.xlsx");
 }
 
 function downloadXML() {

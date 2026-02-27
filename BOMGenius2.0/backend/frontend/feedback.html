@@ -62,7 +62,7 @@
     <button onclick="toggleDropdown()"
             class="flex items-center gap-2 focus:outline-none">
       Company:
-      <span class="font-semibold">ABC Industries</span>
+      <span class="font-semibold" id="cname"></span>
       <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor"
            stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -142,9 +142,6 @@
 </div>
 
 <script>
-let cname=document.getElementById("cname")
-cname.innerText=localStorage.getItem("companyname")
-
 function toggleDropdown(){
   document.getElementById("companyDropdown").classList.toggle("hidden");
 }

@@ -41,8 +41,14 @@
 
   <div class="relative">
     <button onclick="toggleDropdown()"
-      class="font-medium text-[#5A4E7C]">
-      Company: <span class="font-semibold">Phoenix Enterprises ▼</span>
+            class="flex items-center gap-2 focus:outline-none">
+      Company:
+      <span class="font-semibold" id="cname"></span>
+      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor"
+           stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 9l-7 7-7-7"/>
+      </svg>
     </button>
 
     <div id="companyDropdown"
@@ -107,6 +113,18 @@
 </footer>
 
 <script>
+
+    let cname=document.getElementById("cname")
+  cname.innerText=localStorage.getItem("companyname")
+
+function logout() {
+  window.location.href = "/frontend/role.html";
+}
+
+function toggleDropdown() {
+  document.getElementById("companyDropdown").classList.toggle("hidden");
+}
+
 const API_BASE = "http://127.0.0.1:8000";
 
 /* ================= LOAD SETTINGS ================= */

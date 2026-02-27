@@ -100,4 +100,4 @@ def save_mbom(df, company_id):
     conn.commit()
     conn.close()
 
-    print("MBOM saved for company:", company_id)
+    print("MBOM saved successfully with timestamp:", timestamp)

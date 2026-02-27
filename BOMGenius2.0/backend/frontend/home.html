@@ -29,22 +29,22 @@
 
   <nav class="flex space-x-10 text-lg font-medium">
   
-    <a href="/frontend/home.html" 
+    <a href="home.html" 
        class="text-blue-900 border-b-2 border-blue-900 pb-1">
        Home
     </a>
-    <a href="/frontend/fullbomconverter.html" class="hover:text-blue-700">BOM converter</a>
-    <a href="/frontend/feedback.html" class="hover:text-blue-700">Federated Learning</a>
+    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM converter</a>
+    <a href="feedback.html" class="hover:text-blue-700">Federated Learning</a>
     
-    <a href="/frontend/settings.html" class="hover:text-blue-700">Settings</a>
-    <a href="/frontend/history.html" class="hover:text-blue-700">History</a> 
+    <a href="settings.html" class="hover:text-blue-700">Settings</a>
+    <a href="history.html" class="hover:text-blue-700">History</a> 
   </nav>
 
   <div class="relative">
     <button onclick="toggleDropdown()"
       class="font-medium text-blue-900 flex items-center space-x-2">
       <span>Company:</span>
-      <span class="font-semibold">Phoenix Enterprises</span>
+      <span class="font-semibold" id="cname"></span>
       <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" stroke-width="2"
            viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -134,8 +134,19 @@ Logout
 <!-- ================= SCRIPT ================= -->
 <script>
 
+  let cname=document.getElementById("cname")
+  cname.innerText=localStorage.getItem("companyname")
+
 let pieChartInstance;
 let barChartInstance;
+
+function logout() {
+  window.location.href = "/frontend/role.html";
+}
+
+function toggleDropdown() {
+  document.getElementById("companyDropdown").classList.toggle("hidden");
+}
 
 async function loadDashboard() {
   try {

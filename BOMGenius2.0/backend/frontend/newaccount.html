@@ -135,7 +135,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
         if (response.ok) {
             alert(data.message || "Account created successfully!");
-            window.location.href = "userlogin.html";
+            window.location.href = "/frontend/home.html";
         } else {
             alert(data.detail || "Registration failed!");
         }
@@ -148,4 +148,5 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 </script>
 
 </body>
+
 </html>

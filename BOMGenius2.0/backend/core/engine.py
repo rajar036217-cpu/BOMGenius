@@ -508,15 +508,187 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
         "Procurement Steps",
         "Operations (Routing Embedded)",
         "Consumables",
-        "Qty",
-        "Child Part Number",
-        "Hierarchy Path",
-        "Revision",
-        "Effective Date"
     ]
+    group_cols = [c for c in group_cols if c in df.columns]
 
-    for c in final_cols:
-        if c not in df.columns:
-            df[c] = "NA"
+    def join_unique(x):
+        s = pd.Series(x).astype(str).str.strip()
+        s = s.replace({"nan": "", "None": ""})
+        uniq = [u for u in s.unique().tolist() if u]
+        return ", ".join(uniq)
 
-    return df[final_cols].fillna("NA")
+    agg_dict = {
+        "Qty": "sum",
+        "Child Part Number": join_unique,
+        "Hierarchy Path": "first",
+        "Revision": "first",
+        "Effective Date": "first",
+    }
+
+    # inventory cols if present
+    for c in ["Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days"]:
+        if c in df.columns:
+            agg_dict[c] = "first"
+
+    out = df.groupby(group_cols, as_index=False).agg(agg_dict)
+    return out.fillna("")
+
+
+# =========================================================
+# Generate mBOM (single entry point)
+# =========================================================
+def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) -> pd.DataFrame:
+    ebom = normalize_ebom(ebom_df)
+    ebom = build_parent_child(ebom)
+    level_map, path_map, roots = compute_levels(ebom)
+
+    pn_to_name = dict(zip(ebom["Part Number"], ebom["Part Name"]))
+
+    inv_norm = normalize_inventory(inv_df) if (inv_df is not None and not inv_df.empty) else pd.DataFrame()
+
+    inventory_active = (
+        inv_norm is not None
+        and not inv_norm.empty
+        and (("Part Number" in inv_norm.columns and (inv_norm["Part Number"] != "").any())
+             or ("Part Name" in inv_norm.columns and (inv_norm["Part Name"] != "").any()))
+    )
+
+    def inv_logic(child_pn: str, child_name: str, mb: str):
+        if not inventory_active:
+            return None
+
+        if mb == "Make":
+            return ("N/A (Manufactured)", 0, "", "Produce In-house", "", 0)
+
+        rec = pd.DataFrame()
+        if "Part Number" in inv_norm.columns:
+            rec = inv_norm[inv_norm["Part Number"].astype(str).str.strip() == str(child_pn).strip()]
+
+        if rec.empty and "Part Name" in inv_norm.columns:
+            rec = inv_norm[
+                inv_norm["Part Name"].astype(str).str.lower().str.strip()
+                == str(child_name).lower().strip()
+            ]
+
+        if rec.empty:
+            return ("Unknown (Not in Inventory List)", 0, "", "Trigger PR", "", 0)
+
+        row = rec.iloc[0]
+        in_inv = str(row.get("In_Inventory", "")).strip().lower()
+        stock = int(row.get("Stock_Qty", 0) or 0)
+        loc = _clean_str(row.get("Store_Location", ""))
+        sup = _clean_str(row.get("Approved_Supplier", ""))
+        lead = int(row.get("Lead_Time_Days", 0) or 0)
+
+        if in_inv in ["yes", "y", "true", "1"] and stock > 0:
+            return ("Available in Stock", stock, loc, "Issue from Stores", sup, lead)
+
+        return ("Not Available", stock, loc, "Trigger PR", sup, lead)
+
+    def add_inventory_cols(base: dict, inv_tuple):
+        if inv_tuple is None:
+            return base
+        inv_status, stock, loc, action, sup, lead = inv_tuple
+        base.update({
+            "Inventory Status": inv_status,
+            "Stock_Qty": stock,
+            "Store_Location": loc,
+            "Procurement Action": action,
+            "Approved_Supplier": sup,
+            "Lead_Time_Days": lead,
+        })
+        return base
+
+    rows = []
+
+    # Root rows (Level 0)
+    for rt in roots:
+        r0 = ebom[ebom["Part Number"] == rt]
+        part_type = _clean_str(r0["Part Type"].iloc[0]) if not r0.empty else ""
+        stdc = _clean_str(r0["Standard vs Custom"].iloc[0]) if not r0.empty else ""
+        eff = _clean_str(r0["Valid From"].iloc[0]) if not r0.empty else ""
+        rev = _clean_str(r0["Revision"].iloc[0]) if not r0.empty else "NA"
+
+        lvl = level_map.get(rt, 0)
+        name = pn_to_name.get(rt, "")
+        name = GLOBAL_RULES.get(name, name)
+        mb = makebuy_rule(part_type, stdc, name)
+        nt = node_type_from_part_type(part_type)
+        wc = work_center_rule(mb, part_type, name)
+
+        inv_tuple = inv_logic(rt, name, mb)
+        cons = llm_consumables_optional(name, "")  # no material column in ebom by default
+
+        base = {
+            "Level": lvl,
+            "Parent Part Number": "",
+            "Parent Description": "",
+            "Child Part Number": rt,
+            "Child Description": name,
+            "Qty": 1,
+            "UOM": "EA",
+            "Revision": rev,
+            "Node Type": nt,
+            "Make/Buy": mb,
+            "Work Center": wc,
+            "Effective Date": eff,
+            "Procurement Steps": procurement_steps_rule(mb, inv_tuple[0] if inv_tuple else None),
+            "Operations (Routing Embedded)": routing_embedded_rule(mb, nt, lvl, wc),
+            "Consumables": cons,
+            "Hierarchy Path": path_map.get(rt, rt),
+        }
+        rows.append(add_inventory_cols(base, inv_tuple))
+
+    # Parent-child edges
+    for _, r in ebom.iterrows():
+        child = _clean_str(r.get("Part Number"))
+        parent = _clean_str(r.get("Parent Part Number"))
+        if not parent:
+            continue
+
+        lvl = level_map.get(child, 0)
+        child_name = _clean_str(r.get("Part Name"))
+        child_name = GLOBAL_RULES.get(child_name, child_name)
+        part_type = _clean_str(r.get("Part Type"))
+        stdc = _clean_str(r.get("Standard vs Custom"))
+        rev = _clean_str(r.get("Revision")) or "NA"
+        eff = _clean_str(r.get("Valid From"))
+        qty = int(r.get("Quantity", 1) or 1)
+
+        mb = makebuy_rule(part_type, stdc, child_name)
+        nt = node_type_from_part_type(part_type)
+        wc = work_center_rule(mb, part_type, child_name)
+
+        inv_tuple = inv_logic(child, child_name, mb)
+        cons = llm_consumables_optional(child_name, "")  # add material if you want later
+
+        base = {
+            "Level": lvl,
+            "Parent Part Number": parent,
+            "Parent Description": pn_to_name.get(parent, ""),
+            "Child Part Number": child,
+            "Child Description": child_name,
+            "Qty": qty,
+            "UOM": "EA",
+            "Revision": rev,
+            "Node Type": nt,
+            "Make/Buy": mb,
+            "Work Center": wc,
+            "Effective Date": eff,
+            "Procurement Steps": procurement_steps_rule(mb, inv_tuple[0] if inv_tuple else None),
+            "Operations (Routing Embedded)": routing_embedded_rule(mb, nt, lvl, wc),
+            "Consumables": cons,
+            "Hierarchy Path": path_map.get(child, child),
+        }
+        rows.append(add_inventory_cols(base, inv_tuple))
+
+    df = pd.DataFrame(rows).fillna("")
+
+    # sort like SAP-ish view
+    df["_root"] = df["Hierarchy Path"].astype(str).str.split(" > ").str[0]
+    df = df.sort_values(["_root", "Level", "Parent Part Number", "Child Part Number"]).drop(columns=["_root"])
+
+    # ✅ aggregation (rollup)
+    df = smart_rollup_aggregation(df)
+
+    return df.fillna("")

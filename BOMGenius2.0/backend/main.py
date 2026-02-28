@@ -145,6 +145,7 @@ def login(data: LoginRequest):
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
+    global c_id
     c_id=user[0]
 
     return {
@@ -215,6 +216,9 @@ async def fullbomconverter(
         inv_df = load_ebom(inv_bytes, inventory.filename)
     else:
         inv_df = pd.DataFrame()
+        
+    
+    
 
     df_final = generate_mbom(ebom_df, inv_df)
 
@@ -458,6 +462,7 @@ def get_dashboard():
         FROM mbom
     """)
     total_boms = cursor.fetchone()["total_boms"]
+    
 
     # -------------------------
     # Total Components
@@ -595,6 +600,7 @@ def create_company(data: CompanyCreate):
             "INSERT INTO companies (name, created_at) VALUES (?, ?)",
             (data.name, datetime.datetime.now().isoformat())
         )
+
     return {"status": "company created"}
 
 @app.get("/company")

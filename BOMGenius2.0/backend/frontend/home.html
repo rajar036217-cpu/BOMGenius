@@ -152,6 +152,7 @@ async function loadDashboard() {
   try {
     const response = await fetch("http://127.0.0.1:8000/dashboard");
     const data = await response.json();
+    console.log(data)
 
     document.getElementById("total_boms").innerText = data.total_boms ?? 0;
     document.getElementById("total_components").innerText = data.total_components ?? 0;

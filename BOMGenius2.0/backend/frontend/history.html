@@ -13,22 +13,39 @@
   .nav-shadow {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
   }
+
+  .active-text {
+    color: #1e3a8a; /* blue-900 */
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .inactive-text {
+    color: #9ca3af; /* gray-400 */
+    transition: all 0.3s ease;
+  }
 </style>
 </head>
 
 <body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
 
-<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6
+               bg-white/30 backdrop-blur-xl border-b border-white/40 nav-shadow">
   <h1 class="text-3xl font-bold text-[#5A4E7C] tracking-wide">
     BOM Genius
   </h1>
 
   <nav class="flex space-x-10 text-lg font-medium">
-    <a href="home.html" class="hover:text-[#C8A2C8] transition">Home</a>
-    <a href="fullbomconverter.html" class="hover:text-[#C8A2C8] transition">BOM Converter</a>
-    <a href="feedback.html" class="hover:text-[#C8A2C8] transition">Federated Learning</a>
-    <a href="settings.html" class="hover:text-[#C8A2C8] transition">Settings</a>
-    <a href="history.html" class="hover:text-[#5A4E7C] border-b-2 border-[#C8A2C8] pb-1">History</a>
+  
+    <a href="home.html" 
+       class="hover:text-blue-700">
+       Home
+    </a>
+    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM converter</a>
+    <a href="feedback.html" class="hover:text-blue-700">Federated Learning</a>
+    
+    <a href="settings.html" class="hover:text-blue-700">Settings</a>
+    <a href="history.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">History</a> 
   </nav>
 
   <div class="relative">
@@ -175,4 +192,3 @@ document.addEventListener("DOMContentLoaded", loadHistory);
 
 </body>
 </html>
-

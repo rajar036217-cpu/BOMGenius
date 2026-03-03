@@ -1,5 +1,5 @@
 import os
-import io
+import ollama
 import tempfile
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -24,7 +24,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
 
 c_id=-1
-
 
 # C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
 
@@ -216,9 +215,7 @@ async def fullbomconverter(
         inv_df = load_ebom(inv_bytes, inventory.filename)
     else:
         inv_df = pd.DataFrame()
-        
-    
-    
+      
 
     df_final = generate_mbom(ebom_df, inv_df)
 
@@ -235,6 +232,7 @@ async def fullbomconverter(
         df_final = df_final.drop(columns=["timestamp"])
         
     print(c_id)
+
 
     # -------------------------
     # SAVE TO DB

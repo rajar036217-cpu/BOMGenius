@@ -1,372 +1,319 @@
 import os
 import re
 import json
-import pandas as pd
-import ollama
 import time
+import pandas as pd
+import requests
 from typing import Optional, Dict, List
+from collections import defaultdict
+import ollama
 
-print("=== HYBRID mBOM ENGINE LOADED (AI + Deterministic Validation) ===")
+import pdfplumber
+import httpx
+from pydantic import BaseModel, Field
+import instructor
+from openai import OpenAI
 
-MODEL_NAME = "llama3.2:3b"
-GLOBAL_RULES_PATH = "federated/global_rules.json"
+# ==========================================
+# 1. SETUP OLLAMA CLIENT WITH INSTRUCTOR
+# ==========================================
+MODEL_NAME = "llama3.2 3b"
+http_client = httpx.Client(timeout=30.0)
+client = instructor.from_openai(
+    OpenAI(
+        base_url="http://localhost:11434/v1",
+        api_key="ollama",
+        http_client=http_client
+    ),
+    mode=instructor.Mode.JSON
+)
 
-def load_global_rules():
-    if os.path.exists(GLOBAL_RULES_PATH):
-        with open(GLOBAL_RULES_PATH, "r") as f:
-            return json.load(f)
+class MBomComponent(BaseModel):
+    """Manufacturing BOM Component Data Structure"""
+    part_number: str = Field(description="The unique identifier or part number")
+    description: str = Field(description="Name or description of the part")
+    quantity: int = Field(default=1, description="Number of units required")
+    consumables: List[str] = Field(default_factory=list)
+    routing_step: Optional[str] = Field(default="NA")
+
+class PartAnalysis(BaseModel):
+    step_by_step_reasoning: str
+    predicted_consumable: str
+
+# ==========================================
+# 2. UTILITY FUNCTIONS
+# ==========================================
+def load_global_rules() -> dict:
+    rule_path = os.path.join(os.path.dirname(__file__), "..", "federated", "global_rules.json")
+    if os.path.exists(rule_path):
+        try:
+            with open(rule_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("name_correction_map", {})
+        except Exception as e:
+            print(f"Warning: Could not load global rules - {e}")
     return {}
 
-
 def _clean_str(x):
-    if x is None or pd.isna(x):
-        return ""
-    s = str(x).strip()
-    if s.lower() in ["nan", "none", "null"]:
-        return ""
-    return s
-
-def smart_find_column(df, candidates):
-    norm = {}
-    for c in df.columns:
-        key = re.sub(r"[\s_]+", "", str(c).strip().lower())
-        norm[key] = c
-
-    for cand in candidates:
-        key = re.sub(r"[\s_]+", "", str(cand).strip().lower())
-        if key in norm:
-            return norm[key]
-
-    for cand in candidates:
-        key = re.sub(r"[\s_]+", "", str(cand).strip().lower())
-        for k, real in norm.items():
-            if key in k:
-                return real
-    return None
-
-def format_routing_text(ops) -> str:
-    if ops is None:
-        return "NA"
-    if isinstance(ops, str):
-        return ops.strip() or "NA"
-    if isinstance(ops, list):
-        parts = []
-        for o in ops:
-            if isinstance(o, dict):
-                seq = o.get("Op_Seq", "")
-                opn = o.get("Operation", "")
-                if str(seq).strip() and str(opn).strip():
-                    parts.append(f"{seq}: {opn}")
-            elif isinstance(o, str) and o.strip():
-                parts.append(o.strip())
-        return " | ".join(parts) if parts else "NA"
-    return "NA"
-
-def normalize_ebom(df):
-    df = df.copy()
-    df.columns = [str(c).strip() for c in df.columns]
-
-    part_no = smart_find_column(df, ["part number", "part_no", "partno"])
-    if part_no is None:
-        raise ValueError(f"EBOM is missing required column: Part Number. Found columns: {list(df.columns)}")
-
-    part_name = smart_find_column(df, ["part name", "description"])
-    parent_asm = smart_find_column(df, ["parent assembly", "parent"])
-    qty = smart_find_column(df, ["quantity", "qty"])
-    rev = smart_find_column(df, ["revision"])
-    part_type = smart_find_column(df, ["part type"])
-    std_custom = smart_find_column(df, ["standard vs custom"])
-    valid_from = smart_find_column(df, ["valid from"])
-    material = smart_find_column(df, ["material", "raw material"])
-
-    out = pd.DataFrame()
-    out["Part Number"] = df[part_no].apply(_clean_str)
-    out["Part Name"] = df[part_name].apply(_clean_str)
-    out["Parent Assembly"] = df[parent_asm].apply(_clean_str) if parent_asm else ""
-    out["Quantity"] = pd.to_numeric(df[qty], errors="coerce").fillna(1).astype(int) if qty else 1
-    out["Revision"] = df[rev].apply(_clean_str) if rev else "NA"
-    out["Part Type"] = df[part_type].apply(_clean_str) if part_type else ""
-    out["Standard vs Custom"] = df[std_custom].apply(_clean_str) if std_custom else ""
-    out["Valid From"] = df[valid_from].apply(_clean_str) if valid_from else ""
-    out["Material"] = df[material].apply(_clean_str) if material else ""
-
-    return out.fillna("")
-
-def build_parent_child(ebom):
-    name_to_pn = dict(zip(ebom["Part Name"], ebom["Part Number"]))
-
-    def resolve_parent(x):
-        return name_to_pn.get(_clean_str(x), "")
-
-    ebom["Parent Part Number"] = ebom["Parent Assembly"].apply(resolve_parent)
-    return ebom
-
-def compute_levels(ebom):
-    children = {}
-    for _, r in ebom.iterrows():
-        parent = _clean_str(r["Parent Part Number"])
-        child = _clean_str(r["Part Number"])
-        if parent:
-            children.setdefault(parent, []).append(child)
-
-    roots = ebom.loc[ebom["Parent Part Number"] == "", "Part Number"].tolist()
-    if not roots:
-        roots = ebom["Part Number"].tolist()[:1]
-    level = {}
-    path = {}
-
-    def dfs(node, lvl, stack):
-        level[node] = lvl
-        path[node] = " > ".join(stack + [node])
-        for ch in children.get(node, []):
-            dfs(ch, lvl + 1, stack + [node])
-
-    for r in roots:
-        dfs(r, 0, [])
-
-    return level, path
-
-def build_base_rows(ebom_df: pd.DataFrame) -> List[Dict]:
-    ebom = normalize_ebom(ebom_df)
-    ebom = build_parent_child(ebom)
-    level_map, path_map = compute_levels(ebom)
-
-    pn_to_name = dict(zip(ebom["Part Number"], ebom["Part Name"]))
-
-    base_rows: List[Dict] = []
-    for _, r in ebom.iterrows():
-        child_pn = _clean_str(r["Part Number"])
-        child_name = pn_to_name.get(child_pn, _clean_str(r["Part Name"]))
-        parent_pn = _clean_str(r["Parent Part Number"])
-        parent_name = pn_to_name.get(parent_pn, "")
-
-        nt = node_type_rule(_clean_str(r["Part Type"]), child_name)
-        mb = makebuy_rule(_clean_str(r["Part Type"]), _clean_str(r["Standard vs Custom"]), child_name)
-        wc = work_center_rule(nt, child_name, mb)
-        ops = routing_rule(nt, child_name, mb)
-
-        base_rows.append({
-            "Level": int(level_map.get(child_pn, 0)),
-            "Parent Part Number": parent_pn,
-            "Parent Description": parent_name,
-            "Child Part Number": child_pn,
-            "Child Description": child_name,
-            "Qty": int(r["Quantity"]) if str(r["Quantity"]).isdigit() else 1,
-            "UOM": "EA",
-            "Revision": _clean_str(r["Revision"]) or "NA",
-            "Effective Date": _clean_str(r["Valid From"]) or "",
-            "Node Type": nt,
-            "Make/Buy": mb,
-            "Work Center": wc,
-            "Operations (Routing Embedded)": format_routing_text(ops),
-            "Hierarchy Path": path_map.get(child_pn, child_pn),
-            "Material": _clean_str(r.get("Material", "")),
-            "Consumables": "NA",
-            # AI placeholders (kept internal, not necessarily output)
-            "Inventory Status": "Unknown",
-            "Stock_Qty": 0,
-            "Store_Location": "NA",
-            "Procurement Action": "NA",
-            "Approved_Supplier": "NA",
-            "Lead_Time_Days": 0,
-            "Procurement Steps": [],
-        })
-
-    return base_rows
-
-
-def node_type_rule(part_type: str, part_name: str) -> str:
-    pt = (part_type or "").lower()
-    nm = (part_name or "").lower()
-
-    if "process" in pt or any(k in nm for k in ["process", "test", "inspection", "burn", "hipot", "reflow", "smt", "aoi"]):
-        return "Process"
-    if any(k in nm for k in ["label", "box", "packing", "carton", "manual", "sticker"]):
-        return "Packaging"
-    if "assembly" in pt or any(k in nm for k in ["assembly", "sub-assembly", "adapter assembly", "pcb assembly", "cable assembly"]):
-        return "Assembly"
-    if "sub" in nm and "assembly" in nm:
-        return "Sub-Assembly"
-    if pt in ["material"] or "material" in pt:
-        return "Material"
-    return "Component"
-
-def makebuy_rule(part_type: str, std_custom: str, part_name: str) -> str:
-    pt = (part_type or "").lower()
-    sc = (std_custom or "").lower()
-    nm = (part_name or "").lower()
-
-    if any(k in nm for k in ["cable assembly", "housing", "top shell", "bottom shell", "label", "carton", "box"]):
-        return "Buy"
-    if "assembly" in pt or "sub-assembly" in pt:
-        return "Make"
-    if sc == "custom":
-        return "Make"
-    return "Buy"
-
-def work_center_rule(node_type: str, part_name: str, make_buy: str) -> str:
-    nm = (part_name or "").lower()
-    if node_type == "Process":
-        if any(k in nm for k in ["smt"]): return "SMT_LINE"
-        if any(k in nm for k in ["reflow"]): return "REFLOW_OVEN"
-        if any(k in nm for k in ["aoi"]): return "AOI_STATION"
-        if any(k in nm for k in ["hipot", "hi-pot", "burn", "thermal", "load", "regulation", "efficiency"]): return "QA_STATION"
-        return "NA"
-
-    if node_type == "Packaging":
-        return "PACK_LINE"
-
-    if make_buy == "Make":
-        if "pcb" in nm:
-            return "SMT_LINE"
-        return "MECH_LINE"
-        
-    if make_buy == "Buy":
-        return "INCOMING_QC"
-
-    return "NA"
-
-def routing_rule(node_type: str, part_name: str, make_buy: str) -> List[Dict]:
-    nm = (part_name or "").lower()
-
-    if node_type != "Assembly":
-        return []
-
-    if "pcb" in nm:
-        return [
-            {"Op_Seq": 10, "Operation": "SMT Placement", "Work_Center": "SMT_LINE"},
-            {"Op_Seq": 20, "Operation": "Reflow Soldering", "Work_Center": "REFLOW_OVEN"},
-            {"Op_Seq": 30, "Operation": "AOI Inspection", "Work_Center": "AOI_STATION"},
-            {"Op_Seq": 40, "Operation": "Functional Test", "Work_Center": "PCB_TEST"},
-        ]
-
-    return [
-        {"Op_Seq": 50, "Operation": "Mechanical Assembly", "Work_Center": "MECH_LINE"},
-        {"Op_Seq": 80, "Operation": "Hi-Pot Test", "Work_Center": "QA_STATION"},
-        {"Op_Seq": 90, "Operation": "Load Regulation Test", "Work_Center": "QA_STATION"},
-        {"Op_Seq": 100, "Operation": "Burn-In Test", "Work_Center": "BURN_IN_RACK"},
-        {"Op_Seq": 110, "Operation": "Label & Packing", "Work_Center": "PACK_LINE"},
-    ]
-
+    if pd.isna(x): return ""
+    return str(x).strip()
 
 def _json_between_tags(text: str) -> str:
-    m = re.search(r"<JSON>\s*(.*?)\s*</JSON>", text, flags=re.S)
-    if m:
-        return m.group(1).strip()
-
-    start = text.find("[")
-    end = text.rfind("]") + 1
-    if start != -1 and end != -1 and end > start:
-        return text[start:end].strip()
-    raise ValueError("No JSON array found in model output.")
+    match = re.search(r"<JSON>\s*(.*?)\s*</JSON>", text, re.DOTALL | re.IGNORECASE)
+    if match: return match.group(1).strip()
+    match_md = re.search(r"```json\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
+    if match_md: return match_md.group(1).strip()
+    return text.strip()
 
 def _safe_json_loads(s: str):
     s = s.strip()
-
-    s = s.replace("“", '"').replace("”", '"').replace("’", "'").replace("‘", "'")
-
-    s = re.sub(r",\s*([\]}])", r"\1", s)
-
-    s = re.sub(r"^```(?:json)?\s*", "", s)
-    s = re.sub(r"\s*```$", "", s)
-
+    if not (s.startswith('[') and s.endswith(']')):
+        start = s.find('[')
+        end = s.rfind(']')
+        if start != -1 and end != -1:
+            s = s[start:end+1]
     return json.loads(s)
 
+# ==========================================
+# 3. EXTRACTION PIPELINE (PDF)
+# ==========================================
+def extract_ebom_from_pdf_hybrid(pdf_file_path):
+    print(f"--- Phase 3: Hybrid Extraction for {pdf_file_path} ---")
+    messy_raw_text = ""
+    try:
+        with pdfplumber.open(pdf_file_path) as pdf:
+            for page_num, page in enumerate(pdf.pages):
+                tables = page.extract_tables()
+                for table_num, table in enumerate(tables):
+                    if table:
+                        df = pd.DataFrame(table[1:], columns=table[0]) 
+                        messy_raw_text += f"Page {page_num+1} - Table {table_num+1}:\n{df.to_string()}\n\n"
+    except Exception as e:
+        print(f"PDF Extraction failed: {e}")
+        return None
+
+    prompt = f"""
+    You are an expert Data Engineer. Extract Bill of Materials (BOM) data 
+    from this PDF text and output a STRICT JSON ARRAY of objects.
+    Required Keys: "Part Number", "Description", "Qty"
+    Raw Text: {messy_raw_text}
+    """
+    try:
+        response = requests.post("http://localhost:11434/api/generate",
+            json={"model": MODEL_NAME, "prompt": prompt, "format": "json", "stream": False, "keep_alive": "0", "options": {"temperature": 0.0}}
+        )
+        return pd.DataFrame(json.loads(response.json().get('response', '[]')))
+    except Exception as e:
+        print(f"LLM Refinement failed: {e}")
+        return pd.DataFrame()
+
+# ==========================================
+# 4. DETERMINISTIC PIPELINE (STRUCTURING & RULES)
+# ==========================================
+def preprocess_ebom_pipeline(raw_df: pd.DataFrame) -> pd.DataFrame:
+    print("--- Phase 1: Deterministic Normalization ---")
+    
+    # 1. Strict Regex Mapping (Added Part Type & Make/Buy)
+    col_patterns = {
+        r'.*part.*no.*|.*part.*num.*|.*item.*id.*': 'Part Number',
+        r'.*parent.*|.*top.*level.*': 'Parent Part Number',
+        r'.*desc.*|.*name.*': 'Description',
+        r'.*qty.*|.*quantity.*': 'Qty',
+        r'.*type.*|.*category.*': 'Part Type',
+        r'.*make.*buy.*|.*source.*': 'Make/Buy',
+        r'.*material.*': 'Material'
+    }
+    
+    new_cols = []
+    for col in raw_df.columns:
+        standardized = str(col).strip()
+        for pattern, std_name in col_patterns.items():
+            if re.search(pattern, standardized, re.IGNORECASE):
+                standardized = std_name
+                break
+        new_cols.append(standardized)
+    raw_df.columns = new_cols
+
+    # Ensure required columns exist
+    for req_col in ['Part Number', 'Parent Part Number', 'Description', 'Part Type', 'Make/Buy']:
+        if req_col not in raw_df.columns:
+            raw_df[req_col] = ''
+
+    print("--- Phase 2: DFS Hierarchy Reconstruction ---")
+    
+    # 2. Reverse Lookup: Map Parent Names to correct Part IDs
+    name_to_id = {}
+    for _, row in raw_df.iterrows():
+        p_id = str(row.get('Part Number', '')).strip()
+        p_name = str(row.get('Description', '')).strip().lower()
+        if p_id and p_name:
+            name_to_id[p_name] = p_id
+
+    # Normalize Parent Column
+    for idx, row in raw_df.iterrows():
+        parent_val = str(row.get('Parent Part Number', '')).strip()
+        parent_val_lower = parent_val.lower()
+        
+        # If the Parent column holds a Name, replace it with the actual ID
+        if parent_val_lower in name_to_id:
+            raw_df.at[idx, 'Parent Part Number'] = name_to_id[parent_val_lower]
+        elif parent_val_lower in ['top level', 'root', '', 'none', 'nan', 'na']:
+            raw_df.at[idx, 'Parent Part Number'] = 'ROOT'
+    
+    # 3. Build DFS Tree
+    tree = defaultdict(list)
+    part_details = {}
+    for _, row in raw_df.iterrows():
+        child = str(row.get('Part Number', '')).strip()
+        parent = str(row.get('Parent Part Number', '')).strip()
+        if child:
+            tree[parent].append(child)
+            part_details[child] = row.to_dict()
+
+    all_children = set(part_details.keys())
+    roots = [p for p in tree.keys() if p not in all_children]
+    structured_data = []
+
+    def dfs(node_id, current_level, path_history):
+        if node_id in part_details:
+            node_data = part_details[node_id].copy()
+            node_data['Level'] = current_level
+            node_data['Hierarchy Path'] = " > ".join(path_history)
+            structured_data.append(node_data)
+        for child_id in tree.get(node_id, []):
+            dfs(child_id, current_level + 1, path_history + [child_id])
+
+    for root in roots:
+        for top_level_part in tree[root]:
+            dfs(top_level_part, 0, [top_level_part])
+
+    return pd.DataFrame(structured_data) if structured_data else raw_df
+
+def enforce_manufacturing_rules(structured_df: pd.DataFrame) -> pd.DataFrame:
+    print("--- Phase 3: Rule-Based Manufacturing Logic ---")
+
+    cols = ["Make/Buy", "Work Center", "Operations (Routing Embedded)"]
+
+    # ✅ 1) Remove duplicate columns (keep first occurrence)
+    structured_df = structured_df.loc[:, ~structured_df.columns.duplicated()].copy()
+
+    # ✅ 2) If df is empty, just create cols and return (NO apply)
+    if structured_df.empty:
+        for c in cols:
+            if c not in structured_df.columns:
+                structured_df[c] = []
+        return structured_df
+
+    def apply_rules(row):
+        try:
+            part_name = str(row.get("Description", "") or "").lower()
+            node_type = str(row.get("Part Type", "Component") or "Component").lower()
+
+            make_buy = str(row.get("Make/Buy", "") or "").strip().title()
+            is_process_or_test = (
+                any(kw in part_name for kw in ["test", "process", "measurement", "inspection"])
+                or node_type in ["process", "test"]
+            )
+
+            if make_buy not in ["Make", "Buy"]:
+                make_buy = "Buy"
+                buy_keywords = ["screw", "nut", "bolt", "cable", "wire", "label", "box", "tape", "pin"]
+                if any(kw in part_name for kw in buy_keywords) or node_type in ["fastener", "material"]:
+                    make_buy = "Buy"
+                elif node_type in ["assembly", "sub-assembly", "sub-assy"] or is_process_or_test:
+                    make_buy = "Make"
+
+            work_center, routing = "GENERAL_STORE", "NA"
+
+            if make_buy == "Make":
+                if any(kw in part_name for kw in ["pcb", "board", "smd", "circuit", "inverter"]):
+                    work_center = "SMT_LINE"
+                    routing = "10: SMT Placement | 20: Reflow Soldering | 30: AOI Inspection | 40: Functional Test"
+                elif any(kw in part_name for kw in ["frame", "weld", "cradle", "chassis", "structure"]):
+                    work_center = "WELDING_STATION"
+                    routing = "10: Jig Setup | 20: Spot Welding | 30: Seam Welding | 40: CMM Inspection"
+                elif any(kw in part_name for kw in ["housing", "shell", "plastic", "cover"]):
+                    work_center = "INJECTION_MOLDING"
+                    routing = "10: Injection Molding | 20: Cooling & Trimming | 30: Visual QC"
+                elif is_process_or_test:
+                    work_center = "QA_STATION"
+                    routing = "10: Setup Equipment | 20: Execute Process/Test | 30: Log Results"
+                else:
+                    work_center = "MECH_LINE"
+                    routing = "50: Mechanical Assembly | 60: Torque Tightening | 70: Final Testing | 80: Packing"
+            else:
+                work_center = "INCOMING_QC"
+                routing = "NA"
+
+            # ✅ ALWAYS return exactly 3 values
+            return [make_buy, work_center, routing]
+
+        except Exception:
+            return ["Buy", "INCOMING_QC", "NA"]
+
+    # ✅ 3) Do NOT use result_type="expand" (it breaks on empty/odd cases sometimes)
+    out = structured_df.apply(apply_rules, axis=1)
+
+    # ✅ 4) Build a guaranteed 3-column DataFrame, aligned to index
+    assign_df = pd.DataFrame(out.tolist(), index=structured_df.index, columns=cols)
+
+    # ✅ 5) Assign safely
+    structured_df[cols] = assign_df
+
+    return structured_df
+
+# ==========================================
+# 5. AI ENRICHMENT (Consumables & ERP)
+# ==========================================
+def predict_consumable_hybrid(description, material):
+    desc = str(description).lower()
+    mat = str(material).lower()
+    
+    if any(kw in desc for kw in ['pcb', 'smd', 'board', 'circuit']): return "Solder"
+    if any(kw in desc for kw in ['housing', 'shell', 'casing', 'plastic']): return "Adhesive"
+    if any(kw in desc for kw in ['cable', 'wire', 'harness']): return "Cable Tie"
+    if any(kw in desc for kw in ['screw', 'bolt', 'nut', 'fastener']): return "Threadlocker"
+    
+    prompt = f"You are a Manufacturing Engineer. Output ONLY ONE consumable name. No raw materials. Part: {description} Material: {material}. Answer:"
+    try:
+        response = requests.post("http://localhost:11434/api/generate",
+            json={"model": MODEL_NAME, "prompt": prompt, "stream": False, "keep_alive": "0", "options": {"temperature": 0.0}}
+        )
+        ans = response.json().get('response', 'NA').strip()
+        if "requires" in ans.lower() or len(ans.split()) > 2: return "NA"
+        return ans.title()
+    except:
+        return "NA"
 
 def ai_enrich(base_rows: List[Dict], inventory_json: str = "[]", chunk_size: int = 15) -> List[Dict]:
-    """
-    Returns list[dict] same length as base_rows.
-    Each dict contains ONLY:
-      Inventory Status, Stock_Qty, Store_Location,
-      Procurement Action, Approved_Supplier, Lead_Time_Days, Procurement Steps
-    """
-    results: List[Dict] = []
-
+    results = []
     for offset in range(0, len(base_rows), chunk_size):
         chunk = base_rows[offset: offset + chunk_size]
-
         prompt = f"""
-SYSTEM:
-You are an ERP procurement intelligence assistant.
-You ONLY output valid JSON. No markdown. No commentary.
-
-TASK:
-Enrich each BOM row with ONLY inventory + procurement fields.
-Do NOT output any other keys.
-
-HARD RULES:
-1) Output MUST be a JSON array of length = {len(chunk)}.
-2) Preserve row order exactly.
-3) If unknown, use "Unknown"/"NA", 0 for numbers, [] for arrays.
-4) Never include extra keys. Never include explanations.
-5) Output MUST contain exactly the indexes 0..{len(chunk)-1}, no extras.
-
-OUTPUT KEYS (exact):
-- "Inventory Status" : one of ["In Stock","Low Stock","Out of Stock","Unknown"]
-- "Stock_Qty" : number
-- "Store_Location" : string
-- "Procurement Action" : one of ["Issue from Stock","Purchase","Manufacture","Expedite","NA"]
-- "Approved_Supplier" : string
-- "Lead_Time_Days" : number
-- "Procurement Steps" : array of short strings (max 6)
-- "index" : integer (0..{len(chunk)-1})
-
-INVENTORY MATCHING:
-Use INVENTORY_JSON (may be empty).
-Match by exact "Part Number" if possible, else fuzzy by "Part Name"/"Part Type".
-If no match, Inventory Status="Unknown", Stock_Qty=0, Store_Location="NA".
-
-INPUT_ROWS (index -> row):
-{json.dumps([{ "index": i, "row": r } for i, r in enumerate(chunk)], ensure_ascii=False)}
-
+SYSTEM: You are an ERP procurement intelligence assistant. You ONLY output valid JSON.
+TASK: Enrich each BOM row with ONLY inventory + procurement fields.
+RULES: Output MUST be a JSON array of length = {len(chunk)}. Output EXACT indexes 0..{len(chunk)-1}.
+OUTPUT KEYS: "Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days", "Procurement Steps" (array), "index".
+INVENTORY MATCHING: Use INVENTORY_JSON.
+INPUT_ROWS:
+{json.dumps([{"index": i, "row": r} for i, r in enumerate(chunk)], ensure_ascii=False)}
 INVENTORY_JSON:
 {inventory_json}
-
-Return JSON ONLY between tags:
-<JSON>
-[ ... ]
-</JSON>
+Return JSON ONLY between tags: <JSON> [ ... ] </JSON>
 """
-
-        response = ollama.generate(
-            model=MODEL_NAME,
-            prompt=prompt,
-            options={"temperature": 0.0, "num_predict": 900, "top_p": 0.9, "repeat_penalty": 1.15},
-        )
-
-        raw = _json_between_tags(response["response"])
         try:
-            arr = _safe_json_loads(raw)
-        except json.JSONDecodeError:
-            repair_prompt = f"""
-        SYSTEM: You are a JSON repair tool. Output ONLY valid JSON.
-
-        Fix this into a valid JSON array (only syntax fixes: commas/quotes/brackets).
-        BROKEN_JSON:
-        {raw}
-
-        Return ONLY the repaired JSON array.
-        """
-            fixed = ollama.generate(
-                model=MODEL_NAME,
-                prompt=repair_prompt,
-                options={"temperature": 0.0, "num_predict": 900}
+            response = requests.post("http://localhost:11434/api/generate",
+                json={"model": MODEL_NAME, "prompt": prompt, "stream": False, "keep_alive": "0", "options": {"temperature": 0.0}}
             )
-            fixed_raw = _json_between_tags(fixed["response"]) if "<JSON>" in fixed["response"] else fixed["response"]
-            arr = _safe_json_loads(fixed_raw)
+            raw = _json_between_tags(response.json().get('response', '[]'))
+            arr = _safe_json_loads(raw)
+            by_index = {int(obj["index"]): obj for obj in arr if isinstance(obj, dict) and "index" in obj}
+        except:
+            by_index = {}
 
-        if not isinstance(arr, list):
-            raise ValueError("AI output is not a list")
-
-        by_index = {}
-        for obj in arr:
-            if isinstance(obj, dict) and "index" in obj:
-                by_index[int(obj["index"])] = obj
-
-        fixed = []
         for i in range(len(chunk)):
             obj = by_index.get(i, {})
-            fixed.append({
+            results.append({
                 "Inventory Status": obj.get("Inventory Status", "Unknown"),
                 "Stock_Qty": obj.get("Stock_Qty", 0),
                 "Store_Location": obj.get("Store_Location", "NA"),
@@ -375,320 +322,101 @@ Return JSON ONLY between tags:
                 "Lead_Time_Days": obj.get("Lead_Time_Days", 0),
                 "Procurement Steps": obj.get("Procurement Steps", []),
             })
-
-        results.extend(fixed)
-
-    if len(results) != len(base_rows):
-        raise ValueError("AI row count mismatch (post-chunk).")
-
     return results
 
-def get_ai_consumables(description, material):
-    prompt = f"""
-You are a Manufacturing Engineer. 
-Rule: Output ONLY the consumable name (Max 2 words). NO explanations, NO introductory sentences, NO "Based on...".
-
-Example 1:
-Part Description: Adapter Housing
-Material: Plastic
-Answer: Adhesive
-
-Example 2:
-Part Description: AC Input Cable
-Material: Copper/PVC
-Answer: Cable Tie
-
-Example 3:
-Part Description: Power PCB
-Material: FR4
-Answer: Solder
-
-Example 4:
-Part Description: User Manual
-Material: Paper
-Answer: NA
-
-Now do it for this specific part:
-Part Description: {description}
-Material: {material}
-Answer:
-"""
-
-    try:
-        response = ollama.generate(
-            model=MODEL_NAME,
-            prompt=prompt,
-            options={"temperature": 0.0, "num_predict": 15}
-        )
-        return response["response"].strip().replace(".", "")
-    except:
-        return "NA"
-
-
+# ==========================================
+# 6. ORCHESTRATOR ENGINE
+# ==========================================
 def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) -> pd.DataFrame:
     global_rules = load_global_rules()
+    inventory_json = "[]" if inv_df is None or inv_df.empty else inv_df.to_json(orient="records")
     
-    if inv_df is None or inv_df.empty:
-        inventory_json = "[]"
-    else:
-        inventory_json = inv_df.to_json(orient="records")
     start_total = time.perf_counter()
-    base_rows = build_base_rows(ebom_df)
     
-    for r in base_rows:
-        ebom_part = r.get("Child Description", "").strip()
+    # 1. Pipeline Transformations
+    ebom_df = preprocess_ebom_pipeline(ebom_df)
+    ebom_df = enforce_manufacturing_rules(ebom_df)
 
-        if ebom_part in global_rules:
-            corrected_name = global_rules[ebom_part]
-
-            r["Child Description"] = corrected_name
+    # 2. Map to Base Rows
+    pn_to_desc = dict(zip(ebom_df['Part Number'], ebom_df['Description'])) if 'Part Number' in ebom_df.columns else {}
+    base_rows = []
+    
+    for _, row in ebom_df.iterrows():
+        child_pn = str(row.get("Part Number", ""))
+        child_desc = str(row.get("Description", ""))
+        child_desc = global_rules.get(child_desc, child_desc) # Apply Global Rules Dictionary
+        parent_pn = str(row.get("Parent Part Number", "ROOT"))
         
+        base_rows.append({
+            "Level": int(row.get("Level", 0)),
+            "Parent Part Number": parent_pn,
+            "Parent Description": pn_to_desc.get(parent_pn, "Top Level"),
+            "Child Part Number": child_pn,
+            "Child Description": child_desc,
+            "Qty": int(row.get("Qty", 1)) if str(row.get("Qty", 1)).isdigit() else 1,
+            "UOM": "EA",
+            "Node Type": str(row.get("Part Type", "Component")),
+            "Make/Buy": str(row.get("Make/Buy", "Buy")),
+            "Work Center": str(row.get("Work Center", "NA")),
+            "Operations (Routing Embedded)": str(row.get("Operations (Routing Embedded)", "NA")),
+            "Hierarchy Path": str(row.get("Hierarchy Path", child_pn)),
+            "Material": str(row.get("Material", "")),
+            "Revision": str(row.get("Revision", "NA")),
+            "Effective Date": str(row.get("Valid From", "")),
+        })
+
+    # 3. AI Enrichment (Batch)
     start_ai = time.perf_counter()
     ai_rows = ai_enrich(
         base_rows=[{
-            "Part Number": r["Child Part Number"],
-            "Part Name": r["Child Description"],
-            "Part Type": r["Node Type"],
-            "Make/Buy": r["Make/Buy"],
-            "Qty": r["Qty"],
+            "Part Number": r["Child Part Number"], "Part Name": r["Child Description"],
+            "Part Type": r["Node Type"], "Make/Buy": r["Make/Buy"], "Qty": r["Qty"]
         } for r in base_rows],
         inventory_json=inventory_json,
         chunk_size=15
     )
     end_ai = time.perf_counter()
 
+    # 4. Post Processing & Merging
     start_post = time.perf_counter()
     for r, ai in zip(base_rows, ai_rows):
-        r["Inventory Status"] = ai.get("Inventory Status", r["Inventory Status"])
-        r["Stock_Qty"] = ai.get("Stock_Qty", r["Stock_Qty"])
-        r["Store_Location"] = ai.get("Store_Location", r["Store_Location"])
-        r["Procurement Action"] = ai.get("Procurement Action", r["Procurement Action"])
-        steps = r.get("Procurement Steps", [])
-        if not steps or steps == "NA":
-            if r.get("Make/Buy") == "Buy":
-                r["Procurement Steps"] = ["PR", "PO", "GRN", "Incoming QC", "Putaway", "Issue"]
-            else:
-                r["Procurement Steps"] = ["Kitting", "Assembly", "In-process QC", "Final Test", "Packing", "FG Receipt"]
-        r["Approved_Supplier"] = ai.get("Approved_Supplier", r["Approved_Supplier"])
-        r["Lead_Time_Days"] = ai.get("Lead_Time_Days", r["Lead_Time_Days"])
-        r["Procurement Steps"] = ai.get("Procurement Steps", r["Procurement Steps"])
-
-        r["Consumables"] = get_ai_consumables(
-            description=r.get("Child Description", ""),
-            material=r.get("Material", "")
-        ) or "NA"
-
-        if isinstance(r.get("Procurement Steps"), list):
-            r["Procurement Steps"] = " -> ".join([str(x) for x in r["Procurement Steps"] if str(x).strip()]) or "NA"
-        else:
-            r["Procurement Steps"] = str(r.get("Procurement Steps") or "NA")
-
-        r["Operations (Routing Embedded)"] = format_routing_text(r.get("Operations (Routing Embedded)"))
+        r.update({
+            "Inventory Status": ai.get("Inventory Status", "Unknown"),
+            "Stock_Qty": ai.get("Stock_Qty", 0),
+            "Store_Location": ai.get("Store_Location", "NA"),
+            "Procurement Action": ai.get("Procurement Action", "NA"),
+            "Approved_Supplier": ai.get("Approved_Supplier", "NA"),
+            "Lead_Time_Days": ai.get("Lead_Time_Days", 0),
+        })
+        
+        steps = ai.get("Procurement Steps", [])
+        if not steps or steps == "NA" or steps == []:
+            steps = ["PR", "PO", "GRN", "Incoming QC", "Putaway", "Issue"] if r["Make/Buy"] == "Buy" else ["Kitting", "Assembly", "In-process QC", "Final Test", "Packing", "FG Receipt"]
+        
+        r["Procurement Steps"] = " -> ".join([str(x) for x in steps if str(x).strip()]) if isinstance(steps, list) else str(steps)
+        r["Consumables"] = predict_consumable_hybrid(r["Child Description"], r["Material"])
 
     end_post = time.perf_counter()
-
     end_total = time.perf_counter()
+
+    # 5. Grouping & Aggregation
+    df = pd.DataFrame(base_rows)
+    group_cols = [c for c in [
+        "Level", "Parent Part Number", "Parent Description", "Child Description", "UOM", 
+        "Node Type", "Make/Buy", "Work Center", "Procurement Steps", "Operations (Routing Embedded)", "Consumables"
+    ] if c in df.columns]
+
+    def join_unique(x):
+        s = pd.Series(x).astype(str).str.strip().replace({"nan": "", "None": ""})
+        return ", ".join([u for u in s.unique().tolist() if u])
+
+    agg_dict = { "Qty": "sum", "Child Part Number": join_unique, "Hierarchy Path": "first", "Revision": "first", "Effective Date": "first" }
+    for c in ["Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days"]:
+        if c in df.columns: agg_dict[c] = "first"
 
     print("\n--- PERFORMANCE METRICS ---")
     print(f"AI Generation Time   : {end_ai - start_ai:.4f} sec")
     print(f"Post-processing Time : {end_post - start_post:.4f} sec")
     print(f"Total MBOM Time      : {end_total - start_total:.4f} sec\n")
 
-    df = pd.DataFrame(base_rows)
-
-    final_cols = [
-        "Level",
-        "Parent Part Number",
-        "Parent Description",
-        "Child Description",
-        "UOM",
-        "Node Type",
-        "Make/Buy",
-        "Work Center",
-        "Procurement Steps",
-        "Operations (Routing Embedded)",
-        "Consumables",
-    ]
-    group_cols = [c for c in group_cols if c in df.columns]
-
-    def join_unique(x):
-        s = pd.Series(x).astype(str).str.strip()
-        s = s.replace({"nan": "", "None": ""})
-        uniq = [u for u in s.unique().tolist() if u]
-        return ", ".join(uniq)
-
-    agg_dict = {
-        "Qty": "sum",
-        "Child Part Number": join_unique,
-        "Hierarchy Path": "first",
-        "Revision": "first",
-        "Effective Date": "first",
-    }
-
-    # inventory cols if present
-    for c in ["Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days"]:
-        if c in df.columns:
-            agg_dict[c] = "first"
-
-    out = df.groupby(group_cols, as_index=False).agg(agg_dict)
-    return out.fillna("")
-
-
-# =========================================================
-# Generate mBOM (single entry point)
-# =========================================================
-def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) -> pd.DataFrame:
-    ebom = normalize_ebom(ebom_df)
-    ebom = build_parent_child(ebom)
-    level_map, path_map, roots = compute_levels(ebom)
-
-    pn_to_name = dict(zip(ebom["Part Number"], ebom["Part Name"]))
-
-    inv_norm = normalize_inventory(inv_df) if (inv_df is not None and not inv_df.empty) else pd.DataFrame()
-
-    inventory_active = (
-        inv_norm is not None
-        and not inv_norm.empty
-        and (("Part Number" in inv_norm.columns and (inv_norm["Part Number"] != "").any())
-             or ("Part Name" in inv_norm.columns and (inv_norm["Part Name"] != "").any()))
-    )
-
-    def inv_logic(child_pn: str, child_name: str, mb: str):
-        if not inventory_active:
-            return None
-
-        if mb == "Make":
-            return ("N/A (Manufactured)", 0, "", "Produce In-house", "", 0)
-
-        rec = pd.DataFrame()
-        if "Part Number" in inv_norm.columns:
-            rec = inv_norm[inv_norm["Part Number"].astype(str).str.strip() == str(child_pn).strip()]
-
-        if rec.empty and "Part Name" in inv_norm.columns:
-            rec = inv_norm[
-                inv_norm["Part Name"].astype(str).str.lower().str.strip()
-                == str(child_name).lower().strip()
-            ]
-
-        if rec.empty:
-            return ("Unknown (Not in Inventory List)", 0, "", "Trigger PR", "", 0)
-
-        row = rec.iloc[0]
-        in_inv = str(row.get("In_Inventory", "")).strip().lower()
-        stock = int(row.get("Stock_Qty", 0) or 0)
-        loc = _clean_str(row.get("Store_Location", ""))
-        sup = _clean_str(row.get("Approved_Supplier", ""))
-        lead = int(row.get("Lead_Time_Days", 0) or 0)
-
-        if in_inv in ["yes", "y", "true", "1"] and stock > 0:
-            return ("Available in Stock", stock, loc, "Issue from Stores", sup, lead)
-
-        return ("Not Available", stock, loc, "Trigger PR", sup, lead)
-
-    def add_inventory_cols(base: dict, inv_tuple):
-        if inv_tuple is None:
-            return base
-        inv_status, stock, loc, action, sup, lead = inv_tuple
-        base.update({
-            "Inventory Status": inv_status,
-            "Stock_Qty": stock,
-            "Store_Location": loc,
-            "Procurement Action": action,
-            "Approved_Supplier": sup,
-            "Lead_Time_Days": lead,
-        })
-        return base
-
-    rows = []
-
-    # Root rows (Level 0)
-    for rt in roots:
-        r0 = ebom[ebom["Part Number"] == rt]
-        part_type = _clean_str(r0["Part Type"].iloc[0]) if not r0.empty else ""
-        stdc = _clean_str(r0["Standard vs Custom"].iloc[0]) if not r0.empty else ""
-        eff = _clean_str(r0["Valid From"].iloc[0]) if not r0.empty else ""
-        rev = _clean_str(r0["Revision"].iloc[0]) if not r0.empty else "NA"
-
-        lvl = level_map.get(rt, 0)
-        name = pn_to_name.get(rt, "")
-        name = GLOBAL_RULES.get(name, name)
-        mb = makebuy_rule(part_type, stdc, name)
-        nt = node_type_from_part_type(part_type)
-        wc = work_center_rule(mb, part_type, name)
-
-        inv_tuple = inv_logic(rt, name, mb)
-        cons = llm_consumables_optional(name, "")  # no material column in ebom by default
-
-        base = {
-            "Level": lvl,
-            "Parent Part Number": "",
-            "Parent Description": "",
-            "Child Part Number": rt,
-            "Child Description": name,
-            "Qty": 1,
-            "UOM": "EA",
-            "Revision": rev,
-            "Node Type": nt,
-            "Make/Buy": mb,
-            "Work Center": wc,
-            "Effective Date": eff,
-            "Procurement Steps": procurement_steps_rule(mb, inv_tuple[0] if inv_tuple else None),
-            "Operations (Routing Embedded)": routing_embedded_rule(mb, nt, lvl, wc),
-            "Consumables": cons,
-            "Hierarchy Path": path_map.get(rt, rt),
-        }
-        rows.append(add_inventory_cols(base, inv_tuple))
-
-    # Parent-child edges
-    for _, r in ebom.iterrows():
-        child = _clean_str(r.get("Part Number"))
-        parent = _clean_str(r.get("Parent Part Number"))
-        if not parent:
-            continue
-
-        lvl = level_map.get(child, 0)
-        child_name = _clean_str(r.get("Part Name"))
-        child_name = GLOBAL_RULES.get(child_name, child_name)
-        part_type = _clean_str(r.get("Part Type"))
-        stdc = _clean_str(r.get("Standard vs Custom"))
-        rev = _clean_str(r.get("Revision")) or "NA"
-        eff = _clean_str(r.get("Valid From"))
-        qty = int(r.get("Quantity", 1) or 1)
-
-        mb = makebuy_rule(part_type, stdc, child_name)
-        nt = node_type_from_part_type(part_type)
-        wc = work_center_rule(mb, part_type, child_name)
-
-        inv_tuple = inv_logic(child, child_name, mb)
-        cons = llm_consumables_optional(child_name, "")  # add material if you want later
-
-        base = {
-            "Level": lvl,
-            "Parent Part Number": parent,
-            "Parent Description": pn_to_name.get(parent, ""),
-            "Child Part Number": child,
-            "Child Description": child_name,
-            "Qty": qty,
-            "UOM": "EA",
-            "Revision": rev,
-            "Node Type": nt,
-            "Make/Buy": mb,
-            "Work Center": wc,
-            "Effective Date": eff,
-            "Procurement Steps": procurement_steps_rule(mb, inv_tuple[0] if inv_tuple else None),
-            "Operations (Routing Embedded)": routing_embedded_rule(mb, nt, lvl, wc),
-            "Consumables": cons,
-            "Hierarchy Path": path_map.get(child, child),
-        }
-        rows.append(add_inventory_cols(base, inv_tuple))
-
-    df = pd.DataFrame(rows).fillna("")
-
-    # sort like SAP-ish view
-    df["_root"] = df["Hierarchy Path"].astype(str).str.split(" > ").str[0]
-    df = df.sort_values(["_root", "Level", "Parent Part Number", "Child Part Number"]).drop(columns=["_root"])
-
-    # ✅ aggregation (rollup)
-    df = smart_rollup_aggregation(df)
-
-    return df.fillna("")
+    return df.groupby(group_cols, as_index=False).agg(agg_dict).fillna("")

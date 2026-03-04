@@ -23,7 +23,7 @@ from fastapi import HTTPException
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
 
-c_id=-1
+c_id = -1
 
 # C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
 
@@ -47,28 +47,32 @@ async def lifespan(app: FastAPI):
     # Shutdown (optional cleanup)
     print("API shutting down...")
 
-#basemodels for request bodies
+
+# basemodels for request bodies
 class LoginRequest(BaseModel):
     company_name: str
     company_id: str
     password: str
 
+
 class RegisterRequest(BaseModel):
-    full_name:str
+    full_name: str
     email: str
     company_address: str
     password: str
     confirm_password: str
 
+
 class SettingsRequest(BaseModel):
     company: str
     email: str
-    
-    
+
+
 class SettingsData(BaseModel):
     company_name: str
     company_email: str
     password: str | None = None
+
 
 @app.get("/")
 def home():
@@ -83,22 +87,21 @@ def get_settings():
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT company_name, email
             FROM companies
             ORDER BY id DESC
             LIMIT 1
-        """)
+        """
+        )
 
         row = cursor.fetchone()
 
         if not row:
             return {"company_name": "", "company_email": ""}
 
-        return {
-            "company_name": row["company_name"],
-            "company_email": row["email"]
-        }
+        return {"company_name": row["company_name"], "company_email": row["email"]}
 
 
 # ================= SAVE SETTINGS =================
@@ -109,50 +112,58 @@ def save_settings(data: SettingsData):
         cursor = conn.cursor()
 
         if data.password:
-            cursor.execute("""
+            cursor.execute(
+                """
                 UPDATE companies
                 SET company_name=?, email=?, password=?
                 WHERE id = (SELECT id FROM companies ORDER BY id DESC LIMIT 1)
-            """, (data.company_name, data.company_email, data.password))
+            """,
+                (data.company_name, data.company_email, data.password),
+            )
         else:
-            cursor.execute("""
+            cursor.execute(
+                """
                 UPDATE companies
                 SET company_name=?, email=?
                 WHERE id = (SELECT id FROM companies ORDER BY id DESC LIMIT 1)
-            """, (data.company_name, data.company_email))
+            """,
+                (data.company_name, data.company_email),
+            )
 
         conn.commit()
 
     return {"message": "Settings updated successfully"}
+
 
 @app.post("/userlogin")
 def login(data: LoginRequest):
 
     conn = sqlite3.connect("bomgenius.db")
     cursor = conn.cursor()
-    
 
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT id, company_name
         FROM companies
         WHERE email=? AND company_name=? AND password=?
-    """, (data.company_id, data.company_name, data.password))
+    """,
+        (data.company_id, data.company_name, data.password),
+    )
 
     user = cursor.fetchone()
     conn.close()
 
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
+
     global c_id
-    c_id=user[0]
+    c_id = user[0]
 
     return {
         "message": "Login successful",
         "company_id": user[0],
-        "company_name": user[1]
+        "company_name": user[1],
     }
-
 
 
 @app.post("/register")
@@ -169,28 +180,31 @@ def register(data: RegisterRequest):
         if cursor.fetchone():
             raise HTTPException(status_code=400, detail="Email already registered")
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO companies (company_name, email, password)
             VALUES (?, ?, ?)
-        """, (
-            data.full_name,
-            data.email,
-            data.password,
-            ))
+        """,
+            (
+                data.full_name,
+                data.email,
+                data.password,
+            ),
+        )
 
         conn.commit()
 
     return {"message": "Registered successfully"}
 
+
 @app.post("/forgot-password")
 def forgot_password(email: str):
     return {"message": "Reset link sent"}
 
+
 @app.post("/settings")
 def save_settings(data: SettingsRequest):
     return {"message": "Settings saved"}
-
-
 
 
 @app.post("/fullbomconverter")
@@ -215,7 +229,6 @@ async def fullbomconverter(
         inv_df = load_ebom(inv_bytes, inventory.filename)
     else:
         inv_df = pd.DataFrame()
-      
 
     df_final = generate_mbom(ebom_df, inv_df)
 
@@ -226,30 +239,41 @@ async def fullbomconverter(
 
     for c in ["Parent Part Number", "Parent Description"]:
         if c in df_final.columns:
-            df_final[c] = df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
+            df_final[c] = (
+                df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
+            )
+
+    # Keep Confidence_Score numeric for DB + dashboard analytics
+    if "Confidence_Score" in df_final.columns:
+        df_final["Confidence_Score"] = pd.to_numeric(df_final["Confidence_Score"], errors="coerce").fillna(0.0)
 
     if "timestamp" in df_final.columns:
         df_final = df_final.drop(columns=["timestamp"])
-        
-    print(c_id)
 
+    print(c_id)
 
     # -------------------------
     # SAVE TO DB
     # -------------------------
-    save_mbom(df_final,c_id)
+    save_mbom(df_final, c_id)
 
     return {
         "columns": list(df_final.columns),
         "rows": df_final.to_dict(orient="records"),
-        "mode": "WITH_INVENTORY" if (inventory and not inv_df.empty) else "WITHOUT_INVENTORY",
+        "mode": (
+            "WITH_INVENTORY"
+            if (inventory and not inv_df.empty)
+            else "WITHOUT_INVENTORY"
+        ),
     }
-    
+
     df_final = df_final.fillna("")
     for c in ["Parent Part Number", "Parent Description"]:
         if c in df_final.columns:
-            df_final[c] = df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
-    
+            df_final[c] = (
+                df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
+            )
+
     if "timestamp" in df_final.columns:
         df_final = df_final.drop(columns=["timestamp"])
 
@@ -259,6 +283,7 @@ async def fullbomconverter(
         "columns": list(df_final.columns),
         "rows": df_final.to_dict(orient="records"),
     }
+
 
 @app.get("/dashboard/analytics")
 def dashboard_analytics():
@@ -270,32 +295,43 @@ def dashboard_analytics():
     ts = cur.fetchone()["ts"]
 
     if not ts:
-        return {"composition": [], "confidence": {"high": 0, "medium": 0, "low": 0}, "timestamp": None}
+        return {
+            "composition": [],
+            "confidence": {"high": 0, "medium": 0, "low": 0},
+            "timestamp": None,
+        }
 
     # Pie: Item type composition
-    cur.execute("""
+    cur.execute(
+        """
         SELECT COALESCE(Item_Type, 'Standard Parts') AS item_type, COUNT(*) AS cnt
         FROM mbom
         WHERE timestamp = ?
         GROUP BY COALESCE(Item_Type, 'Standard Parts')
         ORDER BY cnt DESC
-    """, (ts,))
+    """,
+        (ts,),
+    )
     composition = [dict(r) for r in cur.fetchall()]
 
     # Bar: confidence buckets
-    cur.execute("""
+    cur.execute(
+        """
         SELECT
           SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
           SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
           SUM(CASE WHEN Confidence_Score < 0.70 THEN 1 ELSE 0 END) AS low
         FROM mbom
         WHERE timestamp = ?
-    """, (ts,))
+    """,
+        (ts,),
+    )
     conf = dict(cur.fetchone())
-# Accuracy
+    # Accuracy
 
-# Confidence + Accuracy Calculation
-    cur.execute("""
+    # Confidence + Accuracy Calculation
+    cur.execute(
+        """
     SELECT
       SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
       SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
@@ -303,18 +339,25 @@ def dashboard_analytics():
       COUNT(*) as total
     FROM mbom
     WHERE timestamp = ?
-""", (ts,))
+""",
+        (ts,),
+    )
 
     conf = dict(cur.fetchone())
 
     total = conf.get("total", 0) or 0
     high = conf.get("high", 0) or 0
 
-# Accuracy = High confidence matches / Total records
+    # Accuracy = High confidence matches / Total records
     accuracy = round((high / total) * 100, 2) if total > 0 else 0
 
     conn.close()
-    return {"composition": composition, "confidence": conf, "timestamp": ts, "accuracy": accuracy}
+    return {
+        "composition": composition,
+        "confidence": conf,
+        "timestamp": ts,
+        "accuracy": accuracy,
+    }
 
 
 @app.post("/ebom/ocr")
@@ -398,17 +441,10 @@ def get_mbom_history():
         return history
 
     except sqlite3.Error as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Database error: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Unexpected error: {str(e)}"
-        )
-
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
 
 @app.get("/mbom/by-timestamp/{ts}")
@@ -423,10 +459,7 @@ def get_mbom_by_timestamp(ts: str):
 
         cursor = conn.cursor()
 
-        cursor.execute(
-            "SELECT * FROM mbom WHERE timestamp = ?",
-            (ts,)
-        )
+        cursor.execute("SELECT * FROM mbom WHERE timestamp = ?", (ts,))
 
         rows = cursor.fetchall()
 
@@ -439,10 +472,7 @@ def get_mbom_by_timestamp(ts: str):
         # Convert to DataFrame safely
         df = pd.DataFrame(rows, columns=columns)
 
-    return {
-        "columns": columns,
-        "rows": df.to_dict(orient="records")
-    }
+    return {"columns": columns, "rows": df.to_dict(orient="records")}
 
 
 @app.get("/dashboard")
@@ -455,53 +485,62 @@ def get_dashboard():
     # -------------------------
     # Total BOMs
     # -------------------------
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT COUNT(DISTINCT Parent_Part_No) AS total_boms
         FROM mbom
-    """)
+    """
+    )
     total_boms = cursor.fetchone()["total_boms"]
-    
 
     # -------------------------
     # Total Components
     # -------------------------
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT COUNT(*) AS total_components
         FROM mbom
-    """)
+    """
+    )
     total_components = cursor.fetchone()["total_components"]
 
     # -------------------------
     # Latest Upload
     # -------------------------
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT MAX(timestamp) AS last_uploaded
         FROM mbom
-    """)
+    """
+    )
     last_uploaded = cursor.fetchone()["last_uploaded"]
 
     # -------------------------
     # Avg Components per BOM
     # -------------------------
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT ROUND(AVG(component_count), 2) AS avg_components
         FROM (
             SELECT COUNT(*) AS component_count
             FROM mbom
             GROUP BY Parent_Part_No
         )
-    """)
+    """
+    )
     avg_components = cursor.fetchone()["avg_components"]
 
     # -------------------------
-# Accuracy Calculation
-# -------------------------
-    cursor.execute("""
+    # Accuracy Calculation
+    # -------------------------
+    cursor.execute(
+        """
     SELECT COUNT(*) as total,
            SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) as high
     FROM mbom
     WHERE Confidence_Score IS NOT NULL
-""")
+"""
+    )
 
     row = cursor.fetchone()
     total = row["total"] or 0
@@ -512,50 +551,51 @@ def get_dashboard():
     # -------------------------
     # Consumable Breakdown
     # -------------------------
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT Consumables, COUNT(*) as count
         FROM mbom
         WHERE Consumables IS NOT NULL
               AND TRIM(Consumables) != ''
               AND LOWER(Consumables) != 'na'
         GROUP BY Consumables
-    """)
+    """
+    )
 
     rows = cursor.fetchall()
 
     consumable_breakdown = [
-        {
-            "type": row["Consumables"],
-            "count": row["count"]
-        }
-        for row in rows
+        {"type": row["Consumables"], "count": row["count"]} for row in rows
     ]
 
     # -------------------------
     # Avg Confidence Score
     # -------------------------
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT ROUND(AVG(Confidence_Score), 2) AS avg_confidence
         FROM mbom
         WHERE Confidence_Score IS NOT NULL
-    """)
+    """
+    )
 
     avg_confidence = cursor.fetchone()["avg_confidence"]
 
     conn.close()
     return {
-    "total_boms": total_boms or 0,
-    "total_components": total_components or 0,
-    "last_uploaded": last_uploaded,
-    "avg_components": avg_components or 0,
-    "avg_confidence": avg_confidence or 0,
-    "accuracy": accuracy,   # 👈 IMPORTANT
-    "consumable_breakdown": consumable_breakdown
-}
-    
+        "total_boms": total_boms or 0,
+        "total_components": total_components or 0,
+        "last_uploaded": last_uploaded,
+        "avg_components": avg_components or 0,
+        "avg_confidence": avg_confidence or 0,
+        "accuracy": accuracy,  # 👈 IMPORTANT
+        "consumable_breakdown": consumable_breakdown,
+    }
+
 
 from pydantic import BaseModel
 from typing import Optional
+
 
 class Feedback(BaseModel):
     ebom_part: str
@@ -565,12 +605,10 @@ class Feedback(BaseModel):
 
 @app.post("/feedback")
 def submit_feedback(feedback: Feedback):
-    log_human_feedback({
-    "ebom_part": feedback.ebom_part,
-    "correct_part": feedback.correct_part
-})
+    log_human_feedback(
+        {"ebom_part": feedback.ebom_part, "correct_part": feedback.correct_part}
+    )
     return {"status": "feedback recorded"}
-
 
 
 @app.get("/federated/export")
@@ -587,8 +625,10 @@ def federated_import(global_rules: dict):
         json.dump(global_rules, f, indent=2)
     return {"status": "global rules updated"}
 
+
 class CompanyCreate(BaseModel):
     name: str
+
 
 @app.post("/company")
 def create_company(data: CompanyCreate):
@@ -596,10 +636,11 @@ def create_company(data: CompanyCreate):
     with sqlite3.connect("bomgenius.db") as conn:
         conn.execute(
             "INSERT INTO companies (name, created_at) VALUES (?, ?)",
-            (data.name, datetime.datetime.now().isoformat())
+            (data.name, datetime.datetime.now().isoformat()),
         )
 
     return {"status": "company created"}
+
 
 @app.get("/company")
 def get_companies():
@@ -616,37 +657,35 @@ def get_companies():
             "name": r[1],
             "created_at": r[2],
             "last_login": r[3],
-            "is_active": r[4]
+            "is_active": r[4],
         }
         for r in rows
     ]
 
+
 class CompanyUpdate(BaseModel):
     name: str
+
 
 @app.put("/company/{cid}")
 def update_company(cid: int, data: CompanyUpdate):
     import sqlite3
 
     with sqlite3.connect("bomgenius.db") as conn:
-        conn.execute(
-            "UPDATE companies SET name=? WHERE id=?",
-            (data.name, cid)
-        )
+        conn.execute("UPDATE companies SET name=? WHERE id=?", (data.name, cid))
 
     return {"status": "updated"}
+
 
 @app.delete("/company/{cid}")
 def delete_company(cid: int):
     import sqlite3
 
     with sqlite3.connect("bomgenius.db") as conn:
-        conn.execute(
-            "DELETE FROM companies WHERE id=?",
-            (cid,)
-        )
+        conn.execute("DELETE FROM companies WHERE id=?", (cid,))
 
     return {"status": "deleted"}
+
 
 @app.patch("/company/{cid}/status")
 def toggle_company_status(cid: int):
@@ -664,9 +703,6 @@ def toggle_company_status(cid: int):
         current = row[0]
         new_status = 0 if current == 1 else 1
 
-        cur.execute(
-            "UPDATE companies SET is_active=? WHERE id=?",
-            (new_status, cid)
-        )
+        cur.execute("UPDATE companies SET is_active=? WHERE id=?", (new_status, cid))
 
     return {"status": "changed", "is_active": new_status}

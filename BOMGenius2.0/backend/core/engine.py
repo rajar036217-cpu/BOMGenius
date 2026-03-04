@@ -75,6 +75,58 @@ def _safe_json_loads(s: str):
     return json.loads(s)
 
 # ==========================================
+# CONFIDENCE SCORING
+# ==========================================
+def compute_confidence_score(row: Dict) -> float:
+    """
+    Heuristic confidence score in [0, 1] for each mBOM row.
+
+    We avoid changing the overall pipeline structure by computing a lightweight
+    score from the presence/consistency of key derived fields.
+    """
+    score = 0.50
+
+    make_buy = str(row.get("Make/Buy", "") or "").strip().title()
+    if make_buy in ("Make", "Buy"):
+        score += 0.10
+    else:
+        score -= 0.10
+
+    work_center = str(row.get("Work Center", "") or "").strip()
+    if work_center and work_center.upper() not in ("NA", "N/A", "NONE"):
+        score += 0.10
+
+    routing = str(row.get("Operations (Routing Embedded)", "") or "").strip()
+    if make_buy == "Make":
+        if routing and routing.upper() not in ("NA", "N/A", "NONE"):
+            score += 0.10
+        else:
+            score -= 0.05
+    else:
+        # For Buy parts, routing is usually NA; don't penalize.
+        score += 0.02
+
+    cons = str(row.get("Consumables", "") or "").strip()
+    if cons and cons.upper() not in ("NA", "N/A", "NONE"):
+        score += 0.10
+
+    inv = str(row.get("Inventory Status", "") or "").strip()
+    if inv and inv.lower() not in ("unknown", "na", "n/a", "none"):
+        score += 0.05
+
+    supplier = str(row.get("Approved_Supplier", "") or "").strip()
+    if supplier and supplier.upper() not in ("NA", "N/A", "NONE"):
+        score += 0.05
+
+    action = str(row.get("Procurement Action", "") or "").strip()
+    if action and action.upper() not in ("NA", "N/A", "NONE"):
+        score += 0.05
+
+    # Clamp to [0, 0.99] to keep buckets stable
+    score = max(0.0, min(0.99, float(score)))
+    return round(score, 2)
+
+# ==========================================
 # 3. EXTRACTION PIPELINE (PDF)
 # ==========================================
 def extract_ebom_from_pdf_hybrid(pdf_file_path):
@@ -395,7 +447,7 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
         
         r["Procurement Steps"] = " -> ".join([str(x) for x in steps if str(x).strip()]) if isinstance(steps, list) else str(steps)
         r["Consumables"] = predict_consumable_hybrid(r["Child Description"], r["Material"])
-
+        r["Confidence_Score"] = compute_confidence_score(r)
     end_post = time.perf_counter()
     end_total = time.perf_counter()
 
@@ -410,7 +462,17 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
         s = pd.Series(x).astype(str).str.strip().replace({"nan": "", "None": ""})
         return ", ".join([u for u in s.unique().tolist() if u])
 
-    agg_dict = { "Qty": "sum", "Child Part Number": join_unique, "Hierarchy Path": "first", "Revision": "first", "Effective Date": "first" }
+    agg_dict = {
+    "Qty": "sum",
+    "Child Part Number": join_unique,
+    "Hierarchy Path": "first",
+    "Revision": "first",
+    "Effective Date": "first",
+}
+
+# Add Confidence aggregation only if present
+    if "Confidence_Score" in df.columns:
+        agg_dict["Confidence_Score"] = "mean"
     for c in ["Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days"]:
         if c in df.columns: agg_dict[c] = "first"
 
@@ -419,4 +481,14 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
     print(f"Post-processing Time : {end_post - start_post:.4f} sec")
     print(f"Total MBOM Time      : {end_total - start_total:.4f} sec\n")
 
-    return df.groupby(group_cols, as_index=False).agg(agg_dict).fillna("")
+# Ensure confidence column always exists before aggregation
+    if "Confidence_Score" not in df.columns:
+        df["Confidence_Score"] = 0.0
+    else:
+        df["Confidence_Score"] = pd.to_numeric(df["Confidence_Score"], errors="coerce").fillna(0.0)
+    print("COLUMNS:", df.columns.tolist())
+
+    out_df = df.groupby(group_cols, as_index=False).agg(agg_dict).fillna("")
+    if "Confidence_Score" in out_df.columns:
+        out_df["Confidence_Score"] = pd.to_numeric(out_df["Confidence_Score"], errors="coerce").fillna(0.0).round(2)
+    return out_df

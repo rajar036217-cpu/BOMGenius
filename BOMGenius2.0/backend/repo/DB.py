@@ -1,4 +1,5 @@
 import sqlite3
+import pandas as pd
 from datetime import datetime
 
 DATABASE = "bomgenius.db"
@@ -65,12 +66,10 @@ def ensure_columns(conn, df):
     for column in df.columns:
         if column not in existing_columns:
             print(f"Adding missing column: {column}")
-            cursor.execute(
-                f'ALTER TABLE mbom ADD COLUMN "{column}" TEXT'
-            )
+            col_type = "REAL" if pd.api.types.is_numeric_dtype(df[column]) else "TEXT"
+            cursor.execute(f'ALTER TABLE mbom ADD COLUMN "{column}" {col_type}')
 
     conn.commit()
-
 
 # -------------------------
 # Save MBOM safely
@@ -79,12 +78,14 @@ def save_mbom(df, company_id):
 
     conn = sqlite3.connect(DATABASE)
 
+
     # Add timestamp
     timestamp = datetime.now().isoformat()
     df["timestamp"] = timestamp
 
     # Add company id
     df["company_id"] = company_id
+
 
     # Ensure columns exist
     ensure_columns(conn, df)

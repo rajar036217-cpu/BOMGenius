@@ -17,7 +17,7 @@ from openai import OpenAI
 # ==========================================
 # 1. SETUP OLLAMA CLIENT WITH INSTRUCTOR
 # ==========================================
-MODEL_NAME = "llama3.2 3b"
+MODEL_NAME = "llama 3.2 3b"
 http_client = httpx.Client(timeout=30.0)
 client = instructor.from_openai(
     OpenAI(
@@ -44,14 +44,27 @@ class PartAnalysis(BaseModel):
 # 2. UTILITY FUNCTIONS
 # ==========================================
 def load_global_rules() -> dict:
-    rule_path = os.path.join(os.path.dirname(__file__), "..", "federated", "global_rules.json")
+    rule_path = os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "federated",
+        "global_rules.json"
+    )
+
     if os.path.exists(rule_path):
         try:
             with open(rule_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
+                data= json.load(f)
+                # If file is direct mapping
+                if isinstance(data, dict) and "name_correction_map" not in data:
+                    return data
+
+                # If wrapped inside key
                 return data.get("name_correction_map", {})
+
         except Exception as e:
             print(f"Warning: Could not load global rules - {e}")
+
     return {}
 
 def _clean_str(x):
@@ -75,56 +88,77 @@ def _safe_json_loads(s: str):
     return json.loads(s)
 
 # ==========================================
-# CONFIDENCE SCORING
+# CONFIDENCE SCORING (Advanced BRS)
 # ==========================================
 def compute_confidence_score(row: Dict) -> float:
     """
-    Heuristic confidence score in [0, 1] for each mBOM row.
-
-    We avoid changing the overall pipeline structure by computing a lightweight
-    score from the presence/consistency of key derived fields.
+    Safely calculates BOM Reliability Score (BRS) without breaking existing pipelines.
+    Uses row.get() with default values to prevent KeyError.
     """
-    score = 0.50
-
-    make_buy = str(row.get("Make/Buy", "") or "").strip().title()
-    if make_buy in ("Make", "Buy"):
-        score += 0.10
-    else:
-        score -= 0.10
-
-    work_center = str(row.get("Work Center", "") or "").strip()
-    if work_center and work_center.upper() not in ("NA", "N/A", "NONE"):
-        score += 0.10
-
-    routing = str(row.get("Operations (Routing Embedded)", "") or "").strip()
-    if make_buy == "Make":
-        if routing and routing.upper() not in ("NA", "N/A", "NONE"):
+    try:
+        score = 0.0
+        
+        # 1. Structural Integrity (40%)
+        parent_val = str(row.get("Parent Part Number", "")).strip().upper()
+        if parent_val and parent_val not in ["", "NAN", "NONE"]:
+            score += 0.40
+            
+        # 2. SMART Routing Logic Accuracy (30%)
+        make_buy = str(row.get("Make/Buy", "")).strip().title()
+        work_center = str(row.get("Work Center", "")).strip().upper()
+        # Get description to cross-check logic
+        part_desc = str(row.get("Child Description", row.get("Description", ""))).lower()
+        
+        routing_score = 0.0
+        
+        if make_buy == "Buy":
+            # Buy parts should ideally go to INCOMING_QC. If it goes to a machine line, it's suspicious.
+            if work_center == "INCOMING_QC":
+                routing_score += 0.30 # Perfect match
+            elif work_center and work_center not in ["NA", "NONE", ""]:
+                routing_score += 0.10 # Penalty: Buy part routed to a production station?
+                
+        elif make_buy == "Make":
+            # Make parts must have a valid production work center
+            if work_center in ["INCOMING_QC", "NA", "NONE", ""]:
+                routing_score += 0.0 # Penalty: Make part with no production line
+            else:
+                # Advanced cross-check: Does the Work center match the part description?
+                if any(kw in part_desc for kw in ["pcb", "board", "smd"]) and work_center == "SMT_LINE":
+                    routing_score += 0.30
+                elif any(kw in part_desc for kw in ["frame", "weld"]) and work_center == "WELDING_STATION":
+                    routing_score += 0.30
+                elif any(kw in part_desc for kw in ["housing", "plastic"]) and work_center == "INJECTION_MOLDING":
+                    routing_score += 0.30
+                else:
+                    routing_score += 0.20 # General valid routing, but not a keyword perfect match
+                    
+        score += routing_score
+            
+        # 3. AI Enrichment Quality (20%)
+        consumables = str(row.get("Consumables", "")).strip().upper()
+        if consumables and consumables not in ["NA", "NONE", ""]:
+            score += 0.20
+            
+        # 4. Data Integrity (10%)
+        # Checking both 'Child Part Number' and 'Part Number' for backward compatibility
+        part_no = str(row.get("Child Part Number", row.get("Part Number", ""))).strip()
+        
+        # Safely convert Qty to float
+        try:
+            qty = float(row.get("Qty", 0))
+        except (ValueError, TypeError):
+            qty = 0.0
+            
+        if len(part_no) > 0 and qty > 0:
             score += 0.10
-        else:
-            score -= 0.05
-    else:
-        # For Buy parts, routing is usually NA; don't penalize.
-        score += 0.02
-
-    cons = str(row.get("Consumables", "") or "").strip()
-    if cons and cons.upper() not in ("NA", "N/A", "NONE"):
-        score += 0.10
-
-    inv = str(row.get("Inventory Status", "") or "").strip()
-    if inv and inv.lower() not in ("unknown", "na", "n/a", "none"):
-        score += 0.05
-
-    supplier = str(row.get("Approved_Supplier", "") or "").strip()
-    if supplier and supplier.upper() not in ("NA", "N/A", "NONE"):
-        score += 0.05
-
-    action = str(row.get("Procurement Action", "") or "").strip()
-    if action and action.upper() not in ("NA", "N/A", "NONE"):
-        score += 0.05
-
-    # Clamp to [0, 0.99] to keep buckets stable
-    score = max(0.0, min(0.99, float(score)))
-    return round(score, 2)
+            
+        # Ensure score is strictly between 0.0 and 1.0
+        return round(max(0.0, min(1.0, float(score))), 2)
+        
+    except Exception as e:
+        print(f"Warning: Confidence score fallback used due to error: {e}")
+        return 0.50 # Safe fallback to avoid breaking the pipeline
 
 # ==========================================
 # 3. EXTRACTION PIPELINE (PDF)
@@ -345,7 +379,7 @@ def ai_enrich(base_rows: List[Dict], inventory_json: str = "[]", chunk_size: int
 SYSTEM: You are an ERP procurement intelligence assistant. You ONLY output valid JSON.
 TASK: Enrich each BOM row with ONLY inventory + procurement fields.
 RULES: Output MUST be a JSON array of length = {len(chunk)}. Output EXACT indexes 0..{len(chunk)-1}.
-OUTPUT KEYS: "Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days", "Procurement Steps" (array), "index".
+OUTPUT KEYS: "Inventory Status", "Store_Location", "Procurement Action", "Approved_Supplier", "Procurement Steps" (array), "index".
 INVENTORY MATCHING: Use INVENTORY_JSON.
 INPUT_ROWS:
 {json.dumps([{"index": i, "row": r} for i, r in enumerate(chunk)], ensure_ascii=False)}
@@ -367,11 +401,9 @@ Return JSON ONLY between tags: <JSON> [ ... ] </JSON>
             obj = by_index.get(i, {})
             results.append({
                 "Inventory Status": obj.get("Inventory Status", "Unknown"),
-                "Stock_Qty": obj.get("Stock_Qty", 0),
                 "Store_Location": obj.get("Store_Location", "NA"),
                 "Procurement Action": obj.get("Procurement Action", "NA"),
                 "Approved_Supplier": obj.get("Approved_Supplier", "NA"),
-                "Lead_Time_Days": obj.get("Lead_Time_Days", 0),
                 "Procurement Steps": obj.get("Procurement Steps", []),
             })
     return results
@@ -434,11 +466,9 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
     for r, ai in zip(base_rows, ai_rows):
         r.update({
             "Inventory Status": ai.get("Inventory Status", "Unknown"),
-            "Stock_Qty": ai.get("Stock_Qty", 0),
             "Store_Location": ai.get("Store_Location", "NA"),
             "Procurement Action": ai.get("Procurement Action", "NA"),
             "Approved_Supplier": ai.get("Approved_Supplier", "NA"),
-            "Lead_Time_Days": ai.get("Lead_Time_Days", 0),
         })
         
         steps = ai.get("Procurement Steps", [])
@@ -473,7 +503,7 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
 # Add Confidence aggregation only if present
     if "Confidence_Score" in df.columns:
         agg_dict["Confidence_Score"] = "mean"
-    for c in ["Inventory Status", "Stock_Qty", "Store_Location", "Procurement Action", "Approved_Supplier", "Lead_Time_Days"]:
+    for c in ["Inventory Status", "Store_Location", "Procurement Action", "Approved_Supplier"]:
         if c in df.columns: agg_dict[c] = "first"
 
     print("\n--- PERFORMANCE METRICS ---")
@@ -487,6 +517,7 @@ def generate_mbom(ebom_df: pd.DataFrame, inv_df: Optional[pd.DataFrame] = None) 
     else:
         df["Confidence_Score"] = pd.to_numeric(df["Confidence_Score"], errors="coerce").fillna(0.0)
     print("COLUMNS:", df.columns.tolist())
+
 
     out_df = df.groupby(group_cols, as_index=False).agg(agg_dict).fillna("")
     if "Confidence_Score" in out_df.columns:

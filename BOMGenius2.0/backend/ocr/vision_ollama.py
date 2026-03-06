@@ -1,44 +1,42 @@
-import ollama
-import os
-from pydantic import BaseModel
-from typing import List
 import json
+import re
+import os
+import ollama
 
 
-# TODO: Class names Row and Rows should have better names
-class Row(BaseModel):
-    part_no: str
-    description: str
-    qty: int
+def run_vision_inference(model_name: str, image_path: str, prompt: str):
 
+    if not os.path.exists(image_path):
+        raise FileNotFoundError(f"Image not found: {image_path}")
 
-class Rows(BaseModel):
-    rows: List[Row]
+    response = ollama.chat(
+        model=model_name,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+                "images": [image_path],
+            }
+        ],
+    )
 
+    content = response["message"]["content"].strip()
 
-schema = Rows.model_json_schema()
+    print("RAW MODEL RESPONSE:\n", content)
 
+    # Remove markdown
+    content = content.replace("```json", "").replace("```", "").strip()
 
-dVISION_MODEL = "llava" 
+    # Extract all JSON objects
+    json_objects = re.findall(r"\{.*?\}", content, re.DOTALL)
 
-def run_vision_inference(model_name, image_path, prompt):
-    print(f"--- Running OCR Inference using {model_name} ---")
-    try:
-        response = ollama.chat(
-            model=model_name,  # This will now use "llava"
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt,
-                    "images": [image_path]
-                }
-            ],
-            options={"temperature": 0.0} # Keep it strict
-        )
-        return response['message']['content']
-    except Exception as e:
-        print(f"Vision API Error: {e}")
-        return "{}"
+    parsed_rows = []
 
-    json_data = json.loads(response["message"]["content"])
-    return json_data["rows"]  # key 'rows' is comming from Rows class
+    for obj in json_objects:
+        try:
+            parsed = json.loads(obj)
+            parsed_rows.append(parsed)
+        except Exception as e:
+            print("Skipping invalid JSON block:", e)
+
+    return parsed_rows

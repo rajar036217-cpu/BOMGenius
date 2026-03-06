@@ -158,7 +158,7 @@ async function loadDashboard() {
     document.getElementById("total_components").innerText = data.total_components ?? 0;
     document.getElementById("avg_components").innerText = data.avg_components ?? 0;
     document.getElementById("accuracy_rate").innerText =
-    (data.avg_confidence ?? 0)* 100 + "%";
+    (data.avg_confidence ?? 0).toFixed(2)* 100 + "%";
 
 
     // -------------------------

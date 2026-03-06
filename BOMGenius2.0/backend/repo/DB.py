@@ -2,7 +2,9 @@ import sqlite3
 import pandas as pd
 from datetime import datetime
 
-DATABASE = "bomgenius.db"
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # backend/
+DATABASE = os.path.join(BASE_DIR, "bomgenius.db")
 
 
 # -------------------------
@@ -11,6 +13,7 @@ DATABASE = "bomgenius.db"
 def init_db():
 
     conn = sqlite3.connect(DATABASE)
+    print("[init_db] DB:", os.path.abspath(DATABASE))
     cursor = conn.cursor()
 
     # ---- Companies Table (LOGIN TABLE) ----
@@ -66,10 +69,12 @@ def ensure_columns(conn, df):
     for column in df.columns:
         if column not in existing_columns:
             print(f"Adding missing column: {column}")
-            col_type = "REAL" if pd.api.types.is_numeric_dtype(df[column]) else "TEXT"
-            cursor.execute(f'ALTER TABLE mbom ADD COLUMN "{column}" {col_type}')
+            cursor.execute(
+                f'ALTER TABLE mbom ADD COLUMN "{column}" TEXT'
+            )
 
     conn.commit()
+
 
 # -------------------------
 # Save MBOM safely
@@ -78,14 +83,20 @@ def save_mbom(df, company_id):
 
     conn = sqlite3.connect(DATABASE)
 
-
     # Add timestamp
-    timestamp = datetime.now().isoformat()
+    timestamp = datetime.now().isoformat(timespec="seconds") 
     df["timestamp"] = timestamp
+
+        # --- FIX: normalize Item_Type for dashboard pie ---
+    # If engine gives "Node Type", copy it into Item_Type so pie chart works
+    if "Item_Type" not in df.columns:
+        if "Node Type" in df.columns:
+            df["Item_Type"] = df["Node Type"]
+        elif "Node_Type" in df.columns:
+            df["Item_Type"] = df["Node_Type"]
 
     # Add company id
     df["company_id"] = company_id
-
 
     # Ensure columns exist
     ensure_columns(conn, df)

@@ -10,7 +10,7 @@ from datetime import datetime
 import pandas as pd
 from core.ebom_loader import load_ebom
 from core.engine import generate_mbom
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -23,18 +23,14 @@ from fastapi import HTTPException
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 frontend_path = os.path.join(BASE_DIR, "frontend")
 
+DATABASE = "bomgenius.db"
+
 c_id = -1
 
 # C:\Users\Raja\OneDrive\Desktop\BOM_Project\BOMGenius2.0\federated\local_trainer.py
 
 app = FastAPI(title="BOMGenius API")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 app.mount("/frontend", StaticFiles(directory=frontend_path), name="frontend")
 
@@ -267,96 +263,70 @@ async def fullbomconverter(
         ),
     }
 
-    df_final = df_final.fillna("")
-    for c in ["Parent Part Number", "Parent Description"]:
-        if c in df_final.columns:
-            df_final[c] = (
-                df_final[c].astype(str).replace({"nan": "", "None": ""}).fillna("")
-            )
-
-    if "timestamp" in df_final.columns:
-        df_final = df_final.drop(columns=["timestamp"])
-
-    save_mbom(df_final)
-
-    return {
-        "columns": list(df_final.columns),
-        "rows": df_final.to_dict(orient="records"),
-    }
 
 
-@app.get("/dashboard/analytics")
-def dashboard_analytics():
+
+@app.get("/dashboard")
+def dashboard():
+
     conn = sqlite3.connect("bomgenius.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    cur.execute("SELECT MAX(timestamp) AS ts FROM mbom")
-    ts = cur.fetchone()["ts"]
+    # Total BOM uploads (unique timestamps)
+    cur.execute("SELECT COUNT(DISTINCT timestamp) as total_boms FROM mbom")
+    total_boms = cur.fetchone()["total_boms"] or 0
 
-    if not ts:
-        return {
-            "composition": [],
-            "confidence": {"high": 0, "medium": 0, "low": 0},
-            "timestamp": None,
-        }
+    # Total components
+    cur.execute("SELECT COUNT(*) as total_components FROM mbom")
+    total_components = cur.fetchone()["total_components"] or 0
 
-    # Pie: Item type composition
-    cur.execute(
-        """
-        SELECT COALESCE(Item_Type, 'Standard Parts') AS item_type, COUNT(*) AS cnt
-        FROM mbom
-        WHERE timestamp = ?
-        GROUP BY COALESCE(Item_Type, 'Standard Parts')
-        ORDER BY cnt DESC
-    """,
-        (ts,),
-    )
-    composition = [dict(r) for r in cur.fetchall()]
+    # Avg components per BOM
+    avg_components = 0
+    if total_boms > 0:
+        avg_components = round(total_components / total_boms)
 
-    # Bar: confidence buckets
-    cur.execute(
-        """
+    # Confidence statistics
+    cur.execute("""
         SELECT
-          SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
-          SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
-          SUM(CASE WHEN Confidence_Score < 0.70 THEN 1 ELSE 0 END) AS low
+            SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
+            SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
+            SUM(CASE WHEN Confidence_Score < 0.70 THEN 1 ELSE 0 END) AS low,
+            AVG(Confidence_Score) as avg_confidence
         FROM mbom
-        WHERE timestamp = ?
-    """,
-        (ts,),
-    )
-    conf = dict(cur.fetchone())
-    # Accuracy
-
-    # Confidence + Accuracy Calculation
-    cur.execute(
-        """
-    SELECT
-      SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
-      SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
-      SUM(CASE WHEN Confidence_Score < 0.70 THEN 1 ELSE 0 END) AS low,
-      COUNT(*) as total
-    FROM mbom
-    WHERE timestamp = ?
-""",
-        (ts,),
-    )
+    """)
 
     conf = dict(cur.fetchone())
 
-    total = conf.get("total", 0) or 0
-    high = conf.get("high", 0) or 0
+    avg_confidence = conf["avg_confidence"] or 0
 
-    # Accuracy = High confidence matches / Total records
-    accuracy = round((high / total) * 100, 2) if total > 0 else 0
+    # Consumable breakdown (Pie chart)
+    cur.execute("""
+        SELECT
+        COALESCE(NULLIF(TRIM(Consumables),''),'NA') as type,
+        COUNT(*) as count
+        FROM mbom
+        WHERE Consumables IS NOT NULL
+        AND LOWER(TRIM(Consumables)) NOT IN ('','na','none')
+        GROUP BY type
+        ORDER BY count DESC
+    """)
+
+    consumable_breakdown = [dict(r) for r in cur.fetchall()]
 
     conn.close()
+
     return {
-        "composition": composition,
-        "confidence": conf,
-        "timestamp": ts,
-        "accuracy": accuracy,
+        "total_boms": total_boms,
+        "total_components": total_components,
+        "avg_components": avg_components,
+        "avg_confidence": avg_confidence,
+        "confidence": {
+            "high": conf["high"] or 0,
+            "medium": conf["medium"] or 0,
+            "low": conf["low"] or 0
+        },
+        "consumable_breakdown": consumable_breakdown
     }
 
 
@@ -378,7 +348,7 @@ import sqlite3
 from datetime import datetime
 from typing import List, Dict
 
-DATABASE = "bomgenius.db"
+
 
 
 @app.get("/mbom/history", response_model=List[Dict])
@@ -475,121 +445,68 @@ def get_mbom_by_timestamp(ts: str):
     return {"columns": columns, "rows": df.to_dict(orient="records")}
 
 
-@app.get("/dashboard")
-def get_dashboard():
-
+@app.get("/dashboard_analytics")
+def dashboard_analytics(mode: str = Query(default="overall"),  # overall | latest
+    ts: Optional[str] = Query(default=None)):
     conn = sqlite3.connect("bomgenius.db")
     conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
+    cur = conn.cursor()
 
-    # -------------------------
-    # Total BOMs
-    # -------------------------
-    cursor.execute(
-        """
-        SELECT COUNT(DISTINCT Parent_Part_No) AS total_boms
+    # Total BOM uploads (unique timestamps)
+    cur.execute("SELECT COUNT(DISTINCT timestamp) as total_boms FROM mbom")
+    total_boms = cur.fetchone()["total_boms"] or 0
+
+    # Total components
+    cur.execute("SELECT COUNT(*) as total_components FROM mbom")
+    total_components = cur.fetchone()["total_components"] or 0
+
+    # Avg components per BOM
+    avg_components = 0
+    if total_boms > 0:
+        avg_components = round(total_components / total_boms)
+
+    # Confidence statistics
+    cur.execute("""
+        SELECT
+            SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) AS high,
+            SUM(CASE WHEN Confidence_Score >= 0.70 AND Confidence_Score < 0.90 THEN 1 ELSE 0 END) AS medium,
+            SUM(CASE WHEN Confidence_Score < 0.70 THEN 1 ELSE 0 END) AS low,
+            AVG(Confidence_Score) as avg_confidence
         FROM mbom
-    """
-    )
-    total_boms = cursor.fetchone()["total_boms"]
+    """)
 
-    # -------------------------
-    # Total Components
-    # -------------------------
-    cursor.execute(
-        """
-        SELECT COUNT(*) AS total_components
-        FROM mbom
-    """
-    )
-    total_components = cursor.fetchone()["total_components"]
+    conf = dict(cur.fetchone())
 
-    # -------------------------
-    # Latest Upload
-    # -------------------------
-    cursor.execute(
-        """
-        SELECT MAX(timestamp) AS last_uploaded
-        FROM mbom
-    """
-    )
-    last_uploaded = cursor.fetchone()["last_uploaded"]
+    avg_confidence = conf["avg_confidence"] or 0
 
-    # -------------------------
-    # Avg Components per BOM
-    # -------------------------
-    cursor.execute(
-        """
-        SELECT ROUND(AVG(component_count), 2) AS avg_components
-        FROM (
-            SELECT COUNT(*) AS component_count
-            FROM mbom
-            GROUP BY Parent_Part_No
-        )
-    """
-    )
-    avg_components = cursor.fetchone()["avg_components"]
-
-    # -------------------------
-    # Accuracy Calculation
-    # -------------------------
-    cursor.execute(
-        """
-    SELECT COUNT(*) as total,
-           SUM(CASE WHEN Confidence_Score >= 0.90 THEN 1 ELSE 0 END) as high
+    # Consumable breakdown (Pie chart)
+    cur.execute("""
+    SELECT
+      COALESCE(NULLIF(TRIM(Consumables), ''), 'NA') AS item_type,
+      COUNT(*) AS cnt
     FROM mbom
-    WHERE Confidence_Score IS NOT NULL
-"""
-    )
+    WHERE timestamp = ?
+      AND Consumables IS NOT NULL
+      AND LOWER(TRIM(Consumables)) NOT IN ('', 'na', 'none')
+    GROUP BY COALESCE(NULLIF(TRIM(Consumables), ''), 'NA')
+    ORDER BY cnt DESC
+""", (ts,))
 
-    row = cursor.fetchone()
-    total = row["total"] or 0
-    high = row["high"] or 0
-
-    accuracy = round((high / total) * 100, 2) if total > 0 else 0
-
-    # -------------------------
-    # Consumable Breakdown
-    # -------------------------
-    cursor.execute(
-        """
-        SELECT Consumables, COUNT(*) as count
-        FROM mbom
-        WHERE Consumables IS NOT NULL
-              AND TRIM(Consumables) != ''
-              AND LOWER(Consumables) != 'na'
-        GROUP BY Consumables
-    """
-    )
-
-    rows = cursor.fetchall()
-
-    consumable_breakdown = [
-        {"type": row["Consumables"], "count": row["count"]} for row in rows
-    ]
-
-    # -------------------------
-    # Avg Confidence Score
-    # -------------------------
-    cursor.execute(
-        """
-        SELECT ROUND(AVG(Confidence_Score), 2) AS avg_confidence
-        FROM mbom
-        WHERE Confidence_Score IS NOT NULL
-    """
-    )
-
-    avg_confidence = cursor.fetchone()["avg_confidence"]
+    consumable_breakdown = [dict(r) for r in cur.fetchall()]
 
     conn.close()
+
     return {
-        "total_boms": total_boms or 0,
-        "total_components": total_components or 0,
-        "last_uploaded": last_uploaded,
-        "avg_components": avg_components or 0,
-        "avg_confidence": avg_confidence or 0,
-        "accuracy": accuracy,  # 👈 IMPORTANT
-        "consumable_breakdown": consumable_breakdown,
+        "total_boms": total_boms,
+        "total_components": total_components,
+        "avg_components": avg_components,
+        "avg_confidence": avg_confidence,
+        "confidence": {
+            "high": conf["high"] or 0,
+            "medium": conf["medium"] or 0,
+            "low": conf["low"] or 0
+        },
+        "consumable_breakdown": consumable_breakdown
     }
 
 

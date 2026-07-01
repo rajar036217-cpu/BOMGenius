@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BOM Genius Login</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] 
+             flex items-center justify-center font-sans">
+
+<!-- ================= LOGIN CARD ================= -->
+<div class="bg-[#F1F3F6] dark-shadow rounded-3xl 
+            p-12 w-full max-w-md">
+
+    <h1 class="text-3xl font-bold text-center text-[#5A4E7C] mb-10">
+        BOM Genius Login
+    </h1>
+
+    <!-- FORM -->
+    <form id="loginForm" class="space-y-6">
+
+        <!-- Company Name -->
+        <div>
+            <label class="block mb-2 font-medium text-[#5A4E7C]">
+                Company Name
+            </label>
+            <input type="text"
+                id="companyName"
+                placeholder="Enter Company Name"
+                required
+                class="w-full p-3 rounded-xl border border-gray-300
+                       focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]
+                       transition">
+        </div>
+
+        <!-- Company ID -->
+        <div>
+            <label class="block mb-2 font-medium text-[#5A4E7C]">
+                Company Email ID
+            </label>
+            <input type="email"
+                id="companyId"
+                placeholder="Enter Company Email ID"
+                required
+                class="w-full p-3 rounded-xl border border-gray-300
+                       focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]
+                       transition">
+        </div>
+
+        <!-- Password -->
+        <div>
+            <label class="block mb-2 font-medium text-[#5A4E7C]">
+                Password
+            </label>
+            <input type="password"
+                id="password"
+                placeholder="Enter Password"
+                required
+                class="w-full p-3 rounded-xl border border-gray-300
+                       focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]
+                       transition">
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="text-right">
+            <a href="userforgotpassword.html"
+               class="text-sm text-[#5A4E7C] hover:text-[#C8A2C8] transition">
+                Forgot Password?
+            </a>
+        </div>
+
+        <!-- Sign In Button -->
+        <button type="submit"
+            class="w-full py-3 rounded-xl bg-[#5A4E7C] 
+                   text-white font-semibold text-lg shadow-lg
+                   hover:bg-[#C8A2C8] hover:text-black
+                   transition duration-300">
+            Sign In
+        </button>
+
+    </form>
+
+</div>
+
+<!-- ================= API SCRIPT ================= -->
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const companyName = document.getElementById("companyName").value;
+    const companyId = document.getElementById("companyId").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/userlogin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                company_name: companyName,
+                company_id: companyId,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            window.location.href = "home.html";
+            localStorage.setItem("companyname",companyName)
+            localStorage.setItem("companyid",data.company_id)
+        } else {
+            alert(data.message || "Login Failed ");
+        }
+
+    } catch (error) {
+        alert("Server Error ⚠️ Make sure backend is running.");
+    }
+});
+</script>
+
+</body>
+</html>

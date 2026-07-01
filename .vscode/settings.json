@@ -1,0 +1,15 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+        // Automatically fix linting issues and sort imports on every save
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
+        }
+    },
+    "black-formatter.args": ["--line-length", "88"],
+    "isort.args": ["--profile", "black"],
+    "python.analysis.typeCheckingMode": "basic"
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MBOM View</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-10 bg-gray-100">
+
+<h2 class="text-2xl font-bold mb-6">Generated MBOM</h2>
+
+<div class="overflow-x-auto bg-white shadow rounded-lg">
+  <table id="mbomTable" class="min-w-full border-collapse">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const timestamp = params.get("ts");
+
+async function loadMBOM() {
+  const response = await fetch(
+    "http://127.0.0.1:8000/mbom/by-timestamp/" + timestamp
+  );
+
+  const data = await response.json();
+
+  const thead = document.querySelector("#mbomTable thead");
+  const tbody = document.querySelector("#mbomTable tbody");
+
+  thead.innerHTML =
+    "<tr>" +
+    data.columns.map(c =>
+      `<th class="p-3 border">${c}</th>`
+    ).join("") +
+    "</tr>";
+
+  tbody.innerHTML = "";
+
+  data.rows.forEach(row => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = data.columns.map(col =>
+      `<td class="p-3 border">${row[col]}</td>`
+    ).join("");
+
+    tbody.appendChild(tr);
+  });
+}
+
+loadMBOM();
+</script>
+
+</body>
+</html>

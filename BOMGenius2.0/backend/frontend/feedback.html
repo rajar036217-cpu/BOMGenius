@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Federated Learning - BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  .nav-shadow {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  /* Success Popup */
+  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    z-index: 9999;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .active-text {
+    color: #1e3a8a; /* blue-900 */
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .inactive-text {
+    color: #9ca3af; /* gray-400 */
+    transition: all 0.3s ease;
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6
+               bg-white/30 backdrop-blur-xl border-b border-white/40 nav-shadow">
+
+  <h1 class="text-3xl font-bold text-[#5A4E7C]">
+    BOM Genius
+  </h1>
+
+  <nav class="flex space-x-10 text-lg font-medium">
+  
+    <a href="home.html" 
+       class="hover:text-blue-700">
+       Home
+    </a>
+    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM converter</a>
+    <a href="feedback.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">Federated Learning</a>
+    
+    <a href="settings.html" class="hover:text-blue-700">Settings</a>
+    <a href="history.html" class="hover:text-blue-700">History</a> 
+  </nav>
+
+  <!-- COMPANY DROPDOWN -->
+  <div class="relative font-medium text-[#5A4E7C]">
+    <button onclick="toggleDropdown()"
+            class="flex items-center gap-2 focus:outline-none">
+      Company:
+      <span class="font-semibold" id="cname"></span>
+      <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor"
+           stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div id="companyDropdown"
+         class="hidden absolute right-0 mt-3 w-36
+                bg-white rounded-xl shadow-lg border border-[#E0E0E0] z-50">
+      <button onclick="logout()"
+              class="w-full text-left px-5 py-3 text-red-600
+                     hover:bg-[#F1F3F6] font-medium rounded-xl">
+        Logout
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- FORM -->
+<section class="px-10 py-16 max-w-4xl mx-auto">
+
+  <h2 class="text-4xl font-bold text-center text-[#5A4E7C] mb-12">
+    M-BOM Correction
+  </h2>
+
+  <div class="space-y-8">
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
+        Upload E-BOM item
+      </label>
+      <textarea id="ebom"
+        class="w-full p-4 rounded-xl border border-gray-300"
+        rows="3"
+        placeholder="Enter E-BOM details here..."></textarea>
+    </div>
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
+        Generated M-BOM item
+      </label>
+      <textarea id="generated"
+        class="w-full p-4 rounded-xl border border-gray-300"
+        rows="3"
+        placeholder="Enter generated M-BOM details..."></textarea>
+    </div>
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-6 dark-shadow">
+      <label class="block text-lg mb-3 text-[#5A4E7C] font-semibold">
+        Expected / Actual M-BOM
+      </label>
+      <textarea id="expected"
+        class="w-full p-4 rounded-xl border border-gray-300"
+        rows="3"
+        placeholder="Enter correct M-BOM output..."></textarea>
+    </div>
+
+    <div class="flex space-x-6 mt-6">
+      <button onclick="submitFeedback()"
+        class="bg-[#C8A2C8] text-white hover:bg-[#B58FB5] px-8 py-3 rounded-lg font-semibold dark-shadow">
+        Submit
+      </button>
+
+      <button onclick="resetForm()"
+        class="bg-[#5A4E7C] text-white hover:bg-[#4B4067] px-8 py-3 rounded-lg font-semibold dark-shadow">
+        Reset
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- SUCCESS TOAST -->
+<div id="successToast" class="toast">
+  Submited sucessfully
+</div>
+
+<script>
+
+    let cname=document.getElementById("cname")
+  cname.innerText=localStorage.getItem("companyname")
+function toggleDropdown(){
+  document.getElementById("companyDropdown").classList.toggle("hidden");
+}
+
+function logout(){
+  window.location.href="role.html";
+}
+
+document.addEventListener("click",function(e){
+  const dropdown=document.getElementById("companyDropdown");
+  if(!e.target.closest(".relative")){
+    dropdown.classList.add("hidden");
+  }
+});
+
+async function submitFeedback(){
+
+  const ebom = document.getElementById("ebom").value;
+  const generated = document.getElementById("generated").value;
+  const expected = document.getElementById("expected").value;
+
+  if(expected.trim()===""){
+    alert("Please enter Expected M-BOM.");
+    return;
+  }
+
+  try{
+    const response = await fetch("/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ebom_part: ebom,
+        ai_matched_part: generated,
+        correct_part: expected
+      })
+    });
+
+    const result = await response.json();
+
+    if(result.status === "feedback recorded"){
+      showToast("Submitted successfully ✔");
+      resetForm();
+    } else {
+      showToast("Something went wrong ", true);
+    }
+
+  }catch(error){
+    showToast("Server error ", true);
+  }
+}
+
+function resetForm(){
+  document.getElementById("ebom").value="";
+  document.getElementById("generated").value="";
+  document.getElementById("expected").value="";
+}
+
+function showToast(message, isError=false){
+
+  const toast = document.getElementById("successToast");
+  toast.innerText = message;
+
+  if(isError){
+    toast.style.background = "#ef4444";
+  }else{
+    toast.style.background = "#22c55e";
+  }
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },3000);
+}
+</script>
+
+</body>
+
+</html>

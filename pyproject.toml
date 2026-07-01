@@ -1,0 +1,25 @@
+[project]
+name = "bomgenius"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chardet>=5.2.0",
+    "fastapi>=0.129.0",
+    "federated>=0.0.1",
+    "ollama>=0.6.1",
+    "pandas>=3.0.0",
+    "pdfplumber>=0.11.9",
+    "pydantic>=2.12.5",
+    "python-multipart>=0.0.22",
+    "sentence-transformers>=5.2.2",
+    "tensorflow-federated>=0.1.0",
+    "torch>=2.10.0",
+    "uvicorn>=0.40.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.1.0",
+]

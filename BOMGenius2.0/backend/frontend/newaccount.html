@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>New Account - BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+  .nav-shadow {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+</style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center
+             bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] font-sans">
+
+<!-- ================= FORM CARD ================= -->
+<div class="bg-[#F1F3F6] dark-shadow
+            rounded-3xl p-12 w-full max-w-xl">
+
+    <h1 class="text-3xl font-bold text-center text-[#5A4E7C] mb-10">
+        Create New Account
+    </h1>
+
+    <form id="registerForm" class="space-y-6">
+
+        <!-- FULL NAME -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Full Name
+            </label>
+            <input type="text" id="fullname"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
+
+        <!-- EMAIL -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Email
+            </label>
+            <input type="email" id="email"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
+
+        <!-- ADDRESS -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Company Address
+            </label>
+            <textarea id="address" rows="3"
+                      class="w-full p-3 rounded-xl border border-gray-300 
+                             focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                             transition" required></textarea>
+        </div>
+
+        <!-- PASSWORD -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Password
+            </label>
+            <input type="password" id="password"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div>
+            <label class="block text-[#5A4E7C] mb-2 font-medium">
+                Confirm Password
+            </label>
+            <input type="password" id="confirmPassword"
+                   class="w-full p-3 rounded-xl border border-gray-300 
+                          focus:outline-none focus:ring-2 focus:ring-[#C8A2C8] 
+                          transition" required>
+        </div>
+
+        <!-- BUTTON -->
+        <button type="submit" onclick="window.location.href='home.html'"
+                class="w-full py-3 rounded-xl bg-[#5A4E7C] text-white 
+                       font-semibold shadow-lg
+                       hover:bg-[#C8A2C8] hover:text-black 
+                       transition duration-300">
+            Create Account
+        </button>
+
+    </form>
+</div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const fullName = document.getElementById("fullname").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    // Basic validation
+    if (!fullName || !email || !address || !password || !confirmPassword) {
+        alert("All fields are required.");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                full_name: fullName,
+                email: email,
+                company_address: address,
+                password: password,
+                confirm_password: confirmPassword
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.message || "Account created successfully!");
+            window.location.href = "/frontend/home.html";
+        } else {
+            alert(data.detail || "Registration failed!");
+        }
+
+    } catch (error) {
+        console.error("Registration error:", error);
+        alert("Server error. Please try again.");
+    }
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+  .nav-shadow {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 
+               bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
+
+  <div class="flex items-center space-x-4">
+    <div class="w-12 h-12 bg-[#5A4E7C] text-white rounded-2xl
+                flex items-center justify-center shadow-lg">
+      <span class="text-xl font-bold">BG</span>
+    </div>
+
+    <h1 class="text-3xl font-bold text-[#5A4E7C] tracking-wide">
+      BOM Genius
+    </h1>
+  </div>
+
+</header>
+
+<!-- ================= ROLE SECTION ================= -->
+<section class="flex items-center justify-center py-32 px-6">
+
+  <div class="bg-[#F1F3F6] dark-shadow
+              rounded-3xl p-16 w-full max-w-2xl text-center">
+
+    <h2 class="text-4xl font-bold text-[#5A4E7C] mb-8">
+      Welcome to BOM Genius
+    </h2>
+
+    <p class="text-[#6E6E8A] mb-12 text-lg">
+      Please choose how you want to continue
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-8 justify-center">
+
+      <!-- LOGIN BUTTON -->
+      <a href="/frontend/userlogin.html"
+         class="px-10 py-4 bg-[#5A4E7C] text-white rounded-xl
+                text-lg font-semibold shadow-lg
+                hover:bg-[#C8A2C8] hover:text-black hover:scale-105
+                transition duration-300">
+        Login
+      </a>
+
+      <!-- NEW ACCOUNT BUTTON -->
+      <a href="/frontend/newaccount.html"
+         class="px-10 py-4 bg-white border-2 border-[#5A4E7C]
+                text-[#5A4E7C] rounded-xl text-lg font-semibold
+                shadow-lg hover:bg-[#C8A2C8] hover:text-black hover:scale-105
+                transition duration-300">
+        New Account
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+</body>
+
+</html>
+

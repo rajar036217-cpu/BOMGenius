@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BOM Genius</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .dark-shadow {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+  .nav-shadow {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-[#87CEFA] via-white to-[#C8A2C8] text-black font-sans">
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-12 py-6 
+               bg-[#87CEFA]/40 backdrop-blur-xl border-b border-[#C8A2C8] nav-shadow">
+
+  <div class="flex items-center space-x-4">
+    <div class="w-12 h-12 bg-[#5A4E7C] text-white rounded-2xl
+                flex items-center justify-center shadow-lg">
+      <span class="text-xl font-bold">BG</span>
+    </div>
+
+    <h1 class="text-3xl font-bold text-[#5A4E7C] tracking-wide">
+      BOM Genius
+    </h1>
+  </div>
+
+        <div>
+            <a href="home.html">
+                <img src="https://via.placeholder.com/40"
+                     class="w-10 h-10 rounded-full border-2 border-blue-900 cursor-pointer hover:scale-110 transition duration-300"
+                     alt="Profile">
+            </a>
+        </div>
+    </header>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="text-center py-24 px-6">
+  <h2 class="text-5xl font-bold mb-6 text-[#5A4E7C]">
+    Intelligent E-BOM to M-BOM Conversion
+  </h2>
+
+  <p class="text-[#6E6E8A] text-lg max-w-3xl mx-auto">
+    BOM Genius is an AI-powered industrial platform that intelligently converts
+    Engineering Bill of Materials (E-BOM) into Manufacturing Bill of Materials (M-BOM),
+    reducing errors, improving workflow accuracy, and accelerating production efficiency.
+  </p>
+
+  <!-- START BUTTON -->
+  <div class="mt-10">
+    <a href="/frontend/role.html"
+       class="px-10 py-4 bg-[#5A4E7C] text-white rounded-xl
+              text-lg font-semibold shadow-lg
+              hover:bg-[#C8A2C8] hover:text-black hover:scale-105
+              transition duration-300">
+      Get Started
+    </a>
+  </div>
+
+</section>
+
+<!-- ================= FEATURES SECTION ================= -->
+<section class="py-20 px-10">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow hover:scale-105 transition duration-300">
+      <h3 class="text-2xl font-semibold mb-4 text-[#5A4E7C]">AI Matching</h3>
+      <p class="text-[#6E6E8A]">
+        Smart algorithms identify correct mappings between components
+        and detect mismatches automatically.
+      </p>
+    </div>
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow hover:scale-105 transition duration-300">
+      <h3 class="text-2xl font-semibold mb-4 text-[#5A4E7C]">Error Detection</h3>
+      <p class="text-[#6E6E8A]">
+        Highlights wrong matches and missing paths before they
+        impact production or inventory.
+      </p>
+    </div>
+
+    <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow hover:scale-105 transition duration-300">
+      <h3 class="text-2xl font-semibold mb-4 text-[#5A4E7C]">Smart Reports</h3>
+      <p class="text-[#6E6E8A]">
+        Generates detailed comparison reports between Engineering
+        and Manufacturing BOM structures.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= HELP SECTION ================= -->
+<section class="py-20 px-6 text-center bg-white/60 backdrop-blur-md border-t border-[#C8A2C8]">
+  <h2 class="text-3xl font-bold mb-6 text-[#5A4E7C]">Need Help?</h2>
+
+  <p class="text-[#6E6E8A] mb-4">
+    For technical support or product queries, contact our Help Center.
+  </p>
+
+  <p class="text-lg font-semibold text-[#5A4E7C]">
+    📧 support@bomgenius.com
+  </p>
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+fastapi
+pandas
+ollama
+torch
+sentence_transformers
+pdfplumber
+python-multipart
+uvicorn
+pdf2image pillow
+tensorflow-federated
+chardet
+ezdxf

@@ -33,7 +33,7 @@
        class="text-blue-900 border-b-2 border-blue-900 pb-1">
        Home
     </a>
-    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM converter</a>
+    <a href="fullbomconverter.html" class="hover:text-blue-700">BOM Converter</a>
     <a href="feedback.html" class="hover:text-blue-700">Federated Learning</a>
     
     <a href="settings.html" class="hover:text-blue-700">Settings</a>
@@ -64,6 +64,7 @@ Logout
 </div>
 </header>
 
+
 <!-- ================= TITLE ================= -->
 <section class="py-16 text-center">
   <h2 class="text-4xl font-bold text-[#5A4E7C] mb-4">
@@ -79,7 +80,7 @@ Logout
       <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Total BOMs</h2>
       <p id="total_boms" class="text-4xl font-bold">--</p>
       <p class="text-sm text-gray-600 mt-2">
-        Total EBOM files converted
+        Total eBOM files converted
       </p>
     </div>
 
@@ -92,7 +93,7 @@ Logout
     </div>
 
     <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow text-center">
-      <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Avg Components</h2>
+      <h2 class="text-lg font-semibold text-[#5A4E7C] mb-2">Average Components</h2>
       <p id="avg_components" class="text-4xl font-bold">--</p>
       <p class="text-sm text-gray-600 mt-2">
         Average components per BOM
@@ -118,7 +119,7 @@ Logout
     <h2 class="text-xl font-semibold text-[#5A4E7C] mb-6">
       mBOM Composition
     </h2>
-    <canvas id="pieChart"></canvas>
+    <canvas id="doughnutchart"></canvas>
   </div>
 
   <div class="bg-[#F1F3F6] rounded-2xl p-8 dark-shadow">
@@ -134,10 +135,10 @@ Logout
 <!-- ================= SCRIPT ================= -->
 <script>
 
-  let cname=document.getElementById("cname")
-  cname.innerText=localStorage.getItem("companyname")
+  let cname = document.getElementById("cname");
+  cname.innerText = localStorage.getItem("companyname") || "";
 
-let pieChartInstance;
+let doughnutChartInstance;
 let barChartInstance;
 
 function logout() {
@@ -158,7 +159,7 @@ async function loadDashboard() {
     document.getElementById("total_components").innerText = data.total_components ?? 0;
     document.getElementById("avg_components").innerText = data.avg_components ?? 0;
     document.getElementById("accuracy_rate").innerText =
-    (data.avg_confidence ?? 0).toFixed(2)* 100 + "%";
+      ((data.avg_confidence ?? 0) * 100).toFixed(2) + "%";
 
 
     // -------------------------
@@ -194,19 +195,19 @@ if (data.consumable_breakdown && pieChartInstance) {
     document.getElementById("total_boms").innerText = 12;
     document.getElementById("total_components").innerText = 486;
     document.getElementById("avg_components").innerText = 40;
-    document.getElementById("accuracy_rate").innerText = "92%";
+    document.getElementById("accuracy_rate").innerText = "85.3%";
   }
 }
 
 function initCharts() {
 
-  pieChartInstance = new Chart(document.getElementById("pieChart"), {
-  type: "pie",
+  doughnutChartInstance = new Chart(document.getElementById("doughnutchart"), {
+  type: "doughnut",
   data: {
-    labels: [],
+    labels: ["High (>=90%)", "Medium (70-90%)", "Low (<70%)"],
     datasets: [{
-      data: [],
-      backgroundColor: []
+      data: [160, 45, 12],
+      backgroundColor: [ '#4CAF50', '#FFC107', '#F44336'],
     }]
   },
   options: {
@@ -223,7 +224,7 @@ function initCharts() {
       labels: ["High (>=90%)", "Medium (70-90%)", "Low (<70%)"],
       datasets: [{
         label: "Items",
-        data: [120, 45, 12],
+        data: [160, 45, 12],
         backgroundColor: [
           "#4CAF50",
           "#FFC107",

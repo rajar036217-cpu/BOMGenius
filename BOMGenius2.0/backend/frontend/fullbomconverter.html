@@ -7,11 +7,11 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
   .dark-shadow {
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 70px rgba(111, 108, 108, 0.5);
   }
 
   .nav-shadow {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px rgba(111, 108, 108, 0.5);
   }
 
   .disabled-box {
@@ -22,7 +22,7 @@
   }
 
   .active-text {
-    color: #1e3a8a; /* blue-900 */
+    color: #67413e; /* blue-900 */
     font-weight: 700;
     transition: all 0.3s ease;
   }
@@ -49,7 +49,7 @@
        class="hover:text-blue-700">
        Home
     </a>
-    <a href="fullbomconverter.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">BOM converter</a>
+    <a href="fullbomconverter.html" class="text-blue-900 border-b-2 border-blue-900 pb-1">BOM Converter</a>
     <a href="feedback.html" class="hover:text-blue-700">Federated Learning</a>
     
     <a href="settings.html" class="hover:text-blue-700">Settings</a>
@@ -85,7 +85,7 @@ Logout
     BOM Converter
   </h2>
   <p class="text-gray-700">
-    Upload Engineering BOM and Factory Inventory to generate Manufacturing BOM
+    Upload eBOM and Factory inventory to generate mBOM
   </p>
 </section>
 
@@ -148,9 +148,9 @@ With Inventory
 
 <div class="flex justify-center items-center gap-6 mt-16 relative">
 
-<button id="generateBtn" onclick="generateMBOM()"
+<button id="GenerateBtn" onclick="GenerateMBOM()"
 class="bg-[#5A4E7C] hover:bg-[#4a4068] px-12 py-5 rounded-2xl text-xl font-bold text-white shadow-2xl active:scale-95 transition-all">
-Generate M-BOM
+Generate mBOM
 </button>
 
 <div id="downloadWrapper" class="relative hidden">
@@ -256,7 +256,7 @@ async function generateMBOM() {
     return;
   }
 
-  alert(useInventory ? "Generating M-BOM WITH Inventory..." : "Generating M-BOM WITHOUT Inventory...");
+  alert(useInventory ? "Generating mBOM WITH Inventory..." : "Generating mBOM WITHOUT Inventory...");
 
   try {
 
